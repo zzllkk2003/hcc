@@ -1,0 +1,45 @@
+﻿<PRPM_IN403011UV01 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0"  xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/PRPM_IN403011UV01.xsd">
+	<id extension="8D73520B-D489-4B70-8F4B-7B5C2D7961B5"/>
+	<creationTime value="20130116112855"/>
+	<interactionId root="2.16.840.1.113883.1.6" extension="PRPM_IN403011UV01"/>
+	<processingCode code="P"/>
+	<processingModeCode code="I"/>
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.567"/>
+		</device>
+	</receiver>
+	<sender typeCode="SND">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.234"/>
+		</device>
+	</sender>
+	<!--typeCode为处理结果，AA表示成功 AE表示失败-->
+	<acknowledgement typeCode="AE">
+		<targetMessage>
+			<!--请求的消息ID-->
+			<id root="22a0f9e0-4454-11dc-a6be-3603d6866807"/>
+		</targetMessage>
+		<acknowledgementDetail>
+			<!--处理结果说明-->
+			<text>由于XXX原因，更新失败</text>
+		</acknowledgementDetail>
+	</acknowledgement>
+	<controlActProcess classCode="CACT" moodCode="EVN">
+		<code code="PRPM_TE401011UV01" codeSystem="2.16.840.1.113883.1.6"/>
+		<subject typeCode="SUBJ">
+			<registrationRequest classCode="REG" moodCode="RQO">
+				<statusCode></statusCode>
+				<subject1 typeCode="SBJ">
+					<assignedEntity classCode="ASSIGNED"></assignedEntity>
+				</subject1>
+				<author typeCode="AUT">
+					<assignedEntity classCode="ASSIGNED">
+						<id></id>
+					</assignedEntity>
+				</author>
+			</registrationRequest>
+		</subject>
+	</controlActProcess>
+</PRPM_IN403011UV01>

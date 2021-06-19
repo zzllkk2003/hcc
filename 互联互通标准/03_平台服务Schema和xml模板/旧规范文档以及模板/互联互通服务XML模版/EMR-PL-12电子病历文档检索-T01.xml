@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetDocumentStroedInfoRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/GetDocumentStroedInfoRequest.xsd">
+	<Id root="请求消息OID" extension="DDD34F6E-2E89-435A-9A62-F4CD3D4DE23B"/>
+	<HealthCardId>6222022312000475027</HealthCardId>
+	<IdentityId>511011197211287323</IdentityId>
+	<DocumentTitle>会诊记录</DocumentTitle>
+</GetDocumentStroedInfoRequest>

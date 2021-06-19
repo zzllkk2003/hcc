@@ -1,0 +1,79 @@
+﻿<PRPM_IN403010UV01 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0"  xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/PRPM_IN403010UV01.xsd">
+	<id root="140CD76A-ED0E-400B-9FD3-60387BCDE0EU" extension="8D73520B-D489-4B70-8F4B-7B5C2D7961BU"/>
+	<creationTime value="20171001142833"/>
+	<interactionId root="2.16.840.1.113883.1.6" extension="PRPM_IN403010UV01"/>
+	<processingCode code="P"/>
+	<processingModeCode code="I"/>
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.567"/>
+		</device>
+	</receiver>
+	<sender typeCode="SND">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.234"/>
+		</device>
+	</sender>
+	<controlActProcess classCode="CACT" moodCode="EVN">
+		<code code="PRPM_TE403010UV01" codeSystem="2.16.840.1.113883.1.6"/>
+		<subject typeCode="SUBJ">
+			<registrationRequest classCode="REG" moodCode="RQO">
+				<statusCode code="active"/>
+				<subject1 typeCode="SBJ">
+					<assignedEntity classCode="ASSIGNED ">
+						<!--医疗卫生机构（科室）标识OID未知-->
+						<id root="2.16.156.10011.1.26" extension="HX"/>
+						<!--科室类别-->
+						<code code="A03.01" displayName="呼吸内科专业" codeSystem="2.16.156.10011.2.3.2.62"  codeSystemName="医疗卫生机构业务科室分类与代码表"/>
+						<!--科室名称-->
+						<name>呼吸内科</name>
+						<!--工作地址-->
+						<addr>北京市海淀区羊坊店铁医院路10号</addr>
+						<!--工作联系方式：电话、邮箱地址等-->
+						<telecom/>
+						<!--角色状态RoleStatus-->
+						<statusCode code="active"/>
+						<!--角色有效期间-->
+						<effectiveTime>
+							<low value="20170911"/>
+							<high value="20470911"/>
+						</effectiveTime>
+						<assignedPrincipalOrganization classCode="ORG" determinerCode="INSTANCE">
+							<name>01内科系统</name>
+							<asAffiliate classCode="AFFL">
+								<code/>
+								<effectiveTime/>
+								<!--上级机构-->
+								<affiliatedPrincipalOrganization classCode="ORG" determinerCode="INSTANCE">
+									<!--科室号标识-->
+									<id root="2.16.156.10011.1.26" extension="0107003"/>
+									<name>01内科</name>
+								</affiliatedPrincipalOrganization>
+							</asAffiliate>
+						</assignedPrincipalOrganization>
+					</assignedEntity>
+				</subject1>
+				<author typeCode="AUT">
+					<assignedEntity classCode="ASSIGNED">
+						<!--医务人员ID-->
+						<id root="2.16.156.10011.1.4" extension="002352"/>
+						<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+							<name>周薇</name>
+						</assignedPerson>
+						<representedOrganization classCode="ORG" determinerCode="INSTANCE">
+							<!--科室号标识-->
+							<id root="2.16.156.10011.1.26" extension="5001"/>
+							<name>信息中心</name>
+							<contactParty classCode="CON">
+								<contactPerson classCode="PSN" determinerCode="INSTANCE">
+									<name>周薇</name>
+								</contactPerson>
+							</contactParty>
+						</representedOrganization>
+					</assignedEntity>
+				</author>
+			</registrationRequest>
+		</subject>
+	</controlActProcess>
+</PRPM_IN403010UV01>

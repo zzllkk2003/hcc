@@ -1,0 +1,44 @@
+<PRPM_IN306010UV01 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0"  xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/PRPM_IN306010UV01.xsd">
+	<id root="1ee83ff1-08ab-4fe7-b573-ea777e9bad51" extension="53afe290-2980-49f9-b803-fde02e82b72e"/>
+	<creationTime value="20171010145621"/>
+	<versionCode code="V3-2007-05"/>
+	<interactionId extension="PRPM_IN306010UV01" root="2.16.840.1.113883.1.6" displayable="true"/>
+	<profileId root="2.16.124.113635.1.1.100.0.2.2"/>
+	<processingCode code="P"/>
+	<processingModeCode code="T"/>
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<telecom></telecom>
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.567"/>
+		</device>
+	</receiver>
+	<sender typeCode="SND">
+		<telecom></telecom>
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.234"/>
+		</device>
+	</sender>
+	<controlActProcess classCode="CACT" moodCode="EVN">
+		<code code="PRPM_TE306010UV01" codeSystem="2.16.840.1.113883.1.6"/>
+		<queryByParameterPayload>
+			<statusCode code="new"/>
+			<administrativeGender>
+				<value code="1" codeSystem="2.16.156.10011.2.3.3.4" displayName="男"/>
+				<semanticsText>性别</semanticsText>
+			</administrativeGender>
+			<dOB>
+				<value value="19740924"/>
+				<semanticsText>出生日期</semanticsText>
+			</dOB>
+			<providerID>
+				<value root="2.16.156.10011.1.4" extension="130203197409240619"/>
+				<semanticsText>身份证号</semanticsText>
+			</providerID>
+			<providerName>
+				<value>张彦斌</value>
+				<semanticsText>姓名</semanticsText>
+			</providerName>
+		</queryByParameterPayload>
+	</controlActProcess>
+</PRPM_IN306010UV01>

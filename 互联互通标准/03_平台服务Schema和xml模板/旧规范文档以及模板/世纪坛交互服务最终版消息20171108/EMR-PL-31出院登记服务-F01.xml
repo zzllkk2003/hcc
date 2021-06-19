@@ -1,0 +1,57 @@
+<PRPA_IN402003UV02 ITSVersion="XML_1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:v3="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/PRPA_IN402003UV02.xsd" xmlns="urn:hl7-org:v3">
+	<id root="2.16.156.10011.0" extension="21057d49-77f6-4fa2-9f71-8d4eaebc563c"/>
+	<creationTime value="20171020095600"/>
+	<interactionId root="2.16.840.1.113883.1.6" extension="PRPA_IN201301UV02"/>
+	<processingCode code="P"/>
+	<processingModeCode code="R"/>
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="2.16.156.10011.0.1.1" extension="2.16.156.10011.0.1.1"/>
+		</device>
+	</receiver>
+	<sender typeCode="RSP">
+		<device classCode="CER" determinerCode="INSTANCE">
+			<id root="2.16.156.10011.0.1.2" extension="2.16.156.10011.0.1.2"/>
+		</device>
+	</sender>
+	<controlActProcess classCode="INFO" moodCode="PRP">
+		<subject typeCode="SUBJ">
+			<encounterEvent classCode="ENC" moodCode="EVN">
+				<!--住院号 就诊流水号-->
+				<id root="2.16.156.10011.0.5.2" extension="0009545357_1"/>
+				<!--就诊事件类别代码 1.门诊 2.急诊 3.住院 9.其他-->
+				<code code="3" codeSystem="2.16.156.10011.2.3.1.271" codeSystemName="患者类型代码表" displayName="住院"/>
+				<statusCode code="completed"/>
+				<!--出院日期时间   数据元：HDSD00.02.005	DE06.00.017.00-->
+				<effectiveTime value="20171020095600"/>
+				<!--出院诊断代码（治疗结果代码   数据元：HDSD00.02.061	DE05.10.113.00）-->
+				<dischargeDispositionCode code="2" codeSystem="2.16.156.10011.2.3.3.11.1" codeSystemName="诊断代码表（ICD-10）" displayName="好转"/>
+				<!--患者-->
+				<subject typeCode="SBJ">
+					<patient classCode="PAT">
+						<!--平台注册的患者ID -->
+						<id code="6459011078764"/>
+						<!--患者基本信息-->
+						<patientPerson>
+							<!--姓名  数据元：HDSD00.02.027	DE02.01.039.00 -->
+							<name use="L">王福祥</name>
+						</patientPerson>
+					</patient>
+				</subject>
+				<!--登记人-->
+				<discharger typeCode="DIS">
+					<time/>
+					<assignedPerson classCode="ASSIGNED">
+						<!--登记人职工号-->
+						<id root="2.16.156.10011.0.3.3" extension="001064"/>
+						<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+							<!--登记人姓名	-->
+							<name>朱文燕</name>
+						</assignedPerson>
+					</assignedPerson>
+				</discharger>
+			</encounterEvent>
+		</subject>
+	</controlActProcess>
+</PRPA_IN402003UV02>

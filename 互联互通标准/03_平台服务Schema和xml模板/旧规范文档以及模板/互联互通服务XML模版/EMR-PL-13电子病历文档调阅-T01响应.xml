@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RetrieveDocumentSetResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/RetrieveDocumentSetResponse.xsd" status="AA">
+	<Id root="响应消息OID" extension="3657FA28-54F4-4101-B95C-5917CE434C94"/>
+	<TargetId root="请求消息OID" extension="A566407F-827E-4E96-9D75-87ABC2EC5BC6"/>
+	<DocumentResponse>
+		<RepositoryUniqueId>1AD6DD12-569E-420B-9EEF-32E903536F89</RepositoryUniqueId>
+		<DocumentUniqueId>D55D2100-090D-4B33-9CFB-7BBC542B02A1</DocumentUniqueId>
+		<MimeType>text/xml</MimeType>
+		<Document>dGhpcyBpcyBhIGRvY3VtZW50</Document>
+	</DocumentResponse>
+</RetrieveDocumentSetResponse>

@@ -1,0 +1,77 @@
+﻿<PRPA_IN401001UV02 ITSVersion="XML_1.0" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/PRPA_IN401001UV02.xsd">
+	<id root="2.16.156.10011.0" extension="8c573270-6948-4b6e-b8b3-0d7150c39ef7"/>
+	<creationTime value="20170712100613"/>  
+	<interactionId root="2.16.840.1.113883.1.6" extension="PRPA_IN201301UV02"/>
+	<processingCode code="P"/>
+	<processingModeCode code="R"/>
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="2.16.156.10011.0.1.1" extension="2.16.156.10011.0.1.1"/>
+		</device>
+	</receiver>
+	<sender typeCode="RSP">
+		<device classCode="CER" determinerCode="INSTANCE">
+			<id root="2.16.156.10011.0.1.2" extension="2.16.156.10011.0.1.2"/>
+		</device>
+	</sender>
+	<controlActProcess classCode="CACT" moodCode="APT">
+		<subject typeCode="SUBJ">
+			<!--挂号登记事件信息 -->
+			<encounterEvent classCode="ENC" moodCode="EVN">
+				<!--门（急）诊号  数据元：HDSD00.02.040	DE01.00.010.00 就诊流水号-->
+				<id root="2.16.156.10011.0.5.1" extension="40000323517101803357"/>
+				<!--就诊类别代码（患者类别代码） 数据元: HDSD00.02.024	DE02.01.060.00   值域：1.门诊 2.急诊 3.住院 9.其他-->
+				<code code="1" codeSystem="2.16.156.10011.2.3.1.271" codeSystemName="患者类型代码表" displayName="门诊"/>
+				<statusCode code="active"/>
+				<!--就诊日期时间  数据元：HDSD00.02.036	DE06.00.062.00 -->
+				<effectiveTime value="20171018093658"/>
+				<!--就诊原因  数据元：HDSD00.02.037	DE05.10.053.00-->
+				<reasonCode>
+					<originalText>头晕2月</originalText> 
+				</reasonCode>
+				<!--患者-->
+				<subject typeCode="SBJ" contextControlCode="OP">
+					<patient classCode="PAT">
+						<!--平台注册的患者ID -->
+						<id code="6459440989533"/>
+						<!--患者基本信息-->
+						<patientPerson>
+							<!--姓名  数据元：HDSD00.02.027	DE02.01.039.00 -->
+							<name use="L">王福祥</name>
+						</patientPerson>
+					</patient>
+				</subject>
+				<!--接诊医生-->
+				<consultant typeCode="CON">
+					<assignedPerson classCode="ASSIGNED">
+						<!--医生的职工号-->
+						<id root="2.16.156.10011.0.3.2" extension="001574"/>
+						<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+							<!--责任医师姓名  数据元：HDSD00.02.059	DE02.01.039.00	-->
+							<name>赵星辉</name>
+						</assignedPerson>
+					</assignedPerson>
+				</consultant>
+				<!--服务机构-->
+				<location typeCode="ORG">
+					<time/>
+					<serviceDeliveryLocation classCode="SDLOC">
+						<statusCode code="active"/> 
+						<location classCode="PLC" determinerCode="INSTANCE">
+							<!--科室代码  数据元：HDSD00.02.055	DE08.10.052.00	-->
+							<id root="2.16.156.10011.0.4.2" extension="ER"/>
+							<!--科室名称  数据元：HDSD00.02.054	DE08.10.026.00	-->
+							<name>急诊科</name>
+						</location>
+						<!--服务机构-->
+						<serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+							<!--医疗机构代码-->
+							<id root="2.16.156.10011.1.5" extension="40000323-5"/>
+						</serviceProviderOrganization>
+					</serviceDeliveryLocation>
+				</location>
+			</encounterEvent>
+		</subject>
+	</controlActProcess>
+</PRPA_IN401001UV02>

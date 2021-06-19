@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument  xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.31"/>
+	<!-- 文档流水号 -->
+	<id root="2.16.156.10011.1.1" extension="RN001"/>
+	<code code="C0011" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档规范编码体系"/>
+	<title>麻醉记录</title>
+	<!-- 文档机器生成时间 -->
+	<effectiveTime value="20121024154823"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	<!--文档记录对象（患者） [1..*] contextControlCode="OP"表示本信息可以被重载-->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			<!--门诊号标识-->
+			<id root="2.16.156.10011.1.11" extension="HA201102113366666"/>
+			<!--住院号标识-->
+			<id root="2.16.156.10011.1.12" extension="HA201102113366666"/>
+			<!--电子申请单编号-->
+			<id root="2.16.156.10011.1.24" extension="HA201102113366666"/>
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<!--患者身份证号标识-->
+				<id root="2.16.156.10011.1.3" extension="420106201101011919"/>
+				<name>李患者</name>
+				<administrativeGenderCode code="1" displayName="男性" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表(GB/T 2261.1)"/>
+				<!-- 年龄 -->
+				<age value="30" unit="岁"/>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<!-- 文档创作者 -->
+	<author typeCode="AUT" contextControlCode="OP">
+		<time value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<!-- 保管机构 -->
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="1234567890"/>
+				<name>xx医院</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<!--麻醉医师签名-->
+	<authenticator>
+		<!--签名日期时间-->
+		<time value="201210111212"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.4" extension="医务人员编号"/>
+			<code displayName="麻醉医师"/>
+			<assignedPerson>
+				<name>李麻醉</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<relatedDocument typeCode="RPLC">
+		<parentDocument>
+			<id/>
+			<setId/>
+			<versionNumber/>
+		</parentDocument>
+	</relatedDocument>
+	<!-- 病床号、病房、病区、科室和医院的关联 -->
+	<componentOf>
+		<encompassingEncounter>
+			<!-- 入院日期时间 -->
+			<effectiveTime value="20121112102325"/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="001"/>
+								<name>1床</name>
+								<!-- DE01.00.019.00病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="001"/>
+										<name>205室</name>
+										<!-- DE08.10.026.00科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<id root="2.16.156.10011.1.26" extension="001"/>
+												<name>呼吸内科</name>
+												<!-- DE08.10.054.00病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<id root="2.16.156.10011.1.27" extension="001"/>
+														<name>1病区</name>
+														<!--XXX医院 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="1234567890"/>
+																<name>XXX医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<!--***************************************************
+文档体Body
+*******************************************************
+-->
+	<component>
+		<structuredBody>
+			<!--
+********************************************************
+实验室检查章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="30954-2" displayName="STUDIES SUMMARY" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<!-- 血型-->
+						<organizer classCode="BATTERY" moodCode="EVN">
+							<statusCode/>
+							<component typeCode="COMP">
+								<!-- ABO血型 -->
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.50.001.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="ABO血型代码"/>
+									<value xsi:type="CD" code="1" displayName="A型" codeSystem="2.16.156.10011.2.3.1.85" codeSystemName="ABO血型代码表"/>
+								</observation>
+							</component>
+							<component typeCode="COMP">
+								<!-- Rh血型 -->
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.50.010.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="Rh（D）血型代码"/>
+									<value xsi:type="CD" code="2" displayName="阳性" codeSystem="2.16.156.10011.2.3.1.250" codeSystemName="Rh(D)血型代码表"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+术前诊断章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="10219-4" displayName="Surgical operation note preoperative Dx" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--术前诊断-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<!--术前诊断编码-->
+							<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="术前诊断编码"/>
+							<value xsi:type="CD" code="S06.902" displayName="创伤性颅内海绵窦损伤" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+术后诊断章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="10218-6" displayName="Surgical operation note postoperative Dx" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--术后诊断-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<!--术后诊断编码-->
+							<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="术后诊断编码"/>
+							<value xsi:type="CD" code="S06.902" displayName="创伤性颅内海绵窦损伤" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--用药管理章节 1..*-->
+			<component>
+				<section>
+					<code code="18610-6" displayName="MEDICATION ADMINISTERED" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<substanceAdministration classCode="SBADM" moodCode="EVN">
+							<text/>
+							<!--药物使用途径代码 -->
+							<routeCode code="1" displayName="口服" codeSystem="2.16.156.10011.2.3.1.158" codeSystemName="用药途径代码表"/>
+							<!--药物使用次剂量 -->
+							<doseQuantity value="20.00" unit="mg"/>
+							<consumable>
+								<manufacturedProduct>
+									<manufacturedLabeledDrug>
+										<!--药品代码及名称(通用名) -->
+										<code/>
+										<name>氢氯噻嗪</name>
+									</manufacturedLabeledDrug>
+								</manufacturedProduct>
+							</consumable>
+							<!--药物用法 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.136.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="药物用法"/>
+									<value xsi:type="ST">药物（含中药）治疗疾病具体用法的描述
+</value>
+								</observation>
+							</entryRelationship>
+							<!--药物使用频率 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.133.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="药物使用频率"/>
+									<value xsi:type="CD" code="01" displayName="bid" codeSystem="2.16.156.10011.2.3.1.267" codeSystemName="药物使用频次代码表"/>
+								</observation>
+							</entryRelationship>
+							<!--药物使用剂量单位 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE08.50.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="药物使用剂量单位"/>
+									<value xsi:type="ST">mg</value>
+								</observation>
+							</entryRelationship>
+							<!--药物使用总剂量 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.135.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="药物使用总剂量"/>
+									<value xsi:type="PQ" value="300.50" unit="g"/>
+								</observation>
+							</entryRelationship>
+						</substanceAdministration>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+输液章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="10216-0" displayName="Surgical operation note fluids" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--术中输液项目 -->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.269.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="术中输液项目"/>
+							<value xsi:type="ST">手术过程中输入液体的描述</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--输血章节-->
+			<component>
+				<section>
+					<code code="56836-0" codeSystem="2.16.840.1.113883.6.1" displayName="History of
+blood transfusion" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<procedure classCode="PROC" moodCode="EVN">
+							<!--输血日期时间 -->
+							<effectiveTime>
+								<high value="20121012112233.700"/>
+							</effectiveTime>
+							<!--输血品种代码 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE08.50.040.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血品种代码"/>
+									<value xsi:type="CD" code="2" displayName="全血" codeSystem="2.16.156.10011.2.3.1.251" codeSystemName="输血品种代码表"/>
+								</observation>
+							</entryRelationship>
+							<!--输血量（mL） -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.267.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血量（mL）"/>
+									<value xsi:type="PQ" value="300" unit="mL"/>
+								</observation>
+							</entryRelationship>
+							<!--输血量计量单位 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE08.50.036.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血量计量单位"/>
+									<value xsi:type="ST">mL</value>
+								</observation>
+							</entryRelationship>
+							<!--输血反应标志 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.264.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血反应标志"/>
+									<value xsi:type="BL" value="false"/>
+								</observation>
+							</entryRelationship>
+						</procedure>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+麻醉章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="59774-0" displayName="Procedure anesthesia" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<!-- 1..1 麻醉记录 -->
+						<procedure classCode="PROC" moodCode="EVN">
+							<!--麻醉方法代码-->
+							<code code="1" displayName="全身麻醉" codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="麻醉方法代码表"/>
+							<effectiveTime>
+								<!--麻醉开始日期时间-->
+								<low value="20090401102335.700"/>
+							</effectiveTime>
+							<!--ASA分级标准代码 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE05.10.129.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="ASA分级标准代码"/>
+									<value xsi:type="CD" code="1" displayName="I" codeSystem="2.16.156.10011.2.3.1.255" codeSystemName="美国麻醉医师协会(ASA)分级标准代码表"/>
+								</observation>
+							</entryRelationship>
+							<!--气管插管分类 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.228.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="气管插管分类"/>
+									<value xsi:type="ST">标识全身麻醉时气管插管分类的描述
+</value>
+								</observation>
+							</entryRelationship>
+							<!--麻醉药物名称 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE08.50.022.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉药物名称"/>
+									<value xsi:type="ST">药物通用名称</value>
+								</observation>
+							</entryRelationship>
+							<!--麻醉体位 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.10.260.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉体位"/>
+									<value xsi:type="ST">麻醉体位的详细描述</value>
+								</observation>
+							</entryRelationship>
+							<!--呼吸类型代码 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.208.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="呼吸类型代码"/>
+									<value xsi:type="CD" code="1" displayName="自主呼吸" codeSystem="2.16.156.10011.2.3.2.1" codeSystemName="呼吸类型代码表"/>
+								</observation>
+							</entryRelationship>
+							<!--麻醉描述 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.226.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉描述"/>
+									<value xsi:type="ST">麻醉过程的详细描述</value>
+								</observation>
+							</entryRelationship>
+							<!--麻醉合并症标志代码 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE05.01.077.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉合并症标志代码"/>
+									<value xsi:type="CD" code="1" displayName="否" codeSystem="2.16.156.10011.2.3.2.59" codeSystemName="麻醉合并症标志代码表"/>
+								</observation>
+							</entryRelationship>
+							<!--穿刺过程 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE05.10.063.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="穿刺过程"/>
+									<value xsi:type="ST">局部麻醉中穿刺过程的详细描述</value>
+								</observation>
+							</entryRelationship>
+							<!--麻醉效果 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.253.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉效果"/>
+									<value xsi:type="ST">实施麻醉效果的描述</value>
+								</observation>
+							</entryRelationship>
+							<!--麻醉前用药 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.136.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉前用药"/>
+									<value xsi:type="ST">在患者进行麻醉前给予的药品的具体描述
+</value>
+								</observation>
+							</entryRelationship>
+						</procedure>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+主要健康问题章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="11450-4" displayName="PROBLEM LIST" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<!--常规监测项目名称 -->
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.216.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="常规监测项目名称"/>
+							<value xsi:type="ST">麻醉过程中，需要常规监测项目的名称</value>
+							<!--常规监测项目结果 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.281.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="常规监测项目结果"/>
+									<value xsi:type="ST">麻醉过程中，常规监测项目结果的详细记录
+</value>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+					<entry>
+						<!--特殊监测项目名称 -->
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.216.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="特殊监测项目名称"/>
+							<value xsi:type="ST">麻醉过程中，需要特殊监测项目的名称</value>
+							<!--特殊监测项目结果 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.281.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="特殊监测项目结果"/>
+									<value xsi:type="ST">麻醉过程中，特殊监测项目结果的详细记录
+</value>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--生命体征章节-->
+			<component>
+				<section>
+					<code code="8716-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="VITAL SIGNS"/>
+					<text/>
+					<!-- 体重 -->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.10.188.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="体重"/>
+							<value xsi:type="PQ" value="60.00" unit="kg"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.10.186.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="体温"/>
+							<value xsi:type="PQ" value="37.8" unit="℃"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.10.118.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="脉率"/>
+							<value xsi:type="PQ" value="70" unit="次/min"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.10.081.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="呼吸频率"/>
+							<value xsi:type="PQ" value="20" unit="次/min"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.10.206.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="心率"/>
+							<value xsi:type="PQ" value="80" unit="次/min"/>
+						</observation>
+					</entry>
+					<!--体格检查-血压（mmHg）-->
+					<entry>
+						<organizer classCode="BATTERY" moodCode="EVN">
+							<code displayName="血压"/>
+							<statusCode/>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.10.174.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="收缩压"/>
+									<value xsi:type="PQ" value="120" unit="mmHg"/>
+								</observation>
+							</component>
+							<component>
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.10.176.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="舒张压"/>
+									<value xsi:type="PQ" value="60" unit="mmHg"/>
+								</observation>
+							</component>
+						</organizer>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+手术操作章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="47519-4" displayName="HISTORY OF PROCEDURES" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<!-- 1..1 手术记录 -->
+						<procedure classCode="PROC" moodCode="EVN">
+							<code code="1" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="
+手术(操作)代码表（ICD-9-CM）"/>
+							<!--操作日期/时间-->
+							<effectiveTime>
+								<!--手术开始日期时间-->
+								<low value="20090401142335-700"/>
+								<!--手术结束日期时间-->
+								<high value="20090401142335-700"/>
+							</effectiveTime>
+							<!--手术者姓名-->
+							<performer>
+								<assignedEntity>
+									<id root="2.16.156.10011.1.4" extension="医务人员编号"/>
+									<assignedPerson>
+										<name>王林</name>
+									</assignedPerson>
+								</assignedEntity>
+							</performer>
+							<!--手术间编号-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.256.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="患者实施手术所在的手术室编号"/>
+									<value xsi:type="ST">A123</value>
+								</observation>
+							</entryRelationship>
+							<!--手术体位代码 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.260.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="手术体位代码"/>
+									<value xsi:type="CD" code="1" displayName="仰卧位" codeSystem="2.16.156.10011.2.3.1.262" codeSystemName="手术体位代码表"/>
+								</observation>
+							</entryRelationship>
+							<!--诊疗过程描述 -->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.296.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="诊疗过程描述"/>
+									<value xsi:type="ST">对患者诊疗过程的详细描述</value>
+								</observation>
+							</entryRelationship>
+						</procedure>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+失血章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="55103-6" displayName="Surgical operation note estimated blood loss" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--出血量（mL）-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.097.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出血量（mL）"/>
+							<value xsi:type="PQ" unit="mL" value="100"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+术后去向章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="59775-7" displayName="Procedure disposition" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--患者去向代码 -->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.185.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="患者去向代码"/>
+							<effectiveTime>
+								<!--出手术室日期时间-->
+								<high value="201909080709"/>
+							</effectiveTime>
+							<value xsi:type="ST">1</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

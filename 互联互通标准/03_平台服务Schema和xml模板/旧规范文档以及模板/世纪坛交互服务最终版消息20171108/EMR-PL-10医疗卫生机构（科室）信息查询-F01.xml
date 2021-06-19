@@ -1,0 +1,41 @@
+<PRPM_IN406010UV01 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/PRPM_IN406010UV01.xsd">
+	<id root="140CD76A-ED0E-400B-9FD3-60387BCDE0EQ" extension="66fc56b0-fa6f-46b1-8d44-1bbe8dd5d603"/>
+	<creationTime value="20170901142819"/>
+	<versionCode code="V3-2007-05"/>
+	<interactionId extension="PRPM_IN406010UV01" root="2.16.840.1.113883.1.6" displayable="true"/>
+	<profileId root="2.16.124.113635.1.1.100.0.2.2"/>
+	<processingCode code="P"/>
+	<processingModeCode code="T"/>
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.567"/>
+		</device>
+	</receiver>
+	<sender typeCode="SND">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.234"/>
+		</device>
+	</sender>
+	<controlActProcess classCode="CACT" moodCode="EVN">
+		<code code="PRPM_TE406010UV01" codeSystem="2.16.840.1.113883.1.6"/>
+		<queryByParameterPayload>
+			<!--查询事件的状态-->
+			<statusCode code="new"/>
+			<!--医疗卫生机构（科室）ID-->
+			<organizationID>
+				<value root="2.16.156.10011.1.26" extension="SN"/>
+				<semanticsText>科室ID</semanticsText>
+			</organizationID>
+			<!--医疗卫生机构（科室）名称-->
+			<organizationName>
+				<value>肾内科</value>
+				<semanticsText>科室名称</semanticsText>
+			</organizationName>
+			<!--医疗卫生机构（科室）状态AssignedEntity.statusCode-->
+			<status>
+				<value code="active"/>				
+			</status>
+		</queryByParameterPayload>
+	</controlActProcess>
+</PRPM_IN406010UV01>

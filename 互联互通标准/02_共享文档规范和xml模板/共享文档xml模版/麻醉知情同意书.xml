@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns ="urn:hl7-org:v3">
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.47"/>
+	<!-- 文档流水号 -->
+	<id root="2.16.156.10011.1.1" extension="RN001"/>
+	<code code="C0027" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档规范编码体系"/>
+	<title>麻醉知情同意书</title>
+	<!-- 文档机器生成时间 -->
+	<effectiveTime value="20160808172643"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	<!--患者信息-->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole>
+			<!--门诊号-->
+			<id root="2.16.156.10011.1.11" extension="000529000000"/>
+			<!--住院号-->
+			<id root="2.16.156.10011.1.12" extension="4810218"/>
+			<!-- 知情同意书编号 -->
+			<id root="2.16.156.10011.1.34" extension="001"/>
+			<patient>
+				<!--患者身份证号标识-->
+				<id root="2.16.156.10011.1.3" extension="11010119580115406X"/>
+				<name>杨慧萍</name>
+				<!--性别-->
+				<administrativeGenderCode code="2" codeSystem="2.16.156.10011.2.3.3.4" displayName="女性" codeSystemName="生理性别代码表(GB/T 2261.1)"/>
+				<!--出生日期-->
+				<birthTime value="19580115"/>
+				<age unit="岁" value="57"/>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<!--作者-->
+	<author typeCode="AUT" contextControlCode="OP">
+		<time value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="1234567890"/>
+				<name>北京大学第三医院</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<!--麻醉医师签名 DE02.01.039.00 -->
+	<legalAuthenticator typeCode="LA">
+		<!-- DE09.00.053.00麻醉医师签名日期时间 -->
+		<time value="77777777777777"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.4" extension="00000000"/>
+			<assignedPerson>
+				<name>刘慧丽,翟敏敏,</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	<!-- 患者签名 -->
+	<authenticator>
+		<!-- DE09.00.053.00签名日期时间 -->
+		<time value="20121010121344"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.3" extension="00000000"/>
+			<assignedPerson>
+				<name>杨慧萍</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<!--代理人签名-->
+	<authenticator>
+		<!-- DE09.00.053.00签名日期时间 -->
+		<time value="20121010121344"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.3" extension="00000000"/>
+			<!--代理人关系-->
+			<code code="3" codeSystem="2.16.156.10011.2.3.3.8" displayName="女" codeSystemName="家庭关系代码表(GB/T 4761)"/>
+			<assignedPerson>
+				<name>蔡云婷</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<relatedDocument typeCode="RPLC">
+		<parentDocument>
+			<id/>
+			<setId/>
+			<versionNumber/>
+		</parentDocument>
+	</relatedDocument>
+	<!-- 病床号、病房、病区、科室和医院的关联 -->
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="0-017"/>
+								<!-- DE01.00.019.00病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="000000"/>
+										<!-- DE08.10.026.00科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<id root="2.16.156.10011.1.26" extension="1160000"/>
+												<name>消化科</name>
+												<!-- DE08.10.054.00病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<id root="2.16.156.10011.1.27" extension="1160108"/>
+														<name>消化科二病房</name>
+														<!--XXX医院 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="1234567890"/>
+																<name>北京大学第三医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<!--body-->
+	<component>
+		<structuredBody>
+			<!--术前诊断章节-->
+			<component>
+				<section>
+					<code code="10219-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Surgical operation note preoperative Dx"/>
+					<text/>
+					<!--术前诊断编码-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="术前诊断编码"/>
+							<value xsi:type="CD"  code="B95.100" displayName="B族链球菌感染"  codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" />
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--治疗计划章节-->
+			<component>
+				<section>
+					<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="TREATMENT PLAN"/>
+					<text/>
+					<entry>
+						<!--拟实施麻醉-->
+						<procedure classCode="PROC" moodCode="EVN">
+							<code code="1" codeSystem="2.16.156.10011.2.3.1.159" codeSystemName=" 麻醉方法代码表" displayName="全身麻醉"/>
+							<statusCode code="new"/>
+							<!--拟实施时间-->
+							<effectiveTime value="12737483828382"/>
+							<!--拟实施手术-->
+							<entryRelationship typeCode="CAUS">
+								<procedure classCode="PROC" moodCode="EVN">
+									<code code="1" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表（ICD-9-CM)" displayName="阑尾炎手术"/>
+								</procedure>
+							</entryRelationship>
+							<!--拟行有创操作和检测方法-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.073.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="拟行有创操作和检测方法"/>
+									<value xsi:type="ST">拟行有创操作和检测方法</value>
+								</observation>
+							</entryRelationship>
+							<!--基础疾病可能对麻醉产生的影像-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="DEF">
+									<code code="DE05.10.146.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="基础疾病可能对麻醉产生的影响"/>
+									<value xsi:type="ST">基础疾病可能对麻醉产生的影像</value>
+									<!--基础疾病-->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="DE04.01.121.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="患者基础疾病"/>
+											<value xsi:type="ST">基础疾病</value>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+							<!--使用麻醉镇痛泵标志-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="DEF">
+									<code code="DE06.00.240.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="使用麻醉镇痛汞标志"/>
+									<value xsi:type="BL" value="true"/>
+								</observation>
+							</entryRelationship>
+							<!--参加麻醉安全保险标志-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="DEF">
+									<code code="DE01.00.016.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="参加麻醉安全保险标志"/>
+									<value xsi:type="BL" value="true"/>
+								</observation>
+							</entryRelationship>
+						</procedure>
+					</entry>
+				</section>
+			</component>
+			<!--意见章节-->
+			<component>
+				<section>
+					<code displayName="意见章节"/>
+					<text/>
+					<!--医疗机构意见-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="医疗机构的意见"/>
+							<value xsi:type="ST">医疗机构意见</value>
+						</observation>
+					</entry>
+					<!--患者意见-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="患者的意见"/>
+							<value xsi:type="ST">患者意见</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--风险章节-->
+			<component>
+				<section>
+					<code displayName="操作风险"/>
+					<text/>
+					<!--麻醉中可能出现的意外-->
+					<entry>
+						<observation classCode="OBS" moodCode="DEF">
+							<code code="DE05.01.075.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉中，麻醉后可能产发生的意外及并发症"/>
+							<value xsi:type="ST">患者育龄女性，既往剖宫产史，否认高血压、糖尿病、心脑血管病史；否认药物、食物过敏史；否认腰椎外伤；否认服用抗凝药物史；否认哮喘、青光眼病史；平素活动量可，无明显心慌气短症状，查体：一般情况可，心肺听诊未见明显异常，未见明显硬膜外及腰麻禁忌症，ASA I级。
+麻醉计划：拟行椎管内麻醉，选择合适的穿刺间隙，注意药物的剂量，注药的方向，控制合理的麻醉平面；注意仰卧位低血压综合征，警惕羊水栓塞；术中维持出入量及电解质平衡；术毕嘱患者去枕平卧。
+</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

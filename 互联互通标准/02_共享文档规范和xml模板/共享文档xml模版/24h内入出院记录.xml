@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 file:///C:/Users/Administrator/Desktop/CAD_/%e6%9c%8d%e5%8a%a1%e6%a0%b7%e4%be%8b/POCD_MT000040.xsd">
+	<!--
+********************************************************
+CDA Header
+********************************************************
+-->
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.55"/>
+	<!-- 文档流水号 -->
+	<id root="2.16.156.10011.1.1" extension="RN001"/>
+	<code code="C0035" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档规范编码体系"/>
+	<title>24h内入出院记录</title>
+	<!-- 文档机器生成时间 -->
+	<effectiveTime value="20121024154823"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	<!--文档记录对象（患者） [1..*] contextControlCode="OP"表示本信息可以被重载-->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			<!--住院号标识-->
+			<id root="2.16.156.10011.1.12" extension="HA201102113366666"/>
+			<!-- 现住址 -->
+			<addr use="H">
+				<houseNumber>xx号xx小区xx栋xx单元</houseNumber>
+				<streetName>xx大道</streetName>
+				<township>xx乡镇</township>
+				<county>xx区</county>
+				<city>xx市</city>
+				<state>xx省</state>
+			</addr>
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<!--患者身份证号-->
+				<id root="2.16.156.10011.1.3" extension="420106201101011919"/>
+				<name>李患者</name>
+				<administrativeGenderCode code="1" displayName="男性" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表(GB/T 2261.1)"/>
+				<maritalStatusCode code="10" displayName="未婚" codeSystem="2.16.156.10011.2.3.3.5" codeSystemName="婚姻状况代码表(GB/T 2261.2)"/>
+				<ethnicGroupCode code="01" displayName="汉族" codeSystem="2.16.156.10011.2.3.3.3" codeSystemName="民族类别代码表(GB 3304)"/>
+				<!-- 年龄 -->
+				<age value="30" unit="岁"/>
+				<!--职业状况-->
+				<occupation>
+					<occupationCode code="11" displayName="国家公务员" codeSystem="2.16.156.10011.2.3.3.13" codeSystemName="从业状况(个人身体)代码表(GB/T 2261.4)"/>
+				</occupation>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<!-- 文档创作者 -->
+	<author typeCode="AUT" contextControlCode="OP">
+		<time value="201104041010"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<!-- 病史陈述者 -->
+	<informant>
+		<assignedEntity>
+			<id/>
+			<!--陈述者与患者的关系代码-->
+			<code code="1" displayName="配偶" codeSystem="2.16.156.10011.2.3.3.8" codeSystemName="家庭关系代码表(GB/T 4761)"/>
+			<assignedPerson>
+				<name>王陈述</name>
+			</assignedPerson>
+		</assignedEntity>
+	</informant>
+	<!-- 保管机构 -->
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="1234567890"/>
+				<name>xx医院</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<!-- 最终审核者签名 -->
+	<legalAuthenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.4" extension="001"/>
+			<code displayName="主任医师"/>
+			<assignedPerson>
+				<name>李主任</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	<!-- 接诊医师签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.4" extension="002"/>
+			<code displayName="接诊医师"/>
+			<assignedPerson>
+				<name>李接诊</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<!--住院医师签名-->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.4" extension="003"/>
+			<code displayName="住院医师"/>
+			<assignedPerson>
+				<name>李住院</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<!--主治医师签名-->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.4" extension="004"/>
+			<code displayName="主治医师"/>
+			<assignedPerson>
+				<name>李主治</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<relatedDocument typeCode="RPLC">
+		<parentDocument>
+			<id/>
+			<setId/>
+			<versionNumber/>
+		</parentDocument>
+	</relatedDocument>
+	<!-- 病床号、病房、病区、科室和医院的关联 -->
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime>
+				<!-- 入院日期时间 -->
+				<low value="20121112102325"/>
+				<!-- 出院日期时间 -->
+				<high value="20121112142325"/>
+			</effectiveTime>
+		</encompassingEncounter>
+	</componentOf>
+	<!--***************************************************
+文档体Body
+*******************************************************
+-->
+	<component>
+		<structuredBody>
+			<!--主诉章节-->
+			<component>
+				<section>
+					<code code="10154-3" displayName="CHIEF COMPLAINT" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--主诉条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.01.119.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="主诉"/>
+							<value xsi:type="ST">"对患者本次疾病相关的主要症状及其持续时间的描
+述，一般由患者本人或监护人描述"</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--现病史章节-->
+			<component>
+				<section>
+					<code code="10164-2" displayName="HISTORY OF PRESENT ILLNESS" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--现病史条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE02.10.071.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="现病史"/>
+							<value xsi:type="ST">"对患者当前所患疾病情况的详细描述"</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--主要健康问题章节 -->
+			<component>
+				<section>
+					<code code="11450-4" displayName="PROBLEM LIST" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--陈述内容可靠标志-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.143.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="陈述内容可靠标志"/>
+							<value xsi:type="BL" value="false"/>
+						</observation>
+					</entry>
+					<!--症状名称-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.01.118.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="症状名称"/>
+							<value xsi:type="ST">患者出现的临床主要症状的名称</value>
+							<!--症状描述-->
+							<entryRelationship typeCode="SUBJ" inversionInd="false">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.01.117.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="症状描述"/>
+									<value xsi:type="ST">对患者出现症状的详细描述</value>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+					<!--中医“四诊”观察结果-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE02.10.028.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中医“四诊”观察结果"/>
+							<value xsi:type="ST">中医“四诊”观察结果的详细描述，包括望、闻、问、
+切四诊内容</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+入院诊断章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="46241-6" displayName="HOSPITAL ADMISSION DX" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--入院诊断-西医条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断-西医诊断名称"/>
+							<value xsi:type="ST">创伤性脑损伤</value>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<!--入院诊断-西医诊断编码-代码-->
+									<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断-西医诊断编码"/>
+									<value xsi:type="CD" code="S06.902" displayName="创伤性颅内海绵窦损伤" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+					<!--入院诊断-中医条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.172.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断-中医病名名称"/>
+							<value xsi:type="ST">内科病</value>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<!--入院诊断-中医诊断编码-代码-->
+									<code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断-中医病名代码"/>
+									<value xsi:type="CD" code="BN" displayName="内科病" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)"/>
+								</observation>
+							</entryRelationship>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<!--入院诊断-中医证候编码-名称-->
+									<code code="DE05.10.172.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断-中医证候名称"/>
+									<value xsi:type="ST">火毒上攻证</value>
+								</observation>
+							</entryRelationship>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<!--入院诊断-中医证候编码-代码-->
+									<code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断-中医证候代码"/>
+									<value xsi:type="CD" code="ZBUD90" displayName="火毒上攻证" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)"/>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--治疗计划章节-->
+			<component>
+				<section>
+					<code code="18776-5" displayName="TREATMENT PLAN" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--治则治法条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="INT">
+							<code code="DE06.00.300.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="治则治法"/>
+							<value xsi:type="ST">疏风解表</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--住院过程章节-->
+			<component>
+				<section>
+					<code code="8648-8" displayName="HOSPITAL COURSE" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--入院情况条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.148.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院情况"/>
+							<value xsi:type="ST">对患者入院情况的详细描述</value>
+						</observation>
+					</entry>
+					<!--诊疗过程描述条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.296.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="诊疗过程描述"/>
+							<value xsi:type="ST">对患者诊疗过程的详细描述</value>
+						</observation>
+					</entry>
+					<!--出院情况条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.193.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出院情况"/>
+							<value xsi:type="ST">对患者出院情况的详细描述</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--
+********************************************************
+出院诊断章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="11535-2" displayName="Discharge Diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--出院诊断-西医条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出院诊断-西医诊断名称"/>
+							<value xsi:type="ST">创伤性脑损伤</value>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<!--出院诊断-西医诊断编码-代码-->
+									<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出院诊断-西医诊断编码"/>
+									<value xsi:type="CD" code="S06.902" displayName="创伤性颅内海绵窦损伤" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+					<!--出院诊断-中医条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.172.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出院诊断-中医病名名称"/>
+							<value xsi:type="ST">内科病</value>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<!--出院诊断-中医诊断编码-代码-->
+									<code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出院诊断-中医病名代码"/>
+									<value xsi:type="CD" code="BN" displayName="内科病" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)"/>
+								</observation>
+							</entryRelationship>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<!--出院诊断-中医证候编码-名称-->
+									<code code="DE05.10.172.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出院诊断-中医证候名称"/>
+									<value xsi:type="ST">火毒上攻证</value>
+								</observation>
+							</entryRelationship>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<!--出院诊断-中医证候编码-代码-->
+									<code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出院诊断-中医证候代码"/>
+									<value xsi:type="CD" code="ZBUD90" displayName="火毒上攻证" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)"/>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--医嘱章节-->
+			<component>
+				<section>
+					<code code="46209-3" displayName="PROVIDER ORDERS" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!--出院医嘱条目-->
+					<entry>
+						<observation classCode="OBS" moodCode="RQO">
+							<code code="DE06.00.287.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="出院医嘱"/>
+							<!--出院医嘱开立日期时间-->
+							<effectiveTime value="20121012101112"/>
+							<value xsi:type="ST">对患者出院医嘱的详细描述</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

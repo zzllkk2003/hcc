@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3">
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.57"/>
+	<!-- 文档流水号 -->
+	<id root="2.16.156.10011.1.1" extension="RN001"/>
+	<code code="C0037" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档规范编码体系"/>
+	<title>首次病程记录</title>
+	<!-- 文档机器生成时间 -->
+	<effectiveTime value="20160928164222"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			<!--住院号标识-->
+			<id root="2.16.156.10011.1.12" extension="4693428"/>
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<!--患者身份证号标识-->
+				<id root="2.16.156.10011.1.3" extension="150125195609243618"/>
+				<name>邸前换</name>
+				<administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表(GB/T 2261.1)" displayName="男性"/>
+				<!--1数据集里是年龄（年）、年龄（月）-->
+				<birthTime value="19560924"/>
+				<age unit="岁" value="56"/>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<!-- 文档创建者 -->
+	<author typeCode="AUT" contextControlCode="OP">
+		<!-- DE09.00.053.00记录日期时间 完成此项业务活动时的公元纪年日期和时间的完整描述 -->
+		<time value="20130425101806"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="-"/>
+			<assignedPerson>
+				<name>王圣林[苏允裕]</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<!--管理机构-->
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="1234567890"/>
+				<name>北京大学第三医院</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<legalAuthenticator>
+		<!-- 签名 -->
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.4" extension="76479"/>
+			<code displayName="上级医师"/>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>王圣林</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	<!-- 签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.4" extension="81519"/>
+			<code displayName="住院医师"/>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>赵衍斌</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<!--相关文档-->
+	<relatedDocument typeCode="RPLC">
+		<parentDocument>
+			<id/>
+			<setId/>
+			<versionNumber/>
+		</parentDocument>
+	</relatedDocument>
+	<!-- 病床号、病房、病区、科室和医院的关联 -->
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="-+11"/>
+								<name>-+11</name>
+								<!-- DE01.00.019.00病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="-"/>
+										<name>无</name>
+										<!-- DE08.10.026.00科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<id root="2.16.156.10011.1.26" extension="1020500"/>
+												<name>骨科</name>
+												<!-- DE08.10.054.00病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<id root="2.16.156.10011.1.27" extension="1020502"/>
+														<name>骨科四病房</name>
+														<!--XX医院 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="1234567890"/>
+																<name>北京大学第三医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<component>
+		<!--文档体-->
+		<structuredBody>
+			<!--
+**********************************
+主诉章节
+**********************************
+-->
+			<component>
+				<section>
+					<code code="10154-3" displayName="CHIEF COMPLAINT" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<!-- 主诉-->
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.01.119.00" displayName="主诉" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">腹痛、腹胀7天伴肛门停止排气排便</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--
+*************************************
+诊断章节
+*************************************
+-->
+			<component>
+				<section>
+					<code code="29548-5" displayName="Diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE05.10.133.00" displayName="病例特点" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">2013-04-25 10:18　　　　　 首次病程记录 一、病历特点： （1）中年男性患者，主诉： 双侧腰腿痛伴间歇性跛行7年，加重3个月。 （2） 患者自诉7年前无明显诱因下出现腰痛，双侧大腿、小腿后侧疼痛，弯腰活动时，休息时缓解，疼痛症状尚能忍受。伴间歇性跛行，行走3千米需下蹲休息方能缓解。3个月前疼痛加重，间歇性跛行距离缩短，约行走500米后出现双下肢、腰部疼痛，VAS评分7分。下蹲休息几分钟后症状缓解并能继续行行走。并出现左足背感觉麻木。在院外口服药物治疗，具体不详，症状无缓解。曾到我院门诊就诊，考虑：腰椎管狭窄症，今为手术治疗而入院。 （3）查体：T 36.5℃,P 74次/分,R 20次/分,Bp 151／90mmHg 。神志清，精神好。心肺腹未见异常。专科检查：脊柱无畸形，腰椎活动度正常。腰椎无腰痛。双下肢肌肉无萎缩，双侧直腿抬高试验阴性，股神经牵拉试验阴性，左足踇趾背伸肌力Ⅳ级，余双下肢肌力正常，左足背针刺觉减弱，双侧膝腱反射减弱，跟腱反射正常。病理反射未引出。 二、初步诊断：1、 腰椎管狭窄症 2、高血压病 三、诊断依据： （1） 双侧腰腿痛伴间歇性跛行7年，加重3个月。 （2）查体： 脊柱无畸形，腰椎活动度正常。腰椎无腰痛。双下肢肌肉无萎缩，双侧直腿抬高试验阴性，股神经牵拉试验阴性，左足踇趾背伸肌力Ⅳ级，余双下肢肌力正常，左足背针刺觉减弱，双侧膝腱反射减弱，跟腱反射正常。病理反射未引出。 （3） 辅助检查：无 四、鉴别诊断： 1. 运动神经元病：病因尚不清楚，主要表现为自肢体远端向近端发展的肌萎缩，一般无感觉障碍。发病较快，肌电图和肌活检有助于诊断。 2. 脊髓空洞症：多见于青壮年，好发于颈胸段，病程较缓慢。可出现一侧痛、温觉障碍，而触觉和深感觉基本正常的感觉分离现象。MRI可有助于诊断。 3. 脊髓肿瘤：患者病程多为进行性加重，从一侧肢体进展到四肢，晚期可出现括约肌功能障碍。脑脊液检查可见蛋白含量升高，MRI、CT等有助于诊断。 五、诊疗计划： 1：完善入院相关检查：血、生化常规；颈椎正侧伸屈位X-Ray、CT及矢状位重建、MRI 2：择期手术治疗 主治医师签名： 记录者： /苏允裕</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE02.10.028.00" displayName="中医“四诊”观察结果" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">舌红，苔薄腻，脉弦</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.070.00" displayName="诊断依据" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">]肠梗阻属中医“关格”“走哺”腑气不通范畴。谅由饮食 不节，劳累过度，寒温失调，使肠道运化失司，腑气不通，不通则痛，胃气上逆则呕吐。当与胁痛相鉴别。 胁痛以右上腹疼痛，并放射至肩背部，恶心呕吐，B超有助诊断二者不难相鉴别。</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="初步诊断-西医诊断编码"/>
+							<value xsi:type="CD" code="B95.100" displayName="B族链球菌感染" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="初步诊断-中医病名代码">
+								<qualifier>
+									<name displayName="中医病名代码"/>
+								</qualifier>
+							</code>
+							<value xsi:type="CD" code="BNS130" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)" displayName="关格病"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="初步诊断-中医证候代码">
+								<qualifier>
+									<name displayName="中医证候代码"/>
+								</qualifier>
+							</code>
+							<value xsi:type="CD" code="ZYV260" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="腑气不通证"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE05.01.025.00" displayName="鉴别诊断-西医诊断名称" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">十二指肠梗阻</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE05.10.172.00" displayName="鉴别诊断-中医病名名称" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录">
+								<qualifier>
+									<name displayName="中医病名名称"/>
+								</qualifier>
+							</code>
+							<value xsi:type="ST">关格病</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE05.10.172.00" displayName="鉴别诊断-中医证候名称" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录">
+								<qualifier>
+									<name displayName="中医证候名称"/>
+								</qualifier>
+							</code>
+							<value xsi:type="ST">腑气不通症</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--
+**********************************
+治疗计划章节
+**********************************
+-->
+			<component>
+				<section>
+					<code code="18776-5" displayName="TREATMENT PLAN" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="GOL ">
+							<code code="DE05.01.025.00" displayName="诊疗计划" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">（1）完善各项常规检查:生化免疫全套、凝血五项、 肿瘤12项等。（3）予外科护理常规、禁食、胃肠减压，灌肠，予头孢匹胺、替硝唑BID静滴消炎、维持水电 解质平衡。密切观察病情变化，急查血细胞分析+血型、血电解质、肾功能、心电图、腹部B超、胸片及腹部 平片必要时查腹部CT检查等，根据生化报告情况进一步调节治疗方案。闵美林</value>
+						</observation>
+					</entry>
+					<!--治则治法-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.300.00" displayName="治则治法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">目前予患者综合保守治疗</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

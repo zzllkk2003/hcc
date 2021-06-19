@@ -1,0 +1,28 @@
+﻿<MCCI_IN000002UV01 ITSVersion="XML_1.0" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/MCCI_IN000002UV01.xsd">
+	<id extension="1F1E1169-7205-40F5-8D6D-8BC4B0592030"/>
+	<creationTime value="20121109120600"/>
+	<interactionId root="2.16.840.1.113883.1.6" extension="MCCI_IN000002UV01"/>
+	<processingCode code="P"/>
+	<processingModeCode code="R"/>
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.99998.8734"/>
+		</device>
+	</receiver>
+	<sender typeCode="SND">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.99999.4567"/>
+		</device>
+	</sender>
+	<acknowledgement typeCode="AA">
+		<!-- 目标消息ID -->
+		<targetMessage>
+			<id extension="22a0f9e0-4454-11dc-a6be-3603d6866807"/>
+		</targetMessage>
+		<!-- 处理结果说明 -->
+		<acknowledgementDetail>
+			<text>成功</text>
+		</acknowledgementDetail>
+	</acknowledgement>
+</MCCI_IN000002UV01>

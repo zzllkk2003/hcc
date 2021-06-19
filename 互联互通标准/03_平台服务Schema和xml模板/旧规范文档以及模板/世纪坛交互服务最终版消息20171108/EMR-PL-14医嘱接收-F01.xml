@@ -1,0 +1,199 @@
+<POOR_IN200901UV xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/POOR_IN200901UV.xsd">
+	<id root="040CD76A-ED0E-400B-9FD3-60387BCDE0EB" extension = "22cb5db4-5085-4153-a0ae-108ff0ffbbfd"/>
+	<creationTime value="20171018110000"/>
+	<interactionId root="2.16.840.1.113883.1.6" extension="POOR_IN200901UV"/>
+	<processingCode code="P"/>
+	<processingModeCode code="I"/>
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<telecom/>
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.567"/>
+		</device>
+	</receiver>
+	<sender typeCode="SND">
+		<telecom/>
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.2.840.114350.1.13.999.234"/>
+		</device>
+	</sender>
+	<controlActProcess classCode="CACT" moodCode="EVN">
+		<code code="POOR_TE200901UV" codeSystem="2.16.840.1.113883.1.6"/>
+		<subject typeCode="SUBJ">
+			<substanceAdministrationRequest classCode="SBADM" moodCode="RQO">
+				<!--医嘱ID-->
+				<id root="2.16.156.10011.1.28" extension="40381677"/>
+				<!--医嘱项目类型代码-->
+				<code code="01" displayName="药品类医嘱" codeSystem="2.16.156.10011.2.3.1.268" codeSystemName="医嘱项目类型代码表"/>
+				<!--医嘱项目内容-->
+				<text  value="每日一次"/>
+				<!--医嘱状态-->
+				<statusCode code="active"/>
+				<!--医嘱有效期间-->
+				<effectiveTime xsi:type="IVL_TS">
+					<!--医嘱开始日期时间-->
+					<low value="20171018110109"/>
+					<!--医嘱结束日期时间-->
+					<high value="20171018130000"/>
+				</effectiveTime>
+				<!--用药频率 -->
+				<effectiveTime xsi:type="PIVL_TS" operator="A">
+					<period value="1" unit="qd"/>
+				</effectiveTime>
+				<routeCode code="404" displayName="静脉注射或静脉滴注" codeSystem="2.16.156.10011.2.3.1.158" codeSystemName="用药途径代码表"/>
+				<!--用药剂量-单次 -->
+				<doseQuantity value="0.30" unit="l"/>
+				<!--药物使用总剂量 -->
+				<doseCheckQuantity xsi:type="RTO_QTY_QTY">
+					<numerator xsi:type="PQ" unit="g" value="105.00"/>
+					<!--药物使用总天数 -->
+					<denominator xsi:type="PQ" unit="d" value="1"/>
+				</doseCheckQuantity>
+				<!--药物剂型 -->
+				<administrationUnitCode code="16" displayName="注射液(水针剂),油针剂,混悬针剂" codeSystem="2.16.156.10011.2.3.1.211" codeSystemName="药物剂型代码表"/>
+				<!--药物名称 -->
+				<consumable2 typeCode="CSM" contextControlCode="ON">
+					<medication1 classCode="ADMM">
+						<administerableMedicine classCode="MMAT" determinerCode="KIND">
+							<!--药物名称 -->
+							<name>0.9%碘海醇注射液(ZC/(I) 17.5g 50ml/瓶)</name>
+							<asContent classCode="CONT">
+							<containerPackagedMedicine classCode="HOLD" determinerCode="KIND">
+									<!--药物规格 -->
+								<capacityQuantity unit="ml/瓶" value="50"/>
+								</containerPackagedMedicine>
+							</asContent>
+						</administerableMedicine>
+					</medication1>
+				</consumable2>
+				<!--医嘱开立者-->
+				<author typeCode="AUT" contextControlCode="OP">
+					<!--医嘱开立日期时间-->
+					<time value="20171018110451"/>
+					<signatureCode code="S"/>
+					<!--医嘱开立者签名-->
+					<signatureText>赵星辉</signatureText>
+					<assignedEntity classCode="ASSIGNED">
+						<!--医务人员ID-->
+				<id root="2.16.156.10011.1.4" extension="001574"/>
+				<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+							<!--医嘱开立者-->
+							<name>赵星辉</name>
+		            </assignedPerson>
+		<representedOrganization classCode="ORG" determinerCode="INSTANCE">
+						<!--医疗卫生机构（科室）ID-->
+				<id root="2.16.156.10011.1.26" extension="10060102"/>							                  
+							<name>神经与精神科</name>
+                        <!--医嘱开立科室-->
+					</representedOrganization>
+					</assignedEntity>
+				</author>
+				<!--医嘱审核者-->
+				<verifier typeCode="VRF" contextControlCode="OP">
+					<!--医嘱审核日期时间-->
+					<time value="20171018112019"/>
+					<signatureCode code="S"/>
+					<!--医嘱审核者签名-->
+					<signatureText>董卫玲</signatureText>
+					<assignedEntity classCode="ASSIGNED">
+						<!--医务人员ID-->
+				<id root="2.16.156.10011.1.4" extension="001883"/>
+					<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+							<!--医嘱审核者-->
+							<name>董卫玲</name>
+						</assignedPerson>
+					</assignedEntity>
+				</verifier>
+				<!--医嘱备注信息-->
+				<subjectOf6 typeCode="SUBJ" contextConductionInd="false">
+					<seperatableInd value="false"/>
+					<annotation>
+						<!--医嘱备注信息-->
+						<text>无</text>
+						<statusCode code="completed"/>
+						<author>
+							<assignedEntity classCode="ASSIGNED">
+								<!--医务人员ID-->
+				<id root="2.16.156.10011.1.4" extension="001574"/>
+					<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+									<!--医嘱开立者-->
+									<name>赵星辉</name>
+								</assignedPerson>
+								<representedOrganization classCode="ORG" determinerCode="INSTANCE">
+									<!--医疗卫生机构（科室）ID-->
+					<id root="2.16.156.10011.1.26" extension="10060102"/>
+									<!--医嘱开立科室-->
+									<name>神经与精神科一病区</name>
+								</representedOrganization>
+							</assignedEntity>
+						</author>
+					</annotation>
+				</subjectOf6>
+				<!--就医信息-->
+				<componentOf1 contextConductionInd="false">
+					<encounter classCode="ENC" moodCode="EVN">
+						<id/>
+						<statusCode code="active"/>
+						<subject typeCode="SBJ">
+							<patient classCode="PAT">
+								<!--门（急）诊号标识 -->
+								<id root="2.16.156.10011.1.10" extension="-"/>
+								<!--住院号标识-->
+								<id root="2.16.156.10011.1.12" extension="0009545357_1"/>
+								<!--患者就医联系电话-->
+								<telecom/>
+								<!--患者角色状态-->
+								<statusCode code="active"/>
+								<patientPerson classCode="PSN" determinerCode="INSTANCE">
+									<!--患者身份证号-->
+									<id root="2.16.156.10011.1.3" extension="132923195011232817"/>
+									<name>王福祥</name>
+									<!--性别-->
+									<administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4" displayName="男性" codeSystemName="生理性别代码表(GB/T 2261.1)"/>
+									<!--出生日期-->
+									<birthTime value="19501123"/>
+									<asOtherIDs classCode="ROL">
+										<!--健康档案编号-->
+										<id root="2.16.156.10011.1.2" extension="0009545357"/>
+										<!--健康卡号-->
+										<id root="2.16.156.10011.1.19" extension="0009545357"/>
+									</asOtherIDs>
+								</patientPerson>
+							</patient>
+						</subject>
+						<!--住院位置-->
+						<location typeCode="LOC">
+							<time/>
+							<serviceDeliveryLocation classCode="SDLOC">
+								<location classCode="PLC" determinerCode="INSTANCE">
+									<!--DE01.00.026.00	病床号-->
+									<id root="2.16.156.10011.1.22" extension="S02"/>
+									<name>2床</name>
+									<asLocatedEntityPartOf classCode="LOCE">
+										<location classCode="PLC" determinerCode="INSTANCE">
+											<!--DE01.00.019.00	病房号-->
+											<id root="2.16.156.10011.1.21" extension="S001"/>
+											<name>GNXG1病房</name>
+										</location>
+									</asLocatedEntityPartOf>
+								</location>
+								<serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+									<!--DE08.10.026.00	科室名称-->
+									<id root="2.16.156.10011.1.26" extension="GNXG"/>
+									<name>干部神经与精神科</name>
+									<asOrganizationPartOf classCode="PART">
+										<!-- DE08.10.054.00	病区名称 -->
+										<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+											<id root="2.16.156.10011.1.27" extension="10060102"/>
+											<name>神经与精神科一病区</name>
+										</wholeOrganization>
+									</asOrganizationPartOf>
+								</serviceProviderOrganization>
+							</serviceDeliveryLocation>
+						</location>
+					</encounter>
+				</componentOf1>
+			</substanceAdministrationRequest>
+		</subject>
+	</controlActProcess>
+</POOR_IN200901UV>
