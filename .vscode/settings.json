@@ -1,0 +1,7 @@
+{
+    "objectscript.conn": {
+        "server": "trip",
+        "ns": "TRIP",
+        "active": true
+    }
+}
