@@ -7,7 +7,7 @@ Class HCC.SQL.Tools Extends %RegisteredObject
 
 ClassMethod Test1()
 {
-    
+    //
     Set tDocType = 53
     &SQL(SELECT DocumentSection,Cardinality INTO :DocSec(),:Card() FROM HCC_SQL.DocumentConfig WHERE DocumentType=:tDocType)
     zw DocSec
