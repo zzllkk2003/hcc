@@ -1,0 +1,70 @@
+/// Author: QP
+/// Version: 1.0
+/// Date:2021/07/01
+/// 互联互通文档头
+Class HCC.SQL.Document.Header Extends (%Persistent, %XML.Adaptor)
+{
+
+/// 文档编号 (同时作为Idkey)
+Property DocumentNo As %String(XMLPROJECTION = "NONE");
+
+Index IdDocNo On DocumentNo [ IdKey, Unique ];
+
+/// 文档活动类
+Property Activity As HCC.SQL.Document.Header.Activity;
+
+/// 文档记录对象或健康保健对象
+Property RecordTarget As HCC.SQL.Document.Header.RecordTarget;
+
+/// 文档管理机构信息
+Property Custodian As HCC.SQL.Document.Header.Custodian;
+
+/// 文档创作者
+Property Author As HCC.SQL.Document.Header.Author;
+
+/// 医生签名信息，法定审核者
+Relationship Authenticators As HCC.SQL.Document.Header.Authenticator [ Cardinality = children, Inverse = DocumentNo ];
+
+/// 医生签名信息，法定审核者
+Relationship LegalAuthenticators As HCC.SQL.Document.Header.LegalAuthenticator [ Cardinality = children, Inverse = DocumentNo ];
+
+/// 联系人
+Relationship Participants As HCC.SQL.Document.Header.Participant [ Cardinality = children, Inverse = DocumentNo ];
+
+/// 关联活动
+Relationship RelatedDocuments As HCC.SQL.Document.Header.RelatedDocument [ Cardinality = children, Inverse = DocumentNo ];
+
+/// 就诊场景 
+Property EncompassingEncounter As HCC.SQL.Document.Header.EncompassingEncounter;
+
+Storage Default
+{
+<Data name="HeaderDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Activity</Value>
+</Value>
+<Value name="3">
+<Value>Custodian</Value>
+</Value>
+<Value name="4">
+<Value>Author</Value>
+</Value>
+<Value name="5">
+<Value>RecordTarget</Value>
+</Value>
+<Value name="6">
+<Value>EncompassingEncounter</Value>
+</Value>
+</Data>
+<DataLocation>^HCC.SQL.Document.HeaderD</DataLocation>
+<DefaultData>HeaderDefaultData</DefaultData>
+<IdLocation>^HCC.SQL.Document.HeaderD</IdLocation>
+<IndexLocation>^HCC.SQL.Document.HeaderI</IndexLocation>
+<StreamLocation>^HCC.SQL.Document.HeaderS</StreamLocation>
+<Type>%Storage.Persistent</Type>
+}
+
+}
