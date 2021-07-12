@@ -4,7 +4,7 @@ Class HCC.SVR.Prod.BO.SearchCDAOperation Extends Ens.BusinessOperation
 
 Parameter INVOCATION = "Queue";
 
-Method SearchOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse As TRIP.JHFW.Message.JiaoHuMsgResponse) As %Status
+Method SearchOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse As HCC.SVR.Prod.MSG.SVRResponse) As %Status
 {
     
     #Dim pDoc as EnsLib.EDI.XML.Document
@@ -19,7 +19,7 @@ Method SearchOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse
 }
 
 /// 组合检索返回消息
-ClassMethod ReturnSearchResult() As TRIP.JHFW.Message.JiaoHuMsgResponse
+ClassMethod ReturnSearchResult() As HCC.SVR.Prod.MSG.SVRResponse
 {
     Set sc = $$$OK
     // do something

@@ -1,8 +1,8 @@
 Class HCC.Utils.SharedDocTransfer Extends %RegisteredObject
 {
 
-/// 将共享文档主库对象，转换为总表对象，赵超 2021-06-19
-ClassMethod GxwdDocToLsDoc(gxwdDoc As HCC.DocRepository.LatestDocs) As HCC.DocRepository.AllDocs [ Language = objectscript ]
+/// 将共享文档主库对象，转换为总表对象
+ClassMethod LatestDocToAllDoc(gxwdDoc As HCC.DocRepository.LatestDocs) As HCC.DocRepository.AllDocs [ Language = objectscript ]
 {
 	Set model =##class(HCC.DocRepository.AllDocs).%New()
 	set model.MsgCreatTime=gxwdDoc.MsgCreatTime

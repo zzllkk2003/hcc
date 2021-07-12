@@ -1,5 +1,5 @@
 /// Description
-Class HCC.SVR.API.PubSub.PubSubModel Extends %RegisteredObject
+Class HCC.Service.Rest.PubSubModel Extends %RegisteredObject
 {
 
 /// 订阅者名称

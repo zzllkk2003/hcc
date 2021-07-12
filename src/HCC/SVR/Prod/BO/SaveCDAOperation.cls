@@ -43,13 +43,13 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         
         if (..DocValueSetValidate =1)
         {   
-           set ValueVResult= ##class(HCC.SVR.Utils.XMLValid).Valid(##class(HS.Util.StreamUtils).EnsureStream(DocContent),DocCode,.ValueErr)
+           set ValueVResult= ##class(HCC.Utils.XMLValid).Valid(##class(HS.Util.StreamUtils).EnsureStream(DocContent),DocCode,.ValueErr)
            
         }
         // 验证文档是否符合schema 规则
         if (..DocSchemaValidate =1)
         {
-            set SchemaVResult = ##class(HLHTPKG.Util.SchemaValidate).Validate(##class(HS.Util.StreamUtils).EnsureStream(DocContent),.SchemaErr)
+            set SchemaVResult = ##class(HCC.Utils.SchemaValidate).Validate(##class(HS.Util.StreamUtils).EnsureStream(DocContent),.SchemaErr)
         }
 
         if (ValueVResult=0)&&(SchemaVResult=1)
@@ -142,7 +142,7 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         Set gxwdDoc.AddDate =$ZDATETIME($ZDATETIMEH($ZTS,-3),3,1,4)
         
          //【1】首先把数据存储到总表中
-        set gxwdDocT=##class(TRIP.GXWD.Tools.GxwdTool).GxwdDocToLsDoc(gxwdDoc)
+        set gxwdDocT=##class(HCC.Utils.SharedDocTransfer).LatestDocToAllDoc(gxwdDoc)
         set tscT =gxwdDocT.%Save()
         if ('tscT){//保存失败
             set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"将共享文档存储到总表中失败。")
