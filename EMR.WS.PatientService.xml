@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="urn:hl7-org:v3" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="urn:hl7-org:v3">
+    <types>
+        <s:schema elementFormDefault="qualified" targetNamespace="urn:hl7-org:v3">
+            <s:element name="PatRegister">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" name="pat" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="PatRegisterResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element name="PatRegisterResult" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+        </s:schema>
+    </types>
+    <message name="PatRegisterSoapIn">
+        <part name="parameters" element="s0:PatRegister"/>
+    </message>
+    <message name="PatRegisterSoapOut">
+        <part name="parameters" element="s0:PatRegisterResponse"/>
+    </message>
+    <portType name="JiaoHuServiceSoap">
+        <operation name="PatRegister">
+            <input message="s0:PatRegisterSoapIn"/>
+            <output message="s0:PatRegisterSoapOut"/>
+        </operation>
+    </portType>
+    <binding name="JiaoHuServiceSoap" type="s0:JiaoHuServiceSoap">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="PatRegister">
+            <soap:operation soapAction="urn:hl7-org:v3/EMR.WS.PatientService.PatRegister" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="JiaoHuService">
+        <port name="JiaoHuServiceSoap" binding="s0:JiaoHuServiceSoap">
+            <soap:address location="http://10.211.55.13:52774/csp/healthshare/mocksys/EMR.WS.PatientService.cls"/>
+        </port>
+    </service>
+</definitions>
