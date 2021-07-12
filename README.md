@@ -20,8 +20,12 @@ healthconnect互联互通实现
        - BP
        - BO
        - PubSub
-    - API (发布订阅注册到外部系统)
+       - DT
+       - MSG
+    - API 
+      - PubSub(发布订阅注册到外部系统)
 - DocRepository 
+- Utils (工具包)
 
 </font>
 
