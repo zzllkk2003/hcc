@@ -1,7 +1,27 @@
 # hcc
+<font size =4>
 healthconnect互联互通实现
 
-**各位把自己的内容commit到单独的brunch, 之后由Jeff或者我merge到一起。**
+命名规范：
 
+## 标准: WS
+- DE
+- DOC
+- VS 
+## 原型：HCC
+- RestfulApi
+- SQL
+- Config
+   - Doc
+   - DocSection
+- SVR
+   - Prod
+       - BS
+       - BP
+       - BO
+       - PubSub
+    - API (发布订阅注册到外部系统)
+- DocRepository 
 
+</font>
 
