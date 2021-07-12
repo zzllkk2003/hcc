@@ -1,0 +1,173 @@
+<QUMT_IN020040UV01 ITSVersion="XML_1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/QUMT_IN020040UV01.xsd">
+    <id root="2.16.156.10011.2.5.1.1" extension="@12122"/>
+    <creationTime value="20170106151903"/>
+    <interactionId root="2.16.156.10011.2.5.1.2" extension="QUMT_IN020040UV01"/>
+    <processingCode code="P"/>
+    <processingModeCode/>
+    <acceptAckCode code="AL"/>
+    <receiver typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension="@111"/>
+            </id>
+        </device>
+    </receiver>
+    <sender typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension="@222"/>
+            </id>
+        </device>
+    </sender>
+    <acknowledgement typeCode="AA">
+        <!--请求消息ID-->
+        <targetMessage>
+            <id root="2.16.156.10011.2.5.1.1" extension="@请求的消息ID"/>
+        </targetMessage>
+        <!--查询响应消息-->
+        <acknowledgementDetail typeCode="I">
+            <text>
+                <description value="@消息处理成功"/>
+            </text>
+        </acknowledgementDetail>
+    </acknowledgement>
+    <controlActProcess classCode="ACTN" moodCode="EVN">
+        <subject typeCode="SUBJ">
+            <actGenericStatus classCode="" moodCode="RQO">
+                <!--申请单号-->
+                <id>
+                    <item root="2.16.156.10011.1.24" extension="@2222"/>
+                </id>
+                <!--申请单状态-->
+                <statusCode code="active"/>
+                <!--操作执行信息-->
+                <authorOrPerformer typeCode="PRF">
+                    <!--操作时间-->
+                    <time xsi:type="IVL_TS">
+                        <low value="20170203120001"/>
+                    </time>
+                    <assignedEntity classCode="ASSIGNED">
+                        <!--操作者ID-->
+                        <id>
+                            <item root="2.16.156.10011.1.4" extension="@操作者工号"/>
+                        </id>
+                        <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                            <!--操作者姓名-->
+                            <name xsi:type="LIST_EN">
+                                <item xsi:type="EN">
+                                    <part value="@操作者姓名"/>
+                                </item>
+                            </name>
+                        </assignedPerson>
+                    </assignedEntity>
+                </authorOrPerformer>
+                <!--就诊 -->
+                <componentOf xsi:nil="false" typeCode="COMP">
+                    <!--就诊 -->
+                    <encounter classCode="ENC" moodCode="EVN">
+                        <id>
+                            <!-- 就诊次数 必须项已使用 -->
+                            <item extension="12" root="2.16.156.10011.2.5.1.8"/>
+                            <!-- 就诊流水号 -->
+                            <item extension="123456" root="2.16.156.10011.2.5.1.9"/>
+                        </id>
+                        <!--就诊类别编码-->
+                        <code codeSystem="2.16.156.10011.2.3.1.271" code="1" codeSystemName="患者类型代码表">
+                            <!-- 就诊类别名称 -->
+                            <displayName value="门诊"/>
+                        </code>
+                        <!--必须项未使用 -->
+                        <statusCode code="Active"/>
+                        <!--病人 必须项未使用 -->
+                        <subject typeCode="SBJ">
+                            <patient classCode="PAT">
+                                <id>
+                                    <!--域ID -->
+                                    <item root="2.16.156.10011.2.5.1.5" extension="24355455"/>
+                                    <!-- 患者ID -->
+                                    <item root="2.16.156.10011.2.5.1.4" extension="001407878200"/>
+                                    <!-- 门诊号 -->
+                                    <item root="2.16.156.10011.1.11" extension="0910238"/>
+                                    <!-- 住院号 -->
+                                    <item root="2.16.156.10011.1.12" extension="0910238"/>
+                                </id>
+                                <patientPerson classCode="PSN" determinerCode="INSTANCE" xsi:nil="false">
+                                    <!-- 患者姓名 -->
+                                    <name xsi:type="DSET_EN">
+                                        <item>
+                                            <part value="张三"/>
+                                        </item>
+                                    </name>
+                                </patientPerson>
+                            </patient>
+                        </subject>
+                        <!--住院位置-->
+                        <location typeCode="LOC">
+                            <time/>
+                            <serviceDeliveryLocation classCode="SDLOC">
+                                <location classCode="PLC" determinerCode="INSTANCE">
+                                    <!--DE01.00.026.00	病床编码 -->
+                                    <id>
+                                        <item extension="001"/>
+                                    </id>
+                                    <!-- 病床号 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item use="IDE">
+                                            <part value="201"/>
+                                        </item>
+                                    </name>
+                                    <asLocatedEntityPartOf classCode="LOCE">
+                                        <location classCode="PLC" determinerCode="INSTANCE">
+                                            <!--DE01.00.019.00	病房编码 -->
+                                            <id>
+                                                <item extension="001"/>
+                                            </id>
+                                            <!-- 病房号 -->
+                                            <name xsi:type="BAG_EN">
+                                                <item use="IDE">
+                                                    <part value="201"/>
+                                                </item>
+                                            </name>
+                                        </location>
+                                    </asLocatedEntityPartOf>
+                                </location>
+                                <serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+                                    <!--DE08.10.026.00	科室编码 -->
+                                    <id>
+                                        <item extension="001"/>
+                                    </id>
+                                    <!-- 科室名称 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item use="IDE">
+                                            <part value="呼吸内科"/>
+                                        </item>
+                                    </name>
+                                    <asOrganizationPartOf classCode="PART">
+                                        <!-- DE08.10.054.00	病区编码 -->
+                                        <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                            <id>
+                                                <item extension="001"/>
+                                            </id>
+                                            <!-- 病区名称 -->
+                                            <name xsi:type="BAG_EN">
+                                                <item use="IDE">
+                                                    <part value="1病区 "/>
+                                                </item>
+                                            </name>
+                                        </wholeOrganization>
+                                    </asOrganizationPartOf>
+                                </serviceProviderOrganization>
+                            </serviceDeliveryLocation>
+                        </location>
+                    </encounter>
+                </componentOf>
+            </actGenericStatus>
+        </subject>
+        <queryAck>
+            <queryId extension="@2222"/>
+            <queryResponseCode code="OK"/>
+        </queryAck>
+    </controlActProcess>
+</QUMT_IN020040UV01>

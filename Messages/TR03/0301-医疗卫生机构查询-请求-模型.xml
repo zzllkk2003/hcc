@@ -1,0 +1,44 @@
+<PRPM_IN406010UV01
+    xmlns="urn:hl7-org:v3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/PRPM_IN406010UV01.xsd">
+    <id root="2.16.156.10011.2.5.1.1" extension="8D73520B-D489-4B70-8F4B-7B5C2D7961BQ"/>
+    <creationTime value="20130116112855"/>
+    <interactionId root="2.16.156.10011.2.5.1.2" extension="PRPM_IN406010UV01"/>
+    <processingCode code="P"/>
+    <processingModeCode/>
+    <acceptAckCode code="AL"/>
+    <receiver typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension ="111"/>
+            </id>
+        </device>
+    </receiver>
+    <sender typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension ="111"/>
+            </id>
+        </device>
+    </sender>
+    <controlActProcess classCode="CACT" moodCode="EVN">
+        <queryByParameterPayload>
+            <!--查询事件的状态-->
+            <statusCode code="new"/>
+            <!--医疗卫生机构（科室）ID-->
+            <organizationID>
+                <value root="2.16.156.10011.1.26" extension="5240"/>
+            </organizationID>
+            <!--医疗卫生机构（科室）实体名称-->
+            <organizationName>
+                <value>
+                    <part value="呼吸内科1"/>
+                </value>
+            </organizationName>
+            <!--医疗卫生机构（科室）状态AssignedEntity.statusCode-->
+            <status>
+                <value code="active"/>
+            </status>
+        </queryByParameterPayload>
+    </controlActProcess>
+</PRPM_IN406010UV01>

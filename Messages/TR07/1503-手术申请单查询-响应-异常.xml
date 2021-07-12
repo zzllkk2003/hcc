@@ -1,0 +1,47 @@
+<QUMT_IN020040UV01 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/QUMT_IN020040UV01.xsd">
+  <!-- 消息ID -->
+  <id root="2.16.156.10011.2.5.1.1" extension="@BS004"/>
+  <!-- 消息创建时间 -->
+  <creationTime value="20120106110000"/>
+  <!-- 消息的服务标识-->
+  <interactionId root="2.16.156.10011.2.5.1.2" extension="QUMT_IN020040UV01"/>
+  <!--处理代码，标识此消息是否是产品、训练、调试系统的一部分。D：调试；P：产品；T：训练 -->
+  <processingCode code="P"/>
+  <!-- 消息处理模式: A(Archive); I(Initial load); R(Restore from archive); T(Current 
+		processing) -->
+  <processingModeCode/>
+  <!-- 消息应答: AL(Always); ER(Error/reject only); NE(Never) -->
+  <acceptAckCode code="AL"/>
+  <!-- 接收者 -->
+  <receiver typeCode="RCV">
+    <device classCode="DEV" determinerCode="INSTANCE">
+      <!-- 接受者ID -->
+      <id>
+        <item root="2.16.156.10011.2.5.1.3" extension="@111"/>
+      </id>
+    </device>
+  </receiver>
+  <!-- 发送者 -->
+  <sender typeCode="SND">
+    <device classCode="DEV" determinerCode="INSTANCE">
+      <!-- 发送者ID -->
+      <id>
+        <item root="2.16.156.10011.2.5.1.3" extension="@222"/>
+      </id>
+    </device>
+  </sender>
+  <!--typeCode为处理结果，AA表示成功 AE表示失败-->
+  <acknowledgement typeCode="AE">
+    <targetMessage>
+      <id root="2.16.156.10011.2.5.1.1" extension="1ee83ff1-08ab-4fe7-b573-ea777e9bad51"/>
+    </targetMessage>
+    <acknowledgementDetail>
+      <text value="处理结果说明"/>
+    </acknowledgementDetail>
+  </acknowledgement>
+  <controlActProcess classCode="CACT" moodCode="APT">
+    <queryAck>
+      <queryResponseCode code="OK"/>
+    </queryAck>
+  </controlActProcess>
+</QUMT_IN020040UV01>

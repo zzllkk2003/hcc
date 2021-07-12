@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ..\sdschemas\CDA.xsd">
+<!--
+********************************************************
+ CDA Header
+********************************************************
+-->
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.25"/>
+	<id root="2.16.156.10011.1.1.2" extension="2011000001"/>
+	<code code="C0005" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	<title>中药处方</title>
+	<effectiveTime xsi:type="TS" value="20111231154823"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+
+	<!--文档记录对象（患者） [1..*] contextControlCode="OP"表示本信息可以被重载-->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			
+			<!--门急（诊）号-->
+			<id root="2.16.156.10011.1.11" extension="MS201102113366666"/>
+			<!--处方编号-->
+			<id root="2.16.156.10011.1.20" extension="E10000000"/>
+			
+			<patient classCode="PSN" determinerCode="INSTANCE">
+			
+				<!--患者姓名、性别、年龄-->
+				<name>顾荷琴</name>
+				
+				<administrativeGenderCode code="2" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）" displayName="女性" />
+				<age unit="岁" value="45"/>
+			</patient>
+
+			<!-- 开立科室 -->
+			<providerOrganization>
+				<name>处方类别代码</name>
+				<asOrganizationPartOf>
+					<wholeOrganization>
+						<!-- 医疗机构组织机构代码 -->
+						<id root="2.16.156.10011.1.5" extension="263472"/>
+						<name>机构名称</name>
+					</wholeOrganization>
+				</asOrganizationPartOf>
+
+			</providerOrganization>
+
+		</patientRole>
+	</recordTarget>
+	
+	<!-- 文档创作者 -->
+	<author typeCode="AUT" contextControlCode="OP">
+		<!-- 处方开立日期 -->
+		<time xsi:type="TS" value="20120909"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<!--处方开立医师-->
+			<assignedPerson>
+				<name>闵美林</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<!-- 保管机构 -->
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="46628604-7"/>
+				<name>xx医院</name>
+				<telecom value="0209837373"/>
+				<addr>XX街道</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	
+	<!-- 签名 -->
+	<legalAuthenticator>
+		<!--签名日期时间-->
+		<time xsi:type="TS" value="201201121234"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="处方开立医师"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>泰医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>	
+	
+	<!-- 签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="处方审核药剂师"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>武医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<!-- 签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="处方调配药剂师"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>董医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<!-- 签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="处方核对药剂师"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>习医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<!-- 签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="处方发药药剂师"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>孙医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<relatedDocument typeCode="RPLC">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>
+<!--
+*******************************************************
+文档体Body
+*******************************************************
+-->
+	<component>
+		<structuredBody>
+
+<!-- 
+********************************************************
+诊断章节
+********************************************************
+-->
+			<!--诊断章节-->
+			<component>
+				<section>
+                    <code code="29548-5" displayName="Diagnosis"  codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <text/>
+                    <!--条目：诊断-->
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="DE05.01.024.00"  displayName="西医诊断编码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+                            <value xsi:type="CD" code="K31.500" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="诊断代码表（ICD-10）" displayName="十二指肠梗阻" />
+                        </observation>
+                    </entry>
+                    
+                    <entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中医诊断病名代码"><qualifier><name displayName="中医诊断病名代码"></name></qualifier></code>
+							<value xsi:type="CD" code="BNS130" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="关格病" />
+						</observation>
+					</entry>
+					
+                    <entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中医证候代码"><qualifier><name displayName="中医证候代码"></name></qualifier></code>
+							<value xsi:type="CD" code="BWA010" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）"/>
+						</observation>
+					</entry>
+					
+										
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中医诊断症候代码"/>
+							<value xsi:type="CD" code="ZYV260" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="腑气不通证" />
+						</observation>
+					</entry>
+               </section>
+            </component>
+
+<!-- 
+********************************************************
+用药章节
+********************************************************
+-->
+			<!--用药章节 1..*-->
+            <component>
+                <section>
+                    <code code="10160-0" displayName="HISTORY OF MEDICATION USE" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <text/>
+                    <!--处方条目-->
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="EVN">
+                            <text/>
+                            <routeCode code="1"  displayName="口服" codeSystem="2.16.156.10011.2.3.1.158" codeSystemName="用药途径代码表"/>
+							<!--用药剂量-单次 -->
+							<doseQuantity value="20" unit="mg"/>
+							
+							<!--用药频率 -->
+							<rateQuantity value="3" unit="次/日"/>
+
+							<!--药物剂型 -->
+							<administrationUnitCode code="1" displayName="片剂" codeSystem="2.16.156.10011.2.3.1.211" codeSystemName="药物剂型代码表"/>
+							
+							<consumable>
+								<manufacturedProduct>
+									<manufacturedLabeledDrug>
+										<!--药品代码及名称(通用名) -->
+										<code/>
+										<name>氢氯噻臻</name>
+									</manufacturedLabeledDrug>
+								</manufacturedProduct>
+							</consumable>
+							
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE08.50.043.00" displayName="药物规格" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+									<value xsi:type="ST">规 格 ：⑴10mg ⑵25mg</value>
+								</observation>
+							</entryRelationship>
+							
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.135.00" displayName="药物使用总剂量" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+									<value xsi:type="PQ" value="3" unit="mg"></value>
+								</observation>
+							</entryRelationship>
+                        </substanceAdministration>
+                    </entry>
+					
+					<!--处方有效天数-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.294.00" displayName="处方有效天数" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="PQ" value="3" unit="天"></value> 
+						</observation>
+					</entry>
+					
+					<!--处方药品组号-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE08.50.056.00" displayName="处方药品组号" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="INT" value="4"></value> 
+						</observation>
+					</entry>
+					
+					<!--中药饮片处方-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE08.50.049.00" displayName="中药饮片处方" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">中药饮片处方的详细描述</value>
+							<!--中药饮片剂数-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN " >
+									<code code="DE08.50.050.00" displayName="中药饮片剂数" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+									<value  xsi:type="PQ" value="4" unit="剂"/>
+								</observation>
+							</entryRelationship>
+							<!--中药饮片煎煮法-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN ">
+									<code code="DE08.50.047.00" displayName="中药饮片煎煮法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" />
+									<value xsi:type="ST">中药饮片煎煮方法描述</value>
+								</observation>
+							</entryRelationship>
+							<!--中药用药方法-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN ">
+									<code code="DE06.00.136.00" displayName="中药用药法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" />
+									<value xsi:type="ST">中药用药方法的描述</value>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+					<!-- 处方类别代码 DE08.50.032.00	处方类别代码 -->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE08.50.032.00" displayName="处方类别代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.2.40" codeSystemName="处方类别代码表" displayName="中药饮片处方"></value> 
+						</observation>
+					</entry>
+                </section>
+            </component>
+
+<!--
+**********************************************
+费用章节
+**********************************************
+-->
+			<component>
+                <section>
+                    <code code="48768-6" displayName="PAYMENT SOURCES" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE07.00.004.00" displayName="处方药品金额" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="MO" value="4" currency="元"/> 
+						</observation>
+					</entry>
+                </section>
+            </component>
+            
+<!--
+***********************************************
+治疗计划章节
+***********************************************
+-->
+			<component>
+                <section>
+                    <code code="18776-5" displayName="TREATMENT PLAN" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <text/>
+					<!--处方备注信息-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.179.00" displayName="处方备注信息" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">备注信息描述</value> 
+						</observation>
+					</entry>
+					<!--治则治法-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.300.00" displayName="治则治法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">目前予患者综合保守治疗</value>
+						</observation>
+					</entry>	
+                </section>
+            </component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

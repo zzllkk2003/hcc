@@ -1,0 +1,345 @@
+<QUMT_IN020040UV01
+    xmlns="urn:hl7-org:v3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ITSVersion="XML_1.0" xsi:schemaLocation=" urn:hl7-org:v3 ../multicacheschemas/QUMT_IN020040UV01.xsd">
+    <id root="2.16.156.10011.2.5.1.1" extension="@BS004"/>
+    <creationTime value="20130116112855"/>
+    <interactionId root="2.16.156.10011.2.5.1.2" extension="QUMT_IN020040PL"/>
+    <processingCode code="P"/>
+    <processingModeCode code="I"/>
+    <acceptAckCode code="AL"/>
+    <receiver typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension="2.16.156.10011.0.1.1"/>
+            </id>
+        </device>
+    </receiver>
+    <sender typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension="2.16.156.10011.0.1.2"/>
+            </id>
+        </device>
+    </sender>
+    <acknowledgement typeCode="AA">
+        <targetMessage>
+            <id root="2.16.156.10011.2.5.1.1" extension="1ee83ff1-08ab-4fe7-b573-ea777e9bad51"/>
+        </targetMessage>
+        <acknowledgementDetail>
+            <text value="处理结果说明"/>
+        </acknowledgementDetail>
+    </acknowledgement>
+    <controlActProcess classCode="CACT" moodCode="EVN">
+        <subject typeCode="SUBJ">
+            <placerGroup classCode="GROUPER" moodCode="RQO">
+                <!--医嘱开立者-->
+                <author typeCode="AUT" contextControlCode="OP">
+                    <!--医嘱开立日期时间-->
+                    <time value="20120202030303"/>
+                    <signatureCode code="S"/>
+                    <!--医嘱开立者签名-->
+                    <signatureText value="李医生"/>
+                    <assignedEntity classCode="ASSIGNED">
+                        <!--医务人员工号-->
+                        <id>
+                            <item root="2.16.156.10011.1.4" extension="120109197706015518"/>
+                        </id>
+                        <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                            <!--医嘱开立者-->
+                            <name xsi:type="BAG_EN">
+                                <item>
+                                    <part value="李医生"/>
+                                </item>
+                            </name>
+                        </assignedPerson>
+                        <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                            <!--医疗卫生机构（科室）ID-->
+                            <id>
+                                <item root="2.16.156.10011.1.26" extension="1234567890"/>
+                            </id>
+                            <!--医嘱开立科室-->
+                            <name xsi:type="BAG_EN">
+                                <item>
+                                    <part value="呼吸内科"/>
+                                </item>
+                            </name>
+                        </representedOrganization>
+                    </assignedEntity>
+                </author>
+                <!--医嘱审核者-->
+                <verifier typeCode="VRF" contextControlCode="OP">
+                    <!--医嘱审核日期时间-->
+                    <time value="20120202030303"/>
+                    <!--签名编码（固定值S）-->
+                    <signatureCode code="S"/>
+                    <!--医嘱审核者签名-->
+                    <signatureText value="王医生"/>
+                    <assignedEntity classCode="ASSIGNED">
+                        <!--医务人员工号-->
+                        <id>
+                            <item root="2.16.156.10011.1.4" extension="120109197706015518"/>
+                        </id>
+                        <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                            <!--医嘱审核者-->
+                            <name xsi:type="BAG_EN">
+                                <item>
+                                    <part value="王五"/>
+                                </item>
+                            </name>
+                        </assignedPerson>
+                    </assignedEntity>
+                </verifier>
+                <component2>
+                    <!--医嘱序号-->
+                    <sequenceNumber value="1"/>
+                    <substanceAdministrationRequest classCode="SBADM" moodCode="RQO">
+                        <!--医嘱ID-->
+                        <id root="2.16.156.10011.1.28" extension="OBS001"/>
+                        <!--医嘱项目类型代码-->
+                        <code code="01" codeSystem="2.16.156.10011.2.3.1.268" codeSystemName="医嘱项目类型代码表">
+                            <displayName value="药品类医嘱"/>
+                        </code>
+                        <!--医嘱项目内容-->
+                        <text value="11"></text>
+                        <!--医嘱状态-->
+                        <statusCode code="active"/>
+                        <!--医嘱有效期间:医嘱开始日期时间/医嘱结束日期时间-->
+                        <effectiveTime xsi:type="QSC_TS" validTimeLow="20110202030303" validTimeHigh="20110203030303">
+                            <!-- 医嘱执行频率编码/医嘱执行频率名称 -->
+                            <code code="10" codeSystem="2.16.156.10011.2.3.1.267" codeSystemName="药物使用频次代码表">
+                                <displayName value="qid"/>
+                            </code>
+                        </effectiveTime>
+                        <!--用药途径 -->
+                        <routeCode code="1" codeSystem="2.16.156.10011.2.3.1.158" codeSystemName="用药途径代码表">
+                            <displayName value="口服"/>
+                        </routeCode>
+                        <!--用药剂量-单次 -->
+                        <doseQuantity value="20" unit="mg"/>
+                        <!--药物使用总剂量 -->
+                        <doseCheckQuantity xsi:type="DSET_RTO">
+                            <item>
+                                <numerator xsi:type="PQ" unit="g" value="1"/>
+                                <denominator xsi:type="PQ" unit="d" value="1"/>
+                            </item>
+                        </doseCheckQuantity>
+                        <!--药物剂型 -->
+                        <administrationUnitCode code="01" codeSystem="2.16.156.10011.2.3.1.211" codeSystemName="药物剂型代码表">
+                            <displayName value="片剂(素片、压制片),浸膏片,非包衣片"/>
+                        </administrationUnitCode>
+                        <!-- 药物信息 -->
+                        <consumable2 typeCode="CSM">
+                            <manufacturedProduct1 classCode="MANU">
+                                <!-- 包装序号 -->
+                                <id extension="1234"/>
+                                <manufacturedProduct classCode="MMAT" determinerCode="KIND">
+                                    <!-- 药物编码 -->
+                                    <code code="201056" codeSystem="2.16.156.10011.2.5.1.14"/>
+                                    <name xsi:type="BAG_EN">
+                                        <item>
+                                            <!--药物名称-->
+                                            <part value="葡萄糖酸钙"/>
+                                        </item>
+                                    </name>
+                                    <asContent classCode="CONT">
+                                        <quantity/>
+                                        <containerPackagedProduct classCode="HOLD" determinerCode="KIND">
+                                            <code/>
+                                            <formCode/>
+                                            <!--药物规格 -->
+                                            <capacityQuantity unit="g/片" value="1"/>
+                                        </containerPackagedProduct>
+                                    </asContent>
+                                </manufacturedProduct>
+                                <!-- 药物所属医保信息 -->
+                                <subjectOf3 typeCode="SBJ">
+                                    <policy classCode="POLICY" moodCode="EVN">
+                                        <!-- 药物医保类别编码/药物医保类别名称-->
+                                        <code code="01">
+                                            <displayName value="甲类"/>
+                                        </code>
+                                    </policy>
+                                </subjectOf3>
+                            </manufacturedProduct1>
+                        </consumable2>
+                        <location typeCode="LOC">
+                            <serviceDeliveryLocation classCode="DSDLOC">
+                                <location classCode="PLC" determinerCode="INSTANCE">
+                                    <!-- 执行科室编码 -->
+                                    <id>
+                                        <item root="2.16.156.10011.1.26" extension="001"/>
+                                    </id>
+                                    <!-- 执行科室名称 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item>
+                                            <part value="呼吸内科"/>
+                                        </item>
+                                    </name>
+                                </location>
+                            </serviceDeliveryLocation>
+                        </location>
+                        <!-- 父医嘱ID(没有父医嘱可以没有此occurrenceOf节点) -->
+                        <occurrenceOf>
+                            <parentRequestReference classCode="GROUPER">
+                                <id extension="31657457"/>
+                            </parentRequestReference>
+                        </occurrenceOf>
+                        <!--医嘱类别（1 长期医嘱\2 临时医嘱\ 9 其他）-->
+                        <pertinentInformation typeCode="PERT" contextConductionInd="false">
+                            <observation classCode="OBS " moodCode="EVN">
+                                <code code="DE06.00.286.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+                                <!--医嘱类别编码/医嘱类别名称-->
+                                <value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.2.58" codeSystemName="医嘱类别代码表">
+                                    <displayName value="长期医嘱"/>
+                                </value>
+                            </observation>
+                        </pertinentInformation>
+                        <component2>
+                            <!-- 领量(给药量)/领量单位(实际发药量由药房发药确定) -->
+                            <supplyRequest classCode="SPLY" moodCode="RQO">
+                                <id/>
+                                <code/>
+                                <statusCode code="active"/>
+                                <!-- 领药量-->
+                                <quantity value="1" unit="胶囊"/>
+                                <!-- 开始时间/停止时间(可以都没有值) -->
+                                <expectedUseTime validTimeLow="201112311010" validTimeHigh=""/>
+                            </supplyRequest>
+                        </component2>
+                        <!--医嘱备注信息-->
+                        <subjectOf6 typeCode="SUBJ" contextConductionInd="false">
+                            <seperatableInd value="false"/>
+                            <annotation>
+                                <!--医嘱备注信息-->
+                                <text value="对下达医嘱的补充说明和注意事项提示"/>
+                                <statusCode code="completed"/>
+                                <author>
+                                    <assignedEntity classCode="ASSIGNED"/>
+                                </author>
+                            </annotation>
+                        </subjectOf6>
+                    </substanceAdministrationRequest>
+                </component2>
+                <!--就医信息-->
+                <componentOf1 contextConductionInd="false">
+                    <encounter classCode="ENC" moodCode="EVN">
+                        <id>
+                            <!-- 就诊次数 -->
+                            <item extension="2" root="2.16.156.10011.2.5.1.8"/>
+                            <!-- 就诊流水号 -->
+                            <item extension="123456" root="2.16.156.10011.2.5.1.9"/>
+                        </id>
+                        <!--就诊类别编码-->
+                        <code code="3" codeSystem="2.16.156.10011.2.3.1.271" codeSystemName="患者类型代码表">
+                            <displayName value="住院"/>
+                        </code>
+                        <statusCode code="active"/>
+                        <subject typeCode="SBJ">
+                            <patient classCode="PAT">
+                                <id>
+                                    <!-- 域ID -->
+                                    <item root="2.16.156.10011.2.5.1.5" extension="01"/>
+                                    <!--患者ID标识-->
+                                    <item root="2.16.156.10011.2.5.1.4" extension="HA201102113366666"/>
+                                    <!--门（急）诊号标识 -->
+                                    <item root="2.16.156.10011.1.10" extension="E10000000"/>
+                                    <!--住院号标识-->
+                                    <item root="2.16.156.10011.1.12" extension="HA201102113366666"/>
+                                </id>
+                                <!--患者就医联系电话-->
+                                <telecom xsi:type="BAG_TEL">
+                                    <item value="13578945678"/>
+                                </telecom>
+                                <!--患者角色状态-->
+                                <statusCode code="active"/>
+                                <patientPerson classCode="PSN" determinerCode="INSTANCE">
+                                    <!--患者身份证号-->
+                                    <id>
+                                        <item root="2.16.156.10011.1.3" extension="1234567890"/>
+                                    </id>
+                                    <name xsi:type="BAG_EN">
+                                        <item>
+                                            <part value="王五"/>
+                                        </item>
+                                    </name>
+                                    <!--性别-->
+                                    <administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表(GB/T 2261.1)">
+                                        <displayName value="男性"/>
+                                    </administrativeGenderCode>
+                                    <!--出生日期-->
+                                    <birthTime value="19570323"/>
+                                    <asOtherIDs classCode="ROL">
+                                        <!--健康档案编号-->
+                                        <id>
+                                            <item root="2.16.156.10011.1.2" extension="12345678901234567"/>
+                                            <!--健康卡号-->
+                                            <item root="2.16.156.10011.1.19" extension="1234567890"/>
+                                        </id>
+                                        <scopingOrganization classCode="ORG " determinerCode="INSTANCE " xsi:nil="true"/>
+                                    </asOtherIDs>
+                                </patientPerson>
+                            </patient>
+                        </subject>
+                        <!--住院位置-->
+                        <location typeCode="LOC">
+                            <time/>
+                            <serviceDeliveryLocation classCode="SDLOC">
+                                <location classCode="PLC" determinerCode="INSTANCE">
+                                    <!--DE01.00.026.00	病床号-->
+                                    <id>
+                                        <item root="2.16.156.10011.1.22" extension="001"/>
+                                    </id>
+                                    <name xsi:type="BAG_EN">
+                                        <item>
+                                            <part value="1床"/>
+                                        </item>
+                                    </name>
+                                    <asLocatedEntityPartOf classCode="LOCE">
+                                        <location classCode="PLC" determinerCode="INSTANCE">
+                                            <!--DE01.00.019.00	病房号-->
+                                            <id>
+                                                <item root="2.16.156.10011.1.21" extension="001"/>
+                                            </id>
+                                            <name xsi:type="BAG_EN">
+                                                <item>
+                                                    <part value="205室"/>
+                                                </item>
+                                            </name>
+                                        </location>
+                                    </asLocatedEntityPartOf>
+                                </location>
+                                <serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+                                    <!--DE08.10.026.00	科室名称-->
+                                    <id>
+                                        <item root="2.16.156.10011.1.26" extension="001"/>
+                                    </id>
+                                    <name xsi:type="BAG_EN">
+                                        <item>
+                                            <part value="呼吸内科"/>
+                                        </item>
+                                    </name>
+                                    <asOrganizationPartOf classCode="PART">
+                                        <!-- DE08.10.054.00	病区名称 -->
+                                        <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                            <id>
+                                                <item root="2.16.156.10011.1.27" extension="001"/>
+                                            </id>
+                                            <name xsi:type="BAG_EN">
+                                                <item>
+                                                    <part value="呼吸科病区"/>
+                                                </item>
+                                            </name>
+                                        </wholeOrganization>
+                                    </asOrganizationPartOf>
+                                </serviceProviderOrganization>
+                            </serviceDeliveryLocation>
+                        </location>
+                    </encounter>
+                </componentOf1>
+            </placerGroup>
+        </subject>
+        <queryAck>
+            <queryResponseCode code="OK"/>
+        </queryAck>
+    </controlActProcess>
+</QUMT_IN020040UV01>

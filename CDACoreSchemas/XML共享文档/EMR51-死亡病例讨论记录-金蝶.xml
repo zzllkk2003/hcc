@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ..\sdschemas\CDA.xsd">
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.71"/>
+	<id root="2.16.156.10011.1.1.2" extension="2011000001"/>
+	<code code="C0051" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	<title>死亡病例讨论记录</title>
+	<effectiveTime xsi:type="TS" value="20111231154823"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+
+			<!--住院号 -->
+			<id root="2.16.156.10011.1.12" extension="0201306070"/>
+
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<name>贾丽</name>
+				<administrativeGenderCode code="2" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）"  displayName="女性"/>
+
+				<!--年龄（年）/（月）-->
+				<age unit="岁" value="62"/>
+
+			</patient>
+			<!--讨论的日期时间-->
+			<providerOrganization classCode="ORG" determinerCode="INSTANCE">
+				<asOrganizationPartOf  classCode="PART">
+				<!--讨论时间-->
+				<effectiveTime value="20130112131214"></effectiveTime>
+					<wholeOrganization>
+						<addr>讨论地点</addr>
+					</wholeOrganization>
+				</asOrganizationPartOf>	
+			</providerOrganization>			
+		</patientRole>
+	</recordTarget>
+	<author typeCode="AUT" contextControlCode="OP">
+		<time xsi:type="TS" value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.156.10011.1.5" extension="4662860471"/>
+				<name>xx医院</name>
+				<addr> xx区xx街x号</addr>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="4662860471"/>
+				<name>xx医院</name>
+				<telecom value="051082723081"/>
+				<addr>XX街道</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<authenticator>
+		<!-- DE09.00.053.00	签名日期时间  -->
+		<time value="20121010121344"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="住院医师"/>
+			<assignedPerson>
+				<name>许蕾</name>
+				<professionalTechnicalPosition>
+					<professionaltechnicalpositionCode code="1" codeSystem="2.16.156.10011.2.3.1.209" codeSystemName="专业技术职务类别代码表" displayName="正高"></professionaltechnicalpositionCode>
+				</professionalTechnicalPosition>				
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<authenticator>
+		<!-- DE09.00.053.00	签名日期时间  -->
+		<time value="20121010121344"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code  displayName="主治医师"/>
+			<assignedPerson>
+				<name>杨志新</name>
+				<professionalTechnicalPosition>
+					<professionaltechnicalpositionCode code="1" codeSystem="2.16.156.10011.2.3.1.209" codeSystemName="专业技术职务类别代码表" displayName="正高"></professionaltechnicalpositionCode>
+				</professionalTechnicalPosition>				
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<authenticator>
+		<!-- DE09.00.053.00	签名日期时间  -->
+		<time value="20121010121344"/>
+		<signatureCode/>
+		
+		<assignedEntity>
+			<id/>
+			<code displayName="主任医师"/>
+			<assignedPerson>
+				<name>胡萍萍</name>
+				<professionalTechnicalPosition>
+					<professionaltechnicalpositionCode code="1" codeSystem="2.16.156.10011.2.3.1.209" codeSystemName="专业技术职务类别代码表" displayName="正高"></professionaltechnicalpositionCode>
+				</professionalTechnicalPosition>	
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<!--讨论成员信息-->
+	<participant typeCode="CON">
+		<associatedEntity classCode="ECON">
+			<!--参加讨论人员名单-->
+			<associatedPerson>
+				<name>尤建良主任医师</name>
+				<name>胡萍萍主任医师</name>
+				<name>倪依群副主任医师</name>
+				<name>张宝南副主任医师</name>
+				<name>杨志新主治医师</name>
+				<name>金春晖主治医师</name>
+				<name>魏治鹏住院医师</name>
+				<name>龚时夏住院医师</name>
+			</associatedPerson>
+		</associatedEntity>
+	</participant>
+	<!--讨论主持人信息-->
+	<participant typeCode="ORG">
+		<associatedEntity classCode="ECON">
+			<code displayName="主持人"/>
+			<associatedPerson>
+				<!--主持人姓名-->
+				<name>胡萍萍</name>
+			</associatedPerson>
+		</associatedEntity>
+	</participant>
+	<relatedDocument typeCode="APND">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>
+	<!-- 病床号、病房、病区、科室和医院的关联 -->
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!--HDSD00.09.003	DE01.00.026.00	病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="001"/>
+								<name>1病床</name>
+								<!--HDSD00.09.004	DE01.00.019.00	病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="001"/>
+										<name>1病房</name>
+										<!--HDSD00.09.036	DE08.10.026.00	科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<id root="2.16.156.10011.1.26" extension="212"/>
+												<name>外科</name>
+												<!--HDSD00.09.005	DE08.10.054.00	病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<id root="2.16.156.10011.1.27" extension="001"/>
+														<name>1病区</name>
+														<!--XXX医院 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="466286047"/>
+																<name>无锡中医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<component>
+		<structuredBody>
+			<!--死亡原因章节 -->
+			<component>
+				<section>
+					<code displayName="死亡原因"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="直接死亡原因名称"/>
+							<value xsi:type="ST">左上肺癌术后复发，食管气管瘘，肺部感染</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.021.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="直接死亡原因编码"/>
+							<value xsi:type="CD" code="M82510/3" codeSystem="2.16.156.10011.2.3.3.11.2" codeSystemName="死因代码表（ICD-10）"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--诊断章节-->
+			<component>
+				<section>
+					<code code="11535-2" displayName="HOSPITAL DISCHARGE DX" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="死亡诊断名称"/>
+							<value xsi:type="ST">左上肺癌术后复发，食管气管瘘，肺部感染</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.021.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="死亡诊断编码"/>
+							<value xsi:type="CD" code="R99.x01" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10诊断编码表" displayName="死亡" />
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--讨论内容章节-->
+			<component>
+				<section>
+					<code code="DE06.00.181.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="死亡讨论记录"/>
+					<text>许蕾住院医师汇报病史:患者因“左上肺癌术后3年，发热半月”由门诊收住入院。症见:午后发热，体温在38℃至38.5℃间波动，呛咳时作，恶心，咳吐食物残渣及痰涎，咳痰少，无痰中带血，无咯血，动则气急气喘，左胸及两胁疼痛，声音嘶哑，纳少乏力，无头昏头痛，无鼻塞流涕咽痛，无腹痛腹泻，无尿频尿急尿痛，夜寐欠安，小便调，大便少。查体:左胸部手术疤痕愈合良好，双侧肋弓处压痛。左肺呼吸音低，右肺呼吸音清，双肺未闻及干湿啰音。舌质红，苔黄腻，脉细滑。术后病理:中分化腺癌。胸部CT示:左上肺Ca术后伴左肺局部不张、左侧胸腔积液。右肺代偿性肺气肿伴肺大泡。DSA上消化道造影:造影剂在食管中段明显见滞留，并可见造影剂进入气管内。入院后阿莫西林舒巴坦针、环丙沙星针、哌拉西林他唑巴坦针静滴抗感染，二羟丙茶碱针肌注平喘，吸痰，痰热清针熏药治疗清热解毒增氧抗肿瘤，复方氨基酸、脂肪乳注射液静滴补充营养，黄芪针静滴益气扶正，能量合剂静滴补充能量支持治疗；甲氧氯普安针、阿扎司琼针静滴加强止吐治疗，泮托拉唑针静滴制酸，盐酸羟考酮控释片口服、曲马多缓释片口服、芬太尼帖剂外贴止痛，布桂嗪针、吗啡针肌注加强止痛，吲哚美辛栓纳肛、新癀片口服退热等对症治疗。6月29日患者精神萎靡，反应迟钝，予一级护理，予生命体征、心电监测，继续对症支持等治疗维持生命体征平稳。7月5日09:40患者出现叹气样呼吸，喉中痰鸣，神志不清，呼之不应，生命体征、心电监护示:心率36次/分，血压58/33mmHg，呼吸12次/分，血氧饱和度52%。急予吸痰，吸出约20ml粘稠痰液后患者神志未恢复。立即通知家属病危，予间羟胺针、3-羟酪胺针＋尼可刹米针+山梗菜碱针静滴以兴奋呼吸、升高血压，09:50生命体征心电监护:心率30次/分，血压测不出，呼吸8次/分，血氧饱和度测不出，即予盐酸肾上腺素兴奋心肌，抗休克，山梗菜碱针、尼可刹米针静推兴奋呼吸，同时予心脏胸外按压，10:05患者仍然神志不清，呼之不应，呼吸停止，血压及血氧饱和度均无法测出，心率0次/分，心电图一直线，继续予心脏胸外按压，至10:15患者心电图仍然提示一直线，双瞳孔散大，对光反射消失，宣布临床死亡</text>
+				</section>
+			</component>
+			<!--讨论总结章节 -->
+			<component>
+				<section>
+					<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="主持人总结意见"/>
+					<text>文本</text>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

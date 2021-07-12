@@ -129,7 +129,7 @@ Method CreateDocument(Output pDocument As %Stream.GlobalCharacter) As %Status
         If $$$ISERR(tSC) Quit
         
         Set tSC=##class(%XML.XSLT.Transformer).TransformStreamWithCompiledXSL(tInput,tCompiledStyleSheet,.pDocument,,.tParams)
-        D ##class(SEDemo.Util.FunctionSet).toUTF8(.pDocument)
+        D ##class(HCC.Utils.Functions).toUTF8(.pDocument)
         Q:($$$ISERR(tSC)) tSC
     }
     // save document into document repository

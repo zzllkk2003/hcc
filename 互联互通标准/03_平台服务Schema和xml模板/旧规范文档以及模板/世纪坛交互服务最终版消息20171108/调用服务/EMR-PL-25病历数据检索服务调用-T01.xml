@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<GetDocumentStroedInfoRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/GetDocumentStroedInfoRequest.xsd">
-	<Id root="请求消息OID" extension="c3997dc4-357c-422d-8ccd-ca1a054a5a4d"/>
-	<HealthCardId>0009330583</HealthCardId>
-	<IdentityId>36240119880413322X</IdentityId>
-	<DocumentTitle>一般手术记录</DocumentTitle>
-</GetDocumentStroedInfoRequest>

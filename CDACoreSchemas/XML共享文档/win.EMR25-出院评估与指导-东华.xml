@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../sdschemas/CDA.xsd">
+	<realmCode code="CN"/>
+	<!-- 文档信息模型类别-标识符 HL7注册模型的编码系统OID -->
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<!-- 文档模板的根OID  -->
+	<templateId root="2.16.156.10011.2.1.1.45"/>
+	<!-- 实际业务文档对象标识OID 表D.3　实际业务文档对象标识OID分配 -->
+	<id root="2.16.156.10011.1.1.2" extension="D2011000001"/>
+	<!-- 中国卫生信息开放系统互连对象标识OID分配表  表D.4　固定对象OID分配 2.16.156.10011.2.4-->
+	<!-- 卫生信息共享文档分类编码系统OID  表A.1  卫生信息共享文档分类编码系 B00??-->
+	<code code="C0025" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	<!--修改title-->
+	<title>出院评估与指导</title>
+	<!-- 文档创建时间 表达临床文档被第一次创建出来的时间 -->
+	<effectiveTime value="20121110192930"/>
+	<!-- 文档密级 　表C.3  ClinicalDocument.confidentialityCode值域表 (CWE) -->
+	<confidentialityCode code="N" displayName="正常访问保密级别" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality"/>
+	<!-- 文档语言 表达文档采用的语言 代码值取HL7内部编码系统codeSystem = "2.16.840.1.113883.6.121". 人类语言编码系统 -->
+	<languageCode code="zh-CN"/>
+	<!--文档集-标识符 该属性用于维护一份连续更新的文档，创建一个统一的文档集合标识符 -->
+	<setId/>
+	<versionNumber/>
+	<!--文档记录对象 用于表达此文档的患者信息 -->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			<!-- DE01.00.021.00	健康卡号-->
+			<id root="2.16.156.10011.1.19" extension="622202440204534365"/>
+			<!-- 住院号标识	表F.2  可维护对象OID分配表-->
+			<!-- HDSD00.09.085	DE01.00.014.00	住院号-->
+			<id root="2.16.156.10011.1.12" extension="HA201102113366666"/>
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<!-- DE02.01.030.00	患者的身份证件上的唯一法定标识符 -->
+				<id root="2.16.156.10011.1.3" extension="ID420106201101011919"/>
+				<!-- HDSD00.09.029	DE02.01.039.00	患者姓名 -->
+				<name>佚名患者</name>
+				<!-- HDSD00.09.071	DE02.01.040.00	性别代码 -->
+				<administrativeGenderCode code="1" displayName="男性" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）"/>
+				
+				<age unit="岁" value="5"></age>				
+				
+			</patient>
+			<providerOrganization>
+				<asOrganizationPartOf classCode="PART">
+					<!--HDSD00.09.003	DE01.00.026.00	病床号 -->
+					<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+						<id root="2.16.156.10011.1.22" extension="001"/>
+						<name>1床</name>						
+						<!--HDSD00.09.004	DE01.00.019.00	病房号 -->
+						<asOrganizationPartOf classCode="PART">
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.21" extension="001"/>
+								<name>1病房</name>
+								<!--HDSD00.09.036	DE08.10.026.00	科室名称 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<name>科室名称</name>
+										<!--HDSD00.09.005	DE08.10.054.00	病区名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<name>病区名称</name>
+												<!--XXX医院 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<!-- 医疗卫生服务机构标识 表F.2  可维护对象OID分配表-->
+														<id root="2.16.156.10011.1.5" extension="001"/>
+														<name>XXX医院</name>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</wholeOrganization>
+				</asOrganizationPartOf>
+			</providerOrganization>
+		</patientRole>
+	</recordTarget>
+	<!-- 创作者 -->
+	<author typeCode="AUT" contextControlCode="OP">
+		<!-- 填表日期 -->
+		<time xsi:type="TS" value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<!-- 访视医生姓名 -->
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.156.10011.1.5" extension="01"/>
+				<name>xx医院</name>
+				<addr>xx区xx街xx号</addr>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<!--文档管理者 -->
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<!--医疗卫生服务机构标识 OID 表D.2　可维护对象OID分配表 -->
+				<id root="2.16.156.10011.1.5" extension="EMR管理机构编号"/>
+				<name>XXX医院</name>
+				<telecom value="0209837373"/>
+				<addr>XX街道</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<!--文档审核者 该部分信息表达文档经过了一定的审核，但还没达到一定的法律效应 -->
+	<authenticator typeCode="AUTHEN">
+		<!--HDSD00.09.047	DE09.00.053.00	签名日期时间 -->
+		<time value="20121110192930"/>
+		<signatureCode code="S"/>
+		<assignedEntity classCode="ASSIGNED">
+			<!--医务人员标识 OID 表D.2　可维护对象OID分配表 -->
+			<!--HDSD00.09.025	DE02.01.039.00	护士签名 -->
+			<id root="2.16.156.10011.1.4" extension="dh777777"/>
+			<assignedPerson classCode="PSN">
+				<name>接诊护士姓名</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<relatedDocument typeCode="RPLC">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="D2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>
+	<component>
+		<structuredBody>
+			<!--出院诊断章节-->
+			<component>
+				<section>
+					<code code="11535-2" displayName="Discharge Diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" displayName="出院诊断编码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.008	DE05.01.024.00	出院诊断编码 -->
+							<value xsi:type="CD" code="I1002" displayName="高血压病" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.017.00" displayName="出院日期时间" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.007	DE06.00.017.00	出院日期时间 -->
+							<value xsi:type="TS" value="20121027173000"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.193.00" displayName="出院情况" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.006	DE06.00.193.00	出院情况 -->
+							<value xsi:type="ST">出院情况描述</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.223.00" displayName="离院方式代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.037	DE06.00.223.00	离院方式代码 -->
+							<value xsi:type="CD" code="1" displayName="医嘱离院" codeSystem="2.16.156.10011.2.3.1.265" codeSystemName="离院方式代码表"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--健康指导章节 -->
+			<component>
+				<section>
+					<code code="69730-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Instructions"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.291.00" displayName="饮食指导代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.077	DE03.00.080.00	饮食情况代码 -->
+							<value xsi:type="CD" code="01" displayName="普通饮食" codeSystem="2.16.156.10011.2.3.1.263" codeSystemName="饮食指导代码表"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.238.00" displayName="生活方式指导" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.055	DE06.00.238.00	生活方式指导 -->
+							<value xsi:type="ST">生活方式指导</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.124.00" displayName="宣教内容" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.072	DE06.00.124.00	宣教内容 -->
+							<value xsi:type="ST">宣教内容描述</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.299.00" displayName="复诊指导" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.012	DE06.00.299.00	复诊指导 -->
+							<value xsi:type="ST">复诊指导描述</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.136.00" displayName="用药指导" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.080	DE06.00.136.00	用药指导 -->
+							<value xsi:type="ST">用药指导描述</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--健康评估章节 -->
+			<component>
+				<section>
+					<code code="51848-0" displayName="Assessment note" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.122.00" displayName="自理能力代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.086	DE05.10.122.00	自理能力代码 -->
+							<value xsi:type="CD" code="1" displayName="完全自理" codeSystem="2.16.156.10011.2.3.2.55" codeSystemName="自理能力代码表"/>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE03.00.080.00" displayName="饮食情况代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--HDSD00.09.077	DE03.00.080.00	饮食情况代码 -->
+							<value xsi:type="CD" code="1" displayName="良好" codeSystem="2.16.156.10011.2.3.2.34" codeSystemName="饮食情况代码表"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

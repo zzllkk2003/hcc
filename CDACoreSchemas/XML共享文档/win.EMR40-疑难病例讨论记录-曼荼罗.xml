@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../sdschemas/CDA.xsd">
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.60"/>
+	<id root="2.16.156.10011.1.1.2" extension="2011000001"/>
+	<code code="C0040" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	
+	<title>疑难病例讨论记录</title>
+	<effectiveTime xsi:type="TS" value="20111231154823"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			<!--住院号标识-->
+			<id root="2.16.156.10011.1.12" extension="01234567891234567"/>
+
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<!--患者身份证号  若数据集中没有，则删除-->
+				<id root="2.16.156.10011.1.3" extension="612427198108180642"/>
+				<name>贾小明</name>
+				<administrativeGenderCode code="2" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）" displayName="女性" />
+				<!--1数据集里是年龄（年）、年龄（月）-->
+				<birthTime value="19510303"/>
+				<age unit="岁" value="62"/>
+			</patient>
+			
+			<!--讨论的日期时间-->
+			<providerOrganization classCode="ORG" determinerCode="INSTANCE">
+				<asOrganizationPartOf  classCode="PART">
+				<!--讨论时间-->
+				<effectiveTime value="20130112"></effectiveTime>
+					<wholeOrganization>
+						<addr>六病区医师办公室</addr>
+					</wholeOrganization>
+				</asOrganizationPartOf>	
+			</providerOrganization>
+		</patientRole>
+	</recordTarget>
+
+	<!-- 文档创建者 -->
+	<author typeCode="AUT" contextControlCode="OP">
+		<time xsi:type="TS" value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<assignedPerson  classCode="PSN" determinerCode="INSTANCE">
+				<name>李医生</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.156.10011.1.5" extension="0123456789"/>
+				<name>xx医院</name>
+				<addr> xx区xx街x号</addr>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+
+	<!--管理机构-->
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="0123456789"/>
+				<name>xx医院</name>
+				<telecom value="0209837373"/>
+				<addr>XX街道</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	
+	<legalAuthenticator>
+		<!-- 签名 DE09.00.053.00	签名日期时间-->
+		<time value="20121214131516"></time>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="主任医师签名"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>李医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	
+	<!-- 签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id />
+			<code displayName="医师签名"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>张医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<!-- 签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="主治医师签名"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>胡医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<!-- 签名 -->
+	<authenticator>
+		<time></time>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="主持人签名"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>毕医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<!--参加讨论人员名单-->
+	<participant typeCode="PRCP ">
+		<associatedEntity classCode="ASSIGNED ">
+			<associatedPerson>
+				<name>张三</name>
+				<name>李四</name>
+				<name>王五</name>
+			</associatedPerson>
+		</associatedEntity>
+	</participant>
+	
+	<!--相关文档-->
+	<relatedDocument typeCode="RPLC">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="D2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>
+	
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00	病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="001"/>
+								<name>病床号</name>
+								<!-- DE01.00.019.00	病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="001"/>
+										<name>病房号</name>
+										<!-- DE08.10.026.00	科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<id root="2.16.156.10011.1.26" extension="212"/>
+												<name>眼科(病区)</name>
+												<!-- DE08.10.054.00	病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<id root="2.16.156.10011.1.27" extension="001"/>
+														<name>急诊病区</name>
+														<!--医疗机构名称 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="001"/>
+																<name>xxx医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<!--讨论的日期时间
+	<componentOf>
+		<encompassingEncounter>
+			<code displayName="讨论日期时间"></code>
+			<effectiveTime xsi:type="IVL_TS" value="201210111111"/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+						<addr>讨论地点</addr>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>-->
+
+<!--
+********************************************************
+文档体
+********************************************************
+-->
+	<component>
+		<structuredBody>
+		
+<!--
+********************************************************
+健康评估章节
+********************************************************
+-->
+			<component>
+				<section>
+					<code code="51848-0" displayName="Assessment note" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE06.00.018.00" displayName="讨论意见" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">:患者阚新余，男，56岁。因“跌伤致左髋部疼痛，活动受限3小时”由门诊拟“左股骨粗隆间骨折”于2010-01-02收住入院。入院时:患者神志清，精神可，左股骨粗隆部肿胀压痛、叩击痛明显，纵轴叩击痛，左下肢外旋畸形，较健侧短缩约2cm，胸廓挤压试验阴性，骨盆分离挤压试验阴性，左下肢皮肤感觉良好，左足可活动，足背动脉搏动良好，末梢血运可。X片:左股骨粗隆间骨折，小粗隆移位。血常规:白细胞:13.6×10^9/L、中性粒细胞绝对值:11×10^9/L、淋巴细胞百分比:12.1%、中性粒细胞百分比:80.8%，考虑为创伤后炎症反应；生化:铁:5.47umol/L、胆固醇:3.22mmol/L、超敏C反应蛋白:27.6mg/L、免疫球蛋白A:4.10g/L，患者无不适症状，必要时复查；尿常规:红细胞计数:2434.1/ul、白细胞计数:188.5/ul、管型计数:2.9/ul，患者无尿频尿急症状，嘱其多饮水;凝血五项检查:D-二聚体:1755.0ug/L，考虑为创伤后应激反应。心电图示:1.窦性心律2.左心室肥厚3.ST段抬高，患者无胸闷心慌症状，必要时复查。综合分析患者术前检查无手术禁忌症。邱寿良副主任医师:该骨折诊断明确。此类骨折不稳定，目前国内外多倾向于闭合复位外固定治疗，早期功能活动，功能恢复较好。该类手术本院开展近10年，技术成熟。现查血常规、心电图，肝、肾功能基本正常。外固定手术时间短、手术创伤小，局部骨量丢失少，是合适内固定选择，缺点是闭合复位对位可能欠佳。严松鹤副主任医师:该患者手术指征明确，入院后对症治疗基本排除手术禁忌，选择外固定治疗。手术创伤小，恢复快。经与病人沟通，要求应用外固定支架，围手术期注意对症治疗，术中备血，术后给予抗感染、补液相应处理，术后给予早期被动及主动功能锻炼有利于病人下肢功能恢复</value>
+						</observation>
+					</entry>
+					
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE06.00.018.00" displayName="主持人总结意见" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">主持人就疑难病症讨论过程总结意见的详细描述</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			
+<!--
+*******************************************************
+ 诊断章节 
+*******************************************************
+-->
+			<component>
+				<section>
+					<code code="29548-5" displayName="Diagnosis"  codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE02.10.028.00" displayName="中医“四诊”观察结果" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">舌红，苔薄腻，脉弦</value>
+						</observation>
+					</entry>
+					
+				</section>
+			</component>
+			<!-- 
+********************************************************
+治疗计划章节
+********************************************************
+-->
+			<!--治疗计划章节-->
+			<component>
+				<section>
+                    <code code="18776-5" displayName="TREATMENT PLAN" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <text/>
+                    <!--辩证论治-->
+                    <entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.131.00" displayName="辩证论治" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">目前予患者综合保守治疗</value>	
+						</observation>
+					</entry>	
+				</section>
+			</component>
+                    
+<!--
+*******************************************************
+用药章节
+*******************************************************
+-->
+			<component>
+				<section>
+					<code code="10160-0" displayName="HISTORY OF MEDICATION USE" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<!-- 中药处方医嘱内容 -->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE06.00.287.00" displayName="中药处方医嘱内容" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">对中药处方医嘱内容的详细描述</value>
+						</observation>
+					</entry>
+					
+					<!--中药煎煮法-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE08.50.047.00" displayName="中药饮片煎煮法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">中药煎煮方法描述</value>
+						</observation>
+					</entry>
+					
+					<!--中药用药方法-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE06.00.136.00" displayName="中药用药方法的描述" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">中药用药方法</value>
+						</observation>
+					</entry>	
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

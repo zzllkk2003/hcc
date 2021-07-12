@@ -1,0 +1,43 @@
+<PRPA_IN900350UV ITSVersion="XML_1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/PRPA_IN900350UV.xsd">
+	<!--id-消息流水号-->
+	<id root="2.16.156.10011.2.5.1.1" extension="22a0f9e0-4454-11dc-a6be-3603d6866808"/>
+	<!--creationTime-消息创建时间-->
+	<creationTime value="20130501130624"/>
+	<!--interactionId-消息的服务标识-->
+	<interactionId root="2.16.156.10011.2.5.1.2" extension="PRPA_IN900350UV02"/>
+	<!--processingCode-处理代码。标识此消息是否是产品、训练、调试系统的一部分。D：调试；P：产品；T：训练-->
+	<processingCode code="P"/>
+	<!--processingModeCode-处理模型代码。定义此消息是一个文档处理还是一个初始装载的一部分。A：存档；I：初始装载；R：从存档中恢复；T：当前处理，间隔传递。-->
+	<processingModeCode/>
+	<!--acceptAckCode-接收确认类型 AL：总是确认；NE：从不确认；ER：仅在错误/或拒绝时确认；SU：仅在成功完成时确认。-->
+	<acceptAckCode code="AL"/>
+	<receiver typeCode="RCV">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id>
+				<item root="2.16.156.10011.2.5.1.3" extension="1111"/>
+			</id>
+		</device>
+	</receiver>
+	<sender typeCode="SND">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id>
+				<item root="2.16.156.10011.2.5.1.3" extension="222"/>
+			</id>
+		</device>
+	</sender>
+	<!--typeCode为处理结果，AA表示成功 AE表示失败-->
+	<acknowledgement typeCode="AE">
+		<targetMessage>
+			<id root="2.16.156.10011.2.5.1.1" extension="1ee83ff1-08ab-4fe7-b573-ea777e9bad51"/>
+		</targetMessage>
+		<acknowledgementDetail>
+			<text value="处理结果说明"/>
+		</acknowledgementDetail>
+	</acknowledgement>
+	<controlActProcess classCode="CACT" moodCode="EVN">
+		<queryAck>
+			<queryId extension="040CD76A-ED0E-400B-9FD3-60387BCD"/>
+			<queryResponseCode/>
+		</queryAck>
+	</controlActProcess>
+</PRPA_IN900350UV>

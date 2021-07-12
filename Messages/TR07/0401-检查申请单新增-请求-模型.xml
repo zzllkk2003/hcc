@@ -1,0 +1,322 @@
+<POOR_IN200901UV ITSVersion="XML_1.0" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/POOR_IN200901UV.xsd">
+  <!-- 消息ID -->
+  <id root="2.16.156.10011.2.5.1.1" extension="@BS004"/>
+  <!-- 消息创建时间 -->
+  <creationTime value="20120106110000"/>
+  <!-- 消息的服务标识-->
+  <interactionId root="2.16.156.10011.2.5.1.2" extension="POOR_IN200901UV"/>
+  <!--处理代码，标识此消息是否是产品、训练、调试系统的一部分。D：调试；P：产品；T：训练 -->
+  <processingCode code="P"/>
+  <!-- 消息处理模式: A(Archive); I(Initial load); R(Restore from archive); T(Current 
+		processing) -->
+  <processingModeCode/>
+  <!-- 消息应答: AL(Always); ER(Error/reject only); NE(Never) -->
+  <acceptAckCode code="AL"/>
+  <!-- 接受者 -->
+  <receiver typeCode="RCV">
+    <device classCode="DEV" determinerCode="INSTANCE">
+      <!-- 接受者ID -->
+      <id>
+        <item root="2.16.156.10011.2.5.1.3" extension="@111"/>
+      </id>
+    </device>
+  </receiver>
+  <!-- 发送者 -->
+  <sender typeCode="SND">
+    <device classCode="DEV" determinerCode="INSTANCE">
+      <!-- 发送者ID -->
+      <id>
+        <item root="2.16.156.10011.2.5.1.3" extension="@222"/>
+      </id>
+    </device>
+  </sender>
+  <!-- 封装的消息内容 -->
+  <controlActProcess classCode="CACT" moodCode="EVN">
+    <subject typeCode="SUBJ">
+      <observationRequest classCode="OBS" moodCode="RQO">
+        <!-- 检查申请单编号 必须项已使用 -->
+        <id>
+          <item root="2.16.156.10011.1.24" extension="0923848747"/>
+        </id>
+        <code/>
+        <!-- 申请单详细内容 -->
+        <text value="腿骨检查"/>
+        <!-- 必须项未使用 -->
+        <statusCode/>
+        <!--检查申请有效日期时间 -->
+        <effectiveTime xsi:type="IVL_TS">
+          <low value="20120506"/>
+          <high value="20120508"/>
+        </effectiveTime>
+        <!--优先（紧急）度-->
+        <priorityCode code="N">
+          <displayName value="常规"/>
+        </priorityCode>
+        <!--开单医生/送检医生 -->
+        <author typeCode="AUT">
+          <!-- 开单时间 -->
+          <time value="201205061000"/>
+          <!--申请单开立者签名-->
+          <signatureText value="李医生"/>
+          <assignedEntity classCode="ASSIGNED">
+            <!--开单医生工号 -->
+            <id>
+              <item extension="09882374" root="2.16.156.10011.1.4"/>
+            </id>
+            <!--开单医生姓名 -->
+            <assignedPerson determinerCode="INSTANCE" classCode="PSN">
+              <name xsi:type="BAG_EN">
+                <item>
+                  <part value="李武"/>
+                </item>
+              </name>
+            </assignedPerson>
+            <!-- 申请科室信息 -->
+            <representedOrganization determinerCode="INSTANCE" classCode="ORG">
+              <!--申请科室编码 必须项已使用 -->
+              <id>
+                <item extension="023984" root="2.16.156.10011.1.26"/>
+              </id>
+              <!--申请科室名称 -->
+              <name xsi:type="BAG_EN">
+                <item>
+                  <part value="骨科"/>
+                </item>
+              </name>
+            </representedOrganization>
+          </assignedEntity>
+        </author>
+        <!--审核者-->
+        <verifier typeCode="VRF">
+          <!--审核日期时间 -->
+          <time value="201205061000"/>
+          <assignedEntity classCode="ASSIGNED">
+            <!--审核者工号 -->
+            <id>
+              <item extension="9023884" root="2.16.156.10011.1.4"/>
+            </id>
+            <assignedPerson determinerCode="INSTANCE" classCode="PSN">
+              <!--审核者姓名 -->
+              <name xsi:type="DSET_EN">
+                <item>
+                  <part value="李二"/>
+                </item>
+              </name>
+            </assignedPerson>
+          </assignedEntity>
+        </verifier>
+        <!-- 多个检查项目循环component2 -->
+        <component2>
+          <observationRequest classCode="OBS" moodCode="RQO">
+            <id>
+              <!--医嘱ID-->
+              <item root="2.16.156.10011.1.28" extension="111"/>
+            </id>
+            <!--检查项目编码 必须项已使用 -->
+            <code code="92">
+              <!--检查项目名称 -->
+              <displayName value="全身骨显像"/>
+            </code>
+            <!-- 必须项未使用 -->
+            <statusCode/>
+            <methodCode>
+              <!--检查方式编码 -->
+              <item code="94 " codeSystem="2.16.156.10011.2.3.2.47" codeSystemName="检查方式代码表">
+                <!--检查方式名称 -->
+                <displayName value="膝关节三维CT扫描"/>
+              </item>
+              <!--检查类型编码 -->
+              <item code="185">
+                <!--检查类型名称 -->
+                <displayName value="US"/>
+              </item>
+            </methodCode>
+            <!--检查部位编码 -->
+            <targetSiteCode>
+              <item code="1106">
+                <!--检查部位名称 -->
+                <displayName value="右膝关节"/>
+              </item>
+            </targetSiteCode>
+            <!--执行科室 -->
+            <location typeCode="LOC">
+              <!-- 执行时间 -->
+              <time>
+                <any value="201206060900"/>
+              </time>
+              <serviceDeliveryLocation classCode="SDLOC">
+                <serviceProviderOrganization determinerCode="INSTANCE" classCode="ORG">
+                  <!--执行科室编码 -->
+                  <id>
+                    <item extension="0128384" root="2.16.156.10011.1.26"/>
+                  </id>
+                  <!-- 执行科室名称 -->
+                  <name xsi:type="DSET_EN">
+                    <item>
+                      <part value="检验科 "/>
+                    </item>
+                  </name>
+                </serviceProviderOrganization>
+              </serviceDeliveryLocation>
+            </location>
+          </observationRequest>
+        </component2>
+        <subjectOf6 contextConductionInd="false">
+          <!-- 必须项 未使用 default=false -->
+          <seperatableInd value="false"/>
+          <!--申请注意事项 -->
+          <annotation>
+            <text value="注意XXX"/>
+            <statusCode code="completed"/>
+            <author>
+              <assignedEntity classCode="ASSIGNED"/>
+            </author>
+          </annotation>
+        </subjectOf6>
+        <!--就诊 -->
+        <componentOf1 contextConductionInd="false" xsi:nil="false" typeCode="COMP">
+          <!--就诊 -->
+          <encounter classCode="ENC" moodCode="EVN">
+            <id>
+              <!-- 就诊次数 -->
+              <item extension="2" root="2.16.156.10011.2.5.1.8"/>
+              <!-- 就诊流水号 -->
+              <item extension="123456" root="2.16.156.10011.2.5.1.9"/>
+            </id>
+            <!--就诊类别编码-->
+            <code codeSystem="2.16.156.10011.2.3.1.271" codeSystemName="患者类型代码表" code="01">
+              <!-- 就诊类别名称 -->
+              <displayName value="门诊/住院/体检"/>
+            </code>
+            <!--必须项未使用 -->
+            <statusCode/>
+            <!--病人 必须项未使用 -->
+            <subject typeCode="SBJ">
+              <patient classCode="PAT">
+                <id>
+                  <!-- 域ID -->
+                  <item root="2.16.156.10011.2.5.1.5" extension="01"/>
+                  <!-- 患者ID -->
+                  <item root="2.16.156.10011.2.5.1.4" extension="09102312"/>
+                  <!--门（急）诊号标识 -->
+                  <item root="2.16.156.10011.1.10" extension="E10000000"/>
+                  <!--住院号标识-->
+                  <item root="2.16.156.10011.1.12" extension="HA201102113366666"/>
+                </id>
+                <!--个人信息 必须项已使用 -->
+                <patientPerson classCode="PSN">
+                  <!-- 身份证号/医保卡号 -->
+                  <id>
+                    <!-- 身份证号 -->
+                    <item extension="110938197803030456" root="2.16.156.10011.1.3"/>
+                    <!-- 医保卡号 -->
+                    <item extension="191284777494877" root="2.16.156.10011.1.15"/>
+                  </id>
+                  <!--姓名 -->
+                  <name xsi:type="DSET_EN">
+                    <item>
+                      <part value="张三"/>
+                    </item>
+                  </name>
+                  <!-- 联系电话 -->
+                  <telecom xsi:type="BAG_TEL">
+                    <!-- 联系电话 -->
+                    <item value="15801020489"/>
+                  </telecom>
+                  <!--性别代码 -->
+                  <administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4"/>
+                  <!--出生日期 -->
+                  <birthTime value="19870202">
+                    <!--年龄 -->
+                    <originalText value="25"/>
+                  </birthTime>
+                  <!--住址 -->
+                  <addr xsi:type="BAG_AD">
+                    <item use="H">
+                      <part type="AL" value="南京市建邺区"/>
+                    </item>
+                  </addr>
+                </patientPerson>
+              </patient>
+            </subject>
+            <!--住院位置-->
+            <location typeCode="LOC">
+              <time/>
+              <serviceDeliveryLocation classCode="SDLOC">
+                <location classCode="PLC" determinerCode="INSTANCE">
+                  <!--DE01.00.026.00	病床号-->
+                  <id>
+                    <item extension="001"/>
+                  </id>
+                  <name xsi:type="BAG_EN">
+                    <item use="IDE">
+                      <part value="201"/>
+                    </item>
+                  </name>
+                  <asLocatedEntityPartOf classCode="LOCE">
+                    <location classCode="PLC" determinerCode="INSTANCE">
+                      <!--DE01.00.019.00	病房号-->
+                      <id>
+                        <item extension="001"/>
+                      </id>
+                      <name xsi:type="BAG_EN">
+                        <item use="IDE">
+                          <part value="201"/>
+                        </item>
+                      </name>
+                    </location>
+                  </asLocatedEntityPartOf>
+                </location>
+                <serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+                  <!--DE08.10.026.00	科室名称-->
+                  <id>
+                    <item extension="001"/>
+                  </id>
+                  <name xsi:type="BAG_EN">
+                    <item use="IDE">
+                      <part value="呼吸内科"/>
+                    </item>
+                  </name>
+                  <asOrganizationPartOf classCode="PART">
+                    <!-- DE08.10.054.00	病区名称 -->
+                    <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                      <id>
+                        <item extension="001"/>
+                      </id>
+                      <name xsi:type="BAG_EN">
+                        <item use="IDE">
+                          <part value="1病区 "/>
+                        </item>
+                      </name>
+                    </wholeOrganization>
+                  </asOrganizationPartOf>
+                </serviceProviderOrganization>
+              </serviceDeliveryLocation>
+            </location>
+            <!--诊断(检查申请原因) -->
+            <pertinentInformation1 typeCode="PERT" xsi:nil="false">
+              <observationDx classCode="OBS" moodCode="EVN">
+                <!--诊断类别编码 必须项已使用 -->
+                <code code="7" codeSystem="2.16.156.10011.2.5.1.10">
+                  <!--诊断类别名称 -->
+                  <displayName value="放射诊断"/>
+                </code>
+                <!-- 必须项未使用 -->
+                <statusCode code="active"/>
+                <!--诊断日期 -->
+                <effectiveTime>
+                  <any value="20120506"/>
+                </effectiveTime>
+                <!-- 疾病编码 必须项已使用 -->
+                <value code="A18.029+M01.1* " codeSystem="2.16.156.10011.2.3.3.11">
+                  <!-- 疾病名称 -->
+                  <displayName value="膝结核性滑膜炎 "/>
+                </value>
+              </observationDx>
+            </pertinentInformation1>
+          </encounter>
+        </componentOf1>
+      </observationRequest>
+    </subject>
+  </controlActProcess>
+</POOR_IN200901UV>

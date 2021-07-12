@@ -1,0 +1,192 @@
+<POLB_IN224000UV01 ITSVersion="XML_1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/POLB_IN224000UV01.xsd">
+    <!--消息流水号-->
+    <id root="2.16.156.10011.2.5.1.1" extension="@消息GUID"/>
+    <!--消息创建时间 -->
+    <creationTime value="20170106151903"/>
+    <interactionId root="2.16.156.10011.2.5.1.2" extension="POLB_IN224000UV01"/>
+    <processingCode code="P"/>
+    <processingModeCode/>
+    <acceptAckCode code="AL"/>
+    <receiver typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension="@111"/>
+            </id>
+        </device>
+    </receiver>
+    <sender typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension="@111"/>
+            </id>
+        </device>
+    </sender>
+    <controlActProcess classCode="CACT" moodCode="EVN">
+        <subject typeCode="SUBJ" contextConductionInd="false">
+            <observationReport classCode="GROUPER" moodCode="EVN">
+                <id>
+                    <!--电子申请单编号-->
+                    <item root="2.16.156.10011.1.24" extension="@8741795311"/>
+                </id>
+                <code/>
+                <!--申请单描述-->
+                <text value="申请单描述"/>
+                <!--申请单状态-->
+                <statusCode code="active"/>
+                <!--优先级别-->
+                <priorityCode/>
+                <specimen typeCode="SPC" contextControlCode="OP">
+                    <specimen classCode="SPEC">
+                        <!--标本ID/或者条码ID-->
+                        <id root="2.16.156.10011.1.14" extension="@8741795311"/>
+                        <!--标本类别代码-->
+                        <code code="1">
+                            <displayName value="标本类别名称"/>
+                        </code>
+                        <subjectOf1 typeCode="SBJ">
+                            <specimenProcessStep classCode="PROC" moodCode="EVN">
+                                <!--检验操作-->
+                                <verifier typeCode="AUTHEN">
+                                    <!--操作日期时间-->
+                                    <time xsi:type="TS" value="20170102070000"/>
+                                    <!--操作代码和名称：标本采集、标本接收、报告已打印、报告已删除-->
+                                    <modeCode code="标本拒收代码">
+                                        <displayName value="标本拒收"/>
+                                        <originalText value="拒收原因描述"/>
+                                    </modeCode>
+                                    <assignedEntity classCode="ASSIGNED">
+                                        <!--操作者代码-->
+                                        <id>
+                                            <item root="2.16.156.10011.1.4" extension="@员工号"/>
+                                        </id>
+                                        <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                                            <!--操作者姓名-->
+                                            <name xsi:type="BAG_EN">
+                                                <item>
+                                                    <part value="李护士"/>
+                                                </item>
+                                            </name>
+                                        </assignedPerson>
+                                        <!--操作科室-->
+                                        <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                            <id>
+                                                <item root="2.16.156.10011.1.26" extension="科室ID"/>
+                                            </id>
+                                            <name xsi:type="BAG_EN">
+                                                <item>
+                                                    <part value="检验科科"/>
+                                                </item>
+                                            </name>
+                                        </representedOrganization>
+                                    </assignedEntity>
+                                </verifier>
+                            </specimenProcessStep>
+                        </subjectOf1>
+                    </specimen>
+                </specimen>
+                <!--就诊 -->
+                <componentOf   xsi:nil="false" typeCode="COMP">
+                    <!--就诊 -->
+                    <encounter classCode="ENC" moodCode="EVN">
+                        <id>
+                            <!-- 就诊次数 必须项已使用 -->
+                            <item extension="12" root="2.16.156.10011.2.5.1.8"/>
+                            <!-- 就诊流水号 -->
+                            <item extension="123456" root="2.16.156.10011.2.5.1.9"/>
+                        </id>
+                        <!--就诊类别编码-->
+                        <code codeSystem="2.16.156.10011.2.3.1.271" code="01">
+                            <!-- 就诊类别名称 -->
+                            <displayName value="门诊/住院/体检"/>
+                        </code>
+                        <!--必须项未使用 -->
+                        <statusCode code="Active"/>
+                        <!--病人 必须项未使用 -->
+                        <subject typeCode="SBJ">
+                            <patient classCode="PAT">
+                                <id>
+                                    <!--域ID -->
+                                    <item root="2.16.156.10011.2.5.1.5" extension="24355455"/>
+                                    <!-- 患者ID -->
+                                    <item root="2.16.156.10011.2.5.1.4" extension="001407878200"/>
+                                    <!-- 门诊号 -->
+                                    <item root="2.16.156.10011.1.11" extension="0910238"/>
+                                    <!-- 住院号 -->
+                                    <item root="2.16.156.10011.1.12" extension="0910238"/>
+                                </id>
+                                <patientPerson classCode="PSN" determinerCode="INSTANCE" xsi:nil="false">
+                                    <!-- 患者姓名 -->
+                                    <name xsi:type="DSET_EN">
+                                        <item>
+                                            <part value="张三"/>
+                                        </item>
+                                    </name>
+                                </patientPerson>
+                            </patient>
+                        </subject>
+                        <!--住院位置-->
+                        <location typeCode="LOC">
+                            <time/>
+                            <serviceDeliveryLocation classCode="SDLOC">
+                                <location classCode="PLC" determinerCode="INSTANCE">
+                                    <!--DE01.00.026.00	病床编码 -->
+                                    <id>
+                                        <item extension="001"/>
+                                    </id>
+                                    <!-- 病床号 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item use="IDE">
+                                            <part value="201"/>
+                                        </item>
+                                    </name>
+                                    <asLocatedEntityPartOf classCode="LOCE">
+                                        <location classCode="PLC" determinerCode="INSTANCE">
+                                            <!--DE01.00.019.00	病房编码 -->
+                                            <id>
+                                                <item extension="001"/>
+                                            </id>
+                                            <!-- 病房号 -->
+                                            <name xsi:type="BAG_EN">
+                                                <item use="IDE">
+                                                    <part value="201"/>
+                                                </item>
+                                            </name>
+                                        </location>
+                                    </asLocatedEntityPartOf>
+                                </location>
+                                <serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+                                    <!--DE08.10.026.00	科室编码 -->
+                                    <id>
+                                        <item extension="001"/>
+                                    </id>
+                                    <!-- 科室名称 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item use="IDE">
+                                            <part value="呼吸内科"/>
+                                        </item>
+                                    </name>
+                                    <asOrganizationPartOf classCode="PART">
+                                        <!-- DE08.10.054.00	病区编码 -->
+                                        <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                            <id>
+                                                <item extension="001"/>
+                                            </id>
+                                            <!-- 病区名称 -->
+                                            <name xsi:type="BAG_EN">
+                                                <item use="IDE">
+                                                    <part value="1病区 "/>
+                                                </item>
+                                            </name>
+                                        </wholeOrganization>
+                                    </asOrganizationPartOf>
+                                </serviceProviderOrganization>
+                            </serviceDeliveryLocation>
+                        </location>
+                    </encounter>
+                </componentOf>
+            </observationReport>
+        </subject>
+    </controlActProcess>
+</POLB_IN224000UV01>

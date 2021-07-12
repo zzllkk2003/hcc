@@ -1,0 +1,208 @@
+<POOR_IN200902UV ITSVersion="XML_1.0"
+    xmlns="urn:hl7-org:v3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/POOR_IN200902UV.xsd">
+    <!-- 消息流水号 -->
+    <id root="2.16.156.10011.2.5.1.1" extension="@BS004"/>
+    <!-- 消息创建时间 -->
+    <creationTime value="20120106110000"/>
+    <!-- 消息的服务标识-->
+    <interactionId root="2.16.156.10011.2.5.1.2" extension="POOR_IN200902UV"/>
+    <!--处理代码，标识此消息是否是产品、训练、调试系统的一部分。D：调试；P：产品；T：训练 -->
+    <processingCode code="P"/>
+    <!-- 消息处理模式: A(Archive); I(Initial load); R(Restore from archive); T(Current 
+		processing) -->
+    <processingModeCode/>
+    <!-- 消息应答: AL(Always); ER(Error/reject only); NE(Never) -->
+    <acceptAckCode code="AL"/>
+    <!-- 接受者 -->
+    <receiver typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <!-- 接受者ID -->
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension="@111"/>
+            </id>
+        </device>
+    </receiver>
+    <!-- 发送者 -->
+    <sender typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <!-- 发送者ID -->
+            <id>
+                <item root="2.16.156.10011.2.5.1.3" extension="@222"/>
+            </id>
+        </device>
+    </sender>
+    <!-- 封装的消息内容(按Excel填写) -->
+    <controlActProcess classCode="CACT" moodCode="EVN">
+        <subject typeCode="SUBJ" xsi:nil="false">
+            <placerGroup>
+                <!-- 1..n可循环  检查状态信息 -->
+                <component2>
+                    <observationRequest classCode="OBS">
+                        <!-- 必须项已使用 -->
+                        <id>
+                            <!-- 申请单号 -->
+                            <item extension="10001342" root="2.16.156.10011.1.24"/>
+                        </id>
+                        <!-- 必须项未使用 -->
+                        <code/>
+                        <!-- 必须项未使用 -->
+                        <statusCode/>
+                        <!-- 必须项未使用 -->
+                        <effectiveTime xsi:type="IVL_TS"/>
+                        <!-- 操作人 -->
+                        <performer typeCode="PRF">
+                            <time>
+                                <!-- 操作日期 -->
+                                <low value="201203040550"/>
+                            </time>
+                            <assignedEntity classCode="ASSIGNED">
+                                <!-- 操作人工号 -->
+                                <id>
+                                    <item extension="01003" root="2.16.156.10011.1.4"/>
+                                </id>
+                                <assignedPerson determinerCode="INSTANCE" classCode="PSN">
+                                    <!-- 操作人姓名 必须项已使用 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item>
+                                            <part value="积显"/>
+                                        </item>
+                                    </name>
+                                </assignedPerson>
+                            </assignedEntity>
+                        </performer>
+                        <!--执行科室 -->
+                        <location typeCode="LOC" xsi:nil="false">
+                            <!--必须项未使用 -->
+                            <time/>
+                            <!--就诊机构/科室 -->
+                            <serviceDeliveryLocation classCode="SDLOC">
+                                <serviceProviderOrganization determinerCode="INSTANCE" classCode="ORG">
+                                    <!--执行科室编码 -->
+                                    <id>
+                                        <item extension="1010700" root="2.16.156.10011.1.26"/>
+                                    </id>
+                                    <!--执行科室名称 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item>
+                                            <part value="检验室"/>
+                                        </item>
+                                    </name>
+                                </serviceProviderOrganization>
+                            </serviceDeliveryLocation>
+                        </location>
+                        <!-- 检查状态 -->
+                        <component1 contextConductionInd="true">
+                            <processStep classCode="PROC">
+                                <code code="01" codeSystem="2.16.156.10011. 2.5.1.12">
+                                    <!--检查状态名称 -->
+                                    <displayName value="登记"/>
+                                </code>
+                            </processStep>
+                        </component1>
+                    </observationRequest>
+                </component2>
+                <!--就诊 -->
+                <componentOf1 contextConductionInd="false" xsi:nil="false" typeCode="COMP">
+                    <!--就诊 -->
+                    <encounter classCode="ENC" moodCode="EVN">
+                        <id>
+                            <!-- 就诊次数 必须项已使用 -->
+                            <item extension="12" root="2.16.156.10011.2.5.1.8"/>
+                            <!-- 就诊流水号 -->
+                            <item extension="123456" root="2.16.156.10011.2.5.1.9"/>
+                        </id>
+                        <!--就诊类别编码-->
+                        <code codeSystem="2.16.156.10011.2.3.1.271" code="01">
+                            <!-- 就诊类别名称 -->
+                            <displayName value="门诊/住院/体检"/>
+                        </code>
+                        <!--必须项未使用 -->
+                        <statusCode code="Active"/>
+                        <!--病人 必须项未使用 -->
+                        <subject typeCode="SBJ">
+                            <patient classCode="PAT">
+                                <id>
+                                    <!--域ID -->
+                                    <item root="2.16.156.10011.2.5.1.5" extension="24355455"/>
+                                    <!-- 患者ID -->
+                                    <item root="2.16.156.10011.2.5.1.4" extension="001407878200"/>
+                                    <!-- 门诊号 -->
+                                    <item root="2.16.156.10011.1.11" extension="0910238"/>
+                                    <!-- 住院号 -->
+                                    <item root="2.16.156.10011.1.12" extension="0910238"/>
+                                </id>
+                                <patientPerson classCode="PSN" determinerCode="INSTANCE" xsi:nil="false">
+                                    <!-- 患者姓名 -->
+                                    <name xsi:type="DSET_EN">
+                                        <item>
+                                            <part value="张三"/>
+                                        </item>
+                                    </name>
+                                </patientPerson>
+                            </patient>
+                        </subject>
+                        <!--住院位置-->
+                        <location typeCode="LOC">
+                            <time/>
+                            <serviceDeliveryLocation classCode="SDLOC">
+                                <location classCode="PLC" determinerCode="INSTANCE">
+                                    <!--DE01.00.026.00	病床编码 -->
+                                    <id>
+                                        <item extension="001"/>
+                                    </id>
+                                    <!-- 病床号 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item use="IDE">
+                                            <part value="201"/>
+                                        </item>
+                                    </name>
+                                    <asLocatedEntityPartOf classCode="LOCE">
+                                        <location classCode="PLC" determinerCode="INSTANCE">
+                                            <!--DE01.00.019.00	病房编码 -->
+                                            <id>
+                                                <item extension="001"/>
+                                            </id>
+                                            <!-- 病房号 -->
+                                            <name xsi:type="BAG_EN">
+                                                <item use="IDE">
+                                                    <part value="201"/>
+                                                </item>
+                                            </name>
+                                        </location>
+                                    </asLocatedEntityPartOf>
+                                </location>
+                                <serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+                                    <!--DE08.10.026.00	科室编码 -->
+                                    <id>
+                                        <item extension="001"/>
+                                    </id>
+                                    <!-- 科室名称 -->
+                                    <name xsi:type="BAG_EN">
+                                        <item use="IDE">
+                                            <part value="呼吸内科"/>
+                                        </item>
+                                    </name>
+                                    <asOrganizationPartOf classCode="PART">
+                                        <!-- DE08.10.054.00	病区编码 -->
+                                        <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                            <id>
+                                                <item extension="001"/>
+                                            </id>
+                                            <!-- 病区名称 -->
+                                            <name xsi:type="BAG_EN">
+                                                <item use="IDE">
+                                                    <part value="1病区 "/>
+                                                </item>
+                                            </name>
+                                        </wholeOrganization>
+                                    </asOrganizationPartOf>
+                                </serviceProviderOrganization>
+                            </serviceDeliveryLocation>
+                        </location>
+                    </encounter>
+                </componentOf1>
+            </placerGroup>
+        </subject>
+    </controlActProcess>
+</POOR_IN200902UV>
