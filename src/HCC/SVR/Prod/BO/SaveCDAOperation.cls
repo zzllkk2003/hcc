@@ -1,5 +1,5 @@
 /// 对共享文档进行解析和操作（存储、更新等）
-Class  HCC.SVR.Prod.BO.SaveCDAOperation Extends Ens.BusinessOperation [ Language = objectscript ]
+Class HCC.SVR.Prod.BO.SaveCDAOperation Extends Ens.BusinessOperation [ Language = objectscript ]
 {
 
 /// 文档结构验证设置
@@ -14,7 +14,7 @@ Parameter INVOCATION = "Queue";
 
 Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse As HCC.SVR.Prod.MSG.SVRResponse) As %Status
 {
-    //try {
+    try {
         #Dim pDoc as EnsLib.EDI.XML.Document
         #Dim gxwdDoc as HCC.DocRepository.LatestDocs
         //HANG 5
@@ -185,12 +185,13 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         } else{
             set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"保存共享文档失败。")
         }
- //}
+        
+ }
 
- // catch exp{
+  catch exp{
 
- //set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"解析共享文档消息失败。"_exp.Code_exp.Data_exp.Name_exp.Location)
- //}
+  set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"解析共享文档消息失败。"_exp.Code_exp.Data_exp.Name_exp.Location)
+ }
  quit $$$OK
 }
 

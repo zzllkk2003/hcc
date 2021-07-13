@@ -1,0 +1,7 @@
+{
+    "objectscript.conn": {
+        "server": "hcc",
+        "ns": "HCC",
+        "active": true
+    }
+}
