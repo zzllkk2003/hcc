@@ -27,5 +27,11 @@ healthconnect互联互通实现
 - DocRepository 
 - Utils (工具包)
 
+MockSys 分支中包括模拟系统来测试服务消息。
+   
+/CDACoreSchemas 下为共享文档schema和样例
+
+/Messages 下为消息schema以及样例
+   
 </font>
 
