@@ -33,7 +33,7 @@ Method HIPMessageServer(action As %String, message As %Stream.GlobalCharacter) A
 		Set tResponse= ##class(HCC.Utils.ResponseHelper).ReturnError("您传递的消息，不符合标准交互消息，请自行查看文档中是否有异常编码。")
 	} else {
 		Set tRequest.MsgId=msgId
-		Set tStatus = ..SendRequestSync("TRIP.JHFW.BP.TRIP00BPL", tRequest,.tResponse)
+		Set tStatus = ..SendRequestSync("HCC.SVR.Prod.BP.MainControl", tRequest,.tResponse)
 		//Set tResponse= ##class(HCC.Utils.ResponseHelper).ReturnError("平台接收到消息后的解析异常。")
 	}
 	Quit tResponse.Message

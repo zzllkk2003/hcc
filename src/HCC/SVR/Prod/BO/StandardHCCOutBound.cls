@@ -15,7 +15,7 @@ Method PatRegister(tRequest As HCC.SVR.Prod.MSG.SVRRequest, Output tResponse As 
  set tResponse =##class(HCC.SVR.Prod.MSG.SVRResponse).%New()
  set pRequest.pat.Message=##class(HS.Util.StreamUtils).EnsureString(tRequest.Message)
  set pRequest.pat.Action=tRequest.Action
- Set ..Adapter.WebServiceClientClass = "HCC.JHFW.BO.Proxy.JiaoHuServiceSoap"
+ Set ..Adapter.WebServiceClientClass = "HCC.SVR.Prod.BO.Proxy.StandardHCCOutBound"
  Set tSC = ..Adapter.InvokeMethod("PatRegister",.PatRegisterResult,pRequest.pat)  Quit:$$$ISERR(tSC) tSC
  Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
  Set pResponse.PatRegisterResult=$get(PatRegisterResult)
