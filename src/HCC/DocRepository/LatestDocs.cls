@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-07-13 14:29:38
+/// LastEditTime: 2021-07-14 14:52:51
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/DocRepository/LatestDocs.cls
+/// Jeff.liu@intersytems.com
+/// 
 /// 共享文档存储表
 /// 需要增加Unique Key在DocId上。暂时不加，等Jeff修改文档注册服务
 Class HCC.DocRepository.LatestDocs Extends (%Persistent, %XML.Adaptor) [ SqlTableName = GXWD_DOC ]
@@ -14,6 +23,9 @@ Property SenderId As %String;
 /// 文档编号
 Property DocId As %String;
 
+/// 文档唯一编号
+Index UKDocId On DocId [ Unique ];
+
 /// 文档类型代码
 Property DocCode As %String;
 
@@ -29,9 +41,9 @@ Property VersionNumber As %Integer [ InitialExpression = 1 ];
 /// 文档原始内容
 Property Content As %String(MAXLEN = 4000000);
 
-/// 患者唯一标识
-Property PatId As %String;
+// Property PatId As %String;
 
+/// 患者唯一标识
 /// 住院号标识
 Property PatInHosCode As %String;
 
@@ -47,12 +59,12 @@ Property PatEffectiveLowTime As %TimeStamp;
 /// 患者就诊日期截至时间
 Property PatEffectiveHighTime As %TimeStamp;
 
+// Property PatCardId As %String;
+
+// Property PatName As %String;
+
 /// 身份证号
-Property PatCardId As %String;
-
 /// 患者姓名
-Property PatName As %String;
-
 /// 文档提供的医院标识
 Property ProHosCode As %String;
 
@@ -76,6 +88,9 @@ Property RepHosName As %String;
 
 /// 数据存储时间
 Property AddDate As %TimeStamp;
+
+/// 病人 one
+Relationship Patient As HCC.DocRepository.Patient [ Cardinality = one, Inverse = Doc ];
 
 Storage Default
 {
@@ -160,6 +175,9 @@ Storage Default
 </Value>
 <Value name="27">
 <Value>SuppressXmlns</Value>
+</Value>
+<Value name="28">
+<Value>Patient</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.DocRepository.LatestDocsD</DataLocation>

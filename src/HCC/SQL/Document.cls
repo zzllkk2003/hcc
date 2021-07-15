@@ -139,7 +139,7 @@ Method CreateDocument(Output pDocument As %Stream.GlobalCharacter) As %Status
         Set tDoc = ##class(TRIP.GXWD.MODEL.GXWDDOC).ukDocIdOpen(..DocumentNo)
         Set:($ISObject(tDoc)) tDoc = ##class(TRIP.GXWD.MODEL.GXWDDOC).%New()
         */
-        Set tDoc = ##class(TRIP.GXWD.MODEL.GXWDDOC).%New()
+        Set tDoc = ##class(HCC.DocRepository.LatestDocs).%New()
         Set tDoc.DocId=..DocumentNo
         Set tDoc.DocName=..DocumentTypeLogicalToDisplay(..DocumentType)
         Set tDoc.Content=pDocument.Read()

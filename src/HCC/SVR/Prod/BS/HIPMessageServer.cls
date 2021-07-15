@@ -1,3 +1,12 @@
+///
+///Author: Jeff Liu
+///Date: 2021-07-13 15:14:20
+///LastEditTime: 2021-07-13 17:44:32
+///LastEditors: Jeff Liu
+///Description: 
+///FilePath: /hcc/src/HCC/SVR/Prod/BS/HIPMessageServer.cls
+///Jeff.liu@intersytems.com
+///
 /// 互联互通交互服务接口
 Class HCC.SVR.Prod.BS.HIPMessageServer Extends EnsLib.SOAP.Service
 {

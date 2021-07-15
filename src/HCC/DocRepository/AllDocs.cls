@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-07-13 14:29:38
+/// LastEditTime: 2021-07-14 14:53:23
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/DocRepository/AllDocs.cls
+/// Jeff.liu@intersytems.com
+/// 
 /// 共享文档存储表
 Class HCC.DocRepository.AllDocs Extends (%Persistent, %XML.Adaptor) [ SqlTableName = GXWD_DOC_LS ]
 {
@@ -12,6 +21,8 @@ Property SenderId As %String;
 
 /// 文档流水号
 Property DocId As %String;
+
+Index UKDocId On DocId [ Unique ];
 
 /// 文档类型代码
 Property DocCode As %String;

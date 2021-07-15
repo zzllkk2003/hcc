@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-07-13 15:14:20
+/// LastEditTime: 2021-07-13 17:42:26
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/SVR/Prod/BO/SaveCDAOperation.cls
+/// Jeff.liu@intersytems.com
+/// 
 /// 对共享文档进行解析和操作（存储、更新等）
 Class HCC.SVR.Prod.BO.SaveCDAOperation Extends Ens.BusinessOperation [ Language = objectscript ]
 {
@@ -25,6 +34,31 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         set ValueErr =""
         set SchemaErr =""
         set gxwdDoc=##class(HCC.DocRepository.LatestDocs).%New()
+        
+        /// 身份证号
+        Set PatCardId =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).choice.patientPerson(1).id.item(1).extension")
+
+        set gxwdDoc.Patient= ##class(HCC.DocRepository.Patient).UKPatCardIdIOpen(PatCardId)
+        
+        /// 若病人不存在 注册至病人表
+        If (gxwdDoc.Patient="")
+        {
+         #dim Patient as HCC.DocRepository.Patient = ##class(HCC.DocRepository.Patient).%New()
+         /// 患者唯一标识
+         Set Patient.PatId =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(1).extension")
+        }
+
+        
+        
+        /// 住院号标识
+        Set gxwdDoc.PatInHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(2).extension")
+
+        /// 门诊号标识
+        Set gxwdDoc.PatOutHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(3).extension")
+
+        /// 患者姓名
+        Set gxwdDoc.PatName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).choice.patientPerson(1).name(1).item(1).part(1).value")
+
 
         /// 文档类型代码
         Set DocCode =pDoc.GetValueAt("/RCMR_IN000002UV02/controlActProcess[1]/subject[1]/clinicalDocument[1]/code[1]/@code")
@@ -76,7 +110,7 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         /// 发送系统标识
         Set gxwdDoc.SenderId =pDoc.GetValueAt("sender(1).device(1).id.item(1).extension")
 
-        /// 文档流水号
+        /// 文档流水号 文档唯一标识
         Set gxwdDoc.DocId =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).id.item(1).extension")
 
         
@@ -91,17 +125,7 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         /// 文档版本号
         set vnStr=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).versionNumber.value")
         Set gxwdDoc.VersionNumber = ##class(%Integer).DisplayToLogical(vnStr)
-        
-        
-        
-        /// 患者唯一标识
-        Set gxwdDoc.PatId =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(1).extension")
-
-        /// 住院号标识
-        Set gxwdDoc.PatInHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(2).extension")
-
-        /// 门诊号标识
-        Set gxwdDoc.PatOutHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(3).extension")
+    
 
         /// 患者就诊日期起始时间 20170101
         set pelt=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).effectiveTime.low.value")
@@ -111,11 +135,6 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         set peht=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).effectiveTime.high.value")
         Set gxwdDoc.PatEffectiveHighTime =##class(Ens.Util.Time).ConvertDateTime(peht,"%Y%m%d","%q(1)",,.tsc)
 
-        /// 身份证号
-        Set gxwdDoc.PatCardId =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).choice.patientPerson(1).id.item(1).extension")
-
-        /// 患者姓名
-        Set gxwdDoc.PatName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).choice.patientPerson(1).name(1).item(1).part(1).value")
 
         /// 文档提供的医院标识
         Set gxwdDoc.ProHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).providerOrganization.id(1).item(1).extension")
