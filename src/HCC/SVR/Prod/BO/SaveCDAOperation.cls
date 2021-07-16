@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-13 15:14:20
-/// LastEditTime: 2021-07-13 17:42:26
+/// LastEditTime: 2021-07-16 14:18:51
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/SVR/Prod/BO/SaveCDAOperation.cls
@@ -23,51 +23,68 @@ Parameter INVOCATION = "Queue";
 
 Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse As HCC.SVR.Prod.MSG.SVRResponse) As %Status
 {
-    try {
+    Try {
         #Dim pDoc as EnsLib.EDI.XML.Document
-        #Dim gxwdDoc as HCC.DocRepository.LatestDocs
+        #Dim gxwdDoc as HCC.DocRepository.AllDocs
+        #Dim tsc as %Status
         //HANG 5
-        set pDoc= ##class(EnsLib.EDI.XML.Document).ImportFromLibraryStream(pRequest.Message)
-        set pDoc.DocType=pRequest.DocType_":"_pRequest.DocType
-        set ValueVResult =""
-        set SchemaVResult =""
-        set ValueErr =""
-        set SchemaErr =""
-        set gxwdDoc=##class(HCC.DocRepository.LatestDocs).%New()
-        
+        Set pDoc= ##class(EnsLib.EDI.XML.Document).ImportFromLibraryStream(pRequest.Message)
+        Set pDoc.DocType=pRequest.DocType_":"_pRequest.DocType
+        Set ValueVResult =""
+        Set SchemaVResult =""
+        Set ValueErr =""
+        Set SchemaErr =""
+        Set gxwdDoc=##class(HCC.DocRepository.AllDocs).%New()
         /// 身份证号
         Set PatCardId =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).choice.patientPerson(1).id.item(1).extension")
 
-        set gxwdDoc.Patient= ##class(HCC.DocRepository.Patient).UKPatCardIdIOpen(PatCardId)
-        
+        set PatName =pDoc.GetValueAt("/RCMR_IN000002UV02/controlActProcess[1]/subject[1]/clinicalDocument[1]/recordTarget[1]/patient[1]/patientPerson[1]/name[1]/item[1]/part[1]/@value")
         /// 若病人不存在 注册至病人表
-        If (gxwdDoc.Patient="")
+        If (##class(HCC.DocRepository.Patient).UKPatIdIExists(PatCardId)=0)
         {
          #dim Patient as HCC.DocRepository.Patient = ##class(HCC.DocRepository.Patient).%New()
          /// 患者唯一标识
-         Set Patient.PatId =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(1).extension")
+         Set Patient.PatId =PatCardId
+         /// 身份证号
+         Set Patient.PatCardId=PatCardId
+         /// 患者姓名
+         Set Patient.PatName = PatName
+         
+         Set tsc =Patient.%Save()
+         Set gxwdDoc.Patient= ##class(HCC.DocRepository.Patient).UKPatCardIdIOpen(PatCardId)
+         If $$$ISERR(tsc) { 
+          Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"保存病人失败"_$CHAR(10)_tsc) 
+          Quit
+          }
         }
+        //更新病人信息
+        else {
+           
+           set Pat = ##class(HCC.DocRepository.Patient).UKPatIdIOpen(PatCardId)
+           set Pat.PatId =PatCardId
+           set Pat.PatCardId =PatCardId
+           Set Pat.PatName = PatName
 
-        
-        
+        }
+        Set gxwdDoc.Patient= ##class(HCC.DocRepository.Patient).UKPatCardIdIOpen(PatCardId)
         /// 住院号标识
         Set gxwdDoc.PatInHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(2).extension")
-
+        $$$LOGINFO(gxwdDoc.PatInHosCode)
         /// 门诊号标识
         Set gxwdDoc.PatOutHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).id.item(3).extension")
-
+        $$$LOGINFO(gxwdDoc.PatOutHosCode)
         /// 患者姓名
-        Set gxwdDoc.PatName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).choice.patientPerson(1).name(1).item(1).part(1).value")
+        //Set gxwdDoc.PatName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).choice.patientPerson(1).name(1).item(1).part(1).value")
 
 
         /// 文档类型代码
         Set DocCode =pDoc.GetValueAt("/RCMR_IN000002UV02/controlActProcess[1]/subject[1]/clinicalDocument[1]/code[1]/@code")
 
         //获得文档BASE64字符串
-        set DocBase64 = pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).storageCode.originalText.value") 
-
+        Set DocBase64 = pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).storageCode.originalText.value") 
+        $$$LOGINFO(DocBase64)
         //Base64 解码
-        set DocContent= ##class(%SYSTEM.Encryption).Base64Decode(DocBase64)
+        Set DocContent= ##class(%SYSTEM.Encryption).Base64Decode(DocBase64)
 
         /// 文档原始内容
         Set DocContent = $ZCONVERT(DocContent,"I","UTF8")
@@ -75,36 +92,36 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         $$$LOGINFO("验证设置"_..DocSchemaValidate_"  "_..DocValueSetValidate)
         // 验证文档是否符合值域规则
         
-        if (..DocValueSetValidate =1)
+        If (..DocValueSetValidate =1)
         {   
-           set ValueVResult= ##class(HCC.Utils.XMLValid).Valid(##class(HS.Util.StreamUtils).EnsureStream(DocContent),DocCode,.ValueErr)
+           Set ValueVResult= ##class(HCC.Utils.XMLValid).Valid(##class(HS.Util.StreamUtils).EnsureStream(DocContent),DocCode,.ValueErr)
            
         }
         // 验证文档是否符合schema 规则
-        if (..DocSchemaValidate =1)
+        If (..DocSchemaValidate =1)
         {
-            set SchemaVResult = ##class(HCC.Utils.SchemaValidate).Validate(##class(HS.Util.StreamUtils).EnsureStream(DocContent),.SchemaErr)
+            Set SchemaVResult = ##class(HCC.Utils.SchemaValidate).Validate(##class(HS.Util.StreamUtils).EnsureStream(DocContent),.SchemaErr)
         }
 
-        if (ValueVResult=0)&&(SchemaVResult=1)
+        If (ValueVResult=0)&&(SchemaVResult=1)
         {
-            set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档结构验证成功，文档值域验证失败："_$char(10)_ValueErr)
-            quit
+            Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档结构验证成功，文档值域验证失败："_$CHAR(10)_ValueErr)
+            Quit
         }
-        if (ValueVResult=1)&&(SchemaVResult=0)
+        If (ValueVResult=1)&&(SchemaVResult=0)
         {
-            set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档值域验证成功，文档结构验证失败："_$char(10)_SchemaErr)
-            quit
+            Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档值域验证成功，文档结构验证失败："_$CHAR(10)_SchemaErr)
+            Quit
         }
-        if (ValueVResult=0)&&(SchemaVResult=0)
+        If (ValueVResult=0)&&(SchemaVResult=0)
         {
-            set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档值域验证失败："_ValueErr_$char(10)_ "文档结构验证失败："_SchemaErr)
-            quit
+            Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档值域验证失败："_ValueErr_$CHAR(10)_ "文档结构验证失败："_SchemaErr)
+            Quit
         }
-        set gxwdDoc.Content=DocContent
-        set gxwdDoc.DocCode=DocCode
+        Set gxwdDoc.Content=DocContent
+        Set gxwdDoc.DocCode=DocCode
         /// 消息创建时间
-        set msgCreatTime=pDoc.GetValueAt("creationTime(1).value")
+        Set msgCreatTime=pDoc.GetValueAt("creationTime(1).value")
         Set gxwdDoc.MsgCreatTime = ##class(Ens.Util.Time).ConvertDateTime(msgCreatTime,"%Y%m%d%H%M%S","%q(1)",,.tsc)
 
         /// 发送系统标识
@@ -114,7 +131,6 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         Set gxwdDoc.DocId =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).id.item(1).extension")
 
         
-
         /// 文档类型名称
         Set gxwdDoc.DocName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).code(1).displayName.value")
 
@@ -123,16 +139,16 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         Set gxwdDoc.DocCreatTime=##class(Ens.Util.Time).ConvertDateTime(docCreatTime,"%Y%m%d","%q(1)",,.tsc)
 
         /// 文档版本号
-        set vnStr=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).versionNumber.value")
+        Set vnStr=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).versionNumber.value")
         Set gxwdDoc.VersionNumber = ##class(%Integer).DisplayToLogical(vnStr)
     
 
         /// 患者就诊日期起始时间 20170101
-        set pelt=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).effectiveTime.low.value")
+        Set pelt=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).effectiveTime.low.value")
         Set gxwdDoc.PatEffectiveLowTime =##class(Ens.Util.Time).ConvertDateTime(pelt,"%Y%m%d","%q(1)",,.tsc)
         
         /// 患者就诊日期截至时间  
-        set peht=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).effectiveTime.high.value")
+        Set peht=pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).effectiveTime.high.value")
         Set gxwdDoc.PatEffectiveHighTime =##class(Ens.Util.Time).ConvertDateTime(peht,"%Y%m%d","%q(1)",,.tsc)
 
 
@@ -140,78 +156,55 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         Set gxwdDoc.ProHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).providerOrganization.id(1).item(1).extension")
 
         /// 文档提供的医院名称
-        Set gxwdDoc.ProHosName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).providerOrganization.name.item(1).part(1).value")
+        Set gxwdDoc.ProHosName =pDoc.GetValueAt("/RCMR_IN000002UV02/controlActProcess[1]/subject[1]/clinicalDocument[1]/recordTarget[1]/patient[1]/providerOrganization[1]/name[1]/item[1]/part[1]/@value")
 
         /// 科室代码
         Set gxwdDoc.DeptCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).providerOrganization.organizationContains(1).id.item(1).extension")
 
         /// 文档创建者编号
-        Set gxwdDoc.DocUserCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).author(1).assignedAuthor(1).id.item(1).extension")
+        Set gxwdDoc.DocUserCode =pDoc.GetValueAt("/RCMR_IN000002UV02/controlActProcess[1]/subject[1]/clinicalDocument[1]/author[1]/assignedAuthor[1]/id[1]/item[1]/@extension")
 
         /// 文档创建者姓名
-        Set gxwdDoc.DocUserName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).author(1).assignedAuthor(1).choice.assignedPerson.name.item(1).part(1).value")
+        Set gxwdDoc.DocUserName =pDoc.GetValueAt("/RCMR_IN000002UV02/controlActProcess[1]/subject[1]/clinicalDocument[1]/author[1]/assignedAuthor[1]/assignedPerson[1]/name[1]/item[1]/part[1]/@value")
 
         /// 文档保管的医院标识                    
         Set gxwdDoc.RepHosCode =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).custodian(1).assignedCustodian(1).representedOrganization(1).id(1).item(1).extension")
 
         /// 文档保管的医院名称
-        Set gxwdDoc.RepHosName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).custodian(1).assignedCustodian(1).representedOrganization(1).name.item(1).part(1).value")
+        Set gxwdDoc.RepHosName =pDoc.GetValueAt("/RCMR_IN000002UV02/controlActProcess[1]/subject[1]/clinicalDocument[1]/custodian[1]/assignedCustodian[1]/representedOrganization[1]/name[1]/item[1]/part[1]/@value")
 
         /// 文档保存的服务器时间
-        Set gxwdDoc.AddDate =$ZDATETIME($ZDATETIMEH($ZTS,-3),3,1,4)
-        
-         //【1】首先把数据存储到总表中
-        set gxwdDocT=##class(HCC.Utils.SharedDocTransfer).LatestDocToAllDoc(gxwdDoc)
-        set tscT =gxwdDocT.%Save()
-        if ('tscT){//保存失败
-            set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"将共享文档存储到总表中失败。")
-            quit
+        Set gxwdDoc.AddDate =$ZDATETIME($ZDATETIMEH($ZTIMESTAMP,-3),3,1,4)
+
+        If (gxwdDoc.PatInHosCode ="") && (gxwdDoc.PatInHosCode ="")
+        {
+             Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"住院号和门诊号必须要传递其中一个。")
+             Quit
         }
-        //【2】组合查询条件，查询主表中是否已经存在该文档，如果已经存在，我们需要删除。
-        if (gxwdDoc.PatInHosCode'=""){//判断住院号是否存在
-            set whereStr=" AND PatInHosCode=?"
-            set val=gxwdDoc.PatInHosCode
+        Set tsc = ##class(HCC.DocRepository.LatestDocs).UKDocIdExists(gxwdDoc.DocId)
+        Set lDoc = ##class(HCC.Utils.SharedDocTransfer).AllDocToLatestDoc(gxwdDoc)
+        If tsc =1
+        {   Set tscd= ##class(HCC.DocRepository.LatestDocs).UKDocIdDelete(gxwdDoc.DocId)
+            
+            Set tsc = lDoc.%Save() 
         }
-        elseif (gxwdDoc.PatOutHosCode'=""){//判断门诊号是否存在
-            set whereStr=" AND PatOutHosCode=?"
-            set val=gxwdDoc.PatOutHosCode
+        Else{
+            Set tsc = lDoc.%Save()
         }
-        else{//住院号和门诊号均不存在的时候，需要第三方传递该信息
-            set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"住院号和门诊号必须要传递其中一个。")
-            quit
-        }
-        Set sqlStr = "select ID from TRIP_GXWD_MODEL.GXWD_DOC where DocCode=? AND PatEffectiveLowTime=?"_whereStr
-        Set tStatement = ##class(%SQL.Statement).%New()
-        Set qStatus = tStatement.%Prepare(sqlStr)
-        If qStatus'=1 {
-            set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"查找文档是否存在时，组合SQL语句失败。")
-            quit
-        }
-        Set rset = tStatement.%Execute(gxwdDoc.DocCode,gxwdDoc.PatEffectiveLowTime,val)
-        While (rset.%Next()) {
-            //【3】读取到主表中已经有数据了
-            Set RowID = rset.%Get("ID")
-            set tscDel=##class(HCC.DocRepository.LatestDocs).%DeleteId(RowID)
-            if ('tscDel){
-                set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"删除主表中已经存在的共享文档失败。")
-                quit
-            }
-        }
-        //【4】将共享文档存储到主表中
-        set tsc =gxwdDoc.%Save()
-        if (tsc){
-            set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnSuccessMsgNoContentAndSenderInfo(pRequest.MsgId)
-        } else{
-            set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"保存共享文档失败。")
+        Set tsc =gxwdDoc.%Save()
+        If (tsc){
+            Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnSuccessMsgNoContentAndSenderInfo(pRequest.MsgId)
+        } Else{
+            Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"保存共享文档失败。")
         }
         
  }
 
-  catch exp{
+  Catch exp{
 
-  set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"解析共享文档消息失败。"_exp.Code_exp.Data_exp.Name_exp.Location)
+  Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"解析共享文档消息失败。"_exp.Code_exp.Data_exp.Name_exp.Location)
  }
- quit $$$OK
+ Quit $$$OK
 }
 
 XData MessageMap

@@ -8,7 +8,7 @@
 /// Jeff.liu@intersytems.com
 /// 
 /// 共享文档存储表
-Class HCC.DocRepository.AllDocs Extends (%Persistent, %XML.Adaptor) [ SqlTableName = GXWD_DOC_LS ]
+Class HCC.DocRepository.AllDocs Extends (%Persistent, %XML.Adaptor) [ SqlTableName = AllDocs ]
 {
 
 Parameter XMLNamespace = "urn:hl7-org:v3";
@@ -19,10 +19,8 @@ Property MsgCreatTime As %TimeStamp;
 /// 发送系统标识
 Property SenderId As %String;
 
-/// 文档流水号
+/// 文档编号
 Property DocId As %String;
-
-Index UKDocId On DocId [ Unique ];
 
 /// 文档类型代码
 Property DocCode As %String;
@@ -39,15 +37,15 @@ Property VersionNumber As %Integer [ InitialExpression = 1 ];
 /// 文档原始内容
 Property Content As %String(MAXLEN = 4000000);
 
-/// 患者唯一标识
-Property PatId As %String;
+// Property PatId As %String;
 
+/// 患者唯一标识
 /// 住院号标识
 Property PatInHosCode As %String;
 
-/// 住院次数
-Property PatInHosCount As %Integer [ InitialExpression = 1 ];
+// Property PatInHosCount As %Integer [ InitialExpression = 1 ];
 
+/// 住院次数
 /// 门诊号标识
 Property PatOutHosCode As %String;
 
@@ -57,12 +55,12 @@ Property PatEffectiveLowTime As %TimeStamp;
 /// 患者就诊日期截至时间
 Property PatEffectiveHighTime As %TimeStamp;
 
+// Property PatCardId As %String;
+
+// Property PatName As %String;
+
 /// 身份证号
-Property PatCardId As %String;
-
 /// 患者姓名
-Property PatName As %String;
-
 /// 文档提供的医院标识
 Property ProHosCode As %String;
 
@@ -86,6 +84,9 @@ Property RepHosName As %String;
 
 /// 数据存储时间
 Property AddDate As %TimeStamp;
+
+/// 病人 one
+Relationship Patient As HCC.DocRepository.Patient [ Cardinality = one, Inverse = Doc ];
 
 Storage Default
 {
@@ -167,6 +168,9 @@ Storage Default
 </Value>
 <Value name="26">
 <Value>ExportDate</Value>
+</Value>
+<Value name="27">
+<Value>Patient</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.DocRepository.AllDocsD</DataLocation>

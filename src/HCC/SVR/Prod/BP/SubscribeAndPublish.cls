@@ -43,10 +43,10 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </call>
 <if name='判断是否有订户' condition='context.TargetList.Count()=0' xpos='200' ypos='450' xend='200' yend='800' >
 <true>
-<code name='业务未实现，没有订户' xpos='526' ypos='597' >
-<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnCommResult(request.Action,"异常服务代码，系统未实现该业务流程,没有订阅方.")]]>
+<code name='业务未实现，没有订户' xpos='470' ypos='600' >
+<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(request.MsgId,"异常服务代码，系统未实现该业务流程,没有订阅方.")]]>
 </code>
-<assign name="返回业务未实现，没有订户" property="response" value="context.tResponse" action="set" xpos='527' ypos='704' />
+<assign name="返回业务未实现，没有订户" property="response" value="context.tResponse" action="set" xpos='470' ypos='700' />
 </true>
 <false>
 <foreach name='发送请求消息到订阅者' property='context.TargetList' key='context.Iterator' xpos='200' ypos='600' xend='200' yend='550' >

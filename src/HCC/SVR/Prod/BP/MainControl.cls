@@ -60,7 +60,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <scope name='BP级错误处理' xpos='200' ypos='250' xend='200' yend='2250' >
 <sql name='LT获得action 对应schema' xpos='200' ypos='350' >
 <![CDATA[
-SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableName= 'TRIP.JHFW.LT.ActionSchema' and KeyName=:request.Action]]>
+SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableName= 'HCC.SVR.Prod.LT.ActionSchema' and KeyName=:request.Action]]>
 </sql>
 <if name='判断action和schema是否对应' condition='request.DocType=context.tDocType' xpos='200' ypos='450' xend='200' yend='1250' >
 <true>
@@ -101,7 +101,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </code>
 <if name='判断合规结果' condition='(context.verifyResult =1)&amp;&amp;(context.valueVerifyResult=1)' xpos='470' ypos='800' xend='470' yend='1150' >
 <true>
-<call name='订阅发布' target='TRIP.JHFW.BP.SubscribeAndPublish' async='1' xpos='470' ypos='950' >
+<call name='订阅发布' target='HCC.SVR.Prod.BP.SubscribeAndPublish' async='1' xpos='470' ypos='950' >
 <request type='HCC.SVR.Prod.MSG.SVRRequest' >
 <assign property="callrequest" value="request" action="set" />
 </request>
@@ -127,12 +127,12 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </if>
 <trace value='context.tDocType_"   "_request.DocType_"   "_context.verifyResult_"   "_context.valueVerifyResult_"   "_context.ErrMsg' xpos='200' ypos='1350' />
 <sync name='等待返回消息' calls='订阅发布' timeout='2' type='all' xpos='200' ypos='1450' />
-<if condition='synctimedout =0' xpos='200' ypos='1550' xend='200' yend='1900' >
+<if name='处理超时' condition='synctimedout =0' xpos='200' ypos='1550' xend='200' yend='1900' >
 <false>
-<code xpos='335' ypos='1700' >
-<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnCommResult(context.action,"消息处理超时啦啦啦啦"_$char(10)_context.ErrMsg)]]>
+<code name='生成超时返回消息' xpos='335' ypos='1700' >
+<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(request.MsgId,"消息处理超时"_$char(10)_context.ErrMsg)]]>
 </code>
-<assign property="response" value="context.tResponse" action="set" xpos='335' ypos='1800' />
+<assign name="返回消息" property="response" value="context.tResponse" action="set" xpos='335' ypos='1800' />
 </false>
 </if>
 <trace value='synctimedout' xpos='200' ypos='2000' />
@@ -140,7 +140,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 <catchall xpos='200' ypos='2100' xend='200' yend='550' >
 <trace value='"%LastError "_ $System.Status.GetErrorCodes(..%Context.%LastError)_ " : "_ $System.Status.GetOneStatusText(..%Context.%LastError)' xpos='200' ypos='250' />
 <code name='平台内部错误' xpos='200' ypos='350' >
-<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnCommResult(request.action,"平台内部异常.")]]>
+<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(request.MsgId,"平台内部异常.")]]>
 </code>
 <assign name="返回平台内部错误" property="response" value="context.tResponse" action="set" xpos='200' ypos='450' />
 </catchall>

@@ -9,7 +9,7 @@
 /// 
 /// 共享文档存储表
 /// 需要增加Unique Key在DocId上。暂时不加，等Jeff修改文档注册服务
-Class HCC.DocRepository.LatestDocs Extends (%Persistent, %XML.Adaptor) [ SqlTableName = GXWD_DOC ]
+Class HCC.DocRepository.LatestDocs Extends (%Persistent, %XML.Adaptor) [ SqlTableName = LatestDocs ]
 {
 
 Parameter XMLNamespace = "urn:hl7-org:v3";
@@ -47,9 +47,9 @@ Property Content As %String(MAXLEN = 4000000);
 /// 住院号标识
 Property PatInHosCode As %String;
 
-/// 住院次数
-Property PatInHosCount As %Integer [ InitialExpression = 1 ];
+// Property PatInHosCount As %Integer [ InitialExpression = 1 ];
 
+/// 住院次数
 /// 门诊号标识
 Property PatOutHosCode As %String;
 
