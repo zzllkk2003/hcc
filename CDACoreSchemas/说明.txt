@@ -1,0 +1,6 @@
+
+¹²ÏíÎÄµµSchema
+
+HPBSApp.CommApp.GeneralMethod.ProcessMessage
+ValidatCDA
+ set sc=##class(%XML.TextReader).ParseStream(content,.textreader,,opt,mask,"urn:hl7-org:v3 ../CDACoreSchemas/sdschemas/CDA.xsd")

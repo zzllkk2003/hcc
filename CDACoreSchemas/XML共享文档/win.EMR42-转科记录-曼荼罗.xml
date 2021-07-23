@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../sdschemas/CDA.xsd">
+<!--
+********************************************************
+ CDA Header
+********************************************************
+-->
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.62"/>
+	<id root="2.16.156.10011.1.1.2" extension="2011000001"/>
+	<code code="C0042" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	
+	<title>转科记录</title>
+	<effectiveTime xsi:type="TS" value="20100114"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+
+	<!--文档记录对象（患者） [1..*] contextControlCode="OP"表示本信息可以被重载-->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			<!--住院号标识-->
+			<id root="2.16.156.10011.1.12" extension="0201306070"/>
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<!--患者身份证号-->
+				<id root="2.16.156.10011.1.3" extension="320211196102131629"/>
+				<name>宋大牛</name>
+				<administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）" displayName="男性" />
+				<!--1数据集里是年龄（年）、年龄（月）-->
+				<age unit="岁" value="73"/>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	
+	<!-- 文档创作者 -->
+	<author typeCode="AUT" contextControlCode="OP">
+		<time xsi:type="TS" value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.156.10011.1.5" extension="4662860471"/>
+				<name>xx医院</name>
+				<addr>xx区x街xx号</addr>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	
+	<!-- 保管机构 -->
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="4662860471"/>
+				<name>xx医院</name>
+				<telecom value="0209837373"/>
+				<addr>XX街道</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>	
+	
+	<!-- 签名 -->
+	<authenticator>
+		<!--转出日期时间-->
+		<time xsi:type="TS" value="201201121234"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="转出医师签名"></code>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<authenticator>
+		<!--转入日期时间-->
+		<time xsi:type="TS" value="201201121238"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="转入医师签名"></code>
+			<assignedPerson>
+				<name>张医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<relatedDocument typeCode="RPLC">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>	
+	
+	<componentOf>
+		<encompassingEncounter>
+		<code displayName="入院日期时间"/>
+			<effectiveTime value="201201121220"/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00	病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="001"/>
+								<name>1病床号</name>
+								<!-- DE01.00.019.00	病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="001"/>
+										<name>1病房</name>
+										<!-- DE08.10.026.00	科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<id root="2.16.156.10011.1.26" extension="212"/>
+												<name>心内科</name>
+												<!-- DE08.10.054.00	病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<id root="2.16.156.10011.1.27" extension="006"/>
+														<name>六病区</name>
+														<!--医疗机构名称 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="001"/>
+																<name>XX医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+<!--***************************************************
+文档体Body
+*******************************************************
+-->
+	<component>
+		<structuredBody>
+<!--
+*******************************************************
+主诉章节
+*******************************************************
+-->		
+			<component>
+				<section>
+					<code code="10154-3" displayName="CHIEF COMPLAINT" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<text/>
+					<entry typeCode="COMP" contextConductionInd="true">
+						<!-- 主诉-->
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.01.119.00" displayName="主诉" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">一周前劳累后突感腰部疼痛，以左侧为主，无法直立，活动受限，自行卧床休息后症状无明显缓解，腰痛症状持续，翻身活动受限</value>
+						</observation>	
+					</entry>
+				</section>
+			</component>
+<!--**************************************************
+入院诊断章节
+******************************************************
+-->		
+			<!--入院诊断章节-->
+			<component>
+				<section>
+					<code code="46241-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="HOSPITAL ADMISSION DX" />
+					<text/>
+					
+					<!--入院情况-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE05.10.148.00" displayName="入院情况" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">腰椎退变伴L4椎体滑脱。入我院骨科查腰椎MRI示：L4椎体滑脱，L4/5椎间盘突出，椎管狭窄，L1-3椎体骨破坏，后腹膜淋巴结肿大—考虑骨转移瘤。腰椎退变，双肾囊肿可能。予胸部CT检查及腰椎CT示：两肺多发病变，考虑感染可能，两侧胸腔积液，肝脏多发病变，腹腔积液、腹膜后淋巴结肿大，右侧肾囊肿。腹部CT增强提示：肝脏、右侧肾上腺病变，伴腹膜后多发淋巴结肿大、腹腔积液：考虑转移瘤；右心室病变，考虑：1.MT 2.癌栓待排，肝脏、肾脏多发囊肿。防癌三项示CA125明显升高，诊断为肿瘤骨转移转入我科。体温 36℃ 脉搏 84次/分 呼吸 18次/分 血压 140/80mmHg。神志清楚，精神可，无意识丧失，疼痛保护体位，平车推入病房，发育正常，营养中等，应答切题，查体合作。全身皮肤及粘膜无黄染，头颅外形正常，无畸形，双侧瞳孔等大同圆，颈软，无抵抗，气管位置居中，甲状腺未触及结节，无肿大。两侧肺部叩诊音清音，双肺呼吸音清，未闻及干湿罗音。心率84次/分，律齐，各瓣膜听诊区未闻及病理性杂音。腹部平坦，腹壁柔软，无压痛、反跳痛，肝脾肋下未触及，无肾区叩击痛，肠鸣音存在、不亢进，未闻及腹壁血管杂音。外阴未检。神经检查见专科检查。舌暗红，苔薄白，脉弦</value>
+						</observation>
+					</entry>
+					
+					<!--入院诊断-西医诊断编码-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" displayName="入院诊断-西医诊断编码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="CD" code="K56.700" codeSystem="2.16.156.10011.2.3.3.11" displayName="肠梗阻" codeSystemName="ICD-10"/>
+						</observation>
+					</entry>
+					
+					<!--入院诊断-中医病名代码-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00" displayName="入院诊断-中医病名代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"><qualifier><name displayName="中医病名代码"></name></qualifier></code>
+							<value xsi:type="CD" code="BRY021" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="急喉痹病" />
+						</observation>
+					</entry>
+					
+					<!--入院诊断-中医症候代码-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00" displayName="入院诊断-中医症候代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"><qualifier><name displayName="中医症候名称"></name></qualifier></code>
+							<value xsi:type="CD" code="ZYTX20" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="痰瘀互结证" />
+						</observation>
+					</entry>
+				</section>
+			</component>
+
+<!-- 
+********************************************************
+诊断章节
+********************************************************
+-->
+			<!--诊断记录章节-->
+			<component>
+				<section>
+                    <code code="29548-5" displayName="Diagnosis"  codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <text/>
+                    <!--条目:目前情况-->
+                    <entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE06.00.184.00" displayName="目前情况" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">腰部疼痛缓解不明显</value>
+						</observation>
+                    </entry>
+                    
+                    <!--目前诊断-->
+                    <entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" displayName="目前诊断-西医诊断编码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="CD" code="K56.700" codeSystem="2.16.156.10011.2.3.3.11" displayName="肠梗阻" codeSystemName="ICD-10"/>
+						</observation>
+					</entry>
+					
+					<!--目前诊断-中医病名代码-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00" displayName="目前诊断-中医病名代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"><qualifier><name displayName="中医病名代码"></name></qualifier></code>
+							<value xsi:type="CD" code="BRY021" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="急喉痹病" />
+						</observation>
+					</entry>
+					
+					<!--目前诊断-中医症候代码-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.10.130.00" displayName="目前诊断-中医症候代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"><qualifier><name displayName="中医症候代码"></name></qualifier></code>
+							<value xsi:type="CD" code="ZYTX20" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="痰瘀互结证" />
+						</observation>
+					</entry>
+					
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE02.10.028.00" displayName="中医“四诊”观察结果" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">全身皮肤及粘膜无黄染，头颅外形正常，无畸形，双侧瞳孔等大同圆，颈软，无抵抗，气管位置居中，甲状腺未触及结节，无肿大。两侧肺部叩诊音清音，双肺呼吸音清，未闻及干湿罗音。心率84次/分，律齐，各瓣膜听诊区未闻及病理性杂音。腹部平坦，腹壁柔软，无压痛、反跳痛，肝脾肋下未触及，无肾区叩击痛，肠鸣音存在、不亢进，未闻及腹壁血管杂音。外阴未检。神经检查见专科检查。舌暗红，苔薄白，脉弦。本病以腰痛一周为主证，舌暗红，苔薄白，脉弦。四诊合参，当属祖国医学“骨岩”范畴，盖因年老体弱，加之长期饮食不节，脾肾两虚，脾失健运，痰浊内生，下犯于肾，气滞血瘀，痰瘀互结，变生岩邪，发为本病，本病证属痰瘀互结，病位在骨、肝、脾，本虚标实</value>
+						</observation>
+					</entry>
+               </section>
+            </component>
+
+<!-- 
+********************************************************
+治疗计划章节
+********************************************************
+-->
+			<!--计划章节 1..*-->
+            <component>
+                <section>
+                    <code code="18776-5" displayName="TREATMENT PLAN" codeSystem="2.16.840.1.113883.6.1"  codeSystemName="LOINC"/>
+                    <text/>
+                    <!--转科目的-->
+                    <entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.315.00" displayName="转科目的" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">对患者转科目的的详细描述</value>
+						</observation>
+                    </entry>
+                    
+					<!-- 转入诊疗计划	患者转入科室后的诊疗计划，具体的检查、中西医治疗措施及中医调护-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.298.00" displayName="转入诊疗计划" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">转入诊疗计划描述</value> 
+						</observation>
+					</entry>
+					
+					<!--治则治法-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.300.00" displayName="治则治法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">名称参考治则治法代码表（GB/T 16751.3-199</value> 
+							
+						</observation>
+					</entry>
+					
+					<!--注意事项-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE09.00.119.00" displayName="注意事项" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">对可能出现问题及采取相应措施的描述</value>
+						</observation>
+                    </entry>
+                </section>
+            </component>
+<!--
+************************************************
+转科记录章节
+************************************************
+-->
+            <component>
+				<section>
+					<code displayName="转科记录"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS " moodCode="EVN">
+							<code code="DE06.00.314.00" displayName="转科记录类型" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.2.56" codeSystemName="转科记录类型代码表" displayName="转入记录"/>
+						</observation>
+					</entry>	
+					
+					<!--转出科室-->
+					<entry>
+						<observation classCode="OBS " moodCode="EVN ">
+							<code code="DE08.10.026.00"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="转出科室名称"/>
+							<value xsi:type="ST">患者转出去的科室名称</value>	
+						</observation>
+					</entry>
+						
+					<!--转入科室-->
+					<entry>
+						<observation classCode="OBS " moodCode="EVN ">
+							<code code="DE08.10.026.00"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="转入科室名称"/>
+							<value xsi:type="ST">肿瘤科</value>	
+						</observation>
+					</entry>	
+				</section>
+			</component>
+			
+<!--
+********************************************************
+用药章节 
+********************************************************
+-->
+            <component>
+                <section>
+                    <code code="10160-0" displayName="HISTORY OF MEDICATION USE" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <text/>
+                    
+                    <entry>
+                        <observation classCode="OBS " moodCode="EVN ">
+							<code code="DE06.00.287.00" displayName="中药处方医嘱内容" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">对中药处方医嘱内容的详细描述</value>
+						</observation>
+                    </entry>
+                    
+                    <!--中药煎煮方法-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE08.50.047.00" displayName="中药煎煮方法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">中药的煎煮方法描述</value>
+						</observation>
+					</entry>
+					
+					 <!--中药用药方法-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN ">
+							<code code="DE06.00.136.00" displayName="中药用药方法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">中药的用药方法描述</value>
+						</observation>
+					</entry>
+                </section>
+            </component>
+ <!--
+****************************************************
+ 住院过程章节
+****************************************************
+ -->
+			<component>
+				<section>
+					<code code="8648-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Hospital Course"/>
+					<text/>
+					<!--诊疗过程描述-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.296.00" displayName="诊疗过程描述"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="ST">对患者诊疗过程的详细描述</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

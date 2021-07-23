@@ -1,5 +1,0 @@
-﻿<RegistryResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/RegistryResponse.xsd">
-	<Response id="Document.1" status="AE" >
-		<Detail>失败细节描述</Detail>
-	</Response>
-</RegistryResponse>

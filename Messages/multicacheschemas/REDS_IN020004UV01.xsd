@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema xmlns:mif2="urn:hl7-org:v3/mif2" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="urn:hl7-org:v3"
+           xmlns:mif="urn:hl7-org:v3/mif"
+           targetNamespace="urn:hl7-org:v3"
+           elementFormDefault="qualified">
+   <xs:annotation>
+      <xs:documentation>Source Information
+     Rendered by: RoseTree 4.2.54
+     Rendered on: 
+This document was rendered into XML using software provided to HL7 by Beeler Consulting LLC.
+ PubDB to MIF Transform: $RCSfile: PubDbXmlToMIF.xsl,v $ $Revision: 1.11 $ $Date: 2007/10/19 05:55:13 $
+  Fix names transform: $Id: FixMifNames.xsl 8355 2009-10-07 03:16:34Z lloyd_mckenzie $
+  HTML to MIF Markup transform: $Id: HtmlToMIFMarkup.xsl 8384 2010-04-12 17:34:28Z woody_beeler $
+  Base transform: $Id: ConvertBase.xsl 8360 2009-10-26 06:00:22Z woody_beeler $
+  Package Id Conversion: $Id: TransformPackageIds.xsl 8398 2010-10-12 01:52:15Z lloyd_mckenzie $
+ Generated using schema builder version: 3.4.4 and DynamicMifToXSD.xsl version: 1.4
+ Dynamic MIF to Schema Transform: $Id: DynamicMifToXsd.xsl 8355 2009-10-07 03:16:34Z lloyd_mckenzie $
+  Static MIF to Schema Transform: $Id: StaticMifToXsd.xsl 8419 2010-11-15 00:10:54Z woody_beeler $
+  Package Id Conversion: $Id: TransformPackageIds.xsl 8398 2010-10-12 01:52:15Z lloyd_mckenzie $</xs:documentation>
+   </xs:annotation>
+   <xs:include schemaLocation="../coreschemas/infrastructureRoot-r2.xsd"/>
+   <xs:include schemaLocation="REDS_MT020001UV01.xsd"/>
+   <xs:element name="REDS_IN020004UV01">
+      <xs:complexType>
+         <xs:complexContent>
+            <xs:extension base="REDS_MT020001UV01.OrderSetDocument">
+               <xs:attribute name="ITSVersion" type="xs:string" use="required" fixed="XML_1.0"/>
+            </xs:extension>
+         </xs:complexContent>
+      </xs:complexType>
+   </xs:element>
+</xs:schema>

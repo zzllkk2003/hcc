@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../sdschemas/CDA.xsd">
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.48"/>
+	<!--知情同意书编号-->
+	<id root="2.16.156.10011.1.1.2" extension="D2011000001"/>
+	<code code="C0028" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	<title>输血治疗同意书</title>
+	<effectiveTime xsi:type="TS" value="20111231154823"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	<!--患者信息-->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole>
+			<!--门诊号-->
+			<id root="2.16.156.10011.1.11" extension="001"/>
+			<!--住院号-->
+			<id root="2.16.165.10011.1.12" extension="001"/>
+			<patient>
+				<name>患者姓名</name>
+				<!--性别-->
+				<administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）"/>
+				<!--出生日期-->
+				<birthTime value="199101010"/>
+				<age unit="岁" value="25"></age>
+				
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<!--作者-->
+	<author typeCode="AUT" contextControlCode="OP">
+		<time xsi:type="TS" value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.156.10011.1.5" extension="01"/>
+				<name>xx医院</name>
+				<addr> xx区xx街x号</addr>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="医疗卫生机构编号"/>
+				<name>xx医院</name>
+				<telecom value="0209837373"/>
+				<addr>XX街道</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<!--医师签名 -->
+	<legalAuthenticator typeCode="LA">
+		<time value="20120101"/>
+		<signatureCode code="s"/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.5" extension="医务人员编号"/>
+			<assignedPerson>
+				<name>医师签名</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	<!-- 患者签名  DE02.01.039.00	患者/法定代理人签名
+4、DE09.00.053.00	患者/法定代理人签名日期时间 -->
+	<authenticator>
+		<time value="20120101223432"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.3" extension="ID420106201101011919"/>
+			<assignedPerson>
+				<name>患者姓名</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<!--代理人签名 DE02.01.039.00	患者/法定代理人签名
+4、DE09.00.053.00	患者/法定代理人签名日期时间 -->
+	<authenticator>
+		<time value="20120101223432"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.3" extension="ID420106201101011919"/>
+			<!--代理人关系-->
+			<code code="3" codeSystem="2.16.156.10011.2.3.3.8" codeSystemName="GB/T 4716-2008"/>
+			<assignedPerson>
+				<name>代理人姓名</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<relatedDocument typeCode="APND">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="D2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>
+	<!-- 病床号、病房、病区、科室和医院的关联 -->
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00	病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="001"/>
+								<!-- DE01.00.019.00	病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="001"/>
+										<!-- DE08.10.026.00	科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<!-- DE08.10.054.00	病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<name>病区名称</name>
+														<!--XXX医院 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="001"/>
+																<name>XXX医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<!--BODY-->
+	<component>
+		<structuredBody>
+			<!--诊断章节-->
+			<component>
+				<section>
+					<code code="29548-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Diagnosis"/>
+					<text/>
+					<!--疾病诊断编码-->
+					<entry typeCode="COMP">
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.1.100" codeSystemName="ICD-10"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--输血章节-->
+			<component>
+				<section>
+					<code code="56836-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"  displayName="History of blood transfusion"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.106.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--1无，2有，9未说明-->
+							<value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.2.49" codeSystemName="输血史标识代码表"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--治疗计划章节-->
+			<component>
+				<section>
+					<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="TREATMENT PLAN"/>
+					<text/>
+					<entry>
+						<!--输血过程-->
+						<procedure classCode="PROC" moodCode="EVN">
+							<code/>
+							<!--输血时间-->
+							<effectiveTime/>
+							<!--输血方式-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.266.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血方式"/>
+								</observation>
+							</entryRelationship>
+							<!--输血指征-->
+							<entryRelationship typeCode="CAUS">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.340.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血指征"/>
+									<value xsi:type="ST">输血指征</value>
+								</observation>
+							</entryRelationship>
+							<!--输血品种代码-->
+							<entryRelationship typeCode="COMP">
+								<substanceAdministration classCode="SBADM" moodCode="RQO">
+									<consumable>
+										<manufacturedProduct>
+											<manufacturedMaterial>
+												<code code="11" codeSystem="2.16.156.10011.2.3.1.251" codeSystemName="输血品种代码表" displayName="浓缩红细胞"/>
+											</manufacturedMaterial>
+										</manufacturedProduct>
+									</consumable>
+								</substanceAdministration>
+							</entryRelationship>
+							<!--输血前有关检查项目以及结果-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE05.10.109.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血前有关检查项目以及结果"/>
+									<value xsi:type="ED">输血前有关检查项目以及结果</value>
+								</observation>
+							</entryRelationship>
+						</procedure>
+					</entry>
+				</section>
+			</component>
+			<!--意见章节-->
+			<component>
+				<section>
+					<code displayName="意见章节"/>
+					<text/>
+					<!--医疗机构意见-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="医疗机构的意见"/>
+							<value xsi:type="ST">医疗机构意见</value>
+						</observation>
+					</entry>
+					<!--患者意见-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="患者的意见"/>
+							<value xsi:type="ST">患者意见</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--风险章节-->
+			<component>
+				<section>
+					<code displayName="操作风险"/>
+					<text/>
+					<!--输血风险及可能发生的不良后果-->
+					<entry>
+						<observation classCode="OBS" moodCode="DEF">
+							<code code="DE06.00.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血风险及可能发生的不良后果"/>
+							<value xsi:type="ST">输血风险及可能发生的不良后果</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

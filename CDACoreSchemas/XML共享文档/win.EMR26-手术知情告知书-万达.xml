@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--修改日期1105-->
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../sdschemas/CDA.xsd">
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.46"/>
+	<!--知情同意书编号-->
+	<id root="2.16.156.10011.1.1.2" extension="D2011000001"/>
+	<code code="C0026" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	<title>手术知情告知书</title>
+	<effectiveTime xsi:type="TS" value="20111231154823"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	<!--患者信息-->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole>
+			<!--门诊号-->
+			<id root="2.16.156.10011.1.11" extension="001"/>
+			<!--住院号-->
+			<id root="2.16.165.10011.1.12" extension="001"/>
+			<patient>
+				<name>贾小明</name>
+				<!--性别-->
+				<administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）"/>
+				<!--出生日期-->
+				<birthTime value="199101010"/>
+				<age unit="岁" value="25"></age>
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<!--作者-->
+	<author typeCode="AUT" contextControlCode="OP">
+		<time xsi:type="TS" value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.156.10011.1.5" extension="01"/>
+				<name>xx医院</name>
+				<addr> xx区xx街x号</addr>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="医疗卫生机构编号"/>
+				<name>xx医院</name>
+				<telecom value="0209837373"/>
+				<addr>XX街道</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<!--医师签名-->
+	<legalAuthenticator typeCode="LA">
+		<!-- DE02.01.039.00	经治医师签名 -->
+		<time value="20120101"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.5" extension="医务人员编号"/>
+			<assignedPerson>
+				<name>医师签名</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	<!-- 手术者签名 -->
+	<authenticator>
+		<!-- DE02.01.039.00	经治医师签名 -->
+		<time value="20120101"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.5" extension="医务人员编号"/>
+			<assignedPerson>
+				<name>手术者签名</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+		
+	<!-- 患者签名 -->
+	<authenticator>
+		<!-- DE09.00.053.00	签名日期时间  -->
+		<time value="20121010121344"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.3" extension="ID420106201101011919"/>
+			<assignedPerson>
+				<name>患者姓名</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<!--代理人签名-->
+	<authenticator>
+		<!-- DE09.00.053.00	签名日期时间  -->
+		<time value="20121010121344"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.3" extension="ID420106201101011919"/>
+			<!--代理人关系-->
+			<code code="3" codeSystem="2.16.156.10011.2.3.3.8" codeSystemName="GB/T 4716-2008"/>
+			<assignedPerson>
+				<name>代理人姓名</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<relatedDocument typeCode="APND">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="D2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>
+	<!-- 病床号、病房、病区、科室和医院的关联 -->
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00	病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="001"/>
+								<!-- DE01.00.019.00	病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="001"/>
+										<!-- DE08.10.026.00	科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<!-- DE08.10.054.00	病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<name>病区名称</name>
+														<!--XXX医院 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="001"/>
+																<name>XXX医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<!--CDA body-->
+	<component>
+		<structuredBody>
+			<!--术前诊断章节-->
+			<component>
+				<section>
+					<code code="10219-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Surgical operation note preoperative Dx"/>
+					<text/>
+					<entry typeCode="COMP">
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.1.100" codeSystemName="ICD-10"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--治疗计划章节-->
+			<component>
+				<section>
+					<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="TREATMENT PLAN"/>
+					<text/>
+					<!--拟实施手术-->
+					<entry>
+						<!--拟实施手术-->
+						<procedure classCode="PROC" moodCode="RQO">
+							<code code="1" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表（ICD-9-CM)" displayName="阑尾炎手术"/>
+							<statusCode code="new"/>
+							<!--手术时间-->
+							<effectiveTime value="20120909"/>
+							<!--手术方式描述-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.302.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="手术方式"/>
+									<value xsi:type="ST">手术方式</value>
+								</observation>
+							</entryRelationship>
+							<!--手术前的准备-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.271.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="术前准备"/>
+									<value xsi:type="ST">手术前的准备</value>
+								</observation>
+							</entryRelationship>
+							<!--手术禁忌症-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="DEF">
+									<code code="DE05.10.141.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="手术禁忌症"/>
+									<value xsi:type="ST">手术禁忌症</value>
+								</observation>
+							</entryRelationship>
+							<!--手术指征-->
+							<entryRelationship typeCode="RSON">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.340.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="手术指征"/>
+									<value xsi:type="ST">手术指征</value>
+								</observation>
+							</entryRelationship>
+							<!--拟麻醉信息-->
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE06.00.073.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="拟实施麻醉方法代码"/>
+									<value code="1" codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="麻醉方式代码表" xsi:type="CD"/>
+								</observation>
+							</entryRelationship>
+						</procedure>
+					</entry>
+					<!--替代方案-->
+					<entry>
+						<observation classCode="OBS" moodCode="DEF">
+							<code code="DE06.00.301.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="替代方案"/>
+							<value xsi:type="ST">替代方案</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--意见章节-->
+			<component>
+				<section>
+					<code displayName="意见章节"/>
+					<text/>
+					<!--医疗机构意见-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="医疗机构的意见"/>
+							<value xsi:type="ST">医疗机构意见</value>
+						</observation>
+					</entry>
+					<!--患者意见-->
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="患者的意见"/>
+							<value xsi:type="ST">患者意见</value>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--风险章节-->
+			<component>
+				<section>
+					<code displayName="操作风险"/>
+					<text/>
+					<!--手术中可能出现的意外-->
+					<entry>
+						<observation classCode="OBS" moodCode="DEF">
+							<code code="DE05.10.162.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="手术中可能出现的意外及风险"/>
+							<value xsi:type="ST">手术中可能出现的意外及风险</value>
+
+						</observation>
+					</entry>						
+					<!--手术后可能出现的意外-->
+					<entry>
+						<observation classCode="OBS" moodCode="DEF">
+							<code code="DE05.01.075.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="手术后可能出现的意外以及风险"/>
+							<value xsi:type="ST">手术后可能出现的意外</value>
+
+						</observation>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

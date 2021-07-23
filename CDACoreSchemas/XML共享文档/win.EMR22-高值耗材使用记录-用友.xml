@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../sdschemas/CDA.xsd">
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.42"/>
+	<id root="2.16.156.10011.1.1.2" extension="D2011000001"/>
+	<code code="C0004" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	<title>高值耗材使用记录</title>
+	<!--文档生成日期时间：记录日期时间：DE09.00.053.00-->
+	<effectiveTime xsi:type="TS" value="20121024154823"/>
+	<!--N-->
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<!--N:全部改为zh-CN，ＯＫ-->
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			<!--住院号：DE01.00.014.00  @@@参照OID分配表修改 -->
+			<id root="2.16.156.10011.1.12" extension="HR201102113366666"/>
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<name>贾患者</name>
+				<administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）"/>
+				<!--N:有就填-->
+				<age value="10" unit="岁"/>
+			</patient>
+			<providerOrganization>
+				<id root="2.16.156.10011.1.5" extension="01"/>
+				<name>xx医院</name>
+			</providerOrganization>
+		</patientRole>
+	</recordTarget>
+	<!-- 文档作者 -->
+	<author typeCode="AUT" contextControlCode="OP">
+		<!--签名日期时间：DE09.00.053.00-->
+		<time xsi:type="TS" value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<code displayName="护士"/>
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.156.10011.1.5" extension="01"/>
+				<name>xx医院</name>
+				<addr> xx区xx街x号</addr>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<!-- 文档生成机构 -->
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="医疗卫生机构编号"/>
+				<name>xx医院</name>
+				<telecom value="0209837373"/>
+				<addr>XX街道</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<!-- 签名 -->
+	<authenticator>
+		<!--签名日期时间：DE09.00.053.00 -->
+		<time value="201210240910"/>
+		<signatureCode/>
+		<assignedEntity>
+			<id root="2.16.156.10011.1.5" extension="医务人员编号"/>
+			<code displayName="护士"/>
+			<assignedPerson>
+				<!--姓名-->
+				<name>李医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	<!--N:默认无，支持RPLC\APND\XFRM-->
+	<relatedDocument typeCode="APND">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="D2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>
+	<!--文档中医疗卫生事件的就诊场景,即入院场景记录-->
+	<componentOf typeCode="COMP">
+		<!--就诊-->
+		<encompassingEncounter classCode="ENC" moodCode="EVN">
+			<code/>
+			<effectiveTime nullFlavor="NI"/>
+			<location typeCode="LOC">
+				<healthCareFacility classCode="SDLOC">
+					<!--机构角色-->
+					<serviceProviderOrganization classCode="ORG" determinerCode="INSTANCE">
+						<asOrganizationPartOf classCode="PART">
+							<!--病床号：DE01.00.026.00-->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<!--N:加上OID-->
+								<id root="2.16.156.10011.1.22" extension="001"/>
+								<name>床位号：3</name>
+								<!--病房号：DE01.00.019.00-->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<!--N:加上OID-->
+										<id root="2.16.156.10011.1.21" extension="001"/>
+										<name>病房号：45</name>
+										<!--病区名称：DE08.10.054.00-->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<!--N:加上OID-->
+												<id root="2.16.156.10011.1.27" extension="001"/>
+												<name>第四病区</name>
+												<!--科室名称：DE08.10.026.00-->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<!--N:加上OID-->
+														<id root="2.16.156.10011.1.26" extension="001"/>
+														<name>内科</name>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<component>
+		<structuredBody>
+			<!--疾病诊断章节-->
+			<component>
+				<section>
+					<code code="29548-5" displayName="Diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<title>疾病诊断章节</title>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
+							<value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.3.11.5" codeSystemName="疾病代码表（ICD-10）"/>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<!--高值耗材章节（同用药章节） -->
+			<component>
+				<section>
+					<code code="10160-0" codeSystem="2.16.840.1.113883.6.1" displayName="HISTORY OF MEDICATION USE" codeSystemName="LOINC"/>
+					<title>高值耗材章节</title>
+					<text/>
+					<entry>
+						<substanceAdministration classCode="SBADM" moodCode="EVN">
+							<text/>
+							<!--使用途径：DE06.00.242.00-->
+							<routeCode nullFlavor="OTH">
+								<originalText>心脏植入</originalText>
+							</routeCode>
+							<!--耗材数量DE06.00.241.00、耗材单位DE08.50.034.00 -->
+							<doseQuantity value="20" unit="mg"/>
+							<consumable>
+								<manufacturedProduct>
+									<!--产品编码-->
+									<id root="2.9999" extension="1111"/>
+									<manufacturedMaterial>
+										<!--材料名称 -->
+										<code/>
+										<name>植入性心脏支架</name>
+									</manufacturedMaterial>
+									<manufacturerOrganization>
+										<name>产品生产厂家</name>
+										<asOrganizationPartOf>
+											<wholeOrganization>
+												<name>产品供应商</name>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</manufacturerOrganization>
+								</manufacturedProduct>
+							</consumable>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE08.50.058.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="植入性耗材标志"/>
+									<!-- 植入性耗材标志：DE08.50.058.00 -->
+									<value xsi:type="BL" value="true"/>
+								</observation>
+							</entryRelationship>
+						</substanceAdministration>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

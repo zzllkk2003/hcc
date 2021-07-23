@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ..\sdschemas\CDA.xsd">
+<!--
+********************************************************
+ CDA Header
+********************************************************
+-->
+	<realmCode code="CN"/>
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_MT000040"/>
+	<templateId root="2.16.156.10011.2.1.1.27"/>
+	
+	<id root="2.16.156.10011.1.1.2" extension="D2011000001"/>
+	
+	<code code="C0007" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+	<title>检验记录</title>
+	<effectiveTime value="20111231154823"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="正常访问保密级别"/>
+	<languageCode code="zh-CN"/>
+	<setId/>
+	<versionNumber/>
+
+	<!--文档记录对象（患者）-->
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+		
+			<!--门（急）诊号标识 -->
+			<id root="2.16.156.10011.1.11" extension="E10000000"/>
+				
+			<!--住院号标识-->
+			<id root="2.16.156.10011.1.12" extension="HA201102113366666"/>
+			
+			<!--检验报告单号标识-->
+			<id root="2.16.156.10011.1.33" extension="HA201102113366666"/>
+						
+			<!--电子申请单编号-->
+			<id root="2.16.156.10011.1.24" extension="HA201102113366666"/>
+			
+			<!-- 检验标本编号标识 -->
+			<id root="2.16.156.10011.1.14" extension="213"/>
+
+			<!-- 患者类别代码 -->
+			<patientType>
+				<patienttypeCode code="1" codeSystem="2.16.156.10011.2.3.1.271" codeSystemName="患者类型代码表" displayName="门诊"></patienttypeCode>
+			</patientType>
+			
+			<telecom value="020-87815102"/>
+			<patient classCode="PSN" determinerCode="INSTANCE">
+			
+				<name>贾小明</name>
+				
+				<administrativeGenderCode code="1" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）"/>
+				
+				<!-- 年龄 -->
+				<age unit="岁" value="24"></age>
+
+			</patient>
+		</patientRole>
+	</recordTarget>
+	
+	<!-- 检验报告医师（文档创作者） -->
+	<author typeCode="AUT" contextControlCode="OP">
+		
+		<!-- 检验报告日期 -->
+		<time value="20110404"/>
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="2.16.156.10011.1.7" extension="234234234"/>
+			<!-- 医师姓名 -->
+			<assignedPerson>
+				<name>李医生</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	
+	<!-- 保管机构 -->
+	<custodian typeCode="CST">
+	    <assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+				<id root="2.16.156.10011.1.5" extension="医疗卫生机构编号"/>
+				<name>xx医院</name>
+				<telecom value="0209837373"/>
+				<addr>xx街道</addr>
+		    </representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+
+	<!-- 审核医师签名 -->
+	<legalAuthenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="审核医师"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>刘医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	
+	<!-- 检验技师签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="检验技师"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>钱医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<!-- 检验医师签名 -->
+	<authenticator>
+		<time/>
+		<signatureCode/>
+		<assignedEntity>
+			<id/>
+			<code displayName="检查验医师"></code>
+			<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+				<name>孙医生</name>
+			</assignedPerson>
+		</assignedEntity>
+	</authenticator>
+	
+	<!-- 检验申请机构及科室 -->
+	<participant typeCode="PRF">
+		<associatedEntity classCode="ASSIGNED">
+			<scopingOrganization>
+				<id root="2.16.156.10011.1.26" extension="001"/>
+				<name>检验申请科室</name>
+				<asOrganizationPartOf>
+					<wholeOrganization>
+						<id root="2.16.156.10011.1.5" extension="检验申请机构编号"/>
+						<name>检验申请机构</name>
+					</wholeOrganization>
+				</asOrganizationPartOf>
+			</scopingOrganization>
+		</associatedEntity>
+	</participant>
+	
+	<!--相关文档-->
+	<relatedDocument typeCode="RPLC">
+		<parentDocument classCode="DOCCLIN" moodCode="EVN">
+			<id root="2.16.156.10011.1.1.2" extension="D2011000000"/>
+			<setId/>
+			<versionNumber value="1"/>
+		</parentDocument>
+	</relatedDocument>
+
+	<!-- 病床号、病房、病区、科室和医院的关联 -->
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00	病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<id root="2.16.156.10011.1.22" extension="001"/>
+								<!-- DE01.00.019.00	病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<id root="2.16.156.10011.1.21" extension="001"/>
+										<!-- DE08.10.026.00	科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<id root="2.16.156.10011.1.26"/>
+												<name>呼吸内科</name>
+												<!-- DE08.10.054.00	病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<id root="2.16.156.10011.1.27"/>
+														<name>1病区</name>
+														<!--XXX医院 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<id root="2.16.156.10011.1.5" extension="001"/>
+																<name>XXX医院</name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	
+<!--***************************************************
+文档体Body
+*******************************************************
+-->
+	<component>
+		<structuredBody>
+
+            <!-- 诊断记录章节-->
+			<component>
+				<section>
+                    <code code="29548-5" displayName="Diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <text/>
+                    <!--条目：诊断-->
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="DE05.01.024.00" displayName="诊断代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+                            <!--诊断日期-->
+                            <effectiveTime value="20120201"></effectiveTime>
+                            <value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"></value>
+                            <performer>
+								<assignedEntity>
+									<id/>
+									<representedOrganization>
+										<name>诊断机构</name>
+									</representedOrganization>
+								</assignedEntity>
+							</performer>
+                        </observation>
+                    </entry>
+               </section>
+            </component>
+            
+			<!--实验室检查章节-->
+			<component>
+				<section>
+					<code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="STUDIES SUMMARY"/>
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE02.10.027.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验方法名称"></code>
+							<value xsi:type="ST">患者接受医学检查项目所采用的检验方法名称</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.30.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验类别"></code>
+							<value xsi:type="ST">患者检验项目所属的类别详细描述</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.30.019.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验项目代码"></code>
+							<!-- 检验时间 -->
+							<effectiveTime value="20120405"/>
+							<value xsi:type="ST">患者检验项目在特定编码体系中的代码</value>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.50.134.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本类别"></code>
+									<!-- DE04.50.137.00	标本采样日期时间
+DE04.50.141.00	接收标本日期时间 -->
+									<effectiveTime>
+										<low value="20130101110103"></low>
+										<high value="20130102110212"></high>
+									</effectiveTime>
+									<value xsi:type="ST">标本类别</value>
+								</observation>
+							</entryRelationship>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.50.135.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本状态"></code>
+									<value xsi:type="ST">标本状态</value>
+								</observation>
+							</entryRelationship>							
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.30.017.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验结果代码"></code>
+							<value xsi:type="CD" code="1" codeSystem="2.16.156.10011.2.3.2.38" codeSystemName="检查（检验）结果代码表"></value>
+						</observation>
+					</entry>
+	
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.30.015.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验定量结果"></code>
+							<value xsi:type="REAL" value="1.1234"></value>
+							<entryRelationship typeCode="COMP">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="DE04.30.016.00" displayName="检查定量结果计量单位" codeSystemName="卫生信息数据元目录" codeSystem="2.16.156.10011.2.2.1" />
+									<value xsi:type="ST">ml</value>
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+				</section>
+			</component>
+
+			<!-- 检验报告章节 -->
+			<component>
+				<section>
+					<code displayName="检验报告" />
+					<text/>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE04.50.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验报告结果"/>
+							<value xsi:type="ST">检查报告结果</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE08.10.026.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验报告科室"/>
+							<value xsi:type="ST">检验报告科室</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE08.10.013.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验报告机构名称"/>
+							<value xsi:type="ST">检验报告机构名称</value>
+						</observation>
+					</entry>
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE06.00.179.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验报告备注"/>
+							<value xsi:type="ST">检验报告备注信息</value>
+						</observation>
+					</entry>	
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

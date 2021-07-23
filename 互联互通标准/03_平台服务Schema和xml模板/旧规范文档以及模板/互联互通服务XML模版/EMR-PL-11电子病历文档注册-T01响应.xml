@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<RegistryResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/RegistryResponse.xsd">
-	<Id root="响应消息OID" extension="3061170D-BDB2-44BD-AED4-1AE9DD734990"/>
-	<TargetId root="请求消息OID" extension="C193FE3B-E71F-4D81-8B8B-9462F35E8D38"/>
-	<Response id="Document.1" documentUniqueId="D55D2100-090D-4B33-9CFB-7BBC542B02A1" repositoryId="1AD6DD12-569E-420B-9EEF-32E903536F89" status="AA" doumentUrl="http://192.168.1.145:57773/HUB.02.2^HUB.05.1^20121116112942^会诊记录.xml">
-		<Detail>success</Detail>
-	</Response>
-</RegistryResponse>
