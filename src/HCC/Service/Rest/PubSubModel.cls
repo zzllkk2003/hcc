@@ -1,14 +1,14 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-07-16 16:13:40
+/// LastEditTime: 2021-08-03 00:42:52
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/src/HCC/Service/Rest/PubSubModel.cls
+/// FilePath: \hcc\src\HCC\Service\Rest\PubSubModel.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// Description
-Class HCC.Service.Rest.PubSubModel Extends %RegisteredObject
+Class HCC.Service.Rest.PubSubModel Extends (%RegisteredObject, %JSON.Adaptor)
 {
 
 /// 订阅者名称
@@ -22,10 +22,10 @@ Property SubscriptionName As %String;
 Property SubTopic As %String;
 
 /// 订阅者url
-Property SubscriberURL As %String;
+Property SubscriberEndPointURL As %String;
 
 /// 订阅者目标production 组件
-Property SubscriberBusinessHost As %String;
+Property SubscriberBusinessHostName As %String;
 
 /// 订阅者调用验证方式
 Property SubAuth As %String;

@@ -4,8 +4,8 @@
                 "SubscriberName": "Pacs",
                 "SubscriptionName": "Pacs",
                 "SubTopic": "PatientInfoRegistry",
-                "SubscriberEndPointURL": "Gates",
-                "SubscriberBusinessHostName": "Gates",
+                "SubscriberEndPointURL": "http://172.19.86.19:52773/csp/healthshare/mocksys/EMR.WS.PatientService.cls",
+                "SubscriberBusinessHostName": "Mocksys",
                 "SubAuth": "HS_Service"
             }    
 }
