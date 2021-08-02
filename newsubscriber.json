@@ -1,0 +1,11 @@
+{
+        "subscriber": 
+            {
+                "SubscriberName": "Pacs",
+                "SubscriptionName": "Pacs",
+                "SubTopic": "PatientInfoRegistry",
+                "SubscriberEndPointURL": "Gates",
+                "SubscriberBusinessHostName": "Gates",
+                "SubAuth": "HS_Service"
+            }    
+}
