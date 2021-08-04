@@ -1,14 +1,14 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-08-03 00:42:52
+/// LastEditTime: 2021-08-04 23:51:45
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: \hcc\src\HCC\Service\Rest\PubSubModel.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// Description
-Class HCC.Service.Rest.PubSubModel Extends (%RegisteredObject, %JSON.Adaptor)
+Class HCC.Service.Rest.PubSubModel Extends (%RegisteredObject, %JSON.Adaptor, %XML.Adaptor)
 {
 
 /// 订阅者名称
@@ -36,5 +36,8 @@ Property BusiHostStatus As %String;
 /// 订阅者WSDL 
 /// TODO:暂时不用
 Property WSDL As %Stream.GlobalCharacter;
+
+/// 订阅者ID
+Property SubscriberID As %String;
 
 }

@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-08-03 17:47:34
+/// LastEditTime: 2021-08-04 23:54:06
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/src/HCC/Service/Rest/SubAndPubServer.cls
+/// FilePath: \hcc\src\HCC\Service\Rest\SubAndPubServer.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// 接收订阅消息
@@ -48,6 +48,9 @@ ClassMethod NewSubscriber() As %Status
   set BusinessHost.ClassName="HCC.SVR.Prod.BO.StandardHCCOutBound"
   set BusinessHost.Name =PubSub.SubscriberBusinessHostName
   set BusinessHost.Production = production
+  do BusinessHost.Settings.Insert(Setting)
+  set Setting.Name="SOAPCredentials"
+  set Setting.Value=PubSub.SubAuth
   do BusinessHost.Settings.Insert(Setting)
   Do production.Items.Insert(BusinessHost)
   Set tsc = production.%Save()
@@ -205,11 +208,30 @@ ClassMethod ValidateJSON(obj As %DynamicObject, Output error As %DynamicObject) 
 }
 
 /// 获取全部订阅者
-ClassMethod GetAllSubscribers() As %Stream.GlobalCharacter
+ClassMethod GetAllSubscribers() As %Status
 {
    
     //TODO: 标准类名为HCC.SVR.Prod.BO.StandardHCCOutBound
-    set sqlStr="select a.DomainName ,a.Name ,a.Target, b.Topic,c.ClassName FROM  EnsLib_PubSub.Subscriber as a Left join EnsLib_PubSub.Subscription as b on a.ID = b.Subscriber inner join Ens_Config.Item as c on a.Target = c.Name where c.ClassName ='HCC.SVR.Prod.BO.StandardHCCOutBound' "
+    set myquery="select a.ID, a.DomainName ,a.Name ,a.Target, b.Topic,c.ClassName FROM  EnsLib_PubSub.Subscriber as a inner join EnsLib_PubSub.Subscription as b on a.ID = b.Subscriber inner join Ens_Config.Item as c on a.Target = c.Name where c.ClassName ='HCC.SVR.Prod.BO.StandardHCCOutBound'"
+    #Dim JSONResult AS AllSubscriber
+    set JSONResult = ##class(HCC.Service.Rest.AllSubscriber).%New()
+   
+    SET tStatement = ##class(%SQL.Statement).%New()
+    SET qStatus = tStatement.%Prepare(myquery)
+    IF qStatus'=1 {WRITE "%Prepare failed:" DO $System.Status.DisplayError(qStatus) QUIT}
+    SET rset = tStatement.%Execute()
+    WHILE rset.%Next() {
+         #Dim col as HCC.Service.Rest.PubSubModel = ##Class(HCC.Service.Rest.PubSubModel).%New()
+      set col.SubTopic= rset.%Get("Topic")
+      set col.SubscriberBusinessHostName=rset.%Get("Target")
+      set col.SubscriberName =rset.%Get("Name")
+      set col.SubscriberID= rset.%Get("ID")
+      do JSONResult.Subscribers.Insert(col)
+    }
+   do JSONResult.%JSONExportToString(.result)
+  
+   Write result
+   QUIT $$$OK
 }
 
 /// rest map
@@ -219,7 +241,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
       <Route Url="/test" Method="GET" Call="test"/>
       <Route Url="/newsubscriber" Method="POST" Call="NewSubscriber" />
       <Route Url="/editsubscriber/:id" Method="PUT" Call="EditSubscriber" />
-      <Route Url="/cancelsubscriber/:id" Method="DELETE" Call="RemoveSubscriber"/>
+      <Route Url="/removesubscriber/:id" Method="DELETE" Call="RemoveSubscriber"/>
       <Route Url="/getsubscriberlist" Method="GET" Call="GetAllSubscribers"/>
 </Routes>
 }
