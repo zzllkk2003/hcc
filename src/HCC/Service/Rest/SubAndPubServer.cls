@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-08-03 01:47:05
+/// LastEditTime: 2021-08-03 17:47:34
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: \hcc\src\HCC\Service\Rest\SubAndPubServer.cls
+/// FilePath: /hcc/src/HCC/Service/Rest/SubAndPubServer.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// 接收订阅消息
@@ -21,6 +21,7 @@ Parameter HandleCorsRequest = 1;
 ///  EnsPortal.ProductionConfig 
 ClassMethod NewSubscriber() As %Status
 {
+   
     #Dim PubSub as HCC.SVR.API.PubSub.PubSubModel
     Set result={}
     If '..GetJSONFromRequest(.obj) {
@@ -49,27 +50,76 @@ ClassMethod NewSubscriber() As %Status
   set BusinessHost.Production = production
   do BusinessHost.Settings.Insert(Setting)
   Do production.Items.Insert(BusinessHost)
-  Set tSC = production.%Save()
-  do ##class(Ens.Director).UpdateProduction()
-  //TODO: hard coded for now
-  set tsc = ..AddSubscriber("HLHT",PubSub.SubscriberName,PubSub.SubscriberBusinessHostName)
+  Set tsc = production.%Save()
   if tsc = 0
   {
       Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)))
       Write result.%ToJSON()
       quit
+  }
+  do ##class(Ens.Director).UpdateProduction()
+  //TODO: Domain 目前写死
+  set tsc = ..AddSubscriber("HLHT",PubSub.SubscriberName,PubSub.SubscriberBusinessHostName)
+
+  if tsc = 0
+  {
+      //失败返回消息并回退删除已经添加的BO
+      Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)))
+      Write result.%ToJSON()
+      do ..RollBackConfigItem(production,BusinessHost,PubSub)
+      quit $$$OK
   } 
   set tsc = ##Class(EnsLib.PubSub.Utils).AddSubscription("HLHT",PubSub.SubscriberName,PubSub.SubTopic)
-  Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc),1:"订阅者注册成功"))
+
+    if tsc = 0
+  {
+      //失败返回错误并回退添加的BO 和 subscriber
+      Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)))
+      Write result.%ToJSON()
+      do ..RollBackConfigItem(production,BusinessHost,PubSub)
+      do ..RollBackSubscriber(PubSub)
+      quit $$$OK
+  } 
+  
+    if tsc = 0
+  {
+      Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)))
+      Write result.%ToJSON()
+      quit
+  } 
+  Do result.%Set("Status","订阅者注册成功")
   Write result.%ToJSON()
   quit $$$OK
+}
+
+/// 失败回退BO
+ClassMethod RollBackConfigItem(Production As Ens.Config.Production, BusinessHost As Ens.Config.Item, PubSub As HCC.Service.Rest.PubSubModel) As %Status
+{
+  #Dim Con as Ens.Config.Item
+   job ##class(Ens.Director).EnableConfigItem(PubSub.SubscriberBusinessHostName,0)
+   set key= Production.Items.Find(BusinessHost."%%OID")
+   do Production.Items.RemoveAt(key)
+   do ##class(Ens.Config.Item).%DeleteId()
+   do Production.%Save()
+   do ##class(Ens.Director).UpdateProduction()
+}
+
+/// 回退订阅者
+ClassMethod RollBackSubscriber(PubSub As HCC.Service.Rest.PubSubModel) As %Status
+{
+    set a = ""
+    set SubscriberName= PubSub.SubscriberName
+    &SQL(select %ID into :a from EnsLib.PubSub.Subscriber where Name = :SubscriberName)
+    //TODO: 写死的domain name
+    set tsc = ##class(EnsLib.PubSub.Utils).DeleteSubscriber(a,"HLHT")
+    quit tsc
 }
 
 /// 修改订阅者
 ClassMethod EditSubscriber() As %Status
 {
     Set sc = $$$OK
-   
+    
     Return sc
 }
 
@@ -95,6 +145,7 @@ ClassMethod CopyToPubSubModelFromJSON(ByRef cm As HCC.Service.Rest.PubSubModel, 
     quit $$$OK
 }
 
+/// 保存到subscriber 
 ClassMethod AddSubscriber(pDomain As %String = "", pName As %String, pTarget As %String = "", pAddress As %String = "") As %Status
 {
    
@@ -153,24 +204,12 @@ ClassMethod ValidateJSON(obj As %DynamicObject, Output error As %DynamicObject) 
 	Quit 1
 }
 
-ClassMethod MethodName() As %Status
-{
-    Set sc = $$$OK
-    // do something
-    Return sc
-}
-
 /// 获取全部订阅者
 ClassMethod GetAllSubscribers() As %Stream.GlobalCharacter
 {
-    #dim ExServices as %Stream.GlobalCharacter = ##class(%Stream.GlobalCharacter).%New()
-    //获得external service 的服务json
-    Set tsc = ##class(Ens.ServiceRegistry.External.API).ListServices(ExServices)
-
-    Set sc = $$$OK
-    
-    // do something
-    Return ExServices
+   
+    //TODO: 标准类名为HCC.SVR.Prod.BO.StandardHCCOutBound
+    set sqlStr="select a.DomainName ,a.Name ,a.Target, b.Topic,c.ClassName FROM  EnsLib_PubSub.Subscriber as a Left join EnsLib_PubSub.Subscription as b on a.ID = b.Subscriber inner join Ens_Config.Item as c on a.Target = c.Name where c.ClassName ='HCC.SVR.Prod.BO.StandardHCCOutBound' "
 }
 
 /// rest map

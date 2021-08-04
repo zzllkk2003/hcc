@@ -10,5 +10,3 @@ ORDER BY Name
 SELECT * FROM  EnsLib_PubSub.Subscriber 
 
 SELECT * FROM  EnsLib_PubSub.Subscription  
-
-select * from  
