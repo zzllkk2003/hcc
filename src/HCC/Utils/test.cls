@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-08-02 10:44:56
-/// LastEditTime: 2021-08-03 15:36:50
+/// LastEditTime: 2021-08-05 17:04:42
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Utils/test.cls
@@ -48,7 +48,7 @@ ClassMethod test3() As %Status
   #Dim production as Ens.Config.Production = ##class(Ens.Config.Production).%OpenId("HCCPKG.FoundationProduction")
   #Dim x as Ens.Config.Item
   job ##class(Ens.Director).EnableConfigItem("abc",0)
-  set x = ##class(Ens.Config.Item).%OpenId(37)
+  set x = ##class(Ens.Config.Item).%OpenId(52)
    set a= production.Items.Find(x."%%OID")
    do production.Items.RemoveAt(a)
   //do ##class(Ens.Config.Item).%DeleteId()

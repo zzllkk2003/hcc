@@ -14,9 +14,6 @@ Class HCC.Service.Rest.PubSubModel Extends (%RegisteredObject, %JSON.Adaptor, %X
 /// 订阅者名称
 Property SubscriberName As %String;
 
-/// 订阅名
-Property SubscriptionName As %String;
-
 /// 订阅的主题
 /// 
 Property SubTopic As %String;
