@@ -1,9 +1,11 @@
+/// 护理操作项目类目名称
+/// 源自WS 445-8
 Class WS.DE.DE060021000 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
 Parameter Category = "计划与干预";
 
-Parameter Description = "皮肤消毒";
+Parameter Description = "护理操作项目类目名称";
 
 Parameter Format = "AN..100";
 

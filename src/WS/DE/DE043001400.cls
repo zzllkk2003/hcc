@@ -7,7 +7,9 @@ Parameter Description = "睾丸检查结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:扪及;2:未扪及;";
+Parameter ValueSetDisplay = "1:扪及;2:未扪及;";
+
+Parameter ValueSet = "DE04.30.014.00";
 
 Parameter WSDT = "S2";
 

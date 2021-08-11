@@ -7,7 +7,7 @@ Parameter Description = "科室代码";
 
 Parameter Format = "AN..5";
 
-Parameter ValueSet = "GB/T 17538";
+Parameter ValueSet = "GBT.17538";
 
 Parameter WSDT = "S3";
 

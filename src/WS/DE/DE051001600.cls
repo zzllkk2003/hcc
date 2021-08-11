@@ -7,7 +7,9 @@ Parameter Description = "传染病类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:甲类;2:乙类;3:丙类";
+Parameter ValueSetDisplay = "1:甲类;2:乙类;3:丙类";
+
+Parameter ValueSet = "DE05.10.016.00";
 
 Parameter WSDT = "S2";
 

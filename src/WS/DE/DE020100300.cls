@@ -7,8 +7,6 @@ Parameter Description = "常住地址户籍标志";
 
 Parameter Format;
 
-Parameter ValueSet;
-
 Parameter WSDT = "L";
 
 Property Value As %Boolean;

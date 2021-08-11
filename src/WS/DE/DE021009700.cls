@@ -11,7 +11,7 @@ Parameter ValueSet;
 
 Parameter WSDT = "S1";
 
-Property Value As %String(MAXLEN = 100, MINLEN = 0);
+Property Value As %String(MAXLEN = 500, MINLEN = 0);
 
 Storage Default
 {

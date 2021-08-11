@@ -7,7 +7,9 @@ Parameter Description = "劳作情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:一般;2:疲劳;3:过度疲劳;";
+Parameter ValueSetDisplay = "1:一般;2:疲劳;3:过度疲劳;";
+
+Parameter ValueSet = "DE03.00.038.00";
 
 Parameter WSDT = "S2";
 

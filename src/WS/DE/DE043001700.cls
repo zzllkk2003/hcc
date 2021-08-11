@@ -7,7 +7,9 @@ Parameter Description = "检查/检验结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:正常;2:异常;3:不确定;";
+Parameter ValueSetDisplay = "1:正常;2:异常;3:不确定;";
+
+Parameter ValueSet = "DE04.30.017.00";
 
 Parameter WSDT = "S2";
 

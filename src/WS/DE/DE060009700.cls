@@ -1,6 +1,8 @@
 Class WS.DE.DE060009700 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 99999, MINVAL = 0);
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "手术出血量(ml)";
@@ -10,8 +12,6 @@ Parameter Format = "N..5";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 99999, MINVAL = 0);
 
 Storage Default
 {

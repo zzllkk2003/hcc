@@ -7,7 +7,9 @@ Parameter Description = "肿瘤患者目前疾病情况类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:稳定;2:好转;3:恶化";
+Parameter ValueSetDisplay = "1:稳定;2:好转;3:恶化";
+
+Parameter ValueSet = "DE05.10.115.00";
 
 Parameter WSDT = "S2";
 

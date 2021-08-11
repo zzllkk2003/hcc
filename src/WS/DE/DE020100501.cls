@@ -7,8 +7,6 @@ Parameter Description = "出生日期";
 
 Parameter Format = "D8";
 
-Parameter ValueSet;
-
 Parameter WSDT = "D";
 
 Property Value As %Date(FORMAT = 8);

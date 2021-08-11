@@ -7,7 +7,9 @@ Parameter Description = "住院情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:从未住院;2:目前正在住院;3:既往住院，现未住院;";
+Parameter ValueSetDisplay = "1:从未住院;2:目前正在住院;3:既往住院，现未住院;";
+
+Parameter ValueSet = "DE02.10.091.00";
 
 Parameter WSDT = "S3";
 

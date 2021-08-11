@@ -1,22 +1,17 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
-/// 出院诊断 - 其它诊断
+/// 出院诊断 - 其它诊断子表
 Class HCC.SQL.Document.HospitalDischargeDX.Other Extends (%Persistent, %XML.Adaptor)
 {
 
-/// 其它诊断 - 疾病名称
-Property diagnosisName As WS.DE.DE050102500 [ Required, SqlFieldName = diagnosis_name ];
-
-/// 其它诊断 - 诊断疾病编码
-Property diagnosisCode As WS.DE.DE050102400 [ Required, SqlFieldName = diagnosis_code ];
-
-/// 确诊日期
-Property effectiveTime As %TimeStamp [ Required, SqlFieldName = effectiveTime ];
+/// 其它诊断 
+Property diag As HCC.SQL.Document.DiagnosisItem [ SqlFieldName = diag ];
 
 /// 其它诊断入院病情代码
-Property sickCondition As WS.DE.DE090010400 [ Required, SqlFieldName = sickCondition ];
+Property sickCondition As WS.DE.DE090010400 [ SqlFieldName = sick_cond ];
 
+/// 文档编号
 Relationship HospitalDischargeDX As HCC.SQL.Document.HospitalDischargeDX [ Cardinality = parent, Inverse = Others, SqlFieldName = DocumentNo ];
 
 Storage Default
@@ -36,6 +31,9 @@ Storage Default
 </Value>
 <Value name="5">
 <Value>sickCondition</Value>
+</Value>
+<Value name="6">
+<Value>diag</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.Document.HosC1CC.OtherD</DataLocation>

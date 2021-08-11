@@ -7,7 +7,9 @@ Parameter Description = "乙肝疫苗种类";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:重组酵母乙肝疫苗;2:中国仓鼠卵细胞乙肝疫苗;9:其他;";
+Parameter ValueSetDisplay = "1:重组酵母乙肝疫苗;2:中国仓鼠卵细胞乙肝疫苗;9:其他;";
+
+Parameter ValueSet = "DE08.50.014.00";
 
 Parameter WSDT = "S2";
 

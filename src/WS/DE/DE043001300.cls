@@ -7,7 +7,9 @@ Parameter Description = "肝质地类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:软;2:中等;3:硬;";
+Parameter ValueSetDisplay = "1:软;2:中等;3:硬;";
+
+Parameter ValueSet = "DE04.30.013.00";
 
 Parameter WSDT = "S2";
 

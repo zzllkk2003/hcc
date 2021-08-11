@@ -7,7 +7,9 @@ Parameter Description = "步态情况";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:未见异常;2:异常";
+Parameter ValueSetDisplay = "1:未见异常;2:异常";
+
+Parameter ValueSet = "DE05.10.005.00";
 
 Parameter WSDT = "S2";
 

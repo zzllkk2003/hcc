@@ -7,7 +7,9 @@ Parameter Description = "宫腔探查处理方式代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:药物;2:干;3:湿;";
+Parameter ValueSetDisplay = "1:药物;2:干;3:湿;";
+
+Parameter ValueSet = "DE04.30.052.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,7 @@ Parameter Description = "经济类型代码";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "GB/T 12402";
+Parameter ValueSet = "GBT.12402";
 
 Parameter WSDT = "S3";
 

@@ -7,7 +7,9 @@ Parameter Description = "护理类型代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:基础护理;2:特殊护理;3:辨证施护;9:其他;";
+Parameter ValueSetDisplay = "1:基础护理;2:特殊护理;3:辨证施护;9:其他;";
+
+Parameter ValueSet = "DE06.00.212.00";
 
 Parameter WSDT = "S2";
 

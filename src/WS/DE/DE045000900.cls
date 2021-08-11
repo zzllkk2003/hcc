@@ -7,7 +7,9 @@ Parameter Description = "HIV抗体检测结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:阴性;2:阳性;3:不确定;";
+Parameter ValueSetDisplay = "1:阴性;2:阳性;3:不确定;";
+
+Parameter ValueSet = "DE04.50.009.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "人员培训时期类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:上岗前;2:在岗期间;3:离岗时;";
+Parameter ValueSetDisplay = "1:上岗前;2:在岗期间;3:离岗时;";
+
+Parameter ValueSet = "DE08.30.014.00";
 
 Parameter WSDT = "S2";
 

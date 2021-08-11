@@ -1,18 +1,21 @@
+/// 入病房方式描述
+/// WS445-8定义
 Class WS.DE.DE060023700 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
 Parameter Category = "计划与干预";
 
-Parameter Description = "入院途径";
+Parameter Description = "入病房方式描述";
 
-Parameter Format = "N1";
+Parameter Format = "AN..20";
 
-/// 1.急诊;2.门诊;3.其他医疗机构转入;9.其他;
-Parameter ValueSet = "CV09.00.403";
+Parameter ValueSetDisplay;
 
-Parameter WSDT = "S2";
+Parameter ValueSet;
 
-Property Value As WS.DT.CodedString(ValueSet = "CV09.00.403");
+Parameter WSDT = "S1";
+
+Property Value As %String(MAXLEN = 20);
 
 Storage Default
 {

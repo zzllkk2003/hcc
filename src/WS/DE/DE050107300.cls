@@ -7,7 +7,9 @@ Parameter Description = "中医体质分类判定结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:是;2:基本是;3:倾向是;";
+Parameter ValueSetDisplay = "1:是;2:基本是;3:倾向是;";
+
+Parameter ValueSet = "DE05.01.073.00";
 
 Parameter WSDT = "S2";
 

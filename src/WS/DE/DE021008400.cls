@@ -1,6 +1,8 @@
 Class WS.DE.DE021008400 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 999, MINVAL = 0);
+
 Parameter Category = "健康史";
 
 Parameter Description = "月经周期(d)";
@@ -10,8 +12,6 @@ Parameter Format = "N..3";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 999, MINVAL = 0);
 
 Storage Default
 {

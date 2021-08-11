@@ -7,11 +7,11 @@ Parameter Description = "治则治法";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "GB/T 16751.3-1997";
+Parameter ValueSet = "GBT.16751.31997";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.16751.3-1997");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.16751.3.1997");
 
 Storage Default
 {

@@ -7,7 +7,9 @@ Parameter Description = "接触二手烟代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:几乎没有;2:有;3:不知道;";
+Parameter ValueSetDisplay = "1:几乎没有;2:有;3:不知道;";
+
+Parameter ValueSet = "DE03.00.025.00";
 
 Parameter WSDT = "S2";
 

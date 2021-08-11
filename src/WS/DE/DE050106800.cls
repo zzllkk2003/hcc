@@ -7,11 +7,11 @@ Parameter Description = "肿瘤学分类代码";
 
 Parameter Format = "AN..7";
 
-Parameter ValueSet = "ICD-0-3";
+Parameter ValueSet = "ICD.O.3";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "ICD-0-3");
+Property Value As WS.DT.CodedString(ValueSet = "ICD.O.3");
 
 Storage Default
 {

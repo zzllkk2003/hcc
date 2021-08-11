@@ -7,11 +7,12 @@ Parameter Description = "尘肺类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "卫监发[2002]108号《职业病目录》";
+/// 卫监发[2002]108号《职业病目录》
+Parameter ValueSet = "WJF2002.108.Pneumoconiosis";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "卫监发[2002]108号《职业病目录》");
+Property Value As WS.DT.CodedString(ValueSet = "WJF2002.108.Pneumoconiosis");
 
 Storage Default
 {

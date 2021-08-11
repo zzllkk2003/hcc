@@ -7,7 +7,9 @@ Parameter Description = "新生儿异常情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:无;2:早期新生儿死亡;3:畸形;4:早产;5:窒息;6:低出生体重;9:其他;";
+Parameter ValueSetDisplay = "1:无;2:早期新生儿死亡;3:畸形;4:早产;5:窒息;6:低出生体重;9:其他;";
+
+Parameter ValueSet = "DE05.10.160.00";
 
 Parameter WSDT = "S2";
 

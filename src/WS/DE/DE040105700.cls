@@ -7,7 +7,9 @@ Parameter Description = "乳糜尿发作规律代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:有一定规律间歇发作;2:不定期发作";
+Parameter ValueSetDisplay = "1:有一定规律间歇发作;2:不定期发作";
+
+Parameter ValueSet = "DE04.01.057.00";
 
 Parameter WSDT = "S2";
 

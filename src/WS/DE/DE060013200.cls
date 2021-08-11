@@ -7,7 +7,9 @@ Parameter Description = "药物流产使用药物类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:米非司酮药物;2:前列腺素类药物";
+Parameter ValueSetDisplay = "1:米非司酮药物;2:前列腺素类药物";
+
+Parameter ValueSet = "DE06.00.132.00";
 
 Parameter WSDT = "S2";
 

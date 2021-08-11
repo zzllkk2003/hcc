@@ -1,6 +1,8 @@
 Class WS.DE.DE045001900 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Decimal(SCALE = 1);
+
 Parameter Category = "实验室检查";
 
 Parameter Description = "餐后两小时血糖值(mmol/L)";
@@ -10,8 +12,6 @@ Parameter Format = "N3..4,1";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
-
-Property Value As %Decimal(SCALE = 1);
 
 Storage Default
 {

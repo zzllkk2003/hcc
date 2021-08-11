@@ -7,7 +7,9 @@ Parameter Description = "处方类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:中药饮片处方;2:中成药处方;";
+Parameter ValueSetDisplay = "1:中药饮片处方;2:中成药处方;";
+
+Parameter ValueSet = "DE08.50.032.00";
 
 Parameter WSDT = "S2";
 

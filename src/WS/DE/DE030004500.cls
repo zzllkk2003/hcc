@@ -7,7 +7,9 @@ Parameter Description = "每周食用食物的频率类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:5～6次;2:3～4次;3:1～2次;";
+Parameter ValueSetDisplay = "1:5～6次;2:3～4次;3:1～2次;";
+
+Parameter ValueSet = "DE03.00.045.00";
 
 Parameter WSDT = "S2";
 

@@ -1,6 +1,8 @@
 Class WS.DE.DE060010200 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Decimal(SCALE = 2);
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "输精管切除长度(cm)";
@@ -10,8 +12,6 @@ Parameter Format = "N3..4,2";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
-
-Property Value As %Decimal(SCALE = 2);
 
 Storage Default
 {

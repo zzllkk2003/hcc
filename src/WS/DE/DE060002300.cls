@@ -1,6 +1,8 @@
 Class WS.DE.DE060002300 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %String(MAXLEN = 10, MINLEN = 0);
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "发病到死亡的时长";
@@ -10,8 +12,6 @@ Parameter Format = "AN..10";
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
-
-Property Value As %String(MAXLEN = 10, MINLEN = 0);
 
 Storage Default
 {

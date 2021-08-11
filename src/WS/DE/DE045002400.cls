@@ -7,7 +7,9 @@ Parameter Description = "低血糖反应代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:无;2:偶尔;3:频繁;";
+Parameter ValueSetDisplay = "1:无;2:偶尔;3:频繁;";
+
+Parameter ValueSet = "DE04.50.024.00";
 
 Parameter WSDT = "S2";
 

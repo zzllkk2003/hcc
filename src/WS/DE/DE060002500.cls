@@ -7,7 +7,9 @@ Parameter Description = "放射剂量监测档案建档情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:全部建立;2:部分建立;3:未建立";
+Parameter ValueSetDisplay = "1:全部建立;2:部分建立;3:未建立";
+
+Parameter ValueSet = "DE06.00.025.00";
 
 Parameter WSDT = "S2";
 

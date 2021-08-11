@@ -7,7 +7,9 @@ Parameter Description = "生活和劳动能力评价结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:好;2:中;3:差";
+Parameter ValueSetDisplay = "1:好;2:中;3:差";
+
+Parameter ValueSet = "DE05.10.061.00";
 
 Parameter WSDT = "S2";
 

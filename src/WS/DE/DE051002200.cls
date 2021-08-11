@@ -7,7 +7,9 @@ Parameter Description = "发育程度代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:正力型;2:无力型;3:超力型";
+Parameter ValueSetDisplay = "1:正力型;2:无力型;3:超力型";
+
+Parameter ValueSet = "DE05.10.022.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "稽查人员分类代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:专职;2:兼职;";
+Parameter ValueSetDisplay = "1:专职;2:兼职;";
+
+Parameter ValueSet = "DE08.30.008.00";
 
 Parameter WSDT = "S2";
 

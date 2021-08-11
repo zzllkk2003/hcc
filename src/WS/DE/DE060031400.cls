@@ -7,7 +7,9 @@ Parameter Description = "转科记录类型";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:转入记录;2:转出记录;";
+Parameter ValueSetDisplay = "1:转入记录;2:转出记录;";
+
+Parameter ValueSet = "DE06.00.314.00";
 
 Parameter WSDT = "S2";
 

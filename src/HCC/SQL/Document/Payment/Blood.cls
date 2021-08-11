@@ -3,20 +3,20 @@
 Class HCC.SQL.Document.Payment.Blood Extends (%SerialObject, %XML.Adaptor)
 {
 
-/// 血费 
-Property blood As WS.DE.DE070001000 [ SqlFieldName = blood ];
+/// 血液制品费-血费 
+Property blood As WS.HSDE.HDSD0011115 [ SqlFieldName = blood ];
 
-/// 白蛋白类制品费 
-Property albumin As WS.DE.DE070001000 [ SqlFieldName = albumin ];
+/// 血液制品费-白蛋白类制品费 
+Property albumin As WS.HSDE.HDSD0011111 [ SqlFieldName = albumin ];
 
-/// 球蛋白类制品费 
-Property globulin As WS.DE.DE070001000 [ SqlFieldName = globulin ];
+/// 血液制品费-球蛋白类制品费 
+Property globulin As WS.HSDE.HDSD0011113 [ SqlFieldName = globulin ];
 
-/// 凝血因子类制品费 
-Property clotfactor As WS.DE.DE070001000 [ SqlFieldName = clotfactor ];
+/// 血液制品费-凝血因子类制品费 
+Property clotfactor As WS.HSDE.HDSD0011112 [ SqlFieldName = clotfactor ];
 
-/// 细胞因子类制品费 
-Property cellfactor As WS.DE.DE070001000 [ SqlFieldName = cellfactor ];
+/// 血液制品费-细胞因子类制品费 
+Property cellfactor As WS.HSDE.HDSD0011114 [ SqlFieldName = cellfactor ];
 
 Storage Default
 {

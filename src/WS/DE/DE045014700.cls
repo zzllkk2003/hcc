@@ -7,7 +7,9 @@ Parameter Description = "输血性质";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:备血;2:常规;3:紧急;";
+Parameter ValueSetDisplay = "1:备血;2:常规;3:紧急;";
+
+Parameter ValueSet = "DE04.50.147.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "隔离种类代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:消化道隔离;2:呼吸道隔离;3:接触隔离;4:血液-体液隔离;5:严密隔离;6:昆虫隔离;7:保护性隔离;";
+Parameter ValueSetDisplay = "1:消化道隔离;2:呼吸道隔离;3:接触隔离;4:血液-体液隔离;5:严密隔离;6:昆虫隔离;7:保护性隔离;";
+
+Parameter ValueSet = "DE06.00.202.00";
 
 Parameter WSDT = "S2";
 

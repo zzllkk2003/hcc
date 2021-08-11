@@ -1,3 +1,6 @@
+/// Author: QP
+/// Version: 1.0
+/// Date: 2021/06/11
 /// 数据元方法
 Class WS.DE.Tools Extends %RegisteredObject
 {
@@ -38,6 +41,12 @@ ClassMethod GetValueSetDisplay(pType, pValue) As %String
         Set tRet = $G(@tGlobal@(pValue))
     }
     Quit tRet
+}
+
+/// 通过卫生数据元类型获得对应的XSI的类型
+ClassMethod GetXSIDataType(pWSDT) As %String
+{
+    Quit $Case(pWSDT,"S1":"ST","L":"BL","S3":"CD","N":"PQ","":"","":"","":"","":"","":"","":"","":"")
 }
 
 }

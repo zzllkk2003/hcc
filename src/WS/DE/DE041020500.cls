@@ -7,7 +7,9 @@ Parameter Description = "心律类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:心律齐;2:心律不齐;3:心律绝对不齐";
+Parameter ValueSetDisplay = "1:心律齐;2:心律不齐;3:心律绝对不齐";
+
+Parameter ValueSet = "DE04.10.205.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,7 @@ Parameter Description = "组织机构代码";
 
 Parameter Format = "AN10";
 
-Parameter ValueSet = "WS 218";
+Parameter ValueSet = "WS.218";
 
 Parameter WSDT = "S3";
 

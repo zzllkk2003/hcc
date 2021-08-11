@@ -1,6 +1,8 @@
 Class WS.DE.DE021008800 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As WS.DT.CodedString(ValueSet = "ICD-10");
+
 Parameter Category = "健康史";
 
 Parameter Description = "肿瘤家族史瘤别";
@@ -10,8 +12,6 @@ Parameter Format = "AN..5";
 Parameter ValueSet = "ICD-10";
 
 Parameter WSDT = "S3";
-
-Property Value As WS.DT.CodedString(ValueSet = "ICD-10");
 
 Storage Default
 {

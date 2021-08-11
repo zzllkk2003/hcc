@@ -7,7 +7,9 @@ Parameter Description = "运动功能状态代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:可顺利完成;2:无法独立完成其中任何一个动作";
+Parameter ValueSetDisplay = "1:可顺利完成;2:无法独立完成其中任何一个动作";
+
+Parameter ValueSet = "DE05.10.106.00";
 
 Parameter WSDT = "S2";
 

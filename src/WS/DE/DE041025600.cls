@@ -7,7 +7,9 @@ Parameter Description = "破膜方式代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:自然;2:人工;3:可疑;";
+Parameter ValueSetDisplay = "1:自然;2:人工;3:可疑;";
+
+Parameter ValueSet = "DE04.10.256.00";
 
 Parameter WSDT = "S2";
 

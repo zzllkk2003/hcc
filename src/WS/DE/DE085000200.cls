@@ -7,7 +7,9 @@ Parameter Description = "监测设备金额分类代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:1千元及以上且小于1万元;2:1万元及以上且小于10万元;3:10万元及以上;";
+Parameter ValueSetDisplay = "1:1千元及以上且小于1万元;2:1万元及以上且小于10万元;3:10万元及以上;";
+
+Parameter ValueSet = "DE08.50.002.00";
 
 Parameter WSDT = "S2";
 

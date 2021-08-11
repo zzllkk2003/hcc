@@ -1,6 +1,8 @@
 Class WS.DE.DE051004300 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As WS.DT.CodedString(ValueSet = "CV04.01.014");
+
 Parameter Category = "医学评估";
 
 Parameter Description = "老年人生活自理能力自我评估代码";
@@ -10,8 +12,6 @@ Parameter Format = "N1";
 Parameter ValueSet = "CV04.01.014";
 
 Parameter WSDT = "S3";
-
-Property Value As WS.DT.CodedString(ValueSet = "CV04.01.014");
 
 Storage Default
 {

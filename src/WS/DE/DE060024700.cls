@@ -7,7 +7,9 @@ Parameter Description = "是否实施临床路径";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:中医;2:西医;3:否;";
+Parameter ValueSetDisplay = "1:中医;2:西医;3:否;";
+
+Parameter ValueSet = "DE06.00.247.00";
 
 Parameter WSDT = "S2";
 

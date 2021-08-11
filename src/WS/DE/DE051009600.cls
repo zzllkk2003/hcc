@@ -7,7 +7,9 @@ Parameter Description = "乙型肝炎肝硬化分期代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:代偿期;2:失代偿期";
+Parameter ValueSetDisplay = "1:代偿期;2:失代偿期";
+
+Parameter ValueSet = "DE05.10.096.00";
 
 Parameter WSDT = "S2";
 

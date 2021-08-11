@@ -7,7 +7,9 @@ Parameter Description = "输血反应类型";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:发热;2:过敏;3:溶血;9:其他;";
+Parameter ValueSetDisplay = "1:发热;2:过敏;3:溶血;9:其他;";
+
+Parameter ValueSet = "DE06.00.265.00";
 
 Parameter WSDT = "S2";
 

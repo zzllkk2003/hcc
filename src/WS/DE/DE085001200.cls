@@ -1,6 +1,8 @@
 Class WS.DE.DE085001200 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 9, MINVAL = 1);
+
 Parameter Category = "药品、设备与材料";
 
 Parameter Description = "胰岛素用药使用频率(次/d)";
@@ -10,8 +12,6 @@ Parameter Format = "N1";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 9, MINVAL = 1);
 
 Storage Default
 {

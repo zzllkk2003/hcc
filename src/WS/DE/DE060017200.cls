@@ -7,7 +7,9 @@ Parameter Description = "重性精神疾病患者干预类型";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:病情稳定;2:病情基本稳定;3:病情不稳定";
+Parameter ValueSetDisplay = "1:病情稳定;2:病情基本稳定;3:病情不稳定";
+
+Parameter ValueSet = "DE06.00.172.00";
 
 Parameter WSDT = "S2";
 

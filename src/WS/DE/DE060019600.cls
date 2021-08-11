@@ -7,7 +7,9 @@ Parameter Description = "初诊标志";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:初诊;2:复诊;";
+Parameter ValueSetDisplay = "1:初诊;2:复诊;";
+
+Parameter ValueSet = "DE06.00.196.00";
 
 Parameter WSDT = "S2";
 

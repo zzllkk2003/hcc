@@ -7,7 +7,9 @@ Parameter Description = "肿瘤病情告知患者情况类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:是;2:否;3:不详";
+Parameter ValueSetDisplay = "1:是;2:否;3:不详";
+
+Parameter ValueSet = "DE06.00.167.00";
 
 Parameter WSDT = "S2";
 

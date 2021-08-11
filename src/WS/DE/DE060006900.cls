@@ -1,6 +1,8 @@
 Class WS.DE.DE060006900 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As WS.DT.CodedString(ValueSet = "CV06.00.115");
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "抗结核治疗停止原因代码";
@@ -10,8 +12,6 @@ Parameter Format = "N2";
 Parameter ValueSet = "CV06.00.115";
 
 Parameter WSDT = "S3";
-
-Property Value As WS.DT.CodedString(ValueSet = "CV06.00.115");
 
 Storage Default
 {

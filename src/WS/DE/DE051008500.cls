@@ -7,7 +7,9 @@ Parameter Description = "新生儿苯丙酮尿症筛查代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:筛查;2:未筛查";
+Parameter ValueSetDisplay = "1:筛查;2:未筛查";
+
+Parameter ValueSet = "DE05.10.085.00";
 
 Parameter WSDT = "S2";
 

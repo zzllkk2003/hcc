@@ -7,7 +7,9 @@ Parameter Description = "治疗形式建议代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:专科住院;2:专科门诊;3:社区管理";
+Parameter ValueSetDisplay = "1:专科住院;2:专科门诊;3:社区管理";
+
+Parameter ValueSet = "DE06.00.161.00";
 
 Parameter WSDT = "S2";
 

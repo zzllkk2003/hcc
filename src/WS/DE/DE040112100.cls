@@ -1,3 +1,4 @@
+/// 健康状况详细描述
 Class WS.DE.DE040112100 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 

@@ -7,7 +7,9 @@ Parameter Description = "禽畜栏类别";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:单设;2:室内;3:室外;";
+Parameter ValueSetDisplay = "1:单设;2:室内;3:室外;";
+
+Parameter ValueSet = "DE03.00.049.00";
 
 Parameter WSDT = "S2";
 

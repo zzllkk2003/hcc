@@ -7,7 +7,9 @@ Parameter Description = "包皮检查结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:正常;2:过长;3:包茎";
+Parameter ValueSetDisplay = "1:正常;2:过长;3:包茎";
+
+Parameter ValueSet = "DE04.10.002.00";
 
 Parameter WSDT = "S2";
 

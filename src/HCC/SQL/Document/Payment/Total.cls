@@ -3,11 +3,11 @@
 Class HCC.SQL.Document.Payment.Total Extends (%SerialObject, %XML.Adaptor)
 {
 
-/// 住院总费用
-Property total As WS.DE.DE070001000 [ SqlFieldName = total ];
+/// 总费用
+Property total As WS.HSDE.HDSD0011142 [ SqlFieldName = total ];
 
-/// 住院总费用-自付金额
-Property patientPay As HCC.SQL.Document.Payment.Total.Patient;
+/// 自付金额
+Property patientPay As HCC.SQL.Document.Payment.Total.Patient [ SqlFieldName = pp ];
 
 Storage Default
 {

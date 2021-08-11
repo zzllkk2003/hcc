@@ -7,7 +7,9 @@ Parameter Description = "关锁情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:无关锁;2:关锁;3:关锁已解除;";
+Parameter ValueSetDisplay = "1:无关锁;2:关锁;3:关锁已解除;";
+
+Parameter ValueSet = "DE03.00.017.00";
 
 Parameter WSDT = "S2";
 

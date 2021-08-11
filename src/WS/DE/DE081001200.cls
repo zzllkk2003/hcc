@@ -7,7 +7,9 @@ Parameter Description = "机构分类管理类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:非盈利性医疗机构;2:盈利性医疗机构;9:其他;";
+Parameter ValueSetDisplay = "1:非盈利性医疗机构;2:盈利性医疗机构;9:其他;";
+
+Parameter ValueSet = "DE08.10.012.00";
 
 Parameter WSDT = "S2";
 

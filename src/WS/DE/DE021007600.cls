@@ -7,7 +7,9 @@ Parameter Description = "性病代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:有;2:无;3:不详;";
+Parameter ValueSetDisplay = "1:有;2:无;3:不详;";
+
+Parameter ValueSet = "DE02.10.076.00";
 
 Parameter WSDT = "S2";
 

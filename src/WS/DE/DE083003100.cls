@@ -7,11 +7,11 @@ Parameter Description = "专业技术职务类别代码";
 
 Parameter Format = "N3";
 
-Parameter ValueSet = "CVO8.30.005";
+Parameter ValueSet = "CV08.30.005";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "CVO8.30.005");
+Property Value As WS.DT.CodedString(ValueSet = "CV08.30.005");
 
 Storage Default
 {

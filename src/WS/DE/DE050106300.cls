@@ -7,11 +7,12 @@ Parameter Description = "职业病种类代码";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "卫监发[2002]108号《职业病目录》";
+/// 卫监发[2002]108号《职业病目录》
+Parameter ValueSet = "WJF2002.108.Category";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "卫监发[2002]108号《职业病目录》");
+Property Value As WS.DT.CodedString(ValueSet = "WJF2002.108.Category");
 
 Storage Default
 {

@@ -7,7 +7,9 @@ Parameter Description = "摄盐量分级代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:轻;2:中;3:重;";
+Parameter ValueSetDisplay = "1:轻;2:中;3:重;";
+
+Parameter ValueSet = "DE03.00.056.00";
 
 Parameter WSDT = "S2";
 

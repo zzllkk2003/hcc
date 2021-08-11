@@ -7,7 +7,8 @@ Parameter Description = "出院诊断-主要诊断-入院病情";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:有明确诊断;2:临床未确定;3:情况不明;4:无法确定;";
+Parameter ValueSetDisplay = "1:有明确诊断;2:临床未确定;3:情况不明;4:无法确定;";
+
 Parameter ValueSet = "DE09.00.104.00";
 
 Parameter WSDT = "S2";

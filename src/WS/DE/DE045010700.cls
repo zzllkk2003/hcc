@@ -7,7 +7,9 @@ Parameter Description = "血吸虫虫卵检查结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:阳性;2:阴性;3:未查;";
+Parameter ValueSetDisplay = "1:阳性;2:阴性;3:未查;";
+
+Parameter ValueSet = "DE04.50.107.00";
 
 Parameter WSDT = "S2";
 

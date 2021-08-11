@@ -7,7 +7,9 @@ Parameter Description = "吸食非卷烟状况";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:从不吸烟;2:过去吸，已戒烟;3:吸烟;";
+Parameter ValueSetDisplay = "1:从不吸烟;2:过去吸，已戒烟;3:吸烟;";
+
+Parameter ValueSet = "DE03.00.068.00";
 
 Parameter WSDT = "S2";
 

@@ -7,40 +7,19 @@ Class HCC.SQL.Document.Payment.Treatment Extends (%SerialObject, %XML.Adaptor)
 {
 
 /// 治疗-非手术治疗项目费
-Property nonSurgeryFee As HCC.SQL.Document.Payment.NonSurgery;
+Property nonSurgery As HCC.SQL.Document.Payment.NonSurgery [ SqlFieldName = nonsurg ];
 
 /// 治疗-手术治疗费
-Property SurgeryFee As HCC.SQL.Document.Payment.Surgery;
+Property Surgery As HCC.SQL.Document.Payment.Surgery [ SqlFieldName = surg ];
 
 Storage Default
 {
 <Data name="TreatmentState">
 <Value name="1">
-<Value>treatmentNonSurgery</Value>
-</Value>
-<Value name="2">
-<Value>treatmentPhysical</Value>
-</Value>
-<Value name="3">
-<Value>treatmentSurgery</Value>
-</Value>
-<Value name="4">
-<Value>treatmentAnesthesia</Value>
-</Value>
-<Value name="5">
-<Value>treatmentSurgeryOperation</Value>
-</Value>
-<Value name="6">
 <Value>nonSurgery</Value>
 </Value>
-<Value name="7">
+<Value name="2">
 <Value>Surgery</Value>
-</Value>
-<Value name="8">
-<Value>nonSurgeryFee</Value>
-</Value>
-<Value name="9">
-<Value>SurgeryFee</Value>
 </Value>
 </Data>
 <State>TreatmentState</State>

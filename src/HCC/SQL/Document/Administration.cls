@@ -1,9 +1,17 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/08
-/// 行政管理章节
+/// 行政管理章节表
 Class HCC.SQL.Document.Administration Extends (%Persistent, %XML.Adaptor)
 {
+
+Parameter SectionCode;
+
+Parameter SectionName = "行政管理";
+
+Parameter SectionCodeSystemOID;
+
+Parameter SectionCodeSystem;
 
 /// 文档编号 (同时作为Idkey)
 Property DocumentNo As %String(XMLPROJECTION = "NONE");
@@ -11,7 +19,7 @@ Property DocumentNo As %String(XMLPROJECTION = "NONE");
 Index IdDocNo On DocumentNo [ IdKey, Unique ];
 
 /// 建立与HCC.SQL.Document.Header的外键
-ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(ukDocNo);
+ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(IdKey);
 
 /// 死亡患者尸检标志
 Property autospy As WS.DE.DE090010800 [ SqlFieldName = autospy ];

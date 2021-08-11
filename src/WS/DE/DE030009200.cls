@@ -7,7 +7,9 @@ Parameter Description = "职业病危害类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:轻微;2:一般;3:严重;";
+Parameter ValueSetDisplay = "1:轻微;2:一般;3:严重;";
+
+Parameter ValueSet = "DE03.00.092.00";
 
 Parameter WSDT = "S2";
 

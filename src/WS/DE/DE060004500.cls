@@ -1,6 +1,8 @@
 Class WS.DE.DE060004500 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Date(FORMAT = 8);
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "家庭病床撤床日期";
@@ -10,8 +12,6 @@ Parameter Format = "D8";
 Parameter ValueSet;
 
 Parameter WSDT = "D";
-
-Property Value As %Date(FORMAT = 8);
 
 Storage Default
 {

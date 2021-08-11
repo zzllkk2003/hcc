@@ -7,7 +7,9 @@ Parameter Description = "传染病发病类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:急性;2:慢性";
+Parameter ValueSetDisplay = "1:急性;2:慢性";
+
+Parameter ValueSet = "DE05.10.015.00";
 
 Parameter WSDT = "S2";
 

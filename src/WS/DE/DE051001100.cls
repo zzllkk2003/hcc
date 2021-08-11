@@ -1,6 +1,8 @@
 Class WS.DE.DE051001100 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 999, MINVAL = 10);
+
 Parameter Category = "医学评估";
 
 Parameter Description = "产前筛查孕周(d)";
@@ -10,8 +12,6 @@ Parameter Format = "N2..3";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 999, MINVAL = 10);
 
 Storage Default
 {

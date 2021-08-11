@@ -7,7 +7,9 @@ Parameter Description = "医嘱类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:长期医嘱;2:临时医嘱;9:其他;";
+Parameter ValueSetDisplay = "1:长期医嘱;2:临时医嘱;9:其他;";
+
+Parameter ValueSet = "DE06.00.286.00";
 
 Parameter WSDT = "S2";
 

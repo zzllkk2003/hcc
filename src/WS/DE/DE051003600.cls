@@ -7,7 +7,9 @@ Parameter Description = "精神状态代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:正常;2:异常";
+Parameter ValueSetDisplay = "1:正常;2:异常";
+
+Parameter ValueSet = "DE05.10.036.00";
 
 Parameter WSDT = "S2";
 

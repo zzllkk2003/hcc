@@ -7,7 +7,9 @@ Parameter Description = "手术切口类别";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:0类切口;2:Ⅰ类切口;3:Ⅱ类切口;4:Ⅲ类切口;";
+Parameter ValueSetDisplay = "1:0类切口;2:Ⅰ类切口;3:Ⅱ类切口;4:Ⅲ类切口;";
+
+Parameter ValueSet = "DE06.00.257.00";
 
 Parameter WSDT = "S2";
 

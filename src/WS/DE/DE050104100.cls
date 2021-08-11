@@ -7,7 +7,9 @@ Parameter Description = "首次诊断血吸虫病依据代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:血吸虫虫卵粪便检查;2:血吸虫病抗体检测;9:其他;";
+Parameter ValueSetDisplay = "1:血吸虫虫卵粪便检查;2:血吸虫病抗体检测;9:其他;";
+
+Parameter ValueSet = "DE05.01.041.00";
 
 Parameter WSDT = "S2";
 

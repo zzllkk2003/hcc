@@ -4,16 +4,13 @@ Class HCC.SQL.Document.Payment.NonSurgery.Physical Extends (%SerialObject, %XML.
 {
 
 /// 治疗-非手术治疗项目费-临床物理治疗费
-Property physicalTreatment As WS.DE.DE070001000 [ SqlFieldName = physical ];
+Property Amount As WS.HSDE.HDSD0011130 [ SqlFieldName = amount ];
 
 Storage Default
 {
 <Data name="PhysicalState">
 <Value name="1">
-<Value>treatmentPhysical</Value>
-</Value>
-<Value name="2">
-<Value>physicalTreatment</Value>
+<Value>Amount</Value>
 </Value>
 </Data>
 <State>PhysicalState</State>

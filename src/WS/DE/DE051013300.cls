@@ -5,13 +5,13 @@ Parameter Category = "医学评估";
 
 Parameter Description = "病例特点";
 
-Parameter Format = "AN..100";
+Parameter Format = "AN..1000";
 
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
 
-Property Value As %String(MAXLEN = 100, MINLEN = 0);
+Property Value As %String(MAXLEN = 1000, MINLEN = 0);
 
 Storage Default
 {

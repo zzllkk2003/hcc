@@ -7,7 +7,9 @@ Parameter Description = "直肠镜检查结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:阳性;2:阴性;3:未查;";
+Parameter ValueSetDisplay = "1:阳性;2:阴性;3:未查;";
+
+Parameter ValueSet = "DE04.30.050.00";
 
 Parameter WSDT = "S2";
 

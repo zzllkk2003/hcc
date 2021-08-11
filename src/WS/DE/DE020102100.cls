@@ -7,7 +7,8 @@ Parameter Description = "接入互联网方式代码";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:宽带;2:专线;3:拨号;";
+Parameter ValueSetDisplay = "1:宽带;2:专线;3:拨号;";
+
 Parameter ValueSet = "DE02.01.021.00";
 
 Parameter WSDT = "S2";

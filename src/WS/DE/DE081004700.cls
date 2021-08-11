@@ -1,6 +1,8 @@
 Class WS.DE.DE081004700 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %String(MAXLEN = 40, MINLEN = 0);
+
 Parameter Category = "卫生机构";
 
 Parameter Description = "职业卫生技术服务资质证号码";
@@ -10,8 +12,6 @@ Parameter Format = "AN..40";
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
-
-Property Value As %String(MAXLEN = 40, MINLEN = 0);
 
 Storage Default
 {

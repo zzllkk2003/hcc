@@ -7,7 +7,9 @@ Parameter Description = "乙肝抗病毒治疗的病毒学应答";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:完全病毒学应答;2:部分病毒学应答;3:无应答;";
+Parameter ValueSetDisplay = "1:完全病毒学应答;2:部分病毒学应答;3:无应答;";
+
+Parameter ValueSet = "DE04.50.112.00";
 
 Parameter WSDT = "S2";
 

@@ -1,6 +1,8 @@
 Class WS.DE.DE045008800 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Decimal(SCALE = 1);
+
 Parameter Category = "实验室检查";
 
 Parameter Description = "血β-绒毛膜促性腺激素值(IU/L)";
@@ -10,8 +12,6 @@ Parameter Format = "N3..4,1";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
-
-Property Value As %Decimal(SCALE = 1);
 
 Storage Default
 {

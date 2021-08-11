@@ -1,6 +1,8 @@
 Class WS.DE.DE043005100 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 9999, MINVAL = 0);
+
 Parameter Category = "临床辅助检查";
 
 Parameter Description = "最大肺活量(L)";
@@ -10,8 +12,6 @@ Parameter Format = "N..4";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 9999, MINVAL = 0);
 
 Storage Default
 {

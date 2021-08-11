@@ -7,7 +7,9 @@ Parameter Description = "胎膜情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:已破; 2:未破;";
+Parameter ValueSetDisplay = "1:已破;2:未破;";
+
+Parameter ValueSet = "DE05.10.155.00";
 
 Parameter WSDT = "S2";
 

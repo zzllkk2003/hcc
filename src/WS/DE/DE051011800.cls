@@ -7,7 +7,9 @@ Parameter Description = "重性精神疾病患者随访评价结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:不稳定;2:基本稳定;3:稳定";
+Parameter ValueSetDisplay = "1:不稳定;2:基本稳定;3:稳定";
+
+Parameter ValueSet = "DE05.10.118.00";
 
 Parameter WSDT = "S2";
 

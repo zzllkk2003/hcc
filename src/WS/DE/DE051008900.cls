@@ -7,7 +7,9 @@ Parameter Description = "新生儿甲低筛查代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:筛查;2:未筛查";
+Parameter ValueSetDisplay = "1:筛查;2:未筛查";
+
+Parameter ValueSet = "DE05.10.089.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "月经出血量类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:多;2:中;3:少";
+Parameter ValueSetDisplay = "1:多;2:中;3:少";
+
+Parameter ValueSet = "DE04.01.106.00";
 
 Parameter WSDT = "S2";
 

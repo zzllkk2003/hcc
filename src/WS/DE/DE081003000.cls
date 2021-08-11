@@ -1,6 +1,8 @@
 Class WS.DE.DE081003000 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Decimal(SCALE = 2);
+
 Parameter Category = "卫生机构";
 
 Parameter Description = "批准基建项目建筑面积(m2)";
@@ -10,8 +12,6 @@ Parameter Format = "N..8,2";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
-
-Property Value As %Decimal(SCALE = 2);
 
 Storage Default
 {

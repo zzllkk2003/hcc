@@ -1,8 +1,8 @@
-/// 医生签名信息，法定审核者
+/// 互联互通文档头-医生签名信息，法定审核者子表
 Class HCC.SQL.Document.Header.LegalAuthenticator Extends (%Persistent, %XML.Adaptor)
 {
 
-/// 文档
+/// 文档编号
 Relationship DocumentNo As HCC.SQL.Document.Header [ Cardinality = parent, Inverse = LegalAuthenticators ];
 
 Index DocumentNoIndex On DocumentNo;
@@ -11,16 +11,16 @@ Index DocumentNoIndex On DocumentNo;
 Property time As WS.DE.DE090005300 [ SqlFieldName = time ];
 
 /// 签名代码
-Property signatureCode As %String [ SqlFieldName = signature_code ];
+Property signatureCode As %String [ SqlFieldName = sig_code ];
 
 /// 签名人指定id
-Property assignedEntityId As %String [ SqlFieldName = assignedEntity_id ];
+Property assignedEntityId As %String [ SqlFieldName = asgnEnty_id ];
 
 /// 患者的住院医师
-Property assignedEntityCode As %String [ SqlFieldName = assignedEntity_code ];
+Property assignedEntityCode As %String [ SqlFieldName = asgnEnty_code ];
 
 /// 签名医生的姓名
-Property assignedPersonName As WS.DE.DE020103900 [ SqlFieldName = assignedPerson_name ];
+Property assignedPersonName As WS.DE.DE020103900 [ SqlFieldName = asgnPers_name ];
 
 Storage Default
 {

@@ -1,6 +1,8 @@
 Class WS.DE.DE021007500 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 99, MINVAL = 0);
+
 Parameter Category = "健康史";
 
 Parameter Description = "新生儿死亡例数";
@@ -10,8 +12,6 @@ Parameter Format = "N..2";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 99, MINVAL = 0);
 
 Storage Default
 {

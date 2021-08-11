@@ -7,7 +7,9 @@ Parameter Description = "检查方式代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:阴道检查;2:肛门检查;";
+Parameter ValueSetDisplay = "1:阴道检查;2:肛门检查;";
+
+Parameter ValueSet = "DE04.50.139.00";
 
 Parameter WSDT = "S2";
 

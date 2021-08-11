@@ -7,7 +7,9 @@ Parameter Description = "身体活动类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:工作、农业及家务性;2:交通性;3:休闲性";
+Parameter ValueSetDisplay = "1:工作、农业及家务性;2:交通性;3:休闲性";
+
+Parameter ValueSet = "DE05.10.059.00";
 
 Parameter WSDT = "S2";
 

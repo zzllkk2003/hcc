@@ -1,6 +1,8 @@
 Class WS.DE.DE060007400 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %String(MAXLEN = 50, MINLEN = 0);
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "麻醉方法名称";
@@ -10,8 +12,6 @@ Parameter Format = "AN..50";
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
-
-Property Value As %String(MAXLEN = 50, MINLEN = 0);
 
 Storage Default
 {

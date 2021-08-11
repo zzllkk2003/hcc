@@ -7,7 +7,9 @@ Parameter Description = "孕产妇死亡时间类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:产前;2:产时;3:产后";
+Parameter ValueSetDisplay = "1:产前;2:产时;3:产后";
+
+Parameter ValueSet = "DE06.00.153.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,8 @@ Parameter Description = "病案质量";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:甲;2:乙;3:丙;";
+Parameter ValueSetDisplay = "1:甲;2:乙;3:丙;";
+
 Parameter ValueSet = "DE09.00.103.00";
 
 Parameter WSDT = "S3";

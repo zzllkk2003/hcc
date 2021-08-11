@@ -7,7 +7,9 @@ Parameter Description = "急性乙型肝炎临床分型";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:无黄疸型;2:黄疸型";
+Parameter ValueSetDisplay = "1:无黄疸型;2:黄疸型";
+
+Parameter ValueSet = "DE05.10.030.00";
 
 Parameter WSDT = "S2";
 

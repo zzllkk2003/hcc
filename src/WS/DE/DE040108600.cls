@@ -1,6 +1,8 @@
 Class WS.DE.DE040108600 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Boolean;
+
 Parameter Category = "主诉与症状";
 
 Parameter Description = "哮喘标志";
@@ -10,8 +12,6 @@ Parameter Format;
 Parameter ValueSet;
 
 Parameter WSDT = "L";
-
-Property Value As %Boolean;
 
 Storage Default
 {

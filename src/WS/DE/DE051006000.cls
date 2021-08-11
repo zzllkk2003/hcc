@@ -7,7 +7,9 @@ Parameter Description = "身体活动强度分类代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1: 高强度身体活动;2:中等强度身体活动;3:低强度身体活动";
+Parameter ValueSetDisplay = "1:高强度身体活动;2:中等强度身体活动;3:低强度身体活动";
+
+Parameter ValueSet = "DE05.10.060.00";
 
 Parameter WSDT = "S2";
 

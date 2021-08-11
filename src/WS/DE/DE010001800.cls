@@ -7,8 +7,6 @@ Parameter Description = "检查报告单编号";
 
 Parameter Format = "AN..20";
 
-Parameter ValueSet;
-
 Parameter WSDT = "S1";
 
 Property Value As %String(MAXLEN = 20, MINLEN = 0);

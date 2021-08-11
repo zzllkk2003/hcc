@@ -7,7 +7,9 @@ Parameter Description = "安全护理代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:勤巡视病房;2:加床档;3:约束四肢;";
+Parameter ValueSetDisplay = "1:勤巡视病房;2:加床档;3:约束四肢;";
+
+Parameter ValueSet = "DE06.00.178.00";
 
 Parameter WSDT = "S2";
 

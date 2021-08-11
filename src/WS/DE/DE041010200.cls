@@ -7,7 +7,9 @@ Parameter Description = "精索静脉曲张程度代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:轻度;2:中度;3:重度";
+Parameter ValueSetDisplay = "1:轻度;2:中度;3:重度";
+
+Parameter ValueSet = "DE04.10.102.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "Apgar评分间隔时间代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:1分钟;2:5分钟;3:10分钟;";
+Parameter ValueSetDisplay = "1:1分钟;2:5分钟;3:10分钟;";
+
+Parameter ValueSet = "DE06.00.215.00";
 
 Parameter WSDT = "S2";
 

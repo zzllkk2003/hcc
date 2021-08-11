@@ -7,7 +7,8 @@ Parameter Description = "梅毒血清学试验结果代码";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:阴性;2:阳性;";
+Parameter ValueSetDisplay = "1:阴性;2:阳性;";
+
 Parameter ValueSet = "DE04.50.041.00";
 
 Parameter WSDT = "S2";

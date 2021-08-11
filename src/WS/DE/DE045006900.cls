@@ -7,7 +7,9 @@ Parameter Description = "取出皮下埋植剂检查结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:正常;2:异常;";
+Parameter ValueSetDisplay = "1:正常;2:异常;";
+
+Parameter ValueSet = "DE04.50.069.00";
 
 Parameter WSDT = "S2";
 

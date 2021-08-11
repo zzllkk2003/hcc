@@ -1,6 +1,8 @@
 Class WS.DE.DE041003300 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value;
+
 Parameter Category = "体格检查";
 
 Parameter Description = "可疑佝偻病症状代码";
@@ -10,8 +12,6 @@ Parameter Format = "N1";
 Parameter ValueSet;
 
 Parameter WSDT = "S3";
-
-Property Value;
 
 Storage Default
 {

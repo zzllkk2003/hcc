@@ -1,9 +1,18 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
-/// 手术操作章节
+/// 手术操作章节表
+/// 注意《宫剖产记录》的“手术操作章节”使用“宫剖产手术操作章节”表:HCC_SQL_Document.CaesareanProcedure
 Class HCC.SQL.Document.Procedure Extends (%Persistent, %XML.Adaptor)
 {
+
+Parameter SectionCode = "47519-4";
+
+Parameter SectionName = "HISTORY OF PROCEDURES";
+
+Parameter SectionCodeSystemOID = "2.16.840.1.113883.6.1";
+
+Parameter SectionCodeSystem = "LOINC";
 
 /// 文档编号 (同时作为Idkey)
 Property DocumentNo As %String(XMLPROJECTION = "NONE");
@@ -11,40 +20,34 @@ Property DocumentNo As %String(XMLPROJECTION = "NONE");
 Index IdDocNo On DocumentNo [ IdKey, Unique ];
 
 /// 建立与HCC.SQL.Document.Header的外键
-ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(ukDocNo);
+ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(IdKey);
 
-/// 手术/操作代码
-Property procedure As WS.DE.DE060009300 [ SqlFieldName = procedure ];
+/// 手术操作条目子表
+Relationship Items As HCC.SQL.Document.ProcedureItem [ Cardinality = children, Inverse = Procedure ];
 
-/// 手术名称
-Property procedureName As WS.DE.DE060009400 [ SqlFieldName = procedure_name ];
+/// 抢救措施。用于《抢救记录》
+Property rescue As HCC.SQL.Document.Rescue [ SqlFieldName = rescue ];
 
-/// 手术级别
-Property procedureClass As WS.DE.DE060025500 [ SqlFieldName = procedure_class ];
+/// 手术适应证。用于《术前小结》
+Property indication As WS.DE.DE051015100 [ SqlFieldName = indication ];
 
-/// 操作日期/时间
-Property procedureTime As WS.DE.DE060009500 [ SqlFieldName = procedure_time ];
+/// 手术禁忌症。用于《术前小结》
+Property contraindication As WS.DE.DE051014100 [ SqlFieldName = contraindication ];
 
-/// 手术医生姓名
-Property procedureDoctor As WS.DE.DE020103900 [ SqlFieldName = procedure_doctor ];
+/// 手术指征。用于《术前小结》
+Property illness As WS.DE.DE060034000 [ SqlFieldName = illness ];
 
-/// 第一助手姓名
-Property primaryAssistant As WS.DE.DE020103900 [ SqlFieldName = primary_assistant ];
+/// 手术要点。用于《术前讨论》
+Property keypoint As WS.DE.DE060025400 [ SqlFieldName = keypoint ];
 
-/// 第二助手姓名
-Property secondAssistant As WS.DE.DE020103900 [ SqlFieldName = second_assistant ];
+/// 术前准备。用于《术前讨论》
+Property preoperativePrep As WS.DE.DE060027100 [ SqlFieldName = preoperative_prep ];
 
-/// 手术切口级别
-Property cutLevel As WS.DE.DE060025500 [ SqlFieldName = cut_level ];
+/// 手术方案。用于《术前讨论》
+Property program As WS.DE.DE060030100 [ SqlFieldName = program ];
 
-/// 手术切口愈合等级
-Property healingLevel As WS.DE.DE060025500 [ SqlFieldName = healing_level ];
-
-/// 麻醉方法代码
-Property anesthesiaMethod As WS.DE.DE060025500 [ SqlFieldName = anesthesia_method ];
-
-/// 麻醉医生姓名
-Property anesthesiaDoctor As WS.DE.DE020103900 [ SqlFieldName = anesthesia_doctor ];
+/// 注意事项。用于《术前讨论》
+Property attention As WS.DE.DE090011900 [ SqlFieldName = attention ];
 
 Storage Default
 {
@@ -53,37 +56,28 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>procedure</Value>
+<Value>rescue</Value>
 </Value>
 <Value name="3">
-<Value>procedureName</Value>
+<Value>indication</Value>
 </Value>
 <Value name="4">
-<Value>procedureClass</Value>
+<Value>contraindication</Value>
 </Value>
 <Value name="5">
-<Value>procedureTime</Value>
+<Value>illness</Value>
 </Value>
 <Value name="6">
-<Value>procedureDoctor</Value>
+<Value>keypoint</Value>
 </Value>
 <Value name="7">
-<Value>primaryAssistant</Value>
+<Value>preoperativePrep</Value>
 </Value>
 <Value name="8">
-<Value>secondAssistant</Value>
+<Value>program</Value>
 </Value>
 <Value name="9">
-<Value>cutLevel</Value>
-</Value>
-<Value name="10">
-<Value>healingLevel</Value>
-</Value>
-<Value name="11">
-<Value>anesthesiaMethod</Value>
-</Value>
-<Value name="12">
-<Value>anesthesiaDoctor</Value>
+<Value>attention</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.Document.ProcedureD</DataLocation>

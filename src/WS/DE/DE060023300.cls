@@ -1,6 +1,8 @@
 Class WS.DE.DE060023300 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Time;
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "清醒时间";
@@ -10,8 +12,6 @@ Parameter Format;
 Parameter ValueSet;
 
 Parameter WSDT = "T";
-
-Property Value As %Time;
 
 Storage Default
 {

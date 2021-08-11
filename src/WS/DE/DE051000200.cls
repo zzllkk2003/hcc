@@ -7,7 +7,9 @@ Parameter Description = "HBsAg携带者分类";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:慢性HBV携带者;2:非活动性HBsAg携带者";
+Parameter ValueSetDisplay = "1:慢性HBV携带者;2:非活动性HBsAg携带者";
+
+Parameter ValueSet = "DE05.10.002.00";
 
 Parameter WSDT = "S2";
 

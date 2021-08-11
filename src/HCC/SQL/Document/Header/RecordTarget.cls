@@ -2,35 +2,28 @@
 Class HCC.SQL.Document.Header.RecordTarget Extends (%SerialObject, %XML.Adaptor)
 {
 
-/// 健康卡号标识
+/// 健康档案标识号。用于《病历概要》
+Property healthRecordId As WS.DE.DE010000900 [ SqlFieldName = hrId ];
+
+/// 健康卡号标识。以下文档需要：《住院病案首页》、《病历概要》
 Property healthCardId As WS.DE.DE010002100 [ Required, SqlFieldName = healthCardId ];
 
-/// 住院号标识
-Property MRN As WS.DE.DE010001400 [ Required, SqlFieldName = MRN ];
+/// 病案号标识
+Property MRN As WS.DE.DE010000400 [ Required, SqlFieldName = MRN ];
 
-/// 患者地址-门牌号
-Property addrHouseNumber As WS.DE.DE020100906 [ Required, SqlFieldName = addr_houseNumber ];
+/// 住院号标识。以下文档需要：《住院病案首页》
+Property inpatientNum As WS.DE.DE010001400 [ Required, SqlFieldName = ip_num ];
 
-/// 患者地址-村（街、路、弄等）
-Property addrStreetName As WS.DE.DE020100905 [ Required, SqlFieldName = addr_streetName ];
-
-/// 患者地址-乡（镇、街道办事处）
-Property addrTownship As WS.DE.DE020100904 [ Required, SqlFieldName = addr_township ];
-
-/// 患者地址-县（区）
-Property addrCounty As WS.DE.DE020100903 [ Required, SqlFieldName = addr_county ];
-
-/// 患者地址-市（地区、州）
-Property addrCity As WS.DE.DE020100902 [ Required, SqlFieldName = addr_city ];
-
-/// 患者地址-省（自治区、直辖市）
-Property addrState As WS.DE.DE020100901 [ Required, SqlFieldName = addr_state ];
-
-/// 患者地址-邮政编码
-Property addrPostalCode As WS.DE.DE020104700 [ Required, SqlFieldName = addr_postalCode ];
+/// 患者地址
+Property addr As HCC.SQL.Addr;
 
 /// 患者电话号码
 Property telcom As WS.DE.DE020101000 [ SqlFieldName = telcom ];
+
+/// 患者
+Property patient As HCC.SQL.Document.Header.RecordTarget.Patient [ SqlFieldName = pat ];
+
+/*
 
 /// 患者身份证号标识
 Property patientId As WS.DE.DE020103000 [ SqlFieldName = patient_id ];
@@ -127,12 +120,8 @@ Property ageInMonth As WS.DE.DE020103200 [ SqlFieldName = patient_ageMonth ];
 
 /// 职业类别代码
 Property occupationCode As WS.DE.DE020105200 [ Required, SqlFieldName = patient_occupationCode ];
-
-/// 提供患者服务机构id
-Property providerOrganizationId As WS.DE.DE081001300 [ SqlFieldName = providerOrganization_id ];
-
-/// 住院机构名称
-Property providerOrganizationName As %String [ SqlFieldName = providerOrganization_name ];
+*/
+Property providerOrganization As HCC.SQL.Document.Header.RecordTarget.ProviderOrganization [ SqlFieldName = prov_org ];
 
 Storage Default
 {
@@ -268,6 +257,24 @@ Storage Default
 </Value>
 <Value name="44">
 <Value>employerTelcom</Value>
+</Value>
+<Value name="45">
+<Value>medicalRecordId</Value>
+</Value>
+<Value name="46">
+<Value>addr</Value>
+</Value>
+<Value name="47">
+<Value>patient</Value>
+</Value>
+<Value name="48">
+<Value>providerOrganization</Value>
+</Value>
+<Value name="49">
+<Value>healthRecordId</Value>
+</Value>
+<Value name="50">
+<Value>inpatientNum</Value>
 </Value>
 </Data>
 <State>RecordTargetState</State>

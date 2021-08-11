@@ -7,7 +7,9 @@ Parameter Description = "艾滋病阳性检测方法代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:确认检测阳性;2:替代策略检测阳性;";
+Parameter ValueSetDisplay = "1:确认检测阳性;2:替代策略检测阳性;";
+
+Parameter ValueSet = "DE04.50.012.00";
 
 Parameter WSDT = "S2";
 

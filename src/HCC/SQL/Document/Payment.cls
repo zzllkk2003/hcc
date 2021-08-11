@@ -1,9 +1,17 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
-/// 费用章节
+/// 费用章节表
 Class HCC.SQL.Document.Payment Extends (%Persistent, %XML.Adaptor)
 {
+
+Parameter SectionCode = "48768-6";
+
+Parameter SectionName = "PAYMENT SOURCES";
+
+Parameter SectionCodeSystemOID = "2.16.840.1.113883.6.1";
+
+Parameter SectionCodeSystem = "LOINC";
 
 /// 文档编号 (同时作为Idkey)
 Property DocumentNo As %String(XMLPROJECTION = "NONE");
@@ -11,131 +19,58 @@ Property DocumentNo As %String(XMLPROJECTION = "NONE");
 Index IdDocNo On DocumentNo [ IdKey, Unique ];
 
 /// 建立与HCC.SQL.Document.Header的外键
-ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(ukDocNo);
+ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(IdKey);
 
 /// 医疗费用支付方式代码
 Property paymentWay As WS.DE.DE070000700 [ SqlFieldName = payment_way ];
 
-/*
 /// 住院总费用
-Property totalFee As WS.DE.DE070001000 [ SqlFieldName = total ];
-
-/// 住院总费用-自付金额
-Property patientPay As WS.DE.DE070001000 [ SqlFieldName = patient_pay ];
-
-/// 综合医疗服务费-一般医疗服务费
-Property generalService As WS.DE.DE070001000 [ SqlFieldName = general_service ];
-
-/// 综合医疗服务费-一般治疗操作费
-Property generalTreatment As WS.DE.DE070001000 [ SqlFieldName = general_treatment ];
-
-/// 综合医疗服务费-护理费
-Property generalNurse As WS.DE.DE070001000 [ SqlFieldName = general_nurse ];
-
-/// 综合医疗服务费-其他费用
-Property generalOther As WS.DE.DE070001000 [ SqlFieldName = general_other ];
-
-/// 诊断-病理诊断费
-Property diagPathology As WS.DE.DE070001000 [ SqlFieldName = diag_pathology ];
-
-/// 诊断-实验室诊断费
-Property diagLab As WS.DE.DE070001000 [ SqlFieldName = diag_lab ];
-
-/// 诊断-影像学诊断费
-Property diagImage As WS.DE.DE070001000 [ SqlFieldName = diag_image ];
-
-/// 诊断-临床诊断项目费
-Property diagDiagnosis As WS.DE.DE070001000 [ SqlFieldName = diag_diagnosis ];
-
-/// 治疗-非手术治疗项目费
-Property treatmentNonSurgery As WS.DE.DE070001000 [ SqlFieldName = treatment_nonSurgery ];
-
-/// 治疗-非手术治疗项目费-临床物理治疗费
-Property treatmentPhysical As WS.DE.DE070001000 [ SqlFieldName = treatment_physical ];
-
-/// 治疗-手术治疗费
-Property treatmentSurgery As WS.DE.DE070001000 [ SqlFieldName = treatment_surgery ];
-
-/// 治疗-手术治疗费-麻醉费
-Property treatmentAnesthesia As WS.DE.DE070001000 [ SqlFieldName = treatment_anesthesia ];
-
-/// 治疗-手术治疗费-手术费
-Property treatmentSurgeryOperation As WS.DE.DE070001000 [ SqlFieldName = treatment_surgery_operation ];
-
-/// 康复费类服务费
-Property rehabilitation As WS.DE.DE070001000 [ SqlFieldName = rehabilitation ];
-
-/// 中医治疗费
-Property TCMTreatment As WS.DE.DE070001000 [ SqlFieldName = TCM_treatment ];
-
-/// 西药费
-Property Medicine As WS.DE.DE070001000 [ SqlFieldName = medicine ];
-
-/// 西药费 - 抗菌药物费用
-Property MedicineAntibacterial As WS.DE.DE070001000 [ SqlFieldName = antibacterial ];
-
-/// 中药费 - 中成药费
-Property TCMPatent As WS.DE.DE070001000 [ SqlFieldName = TCM_patent ];
-
-/// 中药费 - 中草药费
-Property TCMHerb As WS.DE.DE070001000 [ SqlFieldName = TCM_herb ];
-
-/// 血费 
-Property Blood As WS.DE.DE070001000 [ SqlFieldName = blood ];
-
-/// 白蛋白类制品费 
-Property albumin As WS.DE.DE070001000 [ SqlFieldName = albumin ];
-
-/// 球蛋白类制品费 
-Property globulin As WS.DE.DE070001000 [ SqlFieldName = globulin ];
-
-/// 凝血因子类制品费 
-Property clotfactor As WS.DE.DE070001000 [ SqlFieldName = clotfactor ];
-
-/// 细胞因子类制品费 
-Property cellfactor As WS.DE.DE070001000 [ SqlFieldName = cellfactor ];
-
-/// 耗材-一次性医用材料费-检查用 
-Property consumableExam As WS.DE.DE070001000 [ SqlFieldName = consumable_exam ];
-
-/// 耗材-一次性医用材料费-治疗用 
-Property consumableTreatment As WS.DE.DE070001000 [ SqlFieldName = consumable_treamtment ];
-
-/// 耗材-一次性医用材料费-手术用 
-Property consumableSurgery As WS.DE.DE070001000 [ SqlFieldName = consumable_surgery ];
-*/
-/// 住院总费用
-Property totalFee As HCC.SQL.Document.Payment.Total;
+Property totalFee As HCC.SQL.Document.Payment.Total [ SqlFieldName = total ];
 
 /// 综合医疗服务费
-Property generalFee As HCC.SQL.Document.Payment.General;
+Property generalFee As HCC.SQL.Document.Payment.General [ SqlFieldName = gen ];
 
 /// 诊断费
-Property diagFee As HCC.SQL.Document.Payment.Diag;
+Property diagFee As HCC.SQL.Document.Payment.Diag [ SqlFieldName = diag ];
 
 /// 治疗费
-Property treatmentFee As HCC.SQL.Document.Payment.Treatment;
+Property treatmentFee As HCC.SQL.Document.Payment.Treatment [ SqlFieldName = treat ];
 
 /// 康复费类服务费
-Property rehabilitationFee As WS.DE.DE070001000 [ SqlFieldName = rehabilitation ];
+Property rehabilitationFee As WS.HSDE.HDSD0011055 [ SqlFieldName = rehab ];
 
 /// 中医治疗费
-Property TCMTreatmentFee As WS.DE.DE070001000 [ SqlFieldName = TCM_treatment ];
+Property TCMTreatmentFee As WS.HSDE.HDSD0011136 [ SqlFieldName = TCM_treat ];
 
 /// 西药费
-Property medicineFee As HCC.SQL.Document.Payment.Medicine;
+Property medicineFee As HCC.SQL.Document.Payment.Medicine [ SqlFieldName = med ];
 
 /// 中药费
-Property TCMFee As HCC.SQL.Document.Payment.TCM;
+Property TCMFee As HCC.SQL.Document.Payment.TCM [ SqlFieldName = tcm ];
 
 /// 血费
-Property bloodFee As HCC.SQL.Document.Payment.Blood;
+Property bloodFee As HCC.SQL.Document.Payment.Blood [ SqlFieldName = blood ];
 
 /// 耗材
-Property consumableFee As HCC.SQL.Document.Payment.Consumable;
+Property consumableFee As HCC.SQL.Document.Payment.Consumable [ SqlFieldName = cons ];
 
 /// 其他费 
-Property otherFee As WS.DE.DE070001000 [ SqlFieldName = other ];
+Property otherFee As WS.HSDE.HSDB0510130 [ SqlFieldName = other ];
+
+/// 处方药品金额。《西药处方》费用章节特殊需要！！！
+Property prescriptionFee As WS.DE.DE070000400 [ SqlFieldName = rx_fee ];
+
+/// 使用中医诊疗设备标志。《中医住院病案首页》费用章节特殊需要！！！
+Property TCMEquipment As WS.DE.DE060024400 [ SqlFieldName = TCM_eqp ];
+
+/// 使用医疗机构中药制剂标志。《中医住院病案首页》费用章节特殊需要！！！
+Property TCMMedication As WS.DE.DE060024300 [ SqlFieldName = TCM_med ];
+
+/// 使用中医技术标志。《中医住院病案首页》费用章节特殊需要！！！
+Property TCMTech As WS.DE.DE060024500 [ SqlFieldName = TCM_tech ];
+
+/// 辨证施护标志。 《中医住院病案首页》费用章节特殊需要！！！
+Property TCMSyndrome As WS.DE.DE060018000 [ SqlFieldName = TCM_syndrome ];
 
 Storage Default
 {
@@ -289,6 +224,21 @@ Storage Default
 </Value>
 <Value name="50">
 <Value>totalFee</Value>
+</Value>
+<Value name="51">
+<Value>prescriptionFee</Value>
+</Value>
+<Value name="52">
+<Value>TCMEquipment</Value>
+</Value>
+<Value name="53">
+<Value>TCMMedication</Value>
+</Value>
+<Value name="54">
+<Value>TCMTech</Value>
+</Value>
+<Value name="55">
+<Value>TCMSyndrome</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.Document.PaymentD</DataLocation>

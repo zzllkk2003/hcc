@@ -7,7 +7,9 @@ Parameter Description = "产妇结局代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:存活;2:产时死亡;3:产后死亡;";
+Parameter ValueSet = "DE02.10.096.00";
+
+Parameter ValueSetDisplay = "1:存活;2:产时死亡;3:产后死亡;";
 
 Parameter WSDT = "S2";
 

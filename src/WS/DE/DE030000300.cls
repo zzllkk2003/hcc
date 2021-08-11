@@ -1,6 +1,8 @@
 Class WS.DE.DE030000300 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As WS.DT.CodedString(ValueSet = "CV03.00.102");
+
 Parameter Category = "健康危险因素";
 
 Parameter Description = "被动吸烟场所代码";
@@ -10,8 +12,6 @@ Parameter Format = "N1";
 Parameter ValueSet = "CV03.00.102";
 
 Parameter WSDT = "S3";
-
-Property Value As WS.DT.CodedString(ValueSet = "CV03.00.102");
 
 Storage Default
 {

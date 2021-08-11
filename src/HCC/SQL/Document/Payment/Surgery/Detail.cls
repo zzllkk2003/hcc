@@ -4,10 +4,10 @@ Class HCC.SQL.Document.Payment.Surgery.Detail Extends (%SerialObject, %XML.Adapt
 {
 
 /// 治疗-手术治疗费-麻醉费
-Property anesthesia As WS.DE.DE070001000 [ SqlFieldName = anesthesia ];
+Property anesthesia As WS.HSDE.HDSD0011132 [ SqlFieldName = anes ];
 
 /// 治疗-手术治疗费-手术费
-Property surgery As WS.DE.DE070001000 [ SqlFieldName = surgery ];
+Property surgery As WS.HSDE.HDSD0011133 [ SqlFieldName = surg ];
 
 Storage Default
 {

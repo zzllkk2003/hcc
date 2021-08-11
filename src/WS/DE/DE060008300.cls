@@ -7,7 +7,9 @@ Parameter Description = "皮下埋植剂埋植部位代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:左上臂;2:右上臂;9:其他";
+Parameter ValueSetDisplay = "1:左上臂;2:右上臂;9:其他";
+
+Parameter ValueSet = "DE06.00.083.00";
 
 Parameter WSDT = "S2";
 

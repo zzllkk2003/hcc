@@ -1,6 +1,8 @@
 Class WS.DE.DE060002100 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 9999, MINVAL = 0);
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "第一产程时长(min)";
@@ -10,8 +12,6 @@ Parameter Format = "N..4";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 9999, MINVAL = 0);
 
 Storage Default
 {

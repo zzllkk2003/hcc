@@ -7,7 +7,7 @@ Parameter Description = "职称级别代码";
 
 Parameter Format = "N1";
 
-// Parameter ValueSet = "1:高级职称;2:中级职称;3:初级职称;";
+Parameter ValueSetDisplay = "1:高级职称;2:中级职称;3:初级职称;";
 
 Parameter ValueSet = "DE02.01.050.00";
 

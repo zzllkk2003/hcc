@@ -3,34 +3,20 @@
 Class HCC.SQL.Document.Payment.Medicine Extends (%SerialObject, %XML.Adaptor)
 {
 
-/// 西药费
-Property medicine As WS.DE.DE070001000 [ SqlFieldName = medicine ];
-
-// Property medicineAntibacterial As WS.DE.DE070001000 [ SqlFieldName = antibacterial ];
+/// 西药费 - 费用
+Property medicine As WS.HSDE.HDSD0011098 [ SqlFieldName = med ];
 
 /// 西药费 - 抗菌药物费用
-Property antibacterialFee As HCC.SQL.Document.Payment.Medicine.Antibacterial;
+Property antibacterial As WS.HSDE.HDSD0011099 [ SqlFieldName = antibac ];
 
 Storage Default
 {
 <Data name="MedicineState">
 <Value name="1">
-<Value>Medicine</Value>
-</Value>
-<Value name="2">
-<Value>MedicineAntibacterial</Value>
-</Value>
-<Value name="3">
 <Value>medicine</Value>
 </Value>
-<Value name="4">
-<Value>medicineAntibacterial</Value>
-</Value>
-<Value name="5">
+<Value name="2">
 <Value>antibacterial</Value>
-</Value>
-<Value name="6">
-<Value>antibacterialFee</Value>
 </Value>
 </Data>
 <State>MedicineState</State>

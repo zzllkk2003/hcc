@@ -7,7 +7,8 @@ Parameter Description = "门诊治疗情况代码";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:未治;2:间断门诊治疗;3:持续门诊治疗;";
+Parameter ValueSetDisplay = "1:未治;2:间断门诊治疗;3:持续门诊治疗;";
+
 Parameter ValueSet = "DE02.10.036.00";
 
 Parameter WSDT = "S2";

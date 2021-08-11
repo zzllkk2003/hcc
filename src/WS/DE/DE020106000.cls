@@ -7,8 +7,6 @@ Parameter Description = "患者类型";
 
 Parameter Format = "AN..50";
 
-Parameter ValueSet;
-
 Parameter WSDT = "S3";
 
 Property Value;

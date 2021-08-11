@@ -7,7 +7,7 @@ Parameter Description = "户籍类型代码";
 
 Parameter Format = "N1";
 
-// Parameter ValueSet = "1:本地户口;2:非本地户口;3:非本地户口居住一年以上;";
+Parameter ValueSetDisplay = "1:本地户口;2:非本地户口;3:非本地户口居住一年以上;";
 
 Parameter ValueSet = "DE02.01.058.00";
 

@@ -7,7 +7,9 @@ Parameter Description = "宫内节育器取出情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:正常;2:异常";
+Parameter ValueSetDisplay = "1:正常;2:异常";
+
+Parameter ValueSet = "DE06.00.033.00";
 
 Parameter WSDT = "S2";
 

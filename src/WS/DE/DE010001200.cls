@@ -7,8 +7,6 @@ Parameter Description = "系统内部标识";
 
 Parameter Format = "N20";
 
-Parameter ValueSet;
-
 Parameter WSDT = "S1";
 
 Property Value As %String(MAXLEN = 20, MINLEN = 20);

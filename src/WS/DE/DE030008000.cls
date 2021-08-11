@@ -7,7 +7,9 @@ Parameter Description = "饮食情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:良好;2:一般;3:较差;";
+Parameter ValueSetDisplay = "1:良好;2:一般;3:较差;";
+
+Parameter ValueSet = "DE03.00.080.00";
 
 Parameter WSDT = "S2";
 

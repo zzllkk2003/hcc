@@ -7,7 +7,9 @@ Parameter Description = "消毒剂加药方式代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:机械加药;2:部分机械加药;3:人工加药;";
+Parameter ValueSetDisplay = "1:机械加药;2:部分机械加药;3:人工加药;";
+
+Parameter ValueSet = "DE08.50.009.00";
 
 Parameter WSDT = "S2";
 

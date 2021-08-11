@@ -7,7 +7,9 @@ Parameter Description = "子宫位置代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:前位;2:中位;3:后位";
+Parameter ValueSetDisplay = "1:前位;2:中位;3:后位";
+
+Parameter ValueSet = "DE04.10.234.00";
 
 Parameter WSDT = "S2";
 

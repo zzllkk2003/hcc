@@ -7,7 +7,9 @@ Parameter Description = "讨论地点";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:科室;2:病房;9:其他;";
+Parameter ValueSetDisplay = "1:科室;2:病房;9:其他;";
+
+Parameter ValueSet = "DE06.00.274.00";
 
 Parameter WSDT = "S2";
 

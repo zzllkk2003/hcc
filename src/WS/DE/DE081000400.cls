@@ -1,6 +1,8 @@
 Class WS.DE.DE081000400 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 999999, MINVAL = 0);
+
 Parameter Category = "卫生机构";
 
 Parameter Description = "发生执法过错的下级责任单位数";
@@ -10,8 +12,6 @@ Parameter Format = "N..6";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 999999, MINVAL = 0);
 
 Storage Default
 {

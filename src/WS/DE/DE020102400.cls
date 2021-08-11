@@ -7,7 +7,8 @@ Parameter Description = "居住地区类别代码";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:平原;2:山区;9:其他;";
+Parameter ValueSetDisplay = "1:平原;2:山区;9:其他;";
+
 Parameter ValueSet = "DE02.01.024.00";
 
 Parameter WSDT = "S2";

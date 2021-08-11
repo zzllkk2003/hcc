@@ -7,7 +7,9 @@ Parameter Description = "念珠菌检测结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:阳性;2:阴性;";
+Parameter ValueSetDisplay = "1:阳性;2:阴性;";
+
+Parameter ValueSet = "DE04.50.042.00";
 
 Parameter WSDT = "S2";
 

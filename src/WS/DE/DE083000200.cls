@@ -1,6 +1,8 @@
 Class WS.DE.DE083000200 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 99, MINVAL = 0);
+
 Parameter Category = "卫生人员";
 
 Parameter Description = "出国留学学习时长(月)";
@@ -10,8 +12,6 @@ Parameter Format = "N..2";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 99, MINVAL = 0);
 
 Storage Default
 {

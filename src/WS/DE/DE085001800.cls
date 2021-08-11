@@ -1,6 +1,8 @@
 Class WS.DE.DE085001800 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As WS.DT.CodedString(ValueSet = "CV08.50.001");
+
 Parameter Category = "药品、设备与材料";
 
 Parameter Description = "引起预防接种后不良反应的可疑疫苗名称代码";
@@ -10,8 +12,6 @@ Parameter Format = "N4";
 Parameter ValueSet = "CV08.50.001";
 
 Parameter WSDT = "S3";
-
-Property Value As WS.DT.CodedString(ValueSet = "CV08.50.001");
 
 Storage Default
 {

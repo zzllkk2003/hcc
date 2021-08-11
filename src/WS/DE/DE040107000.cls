@@ -7,7 +7,9 @@ Parameter Description = "睡眠情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:良好;2:一般;3:较差";
+Parameter ValueSetDisplay = "1:良好;2:一般;3:较差";
+
+Parameter ValueSet = "DE04.01.070.00";
 
 Parameter WSDT = "S2";
 

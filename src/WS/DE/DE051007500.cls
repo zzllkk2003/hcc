@@ -1,6 +1,8 @@
 Class WS.DE.DE051007500 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Decimal(SCALE = 2);
+
 Parameter Category = "医学评估";
 
 Parameter Description = "体质指数";
@@ -10,8 +12,6 @@ Parameter Format = "N5,2";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
-
-Property Value As %Decimal(SCALE = 2);
 
 Storage Default
 {

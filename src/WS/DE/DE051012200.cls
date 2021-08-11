@@ -7,7 +7,9 @@ Parameter Description = "自理能力代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:完全自理;2:部分自理;3:不能自理";
+Parameter ValueSetDisplay = "1:完全自理;2:部分自理;3:不能自理";
+
+Parameter ValueSet = "DE05.10.122.00";
 
 Parameter WSDT = "S2";
 

@@ -1,6 +1,8 @@
 Class WS.DE.DE040110300 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %String(MAXLEN = 1000, MINLEN = 0);
+
 Parameter Category = "主诉与症状";
 
 Parameter Description = "疫苗异常反应史";
@@ -10,8 +12,6 @@ Parameter Format = "AN..1000";
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
-
-Property Value As %String(MAXLEN = 1000, MINLEN = 0);
 
 Storage Default
 {

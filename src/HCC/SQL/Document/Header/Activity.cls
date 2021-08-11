@@ -3,18 +3,16 @@ Class HCC.SQL.Document.Header.Activity Extends (%SerialObject, %XML.Adaptor)
 {
 
 /// 文档模板编号OID
-Property templateId As %String [ ReadOnly, SqlComputeCode = {set {templateId}=$lg($G(^WS.Doc.Code({code})),2)}, SqlComputed, SqlComputeOnChange = code ];
+Property templateId As %String [ Private, ReadOnly, SqlComputeCode = {set {templateId}=$lg($G(^WS.Doc.Code({code})),2)}, SqlComputed, SqlComputeOnChange = code ];
 
 /// 文档流水号
-Property docid As %String [ InitialExpression = {$ZCVT($SYSTEM.Util.CreateGUID(),"L")}, Required ];
+Property docid As %String [ InitialExpression = {$ZCVT($SYSTEM.Util.CreateGUID(),"L")}, Private, Required ];
 
-/// 文档类型代码
-/// title,templateId都由code自动赋值
-/// Set ..title=$lg($G(^WS.Doc.Code(..code)),1),..templateId=$lg($G(^WS.Doc.Code(..code)),2) 
+/// 文档类型代码。title\templateId都由code自动赋值
 Property code As %String [ Required ];
 
 /// 文档标题
-Property title As %String [ ReadOnly, SqlComputeCode = {set {title}=$lg($G(^WS.Doc.Code({code})),1)}, SqlComputed, SqlComputeOnChange = code ];
+Property title As %String [ Private, ReadOnly, SqlComputeCode = {set {title}=$lg($G(^WS.Doc.Code({code})),1)}, SqlComputed, SqlComputeOnChange = code ];
 
 /// 文档机器生成时间
 Property effectiveTime As %String [ Required ];

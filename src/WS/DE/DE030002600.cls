@@ -1,6 +1,8 @@
 Class WS.DE.DE030002600 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 9, MINVAL = 1);
+
 Parameter Category = "健康危险因素";
 
 Parameter Description = "接触二手烟天数(d)";
@@ -10,8 +12,6 @@ Parameter Format = "N1";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 9, MINVAL = 1);
 
 Storage Default
 {

@@ -7,7 +7,9 @@ Parameter Description = "受照类型代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:急性照射;2:慢性照射;";
+Parameter ValueSetDisplay = "1:急性照射;2:慢性照射;";
+
+Parameter ValueSet = "DE03.00.060.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "喂养方式类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:纯母乳喂养;2:混合喂养;3:人工喂养";
+Parameter ValueSetDisplay = "1:纯母乳喂养;2:混合喂养;3:人工喂养";
+
+Parameter ValueSet = "DE06.00.116.00";
 
 Parameter WSDT = "S2";
 

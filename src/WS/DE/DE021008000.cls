@@ -1,6 +1,8 @@
 Class WS.DE.DE021008000 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 9, MINVAL = 1);
+
 Parameter Category = "健康史";
 
 Parameter Description = "乙肝疫苗接种针次(针)";
@@ -10,8 +12,6 @@ Parameter Format = "N1";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 9, MINVAL = 1);
 
 Storage Default
 {

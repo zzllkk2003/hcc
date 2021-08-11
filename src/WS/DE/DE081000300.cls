@@ -7,7 +7,7 @@ Parameter Description = "单位隶属关系代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "GB/T 12404";
+Parameter ValueSet = "GBT.12404";
 
 Parameter WSDT = "S3";
 

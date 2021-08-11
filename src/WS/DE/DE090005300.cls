@@ -12,7 +12,7 @@ Parameter ValueSet;
 
 Parameter WSDT = "DT";
 
-Property Value As %TimeStamp;
+Property Value As WS.DT.TimeStamp;
 
 Storage Default
 {

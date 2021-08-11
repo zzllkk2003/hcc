@@ -1,6 +1,8 @@
 Class WS.DE.DE085001500 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %String(MAXLEN = 70, MINLEN = 0);
+
 Parameter Category = "药品、设备与材料";
 
 Parameter Description = "疫苗接种单位名称";
@@ -10,8 +12,6 @@ Parameter Format = "AN..70";
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
-
-Property Value As %String(MAXLEN = 70, MINLEN = 0);
 
 Storage Default
 {

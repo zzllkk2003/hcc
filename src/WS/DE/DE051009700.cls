@@ -7,7 +7,9 @@ Parameter Description = "营养状态代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:良好;2:中等;3:差";
+Parameter ValueSetDisplay = "1:良好;2:中等;3:差";
+
+Parameter ValueSet = "DE05.10.097.00";
 
 Parameter WSDT = "S2";
 

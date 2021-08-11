@@ -1,6 +1,8 @@
 Class WS.DE.DE060005400 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %String(MAXLEN = 1000, MINLEN = 0);
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "接种禁忌";
@@ -10,8 +12,6 @@ Parameter Format = "AN..1000";
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
-
-Property Value As %String(MAXLEN = 1000, MINLEN = 0);
 
 Storage Default
 {

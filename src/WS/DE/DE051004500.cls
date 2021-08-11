@@ -7,7 +7,9 @@ Parameter Description = "慢性乙型肝炎的血清学分类";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:HBeAg阳性慢性乙型肝炎;2:HBeAg阴性慢性乙型肝炎";
+Parameter ValueSetDisplay = "1:HBeAg阳性慢性乙型肝炎;2:HBeAg阴性慢性乙型肝炎";
+
+Parameter ValueSet = "DE05.10.045.00";
 
 Parameter WSDT = "S2";
 

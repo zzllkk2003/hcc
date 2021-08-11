@@ -7,7 +7,9 @@ Parameter Description = "自知力评价结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:自知力完全;2:自知力不全;3:自知力缺失";
+Parameter ValueSetDisplay = "1:自知力完全;2:自知力不全;3:自知力缺失";
+
+Parameter ValueSet = "DE05.10.123.00";
 
 Parameter WSDT = "S2";
 

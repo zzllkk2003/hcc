@@ -7,7 +7,9 @@ Parameter Description = "服药依从性代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:规律;2:间断;3:不服药";
+Parameter ValueSetDisplay = "1:规律;2:间断;3:不服药";
+
+Parameter ValueSet = "DE06.00.027.00";
 
 Parameter WSDT = "S2";
 

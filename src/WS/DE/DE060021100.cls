@@ -7,7 +7,9 @@ Parameter Description = "护理等级";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:特级护理;2:一级护理;3:二级护理;4:三级护理;";
+Parameter ValueSetDisplay = "1:特级护理;2:一级护理;3:二级护理;4:三级护理;";
+
+Parameter ValueSet = "DE06.00.211.00";
 
 Parameter WSDT = "S2";
 

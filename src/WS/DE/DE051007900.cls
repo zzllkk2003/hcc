@@ -1,6 +1,8 @@
 Class WS.DE.DE051007900 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 99, MINVAL = 0);
+
 Parameter Category = "医学评估";
 
 Parameter Description = "下肢淋巴水肿/象皮胂分期";
@@ -10,8 +12,6 @@ Parameter Format = "N..2";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 99, MINVAL = 0);
 
 Storage Default
 {

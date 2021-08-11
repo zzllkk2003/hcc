@@ -1,6 +1,8 @@
 Class WS.DE.DE060003100 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 99, MINVAL = 0);
+
 Parameter Category = "计划与干预";
 
 Parameter Description = "宫内节育器放置年限";
@@ -10,8 +12,6 @@ Parameter Format = "N..2";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 99, MINVAL = 0);
 
 Storage Default
 {

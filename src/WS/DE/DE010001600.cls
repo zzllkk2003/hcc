@@ -5,13 +5,13 @@ Parameter Category = "标识";
 
 Parameter Description = "参加麻醉安全保险标志";
 
-Parameter Format = "AN..20";
+Parameter Format;
 
 Parameter ValueSet;
 
-Parameter WSDT = "S1";
+Parameter WSDT = "L";
 
-Property Value As %String(MAXLEN = 20, MINLEN = 0);
+Property Value As %Boolean;
 
 Storage Default
 {

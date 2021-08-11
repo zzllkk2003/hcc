@@ -7,7 +7,9 @@ Parameter Description = "腹痛程度代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:轻度;2:中度;3:重度";
+Parameter ValueSetDisplay = "1:轻度;2:中度;3:重度";
+
+Parameter ValueSet = "DE04.01.021.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,8 @@ Parameter Description = "家族疾病史代码";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:家族遗传性疾病史;2:家族精神疾病史;9:其他;";
+Parameter ValueSetDisplay = "1:家族遗传性疾病史;2:家族精神疾病史;9:其他;";
+
 Parameter ValueSet = "DE02.10.039.00";
 
 Parameter WSDT = "S2";

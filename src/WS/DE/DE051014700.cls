@@ -7,7 +7,9 @@ Parameter Description = "手术切口愈合等级";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:甲; 2:乙; 3:丙; 9:其他;";
+Parameter ValueSetDisplay = "1:甲;2:乙;3:丙;9:其他;";
+
+Parameter ValueSet = "DE05.10.147.00";
 
 Parameter WSDT = "S2";
 

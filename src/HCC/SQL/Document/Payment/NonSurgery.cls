@@ -4,10 +4,10 @@ Class HCC.SQL.Document.Payment.NonSurgery Extends (%SerialObject, %XML.Adaptor)
 {
 
 /// 治疗-非手术治疗项目费
-Property nonSurgery As WS.DE.DE070001000 [ SqlFieldName = nonSurgery ];
+Property nonSurgery As WS.HSDE.HDSD0011129 [ SqlFieldName = nonsurg ];
 
 /// 治疗-非手术治疗项目费-临床物理治疗费
-Property physical As HCC.SQL.Document.Payment.NonSurgery.Physical;
+Property physical As HCC.SQL.Document.Payment.NonSurgery.Physical [ SqlFieldName = phy ];
 
 Storage Default
 {

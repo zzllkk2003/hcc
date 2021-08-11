@@ -7,7 +7,9 @@ Parameter Description = "心理调整评价结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:良好;2:一般;3:差";
+Parameter ValueSetDisplay = "1:良好;2:一般;3:差";
+
+Parameter ValueSet = "DE05.10.083.00";
 
 Parameter WSDT = "S2";
 

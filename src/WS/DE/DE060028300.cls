@@ -7,7 +7,9 @@ Parameter Description = "心理护理代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:根据病人心理状况施行心理护理;2:家属心理支持;";
+Parameter ValueSetDisplay = "1:根据病人心理状况施行心理护理;2:家属心理支持;";
+
+Parameter ValueSet = "DE06.00.283.00";
 
 Parameter WSDT = "S2";
 

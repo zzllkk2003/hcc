@@ -7,7 +7,9 @@ Parameter Description = "婚检咨询指导结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:接受;2:不接受";
+Parameter ValueSetDisplay = "1:接受;2:不接受";
+
+Parameter ValueSet = "DE06.00.041.00";
 
 Parameter WSDT = "S2";
 

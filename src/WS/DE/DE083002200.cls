@@ -7,7 +7,7 @@ Parameter Description = "行政/业务管理职务";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "GB/T 12403";
+Parameter ValueSet = "GBT.12403";
 
 Parameter WSDT = "S3";
 

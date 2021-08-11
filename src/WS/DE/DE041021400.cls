@@ -7,7 +7,9 @@ Parameter Description = "咽部检查结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:无充血;2:充血;3: 淋巴滤泡增生";
+Parameter ValueSetDisplay = "1:无充血;2:充血;3:淋巴滤泡增生";
+
+Parameter ValueSet = "DE04.10.214.00";
 
 Parameter WSDT = "S2";
 

@@ -1,7 +1,7 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
-/// 就诊场景
+/// 互联互通文档头子表-就诊场景表
 Class HCC.SQL.Document.Header.EncompassingEncounter Extends (%Persistent, %XML.Adaptor)
 {
 
@@ -11,16 +11,16 @@ Property DocumentNo As %String(XMLPROJECTION = "NONE");
 Index IdDocNo On DocumentNo [ IdKey, Unique ];
 
 /// 建立与HCC.SQL.Document.Header的外键
-ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(ukDocNo);
+ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(IdKey);
 
 /// 入院途径
 Property admissionCode As WS.DE.DE060023700 [ Required, SqlFieldName = admission_code ];
 
 /// 就诊时间 - 入院日期
-Property effectiveTimeLow As WS.DE.DE060009200 [ Required, SqlFieldName = effectiveTime_low ];
+Property effectiveTimeLow As WS.DE.DE060009200 [ Required, SqlFieldName = admit_time ];
 
 /// 就诊时间 - 出院日期
-Property effectiveTimeHigh As WS.DE.DE060001700 [ Required, SqlFieldName = effectiveTime_high ];
+Property effectiveTimeHigh As WS.DE.DE060001700 [ Required, SqlFieldName = discharge_time ];
 
 Relationship Locations As HCC.SQL.Document.Header.EncompassingEncounter.Location [ Cardinality = children, Inverse = Encounter ];
 
@@ -31,16 +31,13 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>code</Value>
+<Value>admissionCode</Value>
 </Value>
 <Value name="3">
 <Value>effectiveTimeLow</Value>
 </Value>
 <Value name="4">
 <Value>effectiveTimeHigh</Value>
-</Value>
-<Value name="5">
-<Value>admissionCode</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.DoEBE5.Encompassin61B1D</DataLocation>

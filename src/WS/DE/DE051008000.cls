@@ -7,11 +7,11 @@ Parameter Description = "现存主要健康问题代码";
 
 Parameter Format = "AN..5";
 
-Parameter ValueSet = "ICD-10";
+Parameter ValueSet = "ICD10";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "ICD-10");
+Property Value As WS.DT.CodedString(ValueSet = "ICD10");
 
 Storage Default
 {

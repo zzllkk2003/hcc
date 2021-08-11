@@ -7,7 +7,9 @@ Parameter Description = "血吸虫病抗体检测结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:阳性;2:阴性;3:未查;";
+Parameter ValueSetDisplay = "1:阳性;2:阴性;3:未查;";
+
+Parameter ValueSet = "DE04.50.106.00";
 
 Parameter WSDT = "S2";
 

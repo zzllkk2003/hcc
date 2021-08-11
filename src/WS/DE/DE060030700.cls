@@ -7,7 +7,9 @@ Parameter Description = "麻醉中西医标识代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:西医麻醉;2:中医麻醉;";
+Parameter ValueSetDisplay = "1:西医麻醉;2:中医麻醉;";
+
+Parameter ValueSet = "DE06.00.307.00";
 
 Parameter WSDT = "S2";
 

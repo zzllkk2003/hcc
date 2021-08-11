@@ -7,7 +7,9 @@ Parameter Description = "美国麻醉医师协会分级标准代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:I; 2:II; 3:III; 4:IV; 5:V;";
+Parameter ValueSetDisplay = "1:I;2:II;3:III;4:IV;5:V;";
+
+Parameter ValueSet = "DE05.10.129.00";
 
 Parameter WSDT = "S2";
 

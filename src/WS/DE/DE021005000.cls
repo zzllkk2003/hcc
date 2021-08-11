@@ -7,7 +7,8 @@ Parameter Description = "免疫接种代码";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:从未免疫;2:免疫一次或多次;";
+Parameter ValueSetDisplay = "1:从未免疫;2:免疫一次或多次;";
+
 Parameter ValueSet = "DE02.10.050.00";
 
 Parameter WSDT = "S2";

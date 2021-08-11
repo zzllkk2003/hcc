@@ -7,8 +7,6 @@ Parameter Description = "住院号";
 
 Parameter Format = "AN..10";
 
-Parameter ValueSet;
-
 Parameter WSDT = "S1";
 
 Property Value As %String(MAXLEN = 10, MINLEN = 0);

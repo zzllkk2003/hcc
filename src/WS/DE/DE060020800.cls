@@ -7,7 +7,9 @@ Parameter Description = "呼吸类型代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:自主呼吸;2:辅助呼吸;3:控制呼吸;";
+Parameter ValueSetDisplay = "1:自主呼吸;2:辅助呼吸;3:控制呼吸;";
+
+Parameter ValueSet = "DE06.00.208.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "免疫类型代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:常规免疫;2:应急免疫;3:强化免疫";
+Parameter ValueSetDisplay = "1:常规免疫;2:应急免疫;3:强化免疫";
+
+Parameter ValueSet = "DE06.00.080.00";
 
 Parameter WSDT = "S2";
 

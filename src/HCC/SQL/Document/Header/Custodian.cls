@@ -3,10 +3,10 @@ Class HCC.SQL.Document.Header.Custodian Extends (%SerialObject, %XML.Adaptor)
 {
 
 /// 文档保管的医疗机构标识
-Property organizationId As %String [ Required, SqlFieldName = organization_id ];
+Property organizationId As %String [ Required, SqlFieldName = org_id ];
 
 /// 保管机构名称
-Property organizationName As %String [ Required, SqlFieldName = organization_name ];
+Property organizationName As %String [ Required, SqlFieldName = org_name ];
 
 Storage Default
 {

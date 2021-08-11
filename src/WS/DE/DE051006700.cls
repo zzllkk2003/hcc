@@ -7,7 +7,9 @@ Parameter Description = "随访饮食合理性评价类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1: 合理;2:基本合理;3:不合理";
+Parameter ValueSetDisplay = "1:合理;2:基本合理;3:不合理";
+
+Parameter ValueSet = "DE05.10.067.00";
 
 Parameter WSDT = "S2";
 

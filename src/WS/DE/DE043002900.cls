@@ -7,7 +7,9 @@ Parameter Description = "脾肿大分级代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:Ⅰ期;2:Ⅱ期;3:Ⅲ期;";
+Parameter ValueSetDisplay = "1:Ⅰ期;2:Ⅱ期;3:Ⅲ期;";
+
+Parameter ValueSet = "DE04.30.029.00";
 
 Parameter WSDT = "S2";
 

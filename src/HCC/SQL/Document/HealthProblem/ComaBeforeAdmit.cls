@@ -5,13 +5,13 @@ Class HCC.SQL.Document.HealthProblem.ComaBeforeAdmit Extends (%SerialObject, %XM
 {
 
 /// 颅脑损伤患者入院前昏迷时间(天)  
-Property days As WS.DE.DE051013801 [ SqlFieldName = comaBeforeAdmit_days ];
+Property days As WS.DE.DE051013801 [ SqlFieldName = days ];
 
 /// 颅脑损伤患者入院前昏迷时间(小时)  
-Property hours As WS.DE.DE051013802 [ SqlFieldName = comaBeforeAdmit_hours ];
+Property hours As WS.DE.DE051013802 [ SqlFieldName = hours ];
 
 /// 颅脑损伤患者入院前昏迷时间(分钟)  
-Property minutes As WS.DE.DE051013803 [ SqlFieldName = comaBeforeAdmit_minutes ];
+Property minutes As WS.DE.DE051013803 [ SqlFieldName = minutes ];
 
 Storage Default
 {

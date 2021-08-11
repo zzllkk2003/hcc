@@ -7,7 +7,9 @@ Parameter Description = "斜颈代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:无;2:有;3:需观察";
+Parameter ValueSetDisplay = "1:无;2:有;3:需观察";
+
+Parameter ValueSet = "DE04.10.202.00";
 
 Parameter WSDT = "S2";
 

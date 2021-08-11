@@ -7,6 +7,9 @@ Parameter ValueSet;
 
 ClassMethod IsValid(%val) As %Status
 {
+    /// 如果设置为“不校验值集”,则直接返回
+    Quit:($bit(^WS.Setting.Validation,1)=0) $$$OK
+     
     Quit:(..#ValueSet="") $$$ERROR($$$GeneralError,"unassigned valueset")
     
     Set tSC=$$$OK

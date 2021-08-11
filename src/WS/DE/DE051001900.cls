@@ -7,7 +7,9 @@ Parameter Description = "儿童死前治疗类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:住院治疗;2:门诊治疗;3:未治疗";
+Parameter ValueSetDisplay = "1:住院治疗;2:门诊治疗;3:未治疗";
+
+Parameter ValueSet = "DE05.10.019.00";
 
 Parameter WSDT = "S2";
 

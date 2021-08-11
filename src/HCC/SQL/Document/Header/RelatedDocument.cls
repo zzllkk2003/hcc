@@ -1,20 +1,23 @@
-/// 父文档信息
+/// Author: QP
+/// Version: 1.0
+/// Date:2021/07
+/// 互联互通文档头-父文档信息子表
 Class HCC.SQL.Document.Header.RelatedDocument Extends (%Persistent, %XML.Adaptor)
 {
 
-/// 文档
+/// 文档编号 
 Relationship DocumentNo As HCC.SQL.Document.Header [ Cardinality = parent, Inverse = RelatedDocuments ];
 
 Index DocumentNoIndex On DocumentNo;
 
 /// 父文档标识符
-Property parentDocumentId As %String [ Required, SqlFieldName = parentDocument_id ];
+Property parentDocumentId As %String [ Required, SqlFieldName = prntDoc_id ];
 
 /// 父文档集序列号
-Property setId As %String [ SqlFieldName = parentDocument_setId ];
+Property setId As %String [ SqlFieldName = prntDoc_setId ];
 
 /// 父文档版本号
-Property versionNumber As %String [ SqlFieldName = parentDocument_versionNumber ];
+Property versionNumber As %String [ SqlFieldName = prntDoc_versionNum ];
 
 Storage Default
 {

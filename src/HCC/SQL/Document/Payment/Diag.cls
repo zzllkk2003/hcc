@@ -4,16 +4,16 @@ Class HCC.SQL.Document.Payment.Diag Extends (%SerialObject, %XML.Adaptor)
 {
 
 /// 诊断-病理诊断费
-Property pathology As WS.DE.DE070001000 [ SqlFieldName = pathology ];
+Property pathology As WS.HSDE.HDSD0011121 [ SqlFieldName = pathology ];
 
 /// 诊断-实验室诊断费
-Property lab As WS.DE.DE070001000 [ SqlFieldName = lab ];
+Property lab As WS.HSDE.HDSD0011123 [ SqlFieldName = lab ];
 
 /// 诊断-影像学诊断费
-Property image As WS.DE.DE070001000 [ SqlFieldName = image ];
+Property image As WS.HSDE.HDSD0011124 [ SqlFieldName = image ];
 
 /// 诊断-临床诊断项目费
-Property diagnosis As WS.DE.DE070001000 [ SqlFieldName = diagnosis ];
+Property diagnosis As WS.HSDE.HDSD0011122 [ SqlFieldName = diag ];
 
 Storage Default
 {

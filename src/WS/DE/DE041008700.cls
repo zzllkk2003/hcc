@@ -7,7 +7,9 @@ Parameter Description = "黄疸状况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:未褪尽;2:已褪尽";
+Parameter ValueSetDisplay = "1:未褪尽;2:已褪尽";
+
+Parameter ValueSet = "DE04.10.087.00";
 
 Parameter WSDT = "S2";
 

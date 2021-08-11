@@ -7,7 +7,9 @@ Parameter Description = "麻醉合并症标志";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:否;2:是;3:不确定;";
+Parameter ValueSetDisplay = "1:否;2:是;3:不确定;";
+
+Parameter ValueSet = "DE05.01.077.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "皮下脂肪异常代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:无;2:有;3:不详";
+Parameter ValueSetDisplay = "1:无;2:有;3:不详";
+
+Parameter ValueSet = "DE04.10.134.00";
 
 Parameter WSDT = "S2";
 

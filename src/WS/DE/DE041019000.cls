@@ -7,7 +7,9 @@ Parameter Description = "听力检测结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:听见;2:听不清或无法听见";
+Parameter ValueSetDisplay = "1:听见;2:听不清或无法听见";
+
+Parameter ValueSet = "DE04.10.190.00";
 
 Parameter WSDT = "S2";
 

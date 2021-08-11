@@ -7,7 +7,9 @@ Parameter Description = "听力筛查代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:已筛查;2:未筛查;3:不详";
+Parameter ValueSetDisplay = "1:已筛查;2:未筛查;3:不详";
+
+Parameter ValueSet = "DE05.10.076.00";
 
 Parameter WSDT = "S2";
 

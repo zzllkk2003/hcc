@@ -4,16 +4,16 @@ Class HCC.SQL.Document.Payment.General Extends (%SerialObject, %XML.Adaptor)
 {
 
 /// 综合医疗服务费-一般医疗服务费
-Property service As WS.DE.DE070001000 [ SqlFieldName = service ];
+Property service As WS.HSDE.HDSD0011147 [ SqlFieldName = serv ];
 
 /// 综合医疗服务费-一般治疗操作费
-Property treatment As WS.DE.DE070001000 [ SqlFieldName = treatment ];
+Property treatment As WS.HSDE.HDSD0011148 [ SqlFieldName = treat ];
 
 /// 综合医疗服务费-护理费
-Property nurse As WS.DE.DE070001000 [ SqlFieldName = nurse ];
+Property nurse As WS.HSDE.HDSD0011145 [ SqlFieldName = nurse ];
 
 /// 综合医疗服务费-其他费用
-Property other As WS.DE.DE070001000 [ SqlFieldName = other ];
+Property other As WS.HSDE.HDSD0011146 [ SqlFieldName = other ];
 
 Storage Default
 {

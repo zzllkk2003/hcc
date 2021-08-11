@@ -1,6 +1,8 @@
 Class WS.DE.DE043003600 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As WS.DT.CodedString(ValueSet = "CV04.30.002");
+
 Parameter Category = "临床辅助检查";
 
 Parameter Description = "射线装置种类代码";
@@ -10,8 +12,6 @@ Parameter Format = "N1";
 Parameter ValueSet = "CV04.30.002";
 
 Parameter WSDT = "S3";
-
-Property Value As WS.DT.CodedString(ValueSet = "CV04.30.002");
 
 Storage Default
 {

@@ -7,7 +7,9 @@ Parameter Description = "气管护理代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:翻身拍背;2:雾化吸入;3:吸痰;";
+Parameter ValueSetDisplay = "1:翻身拍背;2:雾化吸入;3:吸痰;";
+
+Parameter ValueSet = "DE06.00.229.00";
 
 Parameter WSDT = "S2";
 

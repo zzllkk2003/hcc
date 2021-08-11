@@ -7,7 +7,9 @@ Parameter Description = "治疗情况分类代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:初 治;2:复治";
+Parameter ValueSetDisplay = "1:初治;2:复治";
+
+Parameter ValueSet = "DE06.00.056.00";
 
 Parameter WSDT = "S2";
 

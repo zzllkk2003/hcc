@@ -7,7 +7,9 @@ Parameter Description = "健康指导代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:纳入慢性病患者健康管理;2:建议复检;3:建议转诊";
+Parameter ValueSetDisplay = "1:纳入慢性病患者健康管理;2:建议复检;3:建议转诊";
+
+Parameter ValueSet = "DE06.00.051.00";
 
 Parameter WSDT = "S2";
 

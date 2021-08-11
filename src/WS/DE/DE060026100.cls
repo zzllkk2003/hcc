@@ -7,7 +7,9 @@ Parameter Description = "受孕形式代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:自然;2:人工;9:其他;";
+Parameter ValueSetDisplay = "1:自然;2:人工;9:其他;";
+
+Parameter ValueSet = "DE06.00.261.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "孕产妇死亡国家级评审结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:可避免死亡;2:不可避免死亡";
+Parameter ValueSetDisplay = "1:可避免死亡;2:不可避免死亡";
+
+Parameter ValueSet = "DE05.10.100.00";
 
 Parameter WSDT = "S2";
 

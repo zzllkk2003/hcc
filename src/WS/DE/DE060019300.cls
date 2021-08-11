@@ -5,13 +5,13 @@ Parameter Category = "计划与干预";
 
 Parameter Description = "出院情况";
 
-Parameter Format = "AN..100";
+Parameter Format = "AN..1000";
 
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
 
-Property Value As %String(MAXLEN = 100, MINLEN = 0);
+Property Value As %String(MAXLEN = 1000, MINLEN = 0);
 
 Storage Default
 {

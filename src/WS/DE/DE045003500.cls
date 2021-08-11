@@ -7,7 +7,9 @@ Parameter Description = "结核菌群检测结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:结核分枝杆菌;2:非结核分枝杆菌;";
+Parameter ValueSetDisplay = "1:结核分枝杆菌;2:非结核分枝杆菌;";
+
+Parameter ValueSet = "DE04.50.035.00";
 
 Parameter WSDT = "S2";
 

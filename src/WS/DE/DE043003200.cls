@@ -7,7 +7,9 @@ Parameter Description = "鞘膜积液累及部位代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:左;2:右;3:双侧;";
+Parameter ValueSetDisplay = "1:左;2:右;3:双侧;";
+
+Parameter ValueSet = "DE04.30.032.00";
 
 Parameter WSDT = "S2";
 

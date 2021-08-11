@@ -5,13 +5,13 @@ Parameter Category = "计划与干预";
 
 Parameter Description = "发出手术安全核对表";
 
-Parameter Format = "AN..100";
+Parameter Format;
 
 Parameter ValueSet;
 
-Parameter WSDT = "S1";
+Parameter WSDT = "L";
 
-Property Value As %String(MAXLEN = 100, MINLEN = 0);
+Property Value As %Boolean;
 
 Storage Default
 {

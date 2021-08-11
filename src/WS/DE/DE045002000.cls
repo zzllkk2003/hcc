@@ -1,6 +1,8 @@
 Class WS.DE.DE045002000 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %Integer(MAXVAL = 999, MINVAL = 0);
+
 Parameter Category = "实验室检查";
 
 Parameter Description = "促甲状腺激素检测值(mu/L)";
@@ -10,8 +12,6 @@ Parameter Format = "N..3";
 Parameter ValueSet;
 
 Parameter WSDT = "N";
-
-Property Value As %Integer(MAXVAL = 999, MINVAL = 0);
 
 Storage Default
 {

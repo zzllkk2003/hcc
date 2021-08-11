@@ -7,7 +7,9 @@ Parameter Description = "产前筛查方法代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:血清学试验;2:B超检查;9:其他";
+Parameter ValueSetDisplay = "1:血清学试验;2:B超检查;9:其他";
+
+Parameter ValueSet = "DE05.10.008.00";
 
 Parameter WSDT = "S2";
 

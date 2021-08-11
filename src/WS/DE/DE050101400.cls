@@ -7,7 +7,9 @@ Parameter Description = "多胎类型代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:同卵;2:异卵;9:其他;";
+Parameter ValueSetDisplay = "1:同卵;2:异卵;9:其他;";
+
+Parameter ValueSet = "DE05.01.014.00";
 
 Parameter WSDT = "S2";
 

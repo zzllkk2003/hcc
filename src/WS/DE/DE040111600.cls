@@ -7,7 +7,7 @@ Parameter Description = "症状代码";
 
 Parameter Format = "AN..5";
 
-Parameter ValueSet = "ICD-10 R";
+Parameter ValueSet = "ICD10R";
 
 Parameter WSDT = "S3";
 

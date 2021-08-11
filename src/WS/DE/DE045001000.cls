@@ -7,7 +7,8 @@ Parameter Description = "Rh血型代码";
 
 Parameter Format = "N1";
 
-/// Parameter ValueSet = "1:Rh阴性;2:Rh阳性;3:不详;";
+Parameter ValueSetDisplay = "1:Rh阴性;2:Rh阳性;3:不详;";
+
 Parameter ValueSet = "DE04.50.010.00";
 
 Parameter WSDT = "S2";

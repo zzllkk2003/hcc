@@ -1,19 +1,17 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
-/// 病理诊断
+/// 病理诊断子表
 Class HCC.SQL.Document.Diagnosis.Pathology Extends (%Persistent, %XML.Adaptor)
 {
 
 /// 病理号标识
 Property PathologyNo As WS.DE.DE010000500 [ Required, SqlFieldName = pathology_no ];
 
-/// 主要诊断 - 疾病名称
-Property diagnosisName As WS.DE.DE050102500 [ Required, SqlFieldName = diagnosis_name ];
+/// 诊断
+Property diag As HCC.SQL.Document.DiagnosisItem [ SqlFieldName = diag ];
 
-/// 主要诊断 - 疾病代码
-Property diagnosisCode As WS.DE.DE050102400 [ Required, SqlFieldName = diagnosis_code ];
-
+/// 病案编号
 Relationship Diagnosis As HCC.SQL.Document.Diagnosis [ Cardinality = parent, Inverse = Pathologys, SqlFieldName = DocumentNo ];
 
 Storage Default
@@ -30,6 +28,9 @@ Storage Default
 </Value>
 <Value name="4">
 <Value>PathologyNo</Value>
+</Value>
+<Value name="5">
+<Value>diag</Value>
 </Value>
 </Data>
 <DataLocation>{%%PARENT}("Pathologys")</DataLocation>

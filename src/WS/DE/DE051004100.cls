@@ -7,7 +7,9 @@ Parameter Description = "老年人认知功能粗筛结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:粗筛阴性;2:粗筛阳性";
+Parameter ValueSetDisplay = "1:粗筛阴性;2:粗筛阳性";
+
+Parameter ValueSet = "DE05.10.041.00";
 
 Parameter WSDT = "S2";
 

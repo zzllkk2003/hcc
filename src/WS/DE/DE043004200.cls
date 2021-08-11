@@ -7,7 +7,9 @@ Parameter Description = "听力筛查结果代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:通过;2:未通过;";
+Parameter ValueSetDisplay = "1:通过;2:未通过;";
+
+Parameter ValueSet = "DE04.30.042.00";
 
 Parameter WSDT = "S2";
 

@@ -7,7 +7,9 @@ Parameter Description = "开展学生常见病防治情况代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:开展;2:部分开展;3:未开展";
+Parameter ValueSetDisplay = "1:开展;2:部分开展;3:未开展";
+
+Parameter ValueSet = "DE06.00.065.00";
 
 Parameter WSDT = "S2";
 

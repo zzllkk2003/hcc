@@ -7,7 +7,9 @@ Parameter Description = "常住地类型代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:城市;2:农村;";
+Parameter ValueSetDisplay = "1:城市;2:农村;";
+
+Parameter ValueSet = "DE02.01.002.00";
 
 Parameter WSDT = "S2";
 

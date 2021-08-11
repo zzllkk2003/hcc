@@ -7,7 +7,9 @@ Parameter Description = "流产方法代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:药物流产;2:人工流产";
+Parameter ValueSetDisplay = "1:药物流产;2:人工流产";
+
+Parameter ValueSet = "DE06.00.072.00";
 
 Parameter WSDT = "S2";
 

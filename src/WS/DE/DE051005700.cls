@@ -7,7 +7,9 @@ Parameter Description = "社会功能情况评价代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:良好;2:一般;3:较差";
+Parameter ValueSetDisplay = "1:良好;2:一般;3:较差";
+
+Parameter ValueSet = "DE05.10.057.00";
 
 Parameter WSDT = "S2";
 

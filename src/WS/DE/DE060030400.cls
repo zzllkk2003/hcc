@@ -7,7 +7,9 @@ Parameter Description = "治疗类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "2:中西医;3:西医;11:中医;12:民族医;";
+Parameter ValueSetDisplay = "2:中西医;3:西医;11:中医;12:民族医;";
+
+Parameter ValueSet = "DE06.00.304.00";
 
 Parameter WSDT = "S2";
 

@@ -4,7 +4,7 @@ Class HCC.SQL.Document.Payment.Total.Patient Extends (%SerialObject, %XML.Adapto
 {
 
 /// 住院总费用-自付金额
-Property patient As WS.DE.DE070001000 [ SqlFieldName = patient ];
+Property Amount As WS.HSDE.HDSD0011143 [ SqlFieldName = amount ];
 
 Storage Default
 {
@@ -14,6 +14,9 @@ Storage Default
 </Value>
 <Value name="2">
 <Value>patient</Value>
+</Value>
+<Value name="3">
+<Value>Amount</Value>
 </Value>
 </Data>
 <State>PatientState</State>

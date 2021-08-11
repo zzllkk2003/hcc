@@ -7,7 +7,9 @@ Parameter Description = "肿瘤首次手术性质代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:根治;2:姑息;3:探查";
+Parameter ValueSetDisplay = "1:根治;2:姑息;3:探查";
+
+Parameter ValueSet = "DE06.00.171.00";
 
 Parameter WSDT = "S2";
 

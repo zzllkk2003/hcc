@@ -7,13 +7,7 @@ Parameter Description = "门诊号";
 
 Parameter Format = "AN..18";
 
-Parameter ValueSet;
-
-Parameter ValueSetDisplay;
-
 Parameter WSDT = "S1";
-
-Parameter InternalID;
 
 Property Value As %String(MAXLEN = 18, MINLEN = 0);
 

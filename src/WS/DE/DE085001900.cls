@@ -7,7 +7,9 @@ Parameter Description = "执法取证设备类别代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSet = "1:摄像机;2:照相机;3:录音机(笔);";
+Parameter ValueSetDisplay = "1:摄像机;2:照相机;3:录音机(笔);";
+
+Parameter ValueSet = "DE08.50.019.00";
 
 Parameter WSDT = "S2";
 

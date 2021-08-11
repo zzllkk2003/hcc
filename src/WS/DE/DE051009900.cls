@@ -1,6 +1,8 @@
 Class WS.DE.DE051009900 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
+Property Value As %String(MAXLEN = 2000, MINLEN = 0);
+
 Parameter Category = "医学评估";
 
 Parameter Description = "孕产妇死亡病历摘要或调查小结";
@@ -10,8 +12,6 @@ Parameter Format = "AN..2000";
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
-
-Property Value As %String(MAXLEN = 2000, MINLEN = 0);
 
 Storage Default
 {
