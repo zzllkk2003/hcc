@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-08-11 13:30:11
+/// LastEditTime: 2021-08-13 17:04:17
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/Utils/SchemaValidate.cls
+/// Jeff.liu@intersytems.com
+/// 
 /// xml schema验证方法
 Class HCC.Utils.SchemaValidate Extends %RegisteredObject
 {
@@ -7,8 +16,7 @@ ClassMethod Validate(Msg As %Stream.GlobalCharacter, ByRef Errors) As %Status
 {
    
   set ErrMsg =""
-  set DocType=..GetDocType(Msg)
- Set tSchema="urn:hl7-org:v3 /home/UCR/V3SCHEMA/cda/"_DocType_".xsd"	
+ Set tSchema="urn:hl7-org:v3 /home/UCR/V3SCHEMA/cda/CDA.xsd"	
  Set tSC=##class(%XML.TextReader).ParseStream(Msg,.tReader,,,,tSchema)
  set verifyResult=0	
  set errCount=0

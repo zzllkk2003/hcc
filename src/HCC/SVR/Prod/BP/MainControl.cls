@@ -112,7 +112,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </true>
 <false>
 <code name='不合规' xpos='740' ypos='950' >
-<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnCommResult(context.action,"消息不合规"_$char(10)_context.ErrMsg)]]>
+<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(context.action,"消息不合规"_$char(10)_context.ErrMsg)]]>
 </code>
 <assign name="返回不合规消息" property="response" value="context.tResponse" action="set" xpos='740' ypos='1050' />
 </false>
@@ -120,7 +120,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </true>
 <false>
 <code name='action 和 schema 不对应' xpos='200' ypos='600' >
-<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnCommResult(context.action,"操作和schema类型不对应")]]>
+<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(context.action,"操作和schema类型不对应")]]>
 </code>
 <assign name="返回不对应消息" property="response" value="context.tResponse" action="set" xpos='200' ypos='700' />
 </false>

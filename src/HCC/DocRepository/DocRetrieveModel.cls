@@ -26,4 +26,10 @@ Property ResultDetail As %String;
 /// 检所结果数量
 Property ResultQuantity As %String;
 
+/// 检索消息ID
+Property MessageID As %String;
+
+/// 返回消息创建时间
+Property ResultResponseTime As %String;
+
 }
