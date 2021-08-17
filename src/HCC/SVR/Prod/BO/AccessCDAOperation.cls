@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-08-13 13:19:58
-/// LastEditTime: 2021-08-15 23:08:15
+/// LastEditTime: 2021-08-17 00:12:02
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/src/HCC/SVR/Prod/BO/AccessCDAOperation.cls
+/// FilePath: \HCC\SVR\Prod\BO\AccessCDAOperation.cls
 /// Jeff.liu@intersytems.com
 /// 
 Class HCC.SVR.Prod.BO.AccessCDAOperation Extends Ens.BusinessOperation
@@ -20,7 +20,11 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
     #dim DocList as HCC.DocRepository.DocRetrieveModel
     set pDoc= ##class(EnsLib.EDI.XML.Document).ImportFromLibraryStream(pRequest.Message)
     set pDoc.DocType=pRequest.DocType_":"_pRequest.DocType
-    set sqlStr="select * from HCC_DocRepository.LatestDocs where 1=1 "
+    set sqlStr="select ID from HCC_DocRepository.LatestDocs where 1=1 "
+    // 获得消息发送方ID
+    set SenderID = pDoc.GetValueAt("/RCMR_IN000029UV01/sender[1]/device[1]/id[1]/item[1]/@extension")
+    // 获得消息接收方ID
+    set ReceiverID = pDoc.GetValueAt("/RCMR_IN000029UV01/receiver[1]/device[1]/id[1]/item[1]/@extension")
     //获得查询ID
     set QueryID= pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/queryId[1]/@extension")
       $$$LOGINFO(QueryID)
@@ -31,6 +35,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
         set DocRegTimeStart = ##class(Ens.Util.Time).ConvertDateTime(DocRegTimeStart,"%Y%m%d","%q(1)",,.tsc) 
         set sqlStr=sqlStr_" and AddDate between "_"'"_DocRegTimeStart_"'"
     $$$LOGINFO(DocRegTimeStart)
+
     //获取检索注册时间结束
     set DocRegTimeEnd =pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/executionAndDeliveryTime[1]/@validTimeHigh")
     if DocRegTimeEnd =""
@@ -38,6 +43,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
     set DocRegTimeEnd = ##class(Ens.Util.Time).ConvertDateTime(DocRegTimeEnd,"%Y%m%d","%q(1)",,.tsc)
     set sqlStr=sqlStr_" and "_"'"_DocRegTimeEnd_"'"
     $$$LOGINFO(DocRegTimeEnd)
+
     // 获取文档创建者检索
     set DocRegisterCode=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/assignedAuthor.id[1]/value[1]/@extension")
     if DocRegisterCode '=""
@@ -45,6 +51,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
         set sqlStr=sqlStr_" and DocUserCode ="_"'"_DocRegisterCode_"'"
     }
     $$$LOGINFO(DocRegisterCode)
+
     // 获得检索文档类型
     set DocType=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/clinicalDocument.code[1]/value[1]/@code")
     if DocType '=""
@@ -52,6 +59,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
         set sqlStr=sqlStr_" and DocCode = "_"'"_DocType_"'"
     }
     $$$LOGINFO(DocType)
+
     // 获取文档生成日期起始
     set DocGenerateTimeStart=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/clinicalDocument.effectiveTime[1]/value[1]/low[1]/@value")
     if DocGenerateTimeStart =""
@@ -59,6 +67,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
     set DocGenerateTimeStart = ##class(Ens.Util.Time).ConvertDateTime(DocGenerateTimeStart,"%Y%m%d","%q(1)",,.tsc) 
         set sqlStr=sqlStr_" and DocCreatTime between "_"'"_DocGenerateTimeStart_"'"
     $$$LOGINFO(DocGenerateTimeStart)
+
     // 获取文档生成日期结束
     set DocGenerateTimeEnd=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/clinicalDocument.effectiveTime[1]/value[1]/high[1]/@value")
     if DocGenerateTimeEnd =""
@@ -66,6 +75,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
         set DocGenerateTimeEnd = ##class(Ens.Util.Time).ConvertDateTime(DocGenerateTimeEnd,"%Y%m%d","%q(1)",,.tsc)
     set sqlStr=sqlStr_" and "_"'"_DocGenerateTimeEnd_"'"
     $$$LOGINFO(DocGenerateTimeEnd)
+
     // 获取患者就诊日期起始
     set PaitentEncounterTimeStart=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/encompassingEncounter.effectiveTime[1]/value[1]/low[1]/@value")
     if PaitentEncounterTimeStart =""
@@ -73,6 +83,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
     set PaitentEncounterTimeStart = ##class(Ens.Util.Time).ConvertDateTime(PaitentEncounterTimeStart,"%Y%m%d","%q(1)",,.tsc) 
         set sqlStr=sqlStr_" and PatEffectiveLowTime between "_"'"_PaitentEncounterTimeStart_"'"
     $$$LOGINFO(PaitentEncounterTimeStart)
+
     // 获取患者就诊日期结束
     set PatientEncounterTImeEnd=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/encompassingEncounter.effectiveTime[1]/value[1]/high[1]/@value")
      if PatientEncounterTImeEnd =""
@@ -80,6 +91,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
     set PatientEncounterTImeEnd = ##class(Ens.Util.Time).ConvertDateTime(PatientEncounterTImeEnd,"%Y%m%d","%q(1)",,.tsc)
     set sqlStr=sqlStr_" and "_"'"_PatientEncounterTImeEnd_"'"
     $$$LOGINFO(PatientEncounterTImeEnd)
+
     // 获取患者就诊门诊号
     set PatientOutpatientEncounterNumber=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/encompassingEncounter.id[1]/value[1]/item[2]/@extension")
     if PatientOutpatientEncounterNumber '=""
@@ -87,6 +99,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
         set sqlStr=sqlStr_" and PatOutHosCode = "_"'"_PatientOutpatientEncounterNumber_"'"
     }
     $$$LOGINFO(PatientOutpatientEncounterNumber)
+
     //获取患者就诊住院号
     set PatientInpatientEncounterNumber =pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/encompassingEncounter.id[1]/value[1]/item[1]/@extension")
      if PatientInpatientEncounterNumber '=""
@@ -94,6 +107,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
         set sqlStr=sqlStr_" and PatInHosCode = "_"'"_PatientInpatientEncounterNumber_"'"
     }
     $$$LOGINFO(PatientInpatientEncounterNumber)
+
     // 获取患者身份证号
     set PatientSSNID=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/patient.id[1]/value[1]/item[2]/@extension")
       if PatientSSNID '=""
@@ -105,6 +119,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
         }
     }
     $$$LOGINFO(PatientSSNID)
+    
     // 获取患者id
     set PatientID=pDoc.GetValueAt("/RCMR_IN000029UV01/controlActProcess[1]/queryByParameter[1]/patient.id[1]/value[1]/item[1]/@extension")
         if PatientID '=""
@@ -129,6 +144,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
    SET rset = tStatement.%Execute()
    WHILE rset.%Next() {
       set ID = rset.%Get("ID")
+      #Dim Doc as HCC.DocRepository.LatestDocs
       set Doc = ##class(HCC.DocRepository.LatestDocs).%OpenId(ID)
       $$$LOGINFO(Doc)
       do DocList.DocRetrieveResults.Insert(Doc)
@@ -137,23 +153,28 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
    set DocList.ResultQuantity = rset.%ROWCOUNT
    set DocList.queryId=QueryID
    set DocList.ResultDetail="检索成功"
-   set DocList.SenderID= "Platform"
-   set DocList.MessageID=pRequest.MsgId
+   set DocList.SenderID=ReceiverID
+   set DocList.ReceiverID=SenderID
+   set DocList.TargetMessageID=pRequest.MsgId
+   set DocList.ResponseMessageID=##class(%SYSTEM.Util).CreateGUID()
    set RTime = ##class(Ens.Util.Time).ConvertDateTime($ZDATETIME($ZDATETIMEH($ZTIMESTAMP,-3),3,1,4),"%q(1)","%q(0)",,.tsc)
    set DocList.ResultResponseTime=RTime
    set xml =##class(%Stream.GlobalCharacter).%New()
    do DocList.XMLExportToStream(.xml)
    do DocList.XMLExportToString(.string)
+   //set string = $ZCONVERT(string,"I","UTF8")
    $$$LOGINFO(string)
+   #dim xsl as %XML.XSLT.CompiledStyleSheet 
+   set tsc = ##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile("/home/UCRT/xsl/DocumentAccess.xsl",.xsl)
+   
+   set xslResult =##class(%Stream.GlobalCharacter).%New()
+   set tsc = ##class(%XML.XSLT.Transformer).TransformStreamWithCompiledXSL(xml,xsl,.xslResult)
+   do ##class(HCC.Utils.Functions).toUTF8(.xslResult) 
+   //set x = ##class(HS.Util.StreamUtils).EnsureString(xslResult)
+    //$$$LOGINFO(x)
+    set pResponse = ##class(HCC.SVR.Prod.MSG.SVRResponse).%New()
+    set pResponse.Message=xslResult
     quit $$$OK
-}
-
-/// 组合检索返回消息
-ClassMethod ReturnSearchResult() As HCC.SVR.Prod.MSG.SVRResponse
-{
-    Set sc = $$$OK
-    // do something
-    Return sc
 }
 
 XData MessageMap

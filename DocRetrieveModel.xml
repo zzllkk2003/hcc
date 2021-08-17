@@ -1,6 +1,7 @@
 <DocRetrieveModel>
     <queryId>18204</queryId>
-    <SenderID>Platform</SenderID>
+    <SenderID>1111</SenderID>
+    <ReceiverID>222</ReceiverID>
     <DocRetrieveResults>
         <LatestDocs>
             <MsgCreatTime>2013-05-01T13:06:24Z</MsgCreatTime>
@@ -56,5 +57,5 @@
     <ResultDetail>检索成功</ResultDetail>
     <ResultQuantity>2</ResultQuantity>
     <MessageID>22a0f9e0-4454-11dc-a6be-3603d6866807</MessageID>
-    <ResultResponseTime>20210816003339</ResultResponseTime>
-</DocRetrieveModel>
+    <ResultResponseTime>20210816153619</ResultResponseTime>
+</DocRetrieveModel

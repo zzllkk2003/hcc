@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdtc="urn:hl7-org:sdtc"
@@ -24,14 +23,14 @@
         <receiver typeCode="RCV">
             <device classCode="DEV" determinerCode="INSTANCE">
                 <id>
-                    <item root="2.16.156.10011.2.5.1.3" extension="1111"/>
+                    <item root="2.16.156.10011.2.5.1.3" extension="{SenderID}"/>
                 </id>
             </device>
         </receiver>
         <sender typeCode="SND">
             <device classCode="DEV" determinerCode="INSTANCE">
                 <id>
-                    <item root="2.16.156.10011.2.5.1.3" extension="{SenderID}"/>
+                    <item root="2.16.156.10011.2.5.1.3" extension="{ReceiverID}"/>
                 </id>
             </device>
         </sender>
