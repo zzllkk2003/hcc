@@ -54,7 +54,7 @@ Relationship procedures As HCC.SQL.Document.TreatmentPlan.Procedure [ Cardinalit
 /// 拟实施麻醉方法。 用于《麻醉术前访视记录》
 Property anesthesia As HCC.SQL.Document.TreatmentPlan.Anesthesia [ SqlFieldName = anesth ];
 
-/// 待产记录部分
+/// 待产记录部分。 用于《待产记录》
 Property InLabor As HCC.SQL.Document.TreatmentPlan.InLabor [ SqlFieldName = inlabor ];
 
 /// 替代方案

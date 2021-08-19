@@ -49,6 +49,9 @@ Property Hospitalization As HCC.SQL.Document.Hospitalization;
 /// 住院过程章节
 Property HospitalCourse As HCC.SQL.Document.HospitalCourse;
 
+/// 《检查报告》的体格检查章节
+Property ERPhysicalExam As HCC.SQL.Document.ExamReportPhysicalExam;
+
 /// 诊断记录章节
 Property Diagnosis As HCC.SQL.Document.Diagnosis;
 
@@ -66,9 +69,6 @@ Property AdmDiag As HCC.SQL.Document.HospitalAdmissionDX;
 
 /// 术前诊断章节
 Property PreOpDiag As HCC.SQL.Document.SurgicalOperationNotePreoperativeDX;
-
-/// 术后诊断章节
-Property PostOpDiag As HCC.SQL.Document.SurgicalOperationNotePostoperativeDX;
 
 /// 实验室检查章节
 Property LabTest As HCC.SQL.Document.LabTest;
@@ -109,6 +109,9 @@ Property ChiefComplaint As HCC.SQL.Document.ChiefComplaint;
 /// 现病史章节
 Property PresentIllnessHistory As HCC.SQL.Document.PresentIllnessHistory;
 
+/// 社会史/个人史章节条目
+Property SocialHistory As HCC.SQL.Document.SocialHistory;
+
 /// 抢救记录章节
 Property RescueRecord As HCC.SQL.Document.RescueRecord;
 
@@ -129,9 +132,6 @@ Property BloodLoss As HCC.SQL.Document.BloodLoss;
 
 /// 输血章节。注意，它与既往史中的输血史不同
 Property BloodTransfusion As HCC.SQL.Document.BloodTransfusion;
-
-/// 麻醉章节
-Property Anesthesia As HCC.SQL.Document.Anesthesia;
 
 /// 输液章节
 Property Infusion As HCC.SQL.Document.Infusion;
@@ -253,14 +253,17 @@ Relationship VitalSigns As HCC.SQL.Document.VitalSign [ Cardinality = children, 
 /// 预防接种史章节条目
 Relationship Vaccinations As HCC.SQL.Document.Vaccination [ Cardinality = children, Inverse = DocumentNo ];
 
-/// 社会史/个人史章节条目
-Relationship SocialHistories As HCC.SQL.Document.SocialHistory [ Cardinality = children, Inverse = DocumentNo ];
-
 /// 护理操作章节条目
 Relationship NursingOperations As HCC.SQL.Document.NursingOperation [ Cardinality = children, Inverse = DocumentNo ];
 
 /// 辅助检查章节-条目
 Relationship SupplementaryExams As HCC.SQL.Document.SupplementaryExam [ Cardinality = children, Inverse = DocumentNo ];
+
+/// 术后诊断章节
+Relationship PostOpDiags As HCC.SQL.Document.SurgicalOperationNotePostoperativeDX [ Cardinality = children, Inverse = DocumentNo ];
+
+/// 麻醉章节 - 条目
+Relationship Anesthesias As HCC.SQL.Document.Anesthesia [ Cardinality = children, Inverse = DocumentNo ];
 
 /// 清除所有章节-非关系型章节
 Method ClearSections()
@@ -269,7 +272,6 @@ Method ClearSections()
     Set ..Administration=""
     Set ..AdmissionInformation=""
     Set ..Allergy=""
-    Set ..Anesthesia=""
     Set ..Attention=""
     Set ..AutopsyOpinion=""
     Set ..BloodLoss=""
@@ -310,7 +312,6 @@ Method ClearSections()
     Set ..OtherProc=""
     Set ..PastHistory=""
     Set ..Payment=""
-    Set ..PostOpDiag=""
     Set ..PostoperationHandover=""
     Set ..PreOpDiag=""
     Set ..PrenatalEvent=""
@@ -350,6 +351,12 @@ Method SetMenstrual(pDocNo)
     Set ..Menstrual=##Class(HCC.SQL.Document.MenstrualHistory).%OpenId(pDocNo)
 }
 
+/// 个人史/社会史章节
+Method SetSocialHistory(pDocNo)
+{
+    Set ..SocialHistory=##Class(HCC.SQL.Document.SocialHistory).%OpenId(pDocNo)
+}
+
 /// 过敏史章节
 Method SetAllergy(pDocNo)
 {
@@ -372,6 +379,12 @@ Method SetHospitalization(pDocNo)
 Method SetHospitalCourse(pDocNo)
 {
     Set ..HospitalCourse=##Class(HCC.SQL.Document.HospitalCourse).%OpenId(pDocNo)
+}
+
+/// 诊断记录章节
+Method SetExamReportPhysicalExam(pDocNo)
+{
+    Set ..ERPhysicalExam=##Class(HCC.SQL.Document.ExamReportPhysicalExam).%OpenId(pDocNo)
 }
 
 /// 诊断记录章节
@@ -408,12 +421,6 @@ Method SetAdmDiag(pDocNo)
 Method SetPreOpDiag(pDocNo)
 {
     Set ..PreOpDiag=##Class(HCC.SQL.Document.SurgicalOperationNotePreoperativeDX).%OpenId(pDocNo)
-}
-
-/// 术后诊断章节
-Method SetPostOpDiag(pDocNo)
-{
-    Set ..PostOpDiag=##Class(HCC.SQL.Document.SurgicalOperationNotePostoperativeDX).%OpenId(pDocNo)
 }
 
 /// 实验室检查章节
@@ -546,12 +553,6 @@ Method SetBloodLoss(pDocNo)
 Method SetBloodTransfusion(pDocNo)
 {
     Set ..BloodTransfusion=##Class(HCC.SQL.Document.BloodTransfusion).%OpenId(pDocNo)
-}
-
-/// 麻醉章节
-Method SetAnesthesia(pDocNo)
-{
-    Set ..Anesthesia=##Class(HCC.SQL.Document.Anesthesia).%OpenId(pDocNo)
 }
 
 /// 输液章节
@@ -728,118 +729,74 @@ Method SetPreoperativeSummary(pDocNo)
     Set ..PreoperativeSummary=##Class(HCC.SQL.Document.PreoperativeSummary).%OpenId(pDocNo)
 }
 
-/// SQL插入后, 触发互联互通文档生成
-Trigger GenerateHCCDocumentInsert [ Event = INSERT, Time = AFTER ]
-{
-    //Do ##class(HCC.SQL.Tools).GenerateHCCDocument()
-}
-
 /// SQL更新后, 触发互联互通文档生成
+/// 它只是将文档号压栈到文档产生队列中，由后台任务产生文档
 Trigger GenerateHCCDocumentUpdate [ Event = UPDATE, Time = AFTER ]
 {
-    //Do ##class(HCC.SQL.Tools).GenerateHCCDocument()
-}
-
-/// SQL更新后, 触发互联互通文档生成
-Trigger GenerateHCCDocumentDelete [ Event = DELETE, Time = AFTER ]
-{
-    //Do ##class(HCC.SQL.Tools).GenerateHCCDocument()
+    //如果NeedGenerate字段由0变1,触发文档生成
+    if {NeedGenerate*C} && ({NeedGenerate}=1)
+    {
+        Set ^QPTestLog($I(^QPTestLog),"NeedGenerateTrigger")=1
+        Set tDocNum={DocumentNo}
+        Do ##class(HCC.Util).PushDocGenQueue(tDocNum)
+    }
 }
 
 /// 根据文档类型校验是否所需章节完整
 Method %OnValidateObject() As %Status [ Private, ServerOnly = 1 ]
 {
-    Set tOK = 1, tErrMsg=""
-    //出院小结
-    If ..DocumentType=53
-    {
-    }
-    /// 住院病案首页
-    Elseif ..DocumentType=32
-    {
-        Set:(..Diagnosis = "") tOK = 0
-    }
     Quit $$$OK
 }
 
-/// 创建文档对象实例,转换为互联互通文档，并保存到文档仓库
-Method CreateDocument(Output pDocument As %Stream.GlobalCharacter) As %Status
+/// 产生文档信息JSON字符串
+/// pDocInfo：文档信息JSON字符串
+Method GenDocInfo(ByRef pDocInfo As %String) As %Status
 {
-    Set tSC = $$$OK
-    // generate XML stream from document object
-    //Set tInput = ##class(%Stream.GlobalCharacter).%New()
-    Set tInput = ""
-    Set tSC = ..XMLExportToStream(.tInput)
-    Quit:($$$ISERR(tSC)) tSC
-    ;w tInput.Read(),!
-    // transfer the document to HCC document
-    Set tXSL = "C:\HCC\XSLT\C"_..DocumentType_".xsl"
-    //Set tXSL = "C:\HCC\XSLT\C32.xsl"
-    If $IsObject(tInput) 
+    Set tRet = $$$OK
+    try
     {
-        Do tInput.Rewind()
-        Set pDocument=##class(%Stream.GlobalCharacter).%New(),tParams="",tCompiledStyleSheet=""
-        
-        Set tSC=##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile(tXSL,.tCompiledStyleSheet)
-        If $$$ISERR(tSC) Quit
-        
-        Set tSC=##class(%XML.XSLT.Transformer).TransformStreamWithCompiledXSL(tInput,tCompiledStyleSheet,.pDocument,,.tParams)
-        D ##class(SEDemo.Util.FunctionSet).toUTF8(.pDocument)
-        Q:($$$ISERR(tSC)) tSC
-    }
-    // save document into document repository
-    If $$$ISOK(tSC)
-    {
-        /*等Jeff在TRIP.GXWD.MODEL.GXWDDOC上增加唯一键后再开启此段code
-        Set tDoc = ##class(TRIP.GXWD.MODEL.GXWDDOC).ukDocIdOpen(..DocumentNo)
-        Set:($ISObject(tDoc)) tDoc = ##class(TRIP.GXWD.MODEL.GXWDDOC).%New()
-        */
-        Set tDoc = ##class(TRIP.GXWD.MODEL.GXWDDOC).%New()
-        Set tDoc.DocId=..DocumentNo
-        Set tDoc.DocName=..DocumentTypeLogicalToDisplay(..DocumentType)
-        Set tDoc.Content=pDocument.Read()
-        /// 发送系统标识
-        Set tDoc.SenderId="HIP"
-        /// 消息创建时间
-        Set tDoc.MsgCreatTime = ""
+        Set tDocInfo=##class(%DynamicObject).%New()
+        /// 文档类型代码
+        Set tDocInfo.DocType = ..DocumentType
+        /// 文档类型名称
+        Set tDocInfo.DocName = ..DocumentTypeLogicalToDisplay(..DocumentType)
+        /// 文档流水号 文档唯一标识
+        Set tDocInfo.DocNum= ..DocumentNo
         /// 文档生成日期时间
-        Set tDoc.DocCreatTime=..LastUpdate
-        Set tDoc.VersionNumber=..Version
-        /// 患者唯一标识
-        Set tDoc.PatId=..Header.RecordTarget.patientId.Value
-        /// 身份证号
-        Set tDoc.PatCardId=..Header.RecordTarget.patientId.Value
+        Set tDocInfo.DocCreatTime = ..LastUpdate
+        /// 文档版本号
+        Set tDocInfo.DocVersion = ..Version
+        /// 患者身份证号
+        Set tDocInfo.PatientIDNo=..Header.recordTarget.patient.patientId.Value
+        // 门急诊号
+        //Set tDocInfo.OutPatientNum=..Header.recordTarget.inpatientNum
         /// 住院号标识
-        Set tDoc.PatInHosCode=..Header.RecordTarget.MRN.Value
-        /// 患者姓名
-        Set tDoc.PatName=..Header.RecordTarget.patientName.Value
-        /// 住院次数
-        Set tDoc.PatInHosCount=""
-        /// 门诊号标识
-        Set tDoc.PatOutHosCode=..Header.RecordTarget.MRN.Value
-        /// 患者就诊日期起始时间
-        Set tDoc.PatEffectiveLowTime=..Header.EncompassingEncounter.effectiveTimeLow.Value
-        /// 患者就诊日期截至时间
-        Set tDoc.PatEffectiveHighTime=..Header.EncompassingEncounter.effectiveTimeHigh.Value
-        /// 文档提供的医院标识
-        Set tDoc.ProHosCode="Test"
+        Set tDocInfo.InPatientNum=..Header.recordTarget.inpatientNum.Value
+        /// 患者就诊日期起始时间 20170101
+        Set tDocInfo.EncBeginTime = ..Header.encompassingEncounter.effectiveTimeLow.Value
+        /// 患者就诊日期截至时间  
+        Set tDocInfo.EncEndTime = ..Header.encompassingEncounter.effectiveTimeHigh.Value
+        /*/// 文档提供的医院标识
+        Set tDocInfo.HospitalID = ..Header.encompassingEncounter.Locations.
         /// 文档提供的医院名称
-        Set tDoc.ProHosName="Test"
+        Set tDocInfo.HospitalName
         /// 科室代码
-        Set tDoc.DeptCode="Test"
+        Set tDocInfo.DeptCode*/
         /// 文档创建者编号
-        Set tDoc.DocUserCode=..Header.Author.assignedPersonId
+        Set tDocInfo.AuthorID = ..Header.author.authorId
         /// 文档创建者姓名
-        Set tDoc.DocUserName=..Header.Author.assignedPersonName
-        /// 文档保管的医院标识
-        Set tDoc.RepHosCode=..Header.Custodian.organizationId
+        Set tDocInfo.AuthorName = ..Header.author.assignedPersonName.Value
+        /// 文档保管的医院标识                    
+        Set tDocInfo.CustodianCode = ..Header.custodian.organizationId
         /// 文档保管的医院名称
-        Set tDoc.RepHosName=..Header.Custodian.organizationName
-        /// 数据存储时间
-        Set tDoc.AddDate=$ZDATETIME($ZDATETIMEH($ZTS,-3),3,1,4)
-        Set tSC = tDoc.%Save()
+        Set tDocInfo.CustodianName = ..Header.custodian.organizationName
+        Set pDocInfo = tDocInfo.%ToJSON()
+        Return tRet
     }
-    Quit tSC
+    catch(e)
+    {
+        Return e
+    }
 }
 
 ClassMethod Test()
@@ -889,25 +846,25 @@ Storage Default
 <Value>HospitalCourse</Value>
 </Value>
 <Value name="13">
-<Value>Diagnosis</Value>
+<Value>ERPhysicalExam</Value>
 </Value>
 <Value name="14">
-<Value>Problem</Value>
+<Value>Diagnosis</Value>
 </Value>
 <Value name="15">
-<Value>Referral</Value>
+<Value>Problem</Value>
 </Value>
 <Value name="16">
-<Value>DisDiag</Value>
+<Value>Referral</Value>
 </Value>
 <Value name="17">
-<Value>AdmDiag</Value>
+<Value>DisDiag</Value>
 </Value>
 <Value name="18">
-<Value>PreOpDiag</Value>
+<Value>AdmDiag</Value>
 </Value>
 <Value name="19">
-<Value>PostOpDiag</Value>
+<Value>PreOpDiag</Value>
 </Value>
 <Value name="20">
 <Value>LabTest</Value>
@@ -949,28 +906,28 @@ Storage Default
 <Value>PresentIllnessHistory</Value>
 </Value>
 <Value name="33">
-<Value>RescueRecord</Value>
+<Value>SocialHistory</Value>
 </Value>
 <Value name="34">
-<Value>Other</Value>
+<Value>RescueRecord</Value>
 </Value>
 <Value name="35">
-<Value>OtherProc</Value>
+<Value>Other</Value>
 </Value>
 <Value name="36">
-<Value>CheckReport</Value>
+<Value>OtherProc</Value>
 </Value>
 <Value name="37">
-<Value>LabReport</Value>
+<Value>CheckReport</Value>
 </Value>
 <Value name="38">
-<Value>BloodLoss</Value>
+<Value>LabReport</Value>
 </Value>
 <Value name="39">
-<Value>BloodTransfusion</Value>
+<Value>BloodLoss</Value>
 </Value>
 <Value name="40">
-<Value>Anesthesia</Value>
+<Value>BloodTransfusion</Value>
 </Value>
 <Value name="41">
 <Value>Infusion</Value>

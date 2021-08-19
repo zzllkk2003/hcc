@@ -67,43 +67,40 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>staydays</Value>
+<Value>stayDays</Value>
 </Value>
 <Value name="3">
-<Value>dischargeWard</Value>
-</Value>
-<Value name="4">
-<Value>dischargeDepartment</Value>
-</Value>
-<Value name="5">
-<Value>observationCourse</Value>
-</Value>
-<Value name="6">
-<Value>observationTime</Value>
-</Value>
-<Value name="7">
-<Value>admitCondition</Value>
-</Value>
-<Value name="8">
-<Value>treatmentCourse</Value>
-</Value>
-<Value name="9">
-<Value>dischargeCondition</Value>
-</Value>
-<Value name="10">
-<Value>deathTime</Value>
-</Value>
-<Value name="11">
-<Value>deathReason</Value>
-</Value>
-<Value name="12">
-<Value>deathDiag</Value>
-</Value>
-<Value name="13">
 <Value>result</Value>
 </Value>
-<Value name="14">
-<Value>stayDays</Value>
+<Value name="4">
+<Value>dischargeWard</Value>
+</Value>
+<Value name="5">
+<Value>dischargeDepartment</Value>
+</Value>
+<Value name="6">
+<Value>observationCourse</Value>
+</Value>
+<Value name="7">
+<Value>observationTime</Value>
+</Value>
+<Value name="8">
+<Value>admitCondition</Value>
+</Value>
+<Value name="9">
+<Value>treatmentCourse</Value>
+</Value>
+<Value name="10">
+<Value>dischargeCondition</Value>
+</Value>
+<Value name="11">
+<Value>deathTime</Value>
+</Value>
+<Value name="12">
+<Value>deathReason</Value>
+</Value>
+<Value name="13">
+<Value>deathDiag</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.Doc70F6.HospitalCourseD</DataLocation>

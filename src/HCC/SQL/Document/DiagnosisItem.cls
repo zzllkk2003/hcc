@@ -3,11 +3,11 @@
 Class HCC.SQL.Document.DiagnosisItem Extends (%SerialObject, %XML.Adaptor)
 {
 
-/// 西医诊断名称
-Property name As WS.DE.DE050102500 [ SqlFieldName = name ];
-
 /// 西医诊断编码
 Property code As WS.DE.DE050102400 [ SqlFieldName = code ];
+
+/// 西医诊断名称。
+Property name As WS.DE.DE050102500 [ SqlFieldName = name ];
 
 /// 诊断日期
 Property date As WS.DE.DE050105800 [ SqlFieldName = date ];
@@ -22,10 +22,10 @@ Storage Default
 {
 <Data name="DiagnosisItemState">
 <Value name="1">
-<Value>name</Value>
+<Value>code</Value>
 </Value>
 <Value name="2">
-<Value>code</Value>
+<Value>name</Value>
 </Value>
 <Value name="3">
 <Value>date</Value>

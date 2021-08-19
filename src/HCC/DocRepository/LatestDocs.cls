@@ -39,7 +39,7 @@ Property DocCreatTime As %TimeStamp;
 Property VersionNumber As %Integer [ InitialExpression = 1 ];
 
 /// 文档原始内容
-Property Content As %String(MAXLEN = "", XMLPROJECTION = "NONE");
+Property Content As %String(MAXLEN = "");
 
 // Property PatId As %String;
 

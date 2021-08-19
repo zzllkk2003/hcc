@@ -10,6 +10,11 @@
 Class HCC.SVR.Prod.BO.AccessCDAOperation Extends Ens.BusinessOperation
 {
 
+/// 检索xsl
+Property DocAccessXSL As %String;
+
+Parameter SETTINGS = "DocAccessXSL:Basic";
+
 Parameter INVOCATION = "Queue";
 
 Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse As HCC.SVR.Prod.MSG.SVRResponse) As %Status
@@ -165,7 +170,7 @@ Method AccessCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRespo
    //set string = $ZCONVERT(string,"I","UTF8")
    $$$LOGINFO(string)
    #dim xsl as %XML.XSLT.CompiledStyleSheet 
-   set tsc = ##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile("/home/UCRT/xsl/DocumentAccess.xsl",.xsl)
+   set tsc = ##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile(..DocAccessXSL,.xsl)
    
    set xslResult =##class(%Stream.GlobalCharacter).%New()
    set tsc = ##class(%XML.XSLT.Transformer).TransformStreamWithCompiledXSL(xml,xsl,.xslResult)

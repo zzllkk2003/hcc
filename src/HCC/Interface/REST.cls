@@ -10,15 +10,15 @@ Parameter HandleCorsRequest = 1;
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
-    <Route Url="/DocumentHTML/:Id" Method="GET" Call="GetDocumentHTML"/>
-    <Route Url="/Document/:Id" Method="GET" Call="GetDocument"/>
-    <Route Url="/Document/:Id" Method="DELETE" Call="DeleteDoc"/>
-    <Route Url="/GenDocument/:Id" Method="GET" Call="GenerateDocFromSQL"/>
-    <Route Url="/DataSet" Method="GET" Call="ListDE"/>
-    <Route Url="/DataSet/:Id" Method="GET" Call="GetDE"/>
-    <Route Url="/DocSection/:Doctype" Method="GET" Call="GetDocSections"/>
-    <Route Url="/SystemSetting" Method="GET" Call="GetSystemSetting"/>
-    </Routes>
+<Route Url="/DocumentHTML/:Id" Method="GET" Call="GetDocumentHTML"/>
+<Route Url="/Document/:Id" Method="GET" Call="GetDocument"/>
+<Route Url="/Document/:Id" Method="DELETE" Call="DeleteDoc"/>
+<Route Url="/GenDocument/:Id" Method="GET" Call="GenerateDocFromSQL"/>
+<Route Url="/DataSet" Method="GET" Call="ListDE"/>
+<Route Url="/DataSet/:Id" Method="GET" Call="GetDE"/>
+<Route Url="/DocSection/:Doctype" Method="GET" Call="GetDocSections"/>
+<Route Url="/SystemSetting" Method="GET" Call="GetSystemSetting"/>
+</Routes>
 }
 
 /// 根据文档号，输出其HTML格式

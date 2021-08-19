@@ -1,7 +1,9 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/08
-/// 麻醉章节表
+/// 麻醉章节条目表
+/// 一个文档可以有多条麻醉记录条目
+/// 注意，这不是章节类，是麻醉记录条目类。没有麻醉章节类
 Class HCC.SQL.Document.Anesthesia Extends (%Persistent, %XML.Adaptor)
 {
 
@@ -13,13 +15,8 @@ Parameter SectionCodeSystemOID = "2.16.840.1.113883.6.1";
 
 Parameter SectionCodeSystem = "LOINC";
 
-/// 文档编号 (同时作为Idkey)
-Property DocumentNo As %String(XMLPROJECTION = "NONE");
-
-Index IdDocNo On DocumentNo [ IdKey, Unique ];
-
-/// 建立与HCC.SQL.Document.Header的外键
-ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(IdKey);
+/// 文档号
+Relationship DocumentNo As HCC.SQL.Document(XMLPROJECTION = "NONE") [ Cardinality = parent, Inverse = Anesthesias ];
 
 /// 麻醉方式代码
 Property method As WS.DE.DE060007300 [ SqlFieldName = method ];
@@ -59,6 +56,9 @@ Property premedication As WS.DE.DE060013600 [ SqlFieldName = premedication ];
 
 /// 麻醉医师姓名
 Property anesthetist As WS.DE.DE020103900 [ SqlFieldName = anesthetist ];
+
+/// 麻醉适应证
+Property indication As WS.DE.DE060022700 [ SqlFieldName = indication ];
 
 Storage Default
 {
@@ -104,6 +104,9 @@ Storage Default
 </Value>
 <Value name="14">
 <Value>premedication</Value>
+</Value>
+<Value name="15">
+<Value>indication</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.Document.AnesthesiaD</DataLocation>

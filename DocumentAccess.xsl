@@ -9,7 +9,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/RCMR_IN000030UV01.xsd">      
         <!--id-消息流水号-->
-        <id root="2.16.156.10011.2.5.1.1" extension="{MessageID}"/>
+        <id root="2.16.156.10011.2.5.1.1" extension="{ResponseMessageID}"/>
         <!--creationTime-消息创建时间-->
         <creationTime value="{ResultResponseTime}"/>
         <!--interactionId-消息的服务标识-->
@@ -23,21 +23,21 @@
         <receiver typeCode="RCV">
             <device classCode="DEV" determinerCode="INSTANCE">
                 <id>
-                    <item root="2.16.156.10011.2.5.1.3" extension="{SenderID}"/>
+                    <item root="2.16.156.10011.2.5.1.3" extension="{ReceiverID}"/>
                 </id>
             </device>
         </receiver>
         <sender typeCode="SND">
             <device classCode="DEV" determinerCode="INSTANCE">
                 <id>
-                    <item root="2.16.156.10011.2.5.1.3" extension="{ReceiverID}"/>
+                    <item root="2.16.156.10011.2.5.1.3" extension="{SenderID}"/>
                 </id>
             </device>
         </sender>
         <!--typeCode为处理结果，AA表示成功 AE表示失败-->
         <acknowledgement typeCode="AA">
             <targetMessage>
-                <id root="2.16.156.10011.2.5.1.1" extension="1ee83ff1-08ab-4fe7-b573-ea777e9bad51"/>
+                <id root="2.16.156.10011.2.5.1.1" extension="{TargetMessageID}"/>
             </targetMessage>
             <acknowledgementDetail>
                 <text value="{ResultDetail}"/>

@@ -22,10 +22,15 @@ Index IdDocNo On DocumentNo [ IdKey, Unique ];
 ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(IdKey);
 
 /// 疾病诊断
-Property diagnosisCode As WS.DE.DE050102400 [ Required, SqlFieldName = diag_code ];
+Property diagnosisCode As WS.DE.DE050102400 [ SqlFieldName = diag_code ];
+
+/// 诊断依据
+Property basis As WS.DE.DE050107000 [ SqlFieldName = basis ];
 
 /// 入院日期时间
-Property admitTime As WS.DE.DE060009200 [ Required, SqlFieldName = admit_time ];
+Property admitTime As WS.DE.DE060009200 [ SqlFieldName = admit_time ];
+
+Relationship Items As HCC.SQL.Document.SurgOperNotePreoperativeDX.Item [ Cardinality = children, Inverse = Diagnosis ];
 
 Storage Default
 {
@@ -37,6 +42,9 @@ Storage Default
 <Value>diagnosisCode</Value>
 </Value>
 <Value name="3">
+<Value>basis</Value>
+</Value>
+<Value name="4">
 <Value>admitTime</Value>
 </Value>
 </Data>

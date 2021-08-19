@@ -21,15 +21,9 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>diagnosisName</Value>
-</Value>
-<Value name="3">
-<Value>diagnosisCode</Value>
-</Value>
-<Value name="4">
 <Value>PathologyNo</Value>
 </Value>
-<Value name="5">
+<Value name="3">
 <Value>diag</Value>
 </Value>
 </Data>

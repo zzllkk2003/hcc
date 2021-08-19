@@ -7,9 +7,16 @@
 /// FilePath: \HCC\SVR\Prod\BO\RetrieveCDAOperation.cls
 /// Jeff.liu@intersytems.com
 /// 
-/// 共享文档检索BO
+/// 共享文档调阅BO
 Class HCC.SVR.Prod.BO.RetrieveCDAOperation Extends Ens.BusinessOperation
 {
+
+/// 调阅xsl
+Property DocRetrieveXSL As %String;
+
+Parameter SETTINGS = "DocRetrieveXSL:Basic";
+
+Parameter INVOCATION = "Queue";
 
 /// 共享文档调阅
 Method RetrieveCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse As HCC.SVR.Prod.MSG.SVRResponse) As %Status
@@ -117,7 +124,7 @@ Method RetrieveCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRes
    //Do DocList.XMLExportToString(.string)
    set x = ##class(HS.Util.StreamUtils).EnsureString(xml)
    $$$LOGINFO(x)
-   set tsc = ##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile("/home/UCRT/xsl/DocRetrieve.xsl",.xsl)
+   set tsc = ##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile(..DocRetrieveXSL,.xsl)
    
    set xslResult =##class(%Stream.GlobalCharacter).%New()
    set tsc = ##class(%XML.XSLT.Transformer).TransformStreamWithCompiledXSL(xml,xsl,.xslResult)

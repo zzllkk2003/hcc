@@ -1,7 +1,7 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
-/// 用药章节 - 中药饮片条目子表
+/// 用药章节 - 中药饮片条目子表， 用于《中药处方》
 Class HCC.SQL.Document.MedicationUseHistory.HerbalPiece Extends (%Persistent, %XML.Adaptor)
 {
 
@@ -14,11 +14,11 @@ Property dose As WS.DE.DE085005000 [ SqlFieldName = dose ];
 /// 中药饮片煎煮法
 Property decocting As WS.DE.DE085004700 [ SqlFieldName = decocting ];
 
-/// 药物用法
+/// 中药用药法
 Property usage As WS.DE.DE060013600 [ SqlFieldName = usage ];
 
-/// 中药处方医嘱内容。用于《疑难病例讨论记录》,《转科记录》
-Property content As WS.DE.DE060028700 [ SqlFieldName = content ];
+/// 处方类别代码
+Property presType As WS.DE.DE085003200 [ SqlFieldName = pres_type ];
 
 /// 文档编号
 Relationship MedicationUseHistory As HCC.SQL.Document.MedicationUseHistory [ Cardinality = parent, Inverse = HerbalPieces, SqlFieldName = DocumentNo ];
@@ -42,7 +42,7 @@ Storage Default
 <Value>usage</Value>
 </Value>
 <Value name="6">
-<Value>content</Value>
+<Value>presType</Value>
 </Value>
 </Data>
 <DataLocation>{%%PARENT}("HerbalPieces")</DataLocation>
