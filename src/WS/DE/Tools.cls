@@ -43,6 +43,35 @@ ClassMethod GetValueSetDisplay(pType, pValue) As %String
     Quit tRet
 }
 
+/// 检查值是否符合值集
+/// 输入参数: 
+/// pValue: 检查的值
+/// pVSName: 值集名称(例如：CV02.01.101、DE09.00.103.00)
+/// 返回参数: 布尔类型。在值集内，返回1；否则返回0
+ClassMethod ValideValueSet(pValue, pVSName) As %Boolean
+{
+    Set tRet= 0
+    Set tGlobalName = "^WS.VS."_$Replace(pVSName,".","")
+    Set tRet = $D(@tGlobalName(@pValue))
+    Return tRet
+}
+
+/// 检查值是否符合数据元值集约束.
+/// 如果数据元没有值集约束，直接返回1;
+/// 如果数据元有值集约束，且值在值集内,返回1;否则返回0.
+/// 输入参数: 
+/// pValue: 检查的值
+/// pDE: 数据元名称(例如：DE09.00.103.00)
+/// 返回参数: 布尔类型
+ClassMethod ValidateDEValue(pValue, pDE) As %Boolean
+{
+    Set tVS="",tDEVSParamID="WS.DE."_$Replace(pDE,".","")_"||ValueSet"
+    &SQL(select _Default into :tVS from %Dictionary.CompiledParameter where id1=:tDEVSParamID)
+    Return:(tVS="") 1
+    
+    Return ..ValideValueSet(pValue,tVS)
+}
+
 /// 通过卫生数据元类型获得对应的XSI的类型
 ClassMethod GetXSIDataType(pWSDT) As %String
 {

@@ -22,11 +22,23 @@ Property EndTS As %TimeStamp;
 /// 由后台任务同步
 Property Result As Ens.DataType.MessageStatus;
 
-// Property EndTSLocal As %String [ SqlComputeCode = { Set {*} =  {EndTS} }, SqlComputed, SqlComputeOnChange = EndTS ];
+/// 按秒毫计算的服务完成时间
+Property Duration As %Integer [ Calculated, SqlComputeCode = {set {Duration}=##class(HCC.SVR.ServiceLog).GetDuration({BeginTS},{EndTS})}, SqlComputed, SqlComputeOnChange = EndTS ];
 
-// Property BeginTSLocal As %String [ SqlComputeCode = { Set {*} = $ZDATETIME($ZDATETIMEH({BeginTS},-3),3) }, SqlComputed, SqlComputeOnChange = BeginTS ];
+Method DurationGet() As %Integer
+{
+    Quit ..GetDuration(..BeginTS,..EndTS)
+}
+
+ClassMethod GetDuration(pBeginTS, pEndTS = "") As %Integer
+{
+    Return:( pEndTS ="") 0
+    Return $SYSTEM.SQL.Functions.DATEDIFF("ms",pBeginTS,pEndTS)
+}
 
 Index IndSvrType On ServiceType [ Type = bitmap ];
+
+Index IndResult On Result [ Type = bitmap ];
 
 Storage Default
 {
@@ -54,12 +66,6 @@ Storage Default
 </Value>
 <Value name="8">
 <Value>EndTS</Value>
-</Value>
-<Value name="9">
-<Value>BeginTSLocal</Value>
-</Value>
-<Value name="10">
-<Value>EndTSLocal</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SVR.ServiceLogD</DataLocation>

@@ -206,7 +206,7 @@ ClassMethod GenerateHCCDocument(pDocNo = "Doc21", Output pDoc As %Stream.TmpChar
         Set tSC = tDoc.XMLExportToStream(.pDoc)
         
         // 考虑是否需要保存tDoc?
-        // Set tSC = tDoc.%Save()
+        Set tSC = tDoc.%Save()
         Do tDoc.%Close()
         Return tSC
     }
@@ -771,6 +771,21 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     'PRCP')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    
+    &SQL(insert into HCC_SQL_Document_Header.Participant(
+    DocumentNo,
+    scop_org,
+    whol_org,
+    type_code
+    )
+    Values(
+    :pDocNo /*DocumentNo*/,
+    '心内科'/*scop_org*/,
+    '系联总医院'/*whol_org*/,
+    'PRF')
+    )
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+
 
     /// 插入关联活动(可以多条)
     &SQL(insert into HCC_SQL_Document_Header.RelatedDocument(
@@ -782,7 +797,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     :pDocNo /*DocumentNo*/,
     'D2011000000'/*parentDocument_id*/,
     null/*parentDocument_setId*/,
-    null/*parentDocument_versionNumber*/)
+    1/*parentDocument_versionNumber*/)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.RelatedDocument:",SQLCODE,!
     /// 插入就诊场景

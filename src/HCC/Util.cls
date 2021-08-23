@@ -51,7 +51,6 @@ ClassMethod HCCSvrLog(pSvrType, pSession, pTS) As %Status
 {
     #SQLCompile Select=ODBC 
     Set tRet = $$$OK
-    //SET pTS=$ZDATETIME(##CLASS(%SYSTEM.Util).UTCtoLocalWithZTIMEZONE($ZDATETIMEH(pTS,3)))
     &SQL(Insert into HCC_SVR.ServiceLog(ServiceType,Session,BeginTS) values(:pSvrType,:pSession,:pTS))
     Set:(SQLCODE '=0) tRet = $$$ERROR(-10001,"SQLCODE:"_SQLCODE)
     Return tRet
@@ -76,8 +75,13 @@ ClassMethod HCCSvrLogTask() As %Status
 /// 从文档生成队列里取出文档号并执行文档生成操作的后台任务
 ClassMethod CreateDocTask()
 {
+    Set ^HCC("DocGenTask")=1
+
     While 1
     {
+        // 如果得到通知，停止后台进程
+        Return:($G(^HCC("DocGenTask"))=0)
+        
         // 获取下一个任务
         Set tTaskId = $O(^HCC.DocGenQueue(""))
         // 没有任务，休息5s后继续
@@ -110,6 +114,12 @@ ClassMethod CreateDocTask()
     }
 }
 
+/// 停止后台产生SQL互联互通文档的服务
+ClassMethod StopCreateDocTask()
+{
+    Set ^HCC("DocGenTask")=0
+}
+
 /// 创建文档对象实例,转换为互联互通文档，并保存到文档仓库
 ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
 {
@@ -127,7 +137,7 @@ ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
         Do tSQLDoc.%Close()
         
         // 加载xsl转换文件
-        Set tXSL = $G(^HCC("XLSFilePath"))_"\C00"_$Case($L(tDocType),1:"0"_tDocType,2:tDocType)_".xsl"
+        Set tXSL = $G(^HCC("XSLFilePath"))_"\C00"_$Case($L(tDocType),1:"0"_tDocType,2:tDocType)_".xsl"
         If ('##class(%File).Exists(tXSL))
         {
             Return $$$ERROR(-10001,"xsl转换文件:"_tXSL_"不存在!")

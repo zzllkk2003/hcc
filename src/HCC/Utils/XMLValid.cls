@@ -9,7 +9,7 @@ Class HCC.Utils.XMLValid Extends %RegisteredObject
 ///  errMsg:	回传的校验错误信息
 ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRef errMsg As %String) As %Status
 {
-	Kill ^HLHTTemp(docName)
+	s guid = $System.Util.CreateDecimalGUID()
 	&sql(delete HLHTPKG_Valid.ErrorLog where DocName = :docName) 
 	Set tSC = $$$OK
 	Set CDADocName = "",tempValue=""
@@ -33,14 +33,14 @@ ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRe
     		Do tR.MoveToAttributeIndex(a)
 				Set atr = path_"/@"_tR.LocalName
 				Set strValue = tR.Value
-				If $DATA(^HLHTTemp(docName,atr)){
+				If $DATA(^HLHTTemp(guid,docName,atr)){
 					Set i=1
-					While($DATA(^HLHTTemp(docName,atr,i))){
+					While($DATA(^HLHTTemp(guid,docName,atr,i))){
 						Set i=i+1
 					}
-					Set ^HLHTTemp(docName,atr,i)=strValue
+					Set ^HLHTTemp(guid,docName,atr,i)=strValue
 				}Else{
-					Set ^HLHTTemp(docName,atr)=strValue
+					Set ^HLHTTemp(guid,docName,atr)=strValue
 				}
      }
 		}	
@@ -48,7 +48,7 @@ ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRe
 	
 	
 	
-	New SQLCODE,%ROWCOUNT,%ROWID,%msg
+	New %ROWCOUNT,%ROWID,%msg
 	
 	//遍历规则表 HLHTPKG_Valid.Pattern 
 	&sql(declare c1 cursor for 
@@ -72,9 +72,9 @@ ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRe
 	  	//序列值对应
 	  	Set seq = Allfields(11) // 获取序列值
 	  	If seq=""{
-	  		Set:($DATA(^HLHTTemp(docName,CDADocName_node))) nodeValue = ^HLHTTemp(docName,CDADocName_node)
+	  		Set:($DATA(^HLHTTemp(guid,docName,CDADocName_node))) nodeValue = ^HLHTTemp(guid,docName,CDADocName_node)
 	  	}Else{
-		  	Set nodeValue = ^HLHTTemp(docName,CDADocName_node,seq)
+		  	Set nodeValue = ^HLHTTemp(guid,docName,CDADocName_node,seq)
 	  	}  	
 	  	Set cardinality = $ZSTRIP(Allfields(2),"*WC")
 	  	// 验证重复性
@@ -108,9 +108,8 @@ ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRe
   // 收集错误信息并返回
   &sql(select count(*),list(msg) into :count, :msg from HLHTPKG_Valid.ErrorLog where DocName=:docName)
   Set errMsg=msg
-  Quit count=0 
-  
-  //quit 0
+	k ^HLHTTemp(guid,docName)
+  q count=0
 }
 
 /// 验证是否必填项, 验证通过返回1，验证失败返回0
@@ -226,6 +225,140 @@ ClassMethod WriteLog(docName As %String, node As %String, msg As %String)
 {
 	Write docName_";"_node_";"_msg,!
 	&sql(insert into HLHTPKG_Valid.ErrorLog (DocName,Node,Msg) values (:docName,:node,:msg))
+}
+
+ClassMethod ValidDocsValueRange(MsgStream As %Stream.GlobalCharacter, docName As %String = "MRSummary", ByRef errMsg As %String) As %Status
+{
+	s tSC = $$$OK
+	s CDADocName = "",tempValue=""
+	
+	s guid = $System.Util.CreateGUID()
+	
+	//遍历xml文档，将文档属性值，节点值，路径放入^HLHTTemp节点下
+	// 格式 ^HLHT(GUID,xpath,序列) = 属性值
+	// 序列值对应于文档中出现重复path 
+	// 例如/PRPA_IN201311UV02/controlActProcess/subject/registrationRequest/subject1/patient/patientPerson/addr/item/part/@type
+	#dim tR as %XML.TextReader
+	s tSC = ##class(%XML.TextReader).ParseStream(MsgStream,.tR)
+	if $$$ISERR(tSC){
+		s errMsg = $System.OBJ.DisplayError(tSC)
+		q tSC
+	}
+	s aa=0
+	while tR.Read(){
+		s aa=aa+1
+		if (tR.NodeType = "element"){
+			s path = tR.Path
+			s:(CDADocName="") CDADocName=path
+     	for a = 1:1:tR.AttributeCount {
+    		d tR.MoveToAttributeIndex(a)
+				s atr = path_"/@"_tR.LocalName
+				s strValue = tR.Value
+				//s aa=aa+1
+				s ^HLHTTemp(guid,atr,aa)=strValue
+     }
+		}elseif (tR.NodeType = "chars"){
+			s ^HLHTTemp(guid,path,aa)=tR.Value
+		}	
+	}
+	
+	s nodeName = "^^Ens.LookupTable"
+	s node = $q(^HLHTTemp(guid,""))
+	while (node'=""){
+		s dETable = ""
+		if (node["/@codeSystemName"){
+			s codeNode = $change(node,"/@codeSystemName","/@code")
+			continue:('$d(@codeNode))
+			s codeValue = @codeNode
+			s displayName = @node
+			s:($d(@nodeName@("DisplayNameToDETable",displayName))) dTNodeName = @nodeName@("DisplayNameToDETable",displayName)
+			continue:(dTNodeName="")
+			d:('##class(WS.DE.Tools).Validate(dTNodeName,codeValue,.msg)) ..WriteLog(docName,displayName,msg)
+			//w msg,!
+		}
+    s node = $Query(@node)
+	}
+	
+	k ^HLHTTemp(guid)
+	q $$$OK
+}
+
+// 批量加载文档，生成lookup table内容
+
+ClassMethod GLU()
+{
+	f i=1:1:53{
+		s f="c:\Temp\Docs\EMR"
+		if ($l(i)=1){
+			s f=f_"0"_i_".xml" 
+		}else{
+			s f=f_i_".xml" 
+		}
+		w f,!
+		d ..GenerateLookup(f)
+	}
+}
+
+ClassMethod GenerateLookup(fileName As %String = "c:\temp\EMR01.xml")
+{
+	s tSC = $$$OK
+	s CDADocName = "",tempValue=""
+	
+	s guid = $System.Util.CreateGUID()
+	
+	//遍历xml文档，将文档属性值，节点值，路径放入^HLHTTemp节点下
+	// 格式 ^HLHT(GUID,xpath,序列) = 属性值
+	// 序列值对应于文档中出现重复path 
+	// 例如/PRPA_IN201311UV02/controlActProcess/subject/registrationRequest/subject1/patient/patientPerson/addr/item/part/@type
+	#dim tR as %XML.TextReader
+	s tSC = ##class(%XML.TextReader).ParseFile(fileName,.tR)
+	if $$$ISERR(tSC){
+		s errMsg = $System.OBJ.DisplayError(tSC)
+		q tSC
+	}
+	s aa=0
+	while tR.Read(){
+		s aa=aa+1
+		if (tR.NodeType = "element"){
+			s path = tR.Path
+			s:(CDADocName="") CDADocName=path
+     	for a = 1:1:tR.AttributeCount {
+    		d tR.MoveToAttributeIndex(a)
+				s atr = path_"/@"_tR.LocalName
+				s strValue = tR.Value
+				//s aa=aa+1
+				s ^HLHTTemp(guid,atr,aa)=strValue
+     }
+		}elseif (tR.NodeType = "chars"){
+			s ^HLHTTemp(guid,path,aa)=tR.Value
+		}	
+	}
+	
+	s node = $q(^HLHTTemp(guid,""))
+	while (node'=""){
+		s dETable = ""
+		if (node["/@codeSystemName"){
+			s codeNode = ..ChangeNode(node)
+			//&sql(select id from Ens_Util.LookupTable )
+			s:$d(@codeNode) dETable = @codeNode
+			s displayName = @node
+			s dv=""
+			//&sql(select datavalue into :dv from Ens_Util.LookupTable where tablename = 'DisplayNameToDETable' and keyname = :displayName)
+			//s:(dv="") sc = ##class(Ens.Util.LookupTable).%UpdateValue("DisplayNameToDETable",displayName,dETable)
+			s ^HLHTTemp("DisplayNameToDETable",displayName,fileName)=dETable
+		}
+    s node = $Query(@node)
+	}
+	
+	k ^HLHTTemp(guid)
+}
+
+ClassMethod ChangeNode(node As %String = "") As %String
+{
+	s:(node="") node = "^HLHTTemp(""46866798-907A-41E1-BC6F-AD5F07331D41"",""/ClinicalDocument/component/structuredBody/component/section/entry/observation/entryRelationship/observation/value/@displayName"",444)"
+	s n2= $change(node,"value/@codeSystemName","code/@code")
+	s $p(n2,",",*)=$p(n2,",",*)-2_")"
+	q n2
 }
 
 ClassMethod MyTest()

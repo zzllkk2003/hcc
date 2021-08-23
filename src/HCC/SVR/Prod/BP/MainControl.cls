@@ -71,7 +71,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 <code name='判断消息体结构合规性' xpos='470' ypos='800' >
 <![CDATA[ Set val=##class(Ens.Director).GetHostSettingValue("HCCPKG.FoundationProduction||HCC.SVR.Prod.BP.MainControl","MsgSchemaValidate",.tSC) 
   if (val=1) {
- Set tSchema="urn:hl7-org:v3 C:\HCC\schema\multicacheschemas\"_request.DocType_".xsd"	
+ Set tSchema="urn:hl7-org:v3 E:\HCC\schema\multicacheschemas\"_request.DocType_".xsd"	
  Set tSC=##class(%XML.TextReader).ParseStream(request.Message,.tReader,,,,tSchema)
  set context.verifyResult=0	
  set errCount=0

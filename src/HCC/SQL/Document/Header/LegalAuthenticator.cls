@@ -44,9 +44,9 @@ Storage Default
 <Value>assignedPersonName</Value>
 </Value>
 </Data>
-<DataLocation>{%%PARENT}("Authenticators")</DataLocation>
+<DataLocation>{%%PARENT}("LegalAuthenticators")</DataLocation>
 <DefaultData>LegalAuthenticatorDefaultData</DefaultData>
-<IdLocation>^HCC.SQL.Document.HeaderC("Authenticators")</IdLocation>
+<IdLocation>^HCC.SQL.Document.HeaderC("LegalAuthenticators")</IdLocation>
 <IndexLocation>^HCC.SQL.DoEBE5.LegalAuthenF2DDI</IndexLocation>
 <StreamLocation>^HCC.SQL.DoEBE5.LegalAuthenF2DDS</StreamLocation>
 <Type>%Storage.Persistent</Type>

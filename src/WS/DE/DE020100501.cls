@@ -9,7 +9,7 @@ Parameter Format = "D8";
 
 Parameter WSDT = "D";
 
-Property Value As %Date(FORMAT = 8);
+Property Value As WS.DT.Date(FORMAT = 8);
 
 Storage Default
 {

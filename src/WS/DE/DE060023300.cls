@@ -1,17 +1,17 @@
 Class WS.DE.DE060023300 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Time;
-
 Parameter Category = "计划与干预";
 
-Parameter Description = "清醒时间";
+Parameter Description = "清醒日期时间";
 
-Parameter Format;
+Parameter Format = "DT15";
 
 Parameter ValueSet;
 
-Parameter WSDT = "T";
+Parameter WSDT = "DT";
+
+Property Value As WS.DT.TimeStamp;
 
 Storage Default
 {

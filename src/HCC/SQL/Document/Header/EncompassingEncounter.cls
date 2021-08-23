@@ -22,7 +22,7 @@ Property effectiveTimeLow As WS.DE.DE060009200 [ Required, SqlFieldName = admit_
 /// 就诊时间 - 出院日期
 Property effectiveTimeHigh As WS.DE.DE060001700 [ Required, SqlFieldName = discharge_time ];
 
-Relationship Locations As HCC.SQL.Document.Header.EncompassingEncounter.Location [ Cardinality = children, Inverse = Encounter ];
+Relationship Locations As HCC.SQL.Document.Header.EncompassingEncounter.Location(XMLNIL = 0) [ Cardinality = children, Inverse = Encounter ];
 
 Storage Default
 {

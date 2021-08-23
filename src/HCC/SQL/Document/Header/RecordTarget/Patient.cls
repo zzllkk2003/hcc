@@ -42,7 +42,7 @@ Property nativePlace As HCC.SQL.Addr [ SqlFieldName = np ];
 Property ageInMonth As WS.DE.DE020103200 [ SqlFieldName = age_month ];
 
 /// 职业类别代码
-Property occupationCode As WS.DE.DE020105200 [ Required, SqlFieldName = occp_code ];
+Property occupationCode As WS.DE.DE020105200 [ SqlFieldName = occp_code ];
 
 Storage Default
 {

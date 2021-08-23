@@ -11,13 +11,14 @@ XData ProductionDefinition
   <Item Name="HCC.SVR.Prod.BS.HIPMessageServer" Category="" ClassName="HCC.SVR.Prod.BS.HIPMessageServer" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
   <Item Name="HCC.SVR.Prod.BP.MainControl" Category="" ClassName="HCC.SVR.Prod.BP.MainControl" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="MsgSchemaValidate">1</Setting>
   </Item>
   <Item Name="HCC.SVR.Prod.BP.SubscribeAndPublish" Category="" ClassName="HCC.SVR.Prod.BP.SubscribeAndPublish" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
   <Item Name="HCC.SVR.Prod.BO.StandardHCCOutBound" Category="" ClassName="HCC.SVR.Prod.BO.StandardHCCOutBound" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Adapter" Name="RegistryID"></Setting>
     <Setting Target="Adapter" Name="SOAPCredentials">ws</Setting>
-    <Setting Target="Adapter" Name="WebServiceURL">http://192.168.50.218:52773/csp/healthshare/mocksys/EMR.WS.PatientService.cls</Setting>
+    <Setting Target="Adapter" Name="WebServiceURL">http://172.19.86.217:52773/csp/healthshare/mocksys/EMR.WS.PatientService.cls</Setting>
   </Item>
   <Item Name="HCC.SVR.Prod.BO.SaveCDAOperation" Category="" ClassName="HCC.SVR.Prod.BO.SaveCDAOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
