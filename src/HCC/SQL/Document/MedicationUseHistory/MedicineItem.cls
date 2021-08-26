@@ -9,7 +9,7 @@ Class HCC.SQL.Document.MedicationUseHistory.MedicineItem Extends (%Persistent, %
 /// 药物使用途径代码
 Property route As WS.DE.DE060013400 [ SqlFieldName = route ];
 
-/// 单次用药剂量(例如：2), 用于《西药处方》、《出入量记录》
+/// 单次用药剂量(例如：2)，用于《西药处方》、《出入量记录》
 Property dose As WS.DE.DE085002300 [ SqlFieldName = dose ];
 
 /// 用药剂量单位(例如：mg)

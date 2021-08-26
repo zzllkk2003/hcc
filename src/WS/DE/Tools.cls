@@ -7,7 +7,7 @@ Class WS.DE.Tools Extends %RegisteredObject
 
 /// 按数据元验证值是否符合约束
 /// w ##class(WS.DE.Tools).Validate("DE02.01.031.00","1000",.msg)
-ClassMethod Validate(pDEType, pValue, Output pErrMsg) As %Boolean
+ClassMethod Validate(pDEType = "DE04.50.001.00", pValue = "1", Output pErrMsg) As %Boolean
 {
         /*
         S x=##class(WS.DE.DE020103100).%New()
@@ -17,6 +17,7 @@ ClassMethod Validate(pDEType, pValue, Output pErrMsg) As %Boolean
         Set tObj = $ClassMethod(tClass,"%New")
         Set tObj.Value = pValue
         Set tSC = tObj.%ValidateObject()
+        Do tObj.%Close()
         Set pErrMsg= $$getAllErrorTexts^EnsUtil(tSC)
         Quit $$$ISOK(tSC)
 }
@@ -76,6 +77,31 @@ ClassMethod ValidateDEValue(pValue, pDE) As %Boolean
 ClassMethod GetXSIDataType(pWSDT) As %String
 {
     Quit $Case(pWSDT,"S1":"ST","L":"BL","S3":"CD","N":"PQ","":"","":"","":"","":"","":"","":"","":"")
+}
+
+/// parse the datatype string (pDTStr) of WS data element, like A..100
+/// into ISC data type (pDataType) and data range (pMin, pMax)
+ClassMethod GetDTDetails(pDTStr As %String = "N3..4,3", Output pDataType As %String, Output pMin As %Integer, Output pMax As %Integer, Output pScale As %Integer) As %Status
+{
+    Set tRet = $$$ERROR($$$GeneralError,"Not Matching")
+    set pDataType="",(pMin,pMax)=0
+    //set tRegex=##class(%Regex.Matcher).%New("(AN|DT|N|D|T|A){1}([0-9]){0,3}(\.\.){0,1}([0-9]){0,3}")
+    //set tRegex=##class(%Regex.Matcher).%New("((AN|DT|N|D|T|A){1})(\d{0,3})((\.\.){0,1})(\d{0,3})")
+    //set tRegex=##class(%Regex.Matcher).%New("(AN|DT|N|D|T|A){1}(\d{0,3})(\.\.){0,1}(\d{0,3}),{0,1}([0-9])")
+    Set tRegex=##class(%Regex.Matcher).%New("(AN|DT|N|D|T|A){1}(\d{0,4})(,(\d)){0,1}(\.\.(\d{0,4})(,(\d)){0,1}){0,1}")
+
+    Set tRegex.Text=pDTStr
+    while tRegex.Locate() 
+    {
+        Set pDataType=tRegex.SubstituteIn("$1")
+        Set pMin=+tRegex.SubstituteIn("$2")
+        Set pScale=+tRegex.SubstituteIn("$4")
+        Set pMax=+tRegex.SubstituteIn("$6")
+        Set:(pMax=0) pMax= pMin
+        Set:(pScale=0) pScale=+tRegex.SubstituteIn("$8")
+        Set tRet = $$$OK
+    }
+    Return tRet
 }
 
 }

@@ -32,6 +32,9 @@ Relationship LegalAuthenticators As HCC.SQL.Document.Header.LegalAuthenticator [
 /// 联系人条目子表
 Relationship Participants As HCC.SQL.Document.Header.Participant [ Cardinality = children, Inverse = DocumentNo ];
 
+/// 陈述者条目子表
+Relationship Informants As HCC.SQL.Document.Header.Informant [ Cardinality = children, Inverse = DocumentNo ];
+
 /// 关联活动条目子表
 Relationship RelatedDocuments As HCC.SQL.Document.Header.RelatedDocument [ Cardinality = children, Inverse = DocumentNo ];
 

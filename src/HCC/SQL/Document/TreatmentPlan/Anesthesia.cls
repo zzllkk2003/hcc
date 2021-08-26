@@ -20,9 +20,7 @@ Property time As WS.DE.DE060022100 [ SqlFieldName = time ];
 /// 拟实施手术
 Property procedure As WS.DE.DE060009300 [ SqlFieldName = procd ];
 
-/// 拟行有创操作和检测方法。用于《麻醉知情同意书》。
-/// WST500.27-2016 《麻醉知情同意书》中定义的该项，数据元是“麻醉方法代码”，是由值集CV06.00.103约束的（由WS363.12-2011定义）。这是错误的！
-/// Property test As WS.DE.DE060007300 [ SqlFieldName = test ];
+/// 拟行有创操作和检测方法。用于《麻醉知情同意书》。WST500.27-2016 《麻醉知情同意书》中定义的该项，数据元是“麻醉方法代码”，是由值集CV06.00.103约束的（由WS363.12-2011定义）。这是错误的！Property test As WS.DE.DE060007300 [ SqlFieldName = test ];
 Property test As %String [ SqlFieldName = test ];
 
 /// 基础疾病对麻醉可能产生的影响

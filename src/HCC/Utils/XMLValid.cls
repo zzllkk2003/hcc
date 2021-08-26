@@ -5,12 +5,12 @@ Class HCC.Utils.XMLValid Extends %RegisteredObject
 
 /// 执行XML文档验证，验证成功则返回1，失败返回0
 ///  fileName: xml 路径文件名，默认为c:\temp\1.xml
-///  docName: 识别验证xml的文档类型，用于在规则表 HLHTPKG_Valid.Pattern 中区别加载对应的校验规则，默认为PatientInfoRegister
+///  docName: 识别验证xml的文档类型，用于在规则表 HCC——Utils.ValidPattern  中区别加载对应的校验规则，默认为PatientInfoRegister
 ///  errMsg:	回传的校验错误信息
 ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRef errMsg As %String) As %Status
 {
 	s guid = $System.Util.CreateDecimalGUID()
-	&sql(delete HLHTPKG_Valid.ErrorLog where DocName = :docName) 
+	&sql(delete HCC_Utils.ValidErrorLog where DocName = :docName) 
 	Set tSC = $$$OK
 	Set CDADocName = "",tempValue=""
 	
@@ -50,11 +50,11 @@ ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRe
 	
 	New %ROWCOUNT,%ROWID,%msg
 	
-	//遍历规则表 HLHTPKG_Valid.Pattern 
+	//遍历规则表 HCC_Utils.ValidPattern 
 	&sql(declare c1 cursor for 
 		select id,node,seq,Cardinality,Flag,Expression,FixedValue,MetaDatatype,Reference 
 		into :Allfields() 
-		from HLHTPKG_Valid.Pattern
+		from HCC_Utils.ValidPattern
 		where DocName = :docName
 	)
   
@@ -98,7 +98,7 @@ ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRe
 				  	Do ..WriteLog(docName,node,"规则id /"_Allfields(1)_"/,"_msg)
 			  	}
 		  	}Else {
-				  	Do ..WriteLog(docName,node,"规则id /"_Allfields(1)_"/, 校验规则表 HLHTPKG_Valid.Pattern 中的 Flag 字段值不合规：flag 值为 /"_flag_"/。")
+				  	Do ..WriteLog(docName,node,"规则id /"_Allfields(1)_"/, 校验规则表 HCC_Utils.ValidPattern 中的 Flag 字段值不合规：flag 值为 /"_flag_"/。")
 		  	}
 	  	}
   		&sql(fetch c1)
@@ -106,7 +106,7 @@ ClassMethod Valid(MsgStream As %Stream.GlobalCharacter, docName As %String, ByRe
   &sql(close c1)
   
   // 收集错误信息并返回
-  &sql(select count(*),list(msg) into :count, :msg from HLHTPKG_Valid.ErrorLog where DocName=:docName)
+  &sql(select count(*),list(msg) into :count, :msg from HCC_Utils.ValidErrorLog where DocName=:docName)
   Set errMsg=msg
 	k ^HLHTTemp(guid,docName)
   q count=0
@@ -224,7 +224,7 @@ ClassMethod ValidRef(value As %String, ref As %String, tag As %String, ByRef msg
 ClassMethod WriteLog(docName As %String, node As %String, msg As %String)
 {
 	Write docName_";"_node_";"_msg,!
-	&sql(insert into HLHTPKG_Valid.ErrorLog (DocName,Node,Msg) values (:docName,:node,:msg))
+	&sql(insert into HCC_Utils.ValidErrorLog (DocName,Node,Msg) values (:docName,:node,:msg))
 }
 
 ClassMethod ValidDocsValueRange(MsgStream As %Stream.GlobalCharacter, docName As %String = "MRSummary", ByRef errMsg As %String) As %Status
@@ -262,25 +262,32 @@ ClassMethod ValidDocsValueRange(MsgStream As %Stream.GlobalCharacter, docName As
 		}	
 	}
 	
-	s nodeName = "^^Ens.LookupTable"
+	s nodeName = "^Ens.LookupTable"
 	s node = $q(^HLHTTemp(guid,""))
 	while (node'=""){
-		s dETable = ""
+		w @node,!
+		s dETable = "",dTNodeName = ""
 		if (node["/@codeSystemName"){
 			s codeNode = $change(node,"/@codeSystemName","/@code")
-			continue:('$d(@codeNode))
+			GOTO:('$d(@codeNode)) WhileContinue
 			s codeValue = @codeNode
 			s displayName = @node
-			s:($d(@nodeName@("DisplayNameToDETable",displayName))) dTNodeName = @nodeName@("DisplayNameToDETable",displayName)
-			continue:(dTNodeName="")
-			d:('##class(WS.DE.Tools).Validate(dTNodeName,codeValue,.msg)) ..WriteLog(docName,displayName,msg)
-			//w msg,!
+			if ($d(@nodeName@("DisplayNameToDETable",displayName))){
+				s dTNodeName = @nodeName@("DisplayNameToDETable",displayName)
+			}
+			w "************* displayName,dTNodeName,codeValue: "_displayName_","_dTNodeName_","_codeValue,!
+			GOTO:(dTNodeName="") WhileContinue
+			d:('##class(WS.DE.Tools).Validate(dTNodeName,codeValue,.msg)) ..WriteLog(guid,displayName,msg)
 		}
+WhileContinue
     s node = $Query(@node)
 	}
 	
+  // 收集错误信息并返回
+  &sql(select count(*),list(msg) into :count, :msg from HCC_Utils.ValidErrorLog where DocName=:guid)
+  Set errMsg=msg
 	k ^HLHTTemp(guid)
-	q $$$OK
+  q count=0
 }
 
 // 批量加载文档，生成lookup table内容
@@ -371,6 +378,74 @@ ClassMethod MyTest()
      // Get next subscript 
      Set key = $ORDER(mydata(1,key),1,target)
    }
+}
+
+ClassMethod MyTest2(ByRef errMsg As %String) As %Status
+{
+	s f1 ="E:\1234\BloodTrans.xml"
+	s docName = "BloodTrans"
+	s f2 ="E:\1234\PatInfoReg.xml"
+	s docName = "DocRegMSG"
+	s tSC = $$$OK
+	s CDADocName = "",tempValue=""
+	
+	s guid = $System.Util.CreateGUID()
+	
+	//遍历xml文档，将文档属性值，节点值，路径放入^HLHTTemp节点下
+	// 格式 ^HLHT(GUID,xpath,序列) = 属性值
+	// 序列值对应于文档中出现重复path 
+	// 例如/PRPA_IN201311UV02/controlActProcess/subject/registrationRequest/subject1/patient/patientPerson/addr/item/part/@type
+	#dim tR as %XML.TextReader
+	//s tSC = ##class(%XML.TextReader).ParseStream(MsgStream,.tR)
+	s tSC = ##class(%XML.TextReader).ParseFile(f2,.tR)
+	if $$$ISERR(tSC){
+		s errMsg = $System.OBJ.DisplayError(tSC)
+		q tSC
+	}
+	s aa=0
+	while tR.Read(){
+		s aa=aa+1
+		if (tR.NodeType = "element"){
+			s path = tR.Path
+			s:(CDADocName="") CDADocName=path
+     	for a = 1:1:tR.AttributeCount {
+    		d tR.MoveToAttributeIndex(a)
+				s atr = path_"/@"_tR.LocalName
+				s strValue = tR.Value
+				//s aa=aa+1
+				s ^HLHTTemp(guid,atr,aa)=strValue
+     }
+		}elseif (tR.NodeType = "chars"){
+			s ^HLHTTemp(guid,path,aa)=tR.Value
+		}	
+	}
+	
+	s nodeName = "^Ens.LookupTable"
+	s node = $q(^HLHTTemp(guid,""))
+	while (node'=""){
+		w @node,!
+		s dETable = "",dTNodeName = ""
+		if (node["/@codeSystemName"){
+			s codeNode = $change(node,"/@codeSystemName","/@code")
+			GOTO:('$d(@codeNode)) WhileContinue
+			s codeValue = @codeNode
+			s displayName = @node
+			if ($d(@nodeName@("DisplayNameToDETable",displayName))){
+				s dTNodeName = @nodeName@("DisplayNameToDETable",displayName)
+			}
+			w "************* displayName,dTNodeName,codeValue: "_displayName_","_dTNodeName_","_codeValue,!
+			GOTO:(dTNodeName="") WhileContinue
+			d:('##class(WS.DE.Tools).Validate(dTNodeName,codeValue,.msg)) ..WriteLog(guid,displayName,msg)
+		}
+WhileContinue
+    s node = $Query(@node)
+	}
+	
+  // 收集错误信息并返回
+  &sql(select count(*),list(msg) into :count, :msg from HCC_Utils.ValidErrorLog where DocName=:guid)
+  Set errMsg=msg
+	//k ^HLHTTemp(guid)
+  q count=0
 }
 
 }

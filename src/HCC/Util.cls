@@ -62,7 +62,7 @@ ClassMethod HCCSvrLogTask() As %Status
 {
     Set tRet = $$$OK
     &SQL(UPDATE HCC_SVR.ServiceLog as log 
-            SET EndTS= h.TimeProcessed,Result = h.status
+            SET EndTS= HCC.Util_UTCToLocal(h.TimeProcessed) ,Result = h.status
            FROM ens.messageheader h 
           WHERE log.EndTS is null
             AND h.id = log.session
@@ -70,6 +70,13 @@ ClassMethod HCCSvrLogTask() As %Status
         )
     Set:(SQLCODE <0) tRet = $$$ERROR(-10001,"SQLCODE:"_SQLCODE)
     Return tRet
+}
+
+/// 将UTC时间戳转为本地时间戳
+/// Ensemble消息处理时间以UTC时间戳保存
+ClassMethod UTCToLocal(pTS As %TimeStamp) As %TimeStamp [ SqlProc ]
+{
+   Quit $zdt($System.Util.UTCtoLocalWithZTIMEZONE($zdth(pTS,3)),3)
 }
 
 /// 从文档生成队列里取出文档号并执行文档生成操作的后台任务
@@ -107,7 +114,7 @@ ClassMethod CreateDocTask()
             }
             else
             {
-                Do ..Log("Error","GenDoc",tDocNum,"文档生成结束")
+                Do ..Log("Error","GenDoc",tDocNum,"文档生成错误:"_$SYSTEM.Status.GetErrorText(tSC))
             }
             Kill ^HCC.DocGenQueue(tTaskId)
         }
@@ -123,9 +130,9 @@ ClassMethod StopCreateDocTask()
 /// 创建文档对象实例,转换为互联互通文档，并保存到文档仓库
 ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
 {
-    Set tSC = $$$OK
     try
     {
+        Set tSC = $$$OK
         // 加载SQL文档
         Set tSQLDoc = ##class(HCC.SQL.Document).%OpenId(pDocNum)
         Return:('$IsObject(tSQLDoc)) $$$ERROR(-10001,"SQL文档:"_pDocNum_"不存在!")
@@ -147,6 +154,7 @@ ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
         //Set tInput = ##class(%Stream.GlobalCharacter).%New()
         Set tSQLStream = ""
         Set tSC = ##class(HCC.SQL.Tools).GenerateHCCDocument(pDocNum,.tSQLStream)
+        w "GenerateHCCDocument:",tSC,!
         if ($$$ISERR(tSC)) 
         {
             Return tSC
@@ -162,18 +170,21 @@ ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
             Return:($$$ISERR(tSC)) tSC
             
             Set tSC=##class(%XML.XSLT.Transformer).TransformStreamWithCompiledXSL(tSQLStream,tCompiledStyleSheet,.tDocument,,.tParams)
+
             Return:($$$ISERR(tSC)) tSC
             D ..toUTF8(.tDocument)
             
             // 保存HCC文档到文档仓库
-            If $$$ISOK(tSC)
-            {
+            //If $$$ISOK(tSC)
+            //{
                 Set tSC = ..UpdateDoc(tDocInfo,tDocument)
+                w "UpdateDoc:",tSC,!
+                Return:($$$ISERR(tSC)) tSC
                 kill (tDocument,tCompiledStyleSheet)
-            }
+            //}
         }
 
-        Return tSC
+        Return $$$OK
     }
     catch (e)
     {
@@ -295,8 +306,9 @@ ClassMethod UpdateDoc(pDocInfo As %String, pDoc As %Stream.GlobalCharacter) As %
         Set tSC = tLtsDoc.%Save() 
         /// 保存历史文档
         Set tSC = tDoc.%Save()
+        Return:($$$ISERR(tSC)) tSC
         k (tLtsDoc,tDoc)
-        Return tSC
+        Return $$$OK
     }
     Catch(e)
     {

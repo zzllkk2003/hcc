@@ -2,6 +2,9 @@
 Class HCC.SQL.Document.Header.EncompassingEncounter.Location Extends (%Persistent, %XML.Adaptor)
 {
 
+/// 病床标识
+Property bedId As %String [ SqlFieldName = bed_id ];
+
 /// 病床号
 Property bedNum As WS.DE.DE010002600 [ SqlFieldName = bed_num ];
 
@@ -64,6 +67,9 @@ Storage Default
 </Value>
 <Value name="10">
 <Value>hosName</Value>
+</Value>
+<Value name="11">
+<Value>bedId</Value>
 </Value>
 </Data>
 <DataLocation>{%%PARENT}("Locations")</DataLocation>

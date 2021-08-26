@@ -108,12 +108,19 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         /// 文档原始内容
         Set DocContent = $ZCONVERT(DocContent,"I","UTF8")
         
+        
+        
         $$$LOGINFO("验证设置"_..DocSchemaValidate_"  "_..DocValueSetValidate)
         // 验证文档是否符合值域规则
         
         If (..DocValueSetValidate =1)
         {   
-           Set ValueVResult= ##class(HCC.Utils.XMLValid).Valid(##class(HS.Util.StreamUtils).EnsureStream(DocContent),DocCode,.ValueErr)
+           Set DocContent = $ZCONVERT(DocContent,"O","UTF8")
+           Set ValueVResult= ##class(HCC.Utils.XMLValid).ValidDocsValueRange(##class(HS.Util.StreamUtils).EnsureStream(DocContent),pDoc.DocType,.ValueErr)
+           
+           $$$LOGINFO("fdajfokajskfjkaljfa: "_ValueVResult)
+           $$$LOGINFO("******fdajfokajskfjkaljfa: "_ValueErr)
+           
            
         }
         // 验证文档是否符合schema 规则
@@ -122,7 +129,7 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
             Set SchemaVResult = ##class(HCC.Utils.SchemaValidate).Validate(##class(HS.Util.StreamUtils).EnsureStream(DocContent),.SchemaErr)
         }
 
-        If (ValueVResult=0)&&(SchemaVResult=1)
+        If ((ValueVResult=0)&&(SchemaVResult=1))
         {
             Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档结构验证成功，文档值域验证失败："_$CHAR(10)_ValueErr)
             Quit

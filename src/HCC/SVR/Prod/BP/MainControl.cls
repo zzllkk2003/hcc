@@ -59,7 +59,9 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <sequence xend='200' yend='2550' >
 <scope xpos='200' ypos='250' xend='200' yend='2450' >
 <code name='写入服务调用log' xpos='200' ypos='350' >
-<![CDATA[ do ##class(HCC.Util).HCCSvrLog(request.Action,..%Process.%PrimaryRequestHeader.%Id(),..%Process.%PrimaryRequestHeader.TimeCreated)]]>
+<![CDATA[ set sTS=..%Process.%PrimaryRequestHeader.TimeCreated
+ set sTS= $zdt($System.Util.UTCtoLocalWithZTIMEZONE($zdth(sTS,3)),3)
+ do ##class(HCC.Util).HCCSvrLog(request.Action,..%Process.%PrimaryRequestHeader.%Id(),sTS)]]>
 </code>
 <trace value='..%Process.%PrimaryRequestHeader.TimeCreated' xpos='200' ypos='450' />
 <sql name='LT获得action 对应schema' xpos='200' ypos='550' >
@@ -94,7 +96,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 <![CDATA[  set msg=""
   Set val=##class(Ens.Director).GetHostSettingValue("HCCPKG.FoundationProduction||HCC.SVR.Prod.BP.MainControl","MsgValueSetValidate",.tSC) 
   if (val=1) 
-  {set context.valueVerifyResult=##class(HCC.SVR.Utils.XMLValid).Valid(request.Message,request.Action,.msg)
+  {set context.valueVerifyResult=##class(HCC.SVR.Utils.XMLValid).ValidDocsValueRange(request.Message,request.Action,.msg)
   set context.valueVerifyResult=val&&context.valueVerifyResult
   set context.ErrMsg=msg}
   else

@@ -7,11 +7,11 @@ Parameter Description = "出院中医诊断-主证";
 
 Parameter Format = "AN..5";
 
-Parameter ValueSet = "GBT.156571995";
+Parameter ValueSet = "GBT.15657.1995";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.156571995");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.15657.1995");
 
 Storage Default
 {

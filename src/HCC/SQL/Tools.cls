@@ -517,14 +517,16 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     asgnEnty_id,
     sig_code,
     asgnPers_name_Value,
-    time_Value)
+    time_Value,
+    profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
     '主任(副主任)医师'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '郑副主任'/*assignedPerson_name_Value*/,
-    '2020-09-29 10:30:00'/*time_Value*/
+    '2020-09-29 10:30:00'/*time_Value*/,
+    3
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
@@ -534,14 +536,16 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     asgnEnty_id,
     sig_code,
     asgnPers_name_Value,
-    time_Value)
+    time_Value,
+    profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
     '主治医师'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '张医生'/*assignedPerson_name_Value*/,
-    '2020-09-29 10:30:00'/*time_Value*/
+    '2020-09-29 10:30:00'/*time_Value*/,
+    3
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
@@ -551,14 +555,16 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     asgnEnty_id,
     sig_code,
     asgnPers_name_Value,
-    time_Value)
+    time_Value,
+    profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
     '住院医师'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '周医生'/*assignedPerson_name_Value*/,
-    '2020-09-29 10:30:00'/*time_Value*/
+    '2020-09-29 10:30:00'/*time_Value*/,
+    3
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
@@ -568,14 +574,16 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     asgnEnty_id,
     sig_code,
     asgnPers_name_Value,
-    time_Value)
+    time_Value,
+    profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
     '责任护士'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '赵护士'/*assignedPerson_name_Value*/,
-    '2020-09-29 10:30:00'/*time_Value*/
+    '2020-09-29 10:30:00'/*time_Value*/,
+    3
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
@@ -585,14 +593,16 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     asgnEnty_id,
     sig_code,
     asgnPers_name_Value,
-    time_Value)
+    time_Value,
+    profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
     '进修医师'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '钱医生'/*assignedPerson_name_Value*/,
-    '2020-09-29 10:30:00'/*time_Value*/
+    '2020-09-29 10:30:00'/*time_Value*/,
+    4
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
@@ -602,14 +612,16 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     asgnEnty_id,
     sig_code,
     asgnPers_name_Value,
-    time_Value)
+    time_Value,
+    profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
     '实习医师'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '孙医生'/*assignedPerson_name_Value*/,
-    '2020-09-29 10:30:00'/*time_Value*/
+    '2020-09-29 10:30:00'/*time_Value*/,
+    4
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
@@ -619,14 +631,16 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     asgnEnty_id,
     sig_code,
     asgnPers_name_Value,
-    time_Value)
+    time_Value,
+    profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
     '编码员'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '吴编码员'/*assignedPerson_name_Value*/,
-    '2020-09-29 10:30:00'/*time_Value*/
+    '2020-09-29 10:30:00'/*time_Value*/,
+    5
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
@@ -636,14 +650,16 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     asgnEnty_id,
     sig_code,
     asgnPers_name_Value,
-    time_Value)
+    time_Value,
+    profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
     '手术者'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '小李飞刀'/*assignedPerson_name_Value*/,
-    '2020-09-29 10:30:00'/*time_Value*/
+    '2020-09-29 10:30:00'/*time_Value*/,
+    2
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
@@ -726,7 +742,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     Values(
     :pDocNo /*DocumentNo*/,
     '李五'/*asociatedPerson_name_Value*/,
-    '杨艾凌'/*associatedEntity_code_Value*/,
+    null/*associatedEntity_code_Value*/,
     'CON')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
@@ -786,6 +802,19 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
 
+    /// 插入病史陈述者(可以多条)
+    &SQL(insert into HCC_SQL_Document_Header.Informant(
+    DocumentNo,
+    code,
+    name)
+    Values(
+    :pDocNo /*DocumentNo*/,
+    1,
+    '李萍'
+    )
+    )
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+
 
     /// 插入关联活动(可以多条)
     &SQL(insert into HCC_SQL_Document_Header.RelatedDocument(
@@ -816,6 +845,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     /// 插入就诊场景 - 地点 
     &SQL(insert into HCC_SQL_Document_Header_EncompassingEncounter.Location(
     DocumentNo,
+    bed_id,
     bed_num_Value,
     ward_id,
     ward_name_Value,
@@ -825,6 +855,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     dept_name_Value)
     Values(
     :pDocNo /*DocumentNo*/,
+    '08',
     '8床'/*病床号*/,
     '203'/*病房标识*/,
     '3病房'/*病房号*/,
@@ -5006,6 +5037,8 @@ ClassMethod GenSampleFor34(pDocNo As %String = "Doc34")
 
    ///插入预防接种史章节
    Do ..TestVaccinationGenerate(pDocNo)
+   ///插入个人史章节
+   Do ..TestSocialHistoryGenerate(pDocNo)
    ///插入输血章节
    Do ..TestBloodTransfusionGenerate(pDocNo)
    ///插入月经史章节

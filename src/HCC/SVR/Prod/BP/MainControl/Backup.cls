@@ -129,4 +129,9 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </process>
 }
 
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
+
 }
