@@ -28,7 +28,7 @@ Storage Default
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
-<process language='objectscript' request='HCC.SVR.Prod.MSG.SVRRequest' response='HCC.SVR.Prod.MSG.SVRResponse' height='2600' width='2000' >
+<process language='objectscript' request='HCC.SVR.Prod.MSG.SVRRequest' response='HCC.SVR.Prod.MSG.SVRResponse' height='2800' width='2000' >
 <context>
 <property name='verifyResult' type='%Boolean' initialexpression='0' instantiate='0' />
 <property name='tResponse' type='HCC.SVR.Prod.MSG.SVRResponse' instantiate='1' />
@@ -56,19 +56,24 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <property name='SchemaValidateOption' type='%Boolean' instantiate='0' />
 <property name='ValuseSetValidateOption' type='%Boolean' instantiate='0' />
 </context>
-<sequence xend='200' yend='2350' >
-<scope name='BP级错误处理' xpos='200' ypos='250' xend='200' yend='2250' >
-<sql name='LT获得action 对应schema' xpos='200' ypos='350' >
+<sequence xend='200' yend='2550' >
+<scope xpos='200' ypos='250' xend='200' yend='2450' >
+<code name='写入服务调用log' xpos='200' ypos='350' >
+<![CDATA[ set sTS=..%Process.%PrimaryRequestHeader.TimeCreated
+ set sTS= $zdt($System.Util.UTCtoLocalWithZTIMEZONE($zdth(sTS,3)),3)
+ do ##class(HCC.Util).HCCSvrLog(request.Action,..%Process.%PrimaryRequestHeader.%Id(),sTS)]]>
+</code>
+<trace value='..%Process.%PrimaryRequestHeader.TimeCreated' xpos='200' ypos='450' />
+<sql name='LT获得action 对应schema' xpos='200' ypos='550' >
 <![CDATA[
 SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableName= 'HCC.SVR.Prod.LT.ActionSchema' and KeyName=:request.Action]]>
 </sql>
-<if name='判断action和schema是否对应' condition='request.DocType=context.tDocType' xpos='200' ypos='450' xend='200' yend='1250' >
+<if name='判断action和schema是否对应' condition='request.DocType=context.tDocType' xpos='200' ypos='650' xend='200' yend='1450' >
 <true>
-<code name='判断消息体结构合规性' xpos='470' ypos='600' >
-<annotation><![CDATA[目前schema 都无法验证通过，所以手动将验证结果置为1]]></annotation>
+<code name='判断消息体结构合规性' xpos='470' ypos='800' >
 <![CDATA[ Set val=##class(Ens.Director).GetHostSettingValue("HCCPKG.FoundationProduction||HCC.SVR.Prod.BP.MainControl","MsgSchemaValidate",.tSC) 
   if (val=1) {
- Set tSchema="urn:hl7-org:v3 C:\HCC\schema\multicacheschemas\"_request.DocType_".xsd"	
+ Set tSchema="urn:hl7-org:v3 E:\HCC\schema\multicacheschemas\"_request.DocType_".xsd"	
  Set tSC=##class(%XML.TextReader).ParseStream(request.Message,.tReader,,,,tSchema)
  set context.verifyResult=0	
  set errCount=0
@@ -87,11 +92,11 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
   }
   else{set context.verifyResult=1}]]>
 </code>
-<code name='判断消息体值集合规性' xpos='470' ypos='700' >
+<code name='判断消息体值集合规性' xpos='470' ypos='900' >
 <![CDATA[  set msg=""
   Set val=##class(Ens.Director).GetHostSettingValue("HCCPKG.FoundationProduction||HCC.SVR.Prod.BP.MainControl","MsgValueSetValidate",.tSC) 
   if (val=1) 
-  {set context.valueVerifyResult=##class(HCC.SVR.Utils.XMLValid).Valid(request.Message,request.Action,.msg)
+  {set context.valueVerifyResult=##class(HCC.SVR.Utils.XMLValid).ValidDocsValueRange(request.Message,request.Action,.msg)
   set context.valueVerifyResult=val&&context.valueVerifyResult
   set context.ErrMsg=msg}
   else
@@ -99,9 +104,9 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
   set context.valueVerifyResult =1
   }]]>
 </code>
-<if name='判断合规结果' condition='(context.verifyResult =1)&amp;&amp;(context.valueVerifyResult=1)' xpos='470' ypos='800' xend='470' yend='1150' >
+<if name='判断合规结果' condition='(context.verifyResult =1)&amp;&amp;(context.valueVerifyResult=1)' xpos='470' ypos='1000' xend='470' yend='1350' >
 <true>
-<call name='订阅发布' target='HCC.SVR.Prod.BP.SubscribeAndPublish' async='1' xpos='470' ypos='950' >
+<call name='订阅发布' target='HCC.SVR.Prod.BP.SubscribeAndPublish' async='1' xpos='470' ypos='1150' >
 <request type='HCC.SVR.Prod.MSG.SVRRequest' >
 <assign property="callrequest" value="request" action="set" />
 </request>
@@ -111,38 +116,38 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </call>
 </true>
 <false>
-<code name='不合规' xpos='740' ypos='950' >
-<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnCommResult(context.action,"消息不合规"_$char(10)_context.ErrMsg)]]>
+<code name='不合规' xpos='740' ypos='1150' >
+<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(context.action,"消息不合规"_$char(10)_context.ErrMsg)]]>
 </code>
-<assign name="返回不合规消息" property="response" value="context.tResponse" action="set" xpos='740' ypos='1050' />
+<assign name="返回不合规消息" property="response" value="context.tResponse" action="set" xpos='740' ypos='1250' />
 </false>
 </if>
 </true>
 <false>
-<code name='action 和 schema 不对应' xpos='200' ypos='600' >
-<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnCommResult(context.action,"操作和schema类型不对应")]]>
+<code name='action 和 schema 不对应' xpos='200' ypos='800' >
+<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(context.action,"操作和schema类型不对应")]]>
 </code>
-<assign name="返回不对应消息" property="response" value="context.tResponse" action="set" xpos='200' ypos='700' />
+<assign name="返回不对应消息" property="response" value="context.tResponse" action="set" xpos='200' ypos='900' />
 </false>
 </if>
-<trace value='context.tDocType_"   "_request.DocType_"   "_context.verifyResult_"   "_context.valueVerifyResult_"   "_context.ErrMsg' xpos='200' ypos='1350' />
-<sync name='等待返回消息' calls='订阅发布' timeout='2' type='all' xpos='200' ypos='1450' />
-<if name='处理超时' condition='synctimedout =0' xpos='200' ypos='1550' xend='200' yend='1900' >
+<trace value='context.tDocType_"   "_request.DocType_"   "_context.verifyResult_"   "_context.valueVerifyResult_"   "_context.ErrMsg_" "' xpos='200' ypos='1550' />
+<sync name='等待返回消息' calls='订阅发布' timeout='2' type='all' xpos='200' ypos='1650' />
+<if name='处理超时' condition='synctimedout =0' xpos='200' ypos='1750' xend='200' yend='2100' >
 <false>
-<code name='生成超时返回消息' xpos='335' ypos='1700' >
+<code name='生成超时返回消息' xpos='335' ypos='1900' >
 <![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(request.MsgId,"消息处理超时"_$char(10)_context.ErrMsg)]]>
 </code>
-<assign name="返回消息" property="response" value="context.tResponse" action="set" xpos='335' ypos='1800' />
+<assign name="返回消息" property="response" value="context.tResponse" action="set" xpos='335' ypos='2000' />
 </false>
 </if>
-<trace value='synctimedout' xpos='200' ypos='2000' />
+<trace value='synctimedout' xpos='200' ypos='2200' />
 <faulthandlers>
-<catchall xpos='200' ypos='2100' xend='200' yend='550' >
+<catchall xpos='200' ypos='2300' xend='200' yend='550' >
 <trace value='"%LastError "_ $System.Status.GetErrorCodes(..%Context.%LastError)_ " : "_ $System.Status.GetOneStatusText(..%Context.%LastError)' xpos='200' ypos='250' />
-<code name='平台内部错误' xpos='200' ypos='350' >
+<code xpos='200' ypos='350' >
 <![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(request.MsgId,"平台内部异常.")]]>
 </code>
-<assign name="返回平台内部错误" property="response" value="context.tResponse" action="set" xpos='200' ypos='450' />
+<assign property="response" value="context.tResponse" action="set" xpos='200' ypos='450' />
 </catchall>
 </faulthandlers>
 </scope>

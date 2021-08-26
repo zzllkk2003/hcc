@@ -65,6 +65,14 @@ ClassMethod loadCV()
         }
 }
 
+ClassMethod loadCV0900404()
+{
+    Set ^WS.VS.CV0900404(1)="门诊"
+    Set ^WS.VS.CV0900404(2)="急诊"
+    Set ^WS.VS.CV0900404(3)="住院"
+    Set ^WS.VS.CV0900404(9)="其他"
+}
+
 /// 虽然有完整的GBTlist, 但电子病历数据集只用到以下的部分,手工添加，不用code
 /// GB/T 2261.1-2003* 性别
 /// GB/T 2261.2-2003*  婚姻状况
@@ -255,9 +263,22 @@ ClassMethod InitICD()
     s ^WS.VS.DE090010300(3)="丙"
 }
 
-/// 待导入
-ClassMethod InitICD9CM()
+/// 导入ICD9CM
+ClassMethod loadICD9CM()
 {
+    Set stream=##class(%Stream.FileCharacter).%New()
+    Set sc=stream.LinkToFile("C:\HCC\ICD-9.csv")
+    Set stream.TranslateTable = "UTF8"
+    
+    set lineNumber=1
+    set previousCV=""
+    
+    While 'stream.AtEnd 
+    {
+        Set line=stream.ReadLine()
+        set code=$ZStrip($p(line,",",1),"<>W"),desc=$ZStrip($p(line,",",2),"<>W")
+        set ^WS.VS.ICD9CM(code)=desc
+    }
 }
 
 /// 待导入

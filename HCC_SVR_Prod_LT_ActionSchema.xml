@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Export generator="IRIS" version="26" zv="IRIS for UNIX (Red Hat Enterprise Linux for x86-64) 2020.1 (Build 217_1_20418U)" ts="2021-07-13 10:26:17">
-<Document name="HCC.SVR.Prod.LT.ActionSchema.LUT">
-<lookupTable>
-<entry table="HCC.SVR.Prod.LT.ActionSchema" key="DocumentRegister">RCMR_IN000002UV02</entry>
-<entry table="HCC.SVR.Prod.LT.ActionSchema" key="PatientInfoQuery">PRPA_IN201305UV02</entry>
-<entry table="HCC.SVR.Prod.LT.ActionSchema" key="PatientInfoRegister">PRPA_IN201311UV02</entry>
-</lookupTable>
-</Document></Export>

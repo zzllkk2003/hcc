@@ -10,15 +10,15 @@ Parameter HandleCorsRequest = 1;
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
-    <Route Url="/DocumentHTML/:Id" Method="GET" Call="GetDocumentHTML"/>
-    <Route Url="/Document/:Id" Method="GET" Call="GetDocument"/>
-    <Route Url="/Document/:Id" Method="DELETE" Call="DeleteDoc"/>
-    <Route Url="/GenDocument/:Id" Method="GET" Call="GenerateDocFromSQL"/>
-    <Route Url="/DataSet" Method="GET" Call="ListDE"/>
-    <Route Url="/DataSet/:Id" Method="GET" Call="GetDE"/>
-    <Route Url="/DocSection/:Doctype" Method="GET" Call="GetDocSections"/>
-    <Route Url="/SystemSetting" Method="GET" Call="GetSystemSetting"/>
-    </Routes>
+<Route Url="/DocumentHTML/:Id" Method="GET" Call="GetDocumentHTML"/>
+<Route Url="/Document/:Id" Method="GET" Call="GetDocument"/>
+<Route Url="/Document/:Id" Method="DELETE" Call="DeleteDoc"/>
+<Route Url="/GenDocument/:Id" Method="GET" Call="GenerateDocFromSQL"/>
+<Route Url="/WSDE" Method="GET" Call="ListDE"/>
+<Route Url="/WSDE/:Id" Method="GET" Call="GetDE"/>
+<Route Url="/DocSection/:Doctype" Method="GET" Call="GetDocSections"/>
+<Route Url="/SystemSetting" Method="GET" Call="GetSystemSetting"/>
+</Routes>
 }
 
 /// 根据文档号，输出其HTML格式
@@ -76,6 +76,7 @@ ClassMethod GetDocSections(pDocType As %Numeric) As %Status
     SELECT JSON_ARRAYAGG(JSON_OBJECT('Section':DocumentSection,'Cardinality':Cardinality))
       INTO :tRet
       FROM WS_DOC.DocumentConfig
+     WHERE DocumentType=:pDocType
     )
     W tRet
     Return $$$OK
@@ -179,6 +180,13 @@ ClassMethod GetSystemSetting() As %Status
     Set tOutput."跳过值集检查" = $bit(^WS.Setting.Validation,1)
     Set tOutput."跳过数据元必要性约束检查" = $bit(^WS.Setting.Validation,2)
     Set tOutput."跳过章节必要性检查" = $bit(^WS.Setting.Validation,3)
+    Set tOutput.HostFacility=##class(%DynamicObject).%New()
+    Set tOutput.HostFacility.Id = $LG($G(^HCC("HostFacility")),1)
+    Set tOutput.HostFacility.Name=$LG($G(^HCC("HostFacility")),2)
+    Set tOutput."XSLFilePath"=$G(^HCC("XSLFilePath"))
+    Set tOutput."DocGenTask"=$G(^HCC("DocGenTask"))
+    Set tOutput."Debug模式"=$G(^HCC("Debug"))
+
     w tOutput.%ToJSON()
     Return $$$OK
 }
@@ -186,6 +194,20 @@ ClassMethod GetSystemSetting() As %Status
 /// 设置HCC系统设置
 ClassMethod SetSystemSettting() As %Status
 {
+}
+
+/// 启动后台产生SQL互联互通文档的服务
+/// 考虑是否用系统task实现！？
+ClassMethod StartSQLDocGenJob()
+{
+    job ##class(HCC.Util).CreateDocTask()
+    W 1
+}
+
+/// 停止后台产生SQL互联互通文档的服务
+ClassMethod StopSQLDocGenJob()
+{
+    W ##class(HCC.Util).StopCreateDocTask()
 }
 
 }

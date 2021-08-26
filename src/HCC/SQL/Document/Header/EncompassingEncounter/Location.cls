@@ -2,6 +2,9 @@
 Class HCC.SQL.Document.Header.EncompassingEncounter.Location Extends (%Persistent, %XML.Adaptor)
 {
 
+/// 病床标识
+Property bedId As %String [ SqlFieldName = bed_id ];
+
 /// 病床号
 Property bedNum As WS.DE.DE010002600 [ SqlFieldName = bed_num ];
 
@@ -22,6 +25,12 @@ Property deptId As %String [ SqlFieldName = dept_id ];
 
 /// 科室名称
 Property deptName As WS.DE.DE081002600 [ Required, SqlFieldName = dept_name ];
+
+/// 医院标识
+Property hosId As %String [ InitialExpression = {$lg(^HCC("HostFacility"),1)}, SqlFieldName = hos_id ];
+
+/// 医院名称
+Property hosName As %String [ InitialExpression = {$lg(^HCC("HostFacility"),2)}, SqlFieldName = hos_name ];
 
 /// 文档编号
 Relationship Encounter As HCC.SQL.Document.Header.EncompassingEncounter [ Cardinality = parent, Inverse = Locations, SqlFieldName = DocumentNo ];
@@ -52,6 +61,15 @@ Storage Default
 </Value>
 <Value name="8">
 <Value>deptName</Value>
+</Value>
+<Value name="9">
+<Value>hosId</Value>
+</Value>
+<Value name="10">
+<Value>hosName</Value>
+</Value>
+<Value name="11">
+<Value>bedId</Value>
 </Value>
 </Data>
 <DataLocation>{%%PARENT}("Locations")</DataLocation>

@@ -39,7 +39,7 @@ Property DocCreatTime As %TimeStamp;
 Property VersionNumber As %Integer [ InitialExpression = 1 ];
 
 /// 文档原始内容
-Property Content As %String(MAXLEN = 4000000);
+Property Content As %String(MAXLEN = "");
 
 // Property PatId As %String;
 
@@ -90,7 +90,7 @@ Property RepHosName As %String;
 Property AddDate As %TimeStamp;
 
 /// 病人 one
-Relationship Patient As HCC.DocRepository.Patient [ Cardinality = one, Inverse = Doc ];
+Relationship Patient As HCC.DocRepository.Patient(XMLPROJECTION = "element") [ Cardinality = one, Inverse = Doc ];
 
 Storage Default
 {

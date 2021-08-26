@@ -71,10 +71,10 @@ Property anesthesiaObservation As WS.DE.DE021002800 [ SqlFieldName = anesth_obs 
 /// 麻醉中西医标识代码。用于《检查报告》
 Property anesthesiaWay As WS.DE.DE060030700 [ SqlFieldName = anesth_way ];
 
-/// 操作日期/时间
+/// 操作开始日期/时间
 Property beginTime As WS.DE.DE060022100 [ SqlFieldName = begin_time ];
 
-/// 操作日期/时间
+/// 操作结束日期/时间
 Property endTime As WS.DE.DE060021800 [ SqlFieldName = end_time ];
 
 /// 手术间编号

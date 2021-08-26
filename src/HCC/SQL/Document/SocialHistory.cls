@@ -1,8 +1,7 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
-/// 个人史/社会史章节条目
-/// 注意，这不是章节类，是社会史条目类，不需要社会史章节类
+/// 个人史/社会史章节
 Class HCC.SQL.Document.SocialHistory Extends (%Persistent, %XML.Adaptor)
 {
 
@@ -14,8 +13,13 @@ Parameter SectionCodeSystemOID = "2.16.840.1.113883.6.1";
 
 Parameter SectionCodeSystem = "LOINC";
 
-/// 文档号
-Relationship DocumentNo As HCC.SQL.Document(XMLPROJECTION = "NONE") [ Cardinality = parent, Inverse = SocialHistories ];
+/// 文档编号 (同时作为Idkey)
+Property DocumentNo As %String(XMLPROJECTION = "NONE");
+
+Index IdDocNo On DocumentNo [ IdKey, Unique ];
+
+/// 建立与HCC.SQL.Document.Header的外键
+ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(IdKey);
 
 /// 社会史
 Property code As WS.DE.DE021009700;
@@ -30,9 +34,9 @@ Storage Default
 <Value>code</Value>
 </Value>
 </Data>
-<DataLocation>{%%PARENT}("VaccinationHistories")</DataLocation>
+<DataLocation>^HCC.SQL.Docu70F6.SocialHistoryD</DataLocation>
 <DefaultData>SocialHistoryDefaultData</DefaultData>
-<IdLocation>^HCC.SQL.DocumentC("VaccinationHistories")</IdLocation>
+<IdLocation>^HCC.SQL.Docu70F6.SocialHistoryD</IdLocation>
 <IndexLocation>^HCC.SQL.Docu70F6.SocialHistoryI</IndexLocation>
 <StreamLocation>^HCC.SQL.Docu70F6.SocialHistoryS</StreamLocation>
 <Type>%Storage.Persistent</Type>

@@ -21,24 +21,15 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>diagnosisName</Value>
-</Value>
-<Value name="3">
-<Value>diagnosisCode</Value>
-</Value>
-<Value name="4">
-<Value>effectiveTime</Value>
-</Value>
-<Value name="5">
-<Value>sickCondition</Value>
-</Value>
-<Value name="6">
 <Value>diag</Value>
 </Value>
+<Value name="3">
+<Value>sickCondition</Value>
+</Value>
 </Data>
-<DataLocation>^HCC.SQL.Document.HosC1CC.OtherD</DataLocation>
+<DataLocation>{%%PARENT}("Others")</DataLocation>
 <DefaultData>OtherDefaultData</DefaultData>
-<IdLocation>^HCC.SQL.Document.HosC1CC.OtherD</IdLocation>
+<IdLocation>^HCC.SQL.Do70F6.HospitalDisC1A4C("Others")</IdLocation>
 <IndexLocation>^HCC.SQL.Document.HosC1CC.OtherI</IndexLocation>
 <StreamLocation>^HCC.SQL.Document.HosC1CC.OtherS</StreamLocation>
 <Type>%Storage.Persistent</Type>

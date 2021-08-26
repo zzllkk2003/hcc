@@ -11,6 +11,9 @@ Property name As WS.DE.DE043002000 [ SqlFieldName = name ];
 /// 检验项目代码
 Property code As WS.DE.DE043001900 [ SqlFieldName = code ];
 
+/// 检验日期
+Property date As WS.DE.DE045014000 [ SqlFieldName = date ];
+
 /// 标本
 Property specimen As HCC.SQL.Document.Specimen [ SqlFieldName = specimen ];
 
@@ -52,6 +55,9 @@ Storage Default
 </Value>
 <Value name="8">
 <Value>name</Value>
+</Value>
+<Value name="9">
+<Value>date</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.Document.LabTest.ItemD</DataLocation>
