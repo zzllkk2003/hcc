@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for UNIX (Red Hat Enterprise Linux for x86-64) 2020.1 (Build 217_1_20418U)" ts="2021-08-16 10:11:31">
+<Document name="HCC.SVR.Prod.LT.ActionSchemaSync.LUT">
+<lookupTable>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="BloodTransAppInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="CheckAppInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="CheckAppointStatusInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="CheckStatusInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="DischargeInfoQuery">PRPA_IN900300UV02</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="DocumentAccess">RCMR_IN000031UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="DocumentRegister">RCMR_IN000002UV02</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="DocumentRetrieve">RCMR_IN000029UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="EncounterCardInfoQuery">PRPA_IN201305UV02</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="ExamAppInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="ExamStatusInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="InPatientInfoQuery">PRPA_IN900300UV02</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="OperationAppInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="OperationScheduleInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="OperationStatusInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="OrderFillerStatusInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="OrderInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="OrganizationInfoQuery">PRPM_IN406010UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="OutPatientAppointStatusInfoQuery">PRPA_IN900300UV</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="OutPatientInfoQuery">PRPA_IN900300UV02</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="PathologyAppInfoQuery">QUMT_IN020030UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="PatientInfoMerge">PRPA_IN201304UV02</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="PatientInfoQuery">PRPA_IN201305UV02</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="ProviderInfoQuery">PRPM_IN306010UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="SourceAndScheduleInfoQuery">PRSC_IN100000UV</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="TerminologyQuery">PRVS_IN000003UV01</entry>
+<entry table="HCC.SVR.Prod.LT.ActionSchema" key="TransferInfoQuery">PRPA_IN900300UV02</entry>
+</lookupTable>
+</Document></Export>

@@ -1,11 +1,6 @@
 /// 
-Class HCC.SVR.Prod.BP.SubscribeAndPublish Extends Ens.BusinessProcessBPL
+Class HCC.SVR.Prod.BP.SubscribeAndPublishSync Extends Ens.BusinessProcessBPL
 {
-
-Storage Default
-{
-<Type>%Storage.Persistent</Type>
-}
 
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
@@ -64,11 +59,14 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </foreach>
 </false>
 </if>
-<code xpos='200' ypos='900' >
-<![CDATA[ set response= ##class(HCC.Utils.ResponseHelper).ReturnSuccessMsgNoContentAndSenderInfo(request.MsgId)]]>
-</code>
+<sync calls='同步订阅者' type='all' xpos='200' ypos='900' />
 </sequence>
 </process>
+}
+
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
 }
 
 }

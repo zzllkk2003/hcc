@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-13 15:14:20
-/// LastEditTime: 2021-07-16 14:18:51
+/// LastEditTime: 2021-08-27 16:42:37
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/SVR/Prod/BO/SaveCDAOperation.cls
@@ -117,10 +117,12 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         {   
            Set DocContent = $ZCONVERT(DocContent,"O","UTF8")
            Set ValueVResult= ##class(HCC.Utils.XMLValid).ValidDocsValueRange(##class(HS.Util.StreamUtils).EnsureStream(DocContent),pDoc.DocType,.ValueErr)
-           
-           $$$LOGINFO("fdajfokajskfjkaljfa: "_ValueVResult)
-           $$$LOGINFO("******fdajfokajskfjkaljfa: "_ValueErr)
-           
+
+           $$$LOGINFO(DocContent)
+
+           $$$LOGINFO("验证结果"_ValueVResult_"-----------"_SchemaVResult)
+
+           $$$LOGINFO(ValueErr)
            
         }
         // 验证文档是否符合schema 规则
@@ -129,14 +131,24 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
             Set SchemaVResult = ##class(HCC.Utils.SchemaValidate).Validate(##class(HS.Util.StreamUtils).EnsureStream(DocContent),.SchemaErr)
         }
 
-        If ((ValueVResult=0)&&(SchemaVResult=1))
+        If (ValueVResult=0)&&(SchemaVResult=1)
         {
             Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档结构验证成功，文档值域验证失败："_$CHAR(10)_ValueErr)
+            Quit
+        }
+         If (ValueVResult=0)&&(SchemaVResult="")
+        {
+            Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档结构验证未验证，文档值域验证失败："_$CHAR(10)_ValueErr)
             Quit
         }
         If (ValueVResult=1)&&(SchemaVResult=0)
         {
             Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档值域验证成功，文档结构验证失败："_$CHAR(10)_SchemaErr)
+            Quit
+        }
+         If (ValueVResult="")&&(SchemaVResult=1)
+        {
+            Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档值域未验证，文档结构验证失败："_$CHAR(10)_SchemaErr)
             Quit
         }
         If (ValueVResult=0)&&(SchemaVResult=0)
