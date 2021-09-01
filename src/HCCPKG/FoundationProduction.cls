@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-08-26 11:02:59
+/// LastEditTime: 2021-08-27 17:56:04
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCCPKG/FoundationProduction.cls
+/// Jeff.liu@intersytems.com
+/// 
 Class HCCPKG.FoundationProduction Extends Ens.Production [ Not ProcedureBlock ]
 {
 
@@ -26,10 +35,12 @@ XData ProductionDefinition
     <Setting Target="Host" Name="DomainName">HLHT</Setting>
   </Item>
   <Item Name="HCC.SVR.Prod.BO.AccessCDAOperation" Category="" ClassName="HCC.SVR.Prod.BO.AccessCDAOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="DocAccessXSL">E:\1234\DocumentAccess.xsl</Setting>
+    <Setting Target="Host" Name="DocAccessXSL">/isc/irishealth/mgr/HCC/xsl/DocumentAccess.xsl</Setting>
   </Item>
   <Item Name="HCC.SVR.Prod.BO.RetrieveCDAOperation" Category="" ClassName="HCC.SVR.Prod.BO.RetrieveCDAOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="DocRetrieveXSL">E:\1234\DocRetrieve.xsl</Setting>
+    <Setting Target="Host" Name="DocRetrieveXSL">/isc/irishealth/mgr/HCC/xsl/DocRetrieve.xsl</Setting>
+  </Item>
+  <Item Name="HCC.SVR.Prod.BP.SubscribeAndPublishSync" Category="" ClassName="HCC.SVR.Prod.BP.SubscribeAndPublishSync" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
 </Production>
 }

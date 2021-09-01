@@ -8,7 +8,10 @@ Property MsgSchemaValidate As %Boolean [ InitialExpression = 0 ];
 /// 值集验证设置
 Property MsgValueSetValidate As %Boolean [ InitialExpression = 0 ];
 
-Parameter SETTINGS = "MsgSchemaValidate:Basic,MsgValueSetValidate:Basic";
+/// 消息 schema 文件夹路径
+Property SchemaFolder As %String(MAXLEN = "");
+
+Parameter SETTINGS = "MsgSchemaValidate:Basic,MsgValueSetValidate:Basic,SchemaFolder:Basic:directorySelector";
 
 Storage Default
 {
@@ -19,6 +22,9 @@ Storage Default
 </Value>
 <Value name="2">
 <Value>MsgValueSetValidate</Value>
+</Value>
+<Value name="3">
+<Value>SchemaFolder</Value>
 </Value>
 </Data>
 <DefaultData>MainControlDefaultData</DefaultData>
@@ -111,7 +117,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </code>
 <if name='判断合规结果' condition='(context.verifyResult =1)&amp;&amp;(context.valueVerifyResult=1)' xpos='470' ypos='1000' xend='470' yend='1600' >
 <true>
-<sql xpos='740' ypos='1150' >
+<sql name='查询服务同步还是异步' xpos='740' ypos='1150' >
 <![CDATA[select DataValue into :context.IfSync From Ens_Util.LookupTable where KeyName = :request.Action and TableName='HCC.SVR.Prod.LT.ActionSchemaSync']]>
 </sql>
 <if name='判断同步服务还是异步服务' condition='context.IfSync = ""' xpos='740' ypos='1250' xend='740' yend='1500' >
@@ -121,7 +127,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 <assign property="callrequest" value="request" action="set" />
 </request>
 <response type='HCC.SVR.Prod.MSG.SVRResponse' >
-<assign property="response" value="callresponse" action="set" />
+<assign property="context.tResponse" value="callresponse" action="set" />
 </response>
 </call>
 </true>
@@ -131,7 +137,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 <assign property="callrequest" value="request" action="set" />
 </request>
 <response type='HCC.SVR.Prod.MSG.SVRResponse' >
-<assign property="response" value="callresponse" action="set" />
+<assign property="context.tResponse" value="callresponse" action="set" />
 </response>
 </call>
 </false>
@@ -141,7 +147,6 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 <code name='不合规' xpos='470' ypos='1150' >
 <![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(context.action,"消息不合规"_$char(10)_context.ErrMsg)]]>
 </code>
-<assign name="返回不合规消息" property="response" value="context.tResponse" action="set" xpos='470' ypos='1250' />
 </false>
 </if>
 </true>
@@ -149,20 +154,19 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 <code name='action 和 schema 不对应' xpos='200' ypos='800' >
 <![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(context.action,"操作和schema类型不对应")]]>
 </code>
-<assign name="返回不对应消息" property="response" value="context.tResponse" action="set" xpos='200' ypos='900' />
 </false>
 </if>
 <trace value='context.tDocType_"   "_request.DocType_"   "_context.verifyResult_"   "_context.valueVerifyResult_"   "_context.ErrMsg_" "' xpos='200' ypos='1800' />
 <sync name='等待返回消息' calls='同步订阅发布,异步订阅发布' timeout='2' type='all' xpos='200' ypos='1900' />
-<if name='处理超时' condition='synctimedout =0' xpos='200' ypos='2000' xend='200' yend='2350' >
+<if name='处理超时' condition='synctimedout =0' xpos='200' ypos='2000' xend='200' yend='2250' >
 <false>
 <code name='生成超时返回消息' xpos='335' ypos='2150' >
 <![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(request.MsgId,"消息处理超时"_$char(10)_context.ErrMsg)]]>
 </code>
-<assign name="返回消息" property="response" value="context.tResponse" action="set" xpos='335' ypos='2250' />
 </false>
 </if>
-<trace value='synctimedout' xpos='200' ypos='2450' />
+<trace value='synctimedout' xpos='200' ypos='2350' />
+<assign name="返回标准消息" property="response" value="context.tResponse" action="set" xpos='200' ypos='2450' />
 <faulthandlers>
 <catchall xpos='200' ypos='2550' xend='200' yend='550' >
 <trace value='"%LastError "_ $System.Status.GetErrorCodes(..%Context.%LastError)_ " : "_ $System.Status.GetOneStatusText(..%Context.%LastError)' xpos='200' ypos='250' />

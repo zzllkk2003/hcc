@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-08-27 13:37:11
+/// LastEditTime: 2021-08-31 17:51:40
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Interface/PubSub/PubSubServer.cls
@@ -41,14 +41,11 @@ ClassMethod NewSubscriber() As %Status
   Do ..CopyToPubSubModelFromJSON(.PubSub,obj)
   
   set bName = PubSub.SubscriberBusinessHostName
+    set cID=""
    // 加入 BO
-    set myquery= "select %ID From Ens_Config.Item where Name = ?"
-    Set tStatement = ##class(%SQL.Statement).%New()
-    Set qStatus = tStatement.%Prepare(myquery)
-    If qStatus'=1 {Write "%Prepare failed:" Do $SYSTEM.Status.DisplayError(qStatus) Quit}
-    Set rset = tStatement.%Execute(bName)
+    &sql(select %ID into :cID from Ens_Config.Item where Name = :bName)
 	// if bo doesn't exist add 
-   if ('rset.%Next())
+   if ( cID ="")
    {	   
   #Dim BusinessHost as Ens.Config.Item = ##class(Ens.Config.Item).%New()
   #Dim Setting as Ens.Config.Setting = ##class(Ens.Config.Setting).%New()
@@ -75,19 +72,9 @@ ClassMethod NewSubscriber() As %Status
    }
    else
    {
-	   set cID=""
-	      set sqlstr= "select %ID from Ens_Config.Item where Name = ?"
-    Set tStatement = ##class(%SQL.Statement).%New()
-    Set qStatus = tStatement.%Prepare(sqlstr)
-    If qStatus'=1 {Write "%Prepare failed:" Do $SYSTEM.Status.DisplayError(qStatus) Quit}
-    Set rset = tStatement.%Execute(bName)
-    while rset.%Next()
-    {
-	    set cID = rset.%Get("ID")
-	    
-	 }
+     
 	   set cItem= ##class(Ens.Config.Item).%OpenId(cID)
-	   
+
 	      for index=1:1:cItem.Settings.Count()
 	      {
 		      if (cItem.Settings.GetAt(index).Name ="WebServiceURL")
@@ -108,14 +95,14 @@ ClassMethod NewSubscriber() As %Status
 		do cItem.%Save() 
 		    Do ##class(Ens.Director).UpdateProduction() 	  
 	   }
-	   
+   
    
   //TODO: Domain 目前写死
   set SubscriberExit= ##class(EnsLib.PubSub.Subscriber).FindSubscriberId("HLHT",PubSub.SubscriberName)
   if (SubscriberExit ="")
   {
   Set tsc = ..AddSubscriber("HLHT",PubSub.SubscriberName,PubSub.SubscriberBusinessHostName)
-  }
+  
   If tsc = 0
   {
       //失败返回消息并回退删除已经添加的BO
@@ -125,7 +112,10 @@ ClassMethod NewSubscriber() As %Status
       do ##class(Ens.Config.Item).%DeleteId(BusinessHost.%Id())
       Quit $$$OK
   } 
-  
+  }
+  else{
+    &sql(update EnsLib_PubSub.Subscriber set Target=:bName where Name= :PubSub.SubscriberName)
+  }
   
    set sqlstr= "select Topic from EnsLib_PubSub.Subscription where Subscriber = ?"
     Set tStatement = ##class(%SQL.Statement).%New()

@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-13 15:14:20
-/// LastEditTime: 2021-08-27 16:42:37
+/// LastEditTime: 2021-09-01 16:58:26
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/SVR/Prod/BO/SaveCDAOperation.cls
@@ -17,7 +17,10 @@ Property DocSchemaValidate As %Boolean [ InitialExpression = 0 ];
 /// 文档值集验证设置
 Property DocValueSetValidate As %Boolean [ InitialExpression = 0 ];
 
-Parameter SETTINGS = "DocSchemaValidate:Basic,DocValueSetValidate:Basic";
+/// 消息 schema 文件夹路径
+Property SchemaFolder As %String(MAXLEN = "");
+
+Parameter SETTINGS = "DocSchemaValidate:Basic,DocValueSetValidate:Basic,SchemaFolder:Basic:directorySelector";
 
 Parameter INVOCATION = "Queue";
 
@@ -87,11 +90,11 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         
        // set InHosCS="""2.16.156.10011.1.12"""
         //Set gxwdDoc.PatInHosCode =pDoc.GetValueAt("//*[@root="_InHosCS_"]/@extension")
-        $$$LOGINFO(gxwdDoc.PatInHosCode)
+        $$$TRACE(gxwdDoc.PatInHosCode)
         /// 门诊号标识
        // SET OutPatCS="""2.16.156.10011.1.11"""
        // Set gxwdDoc.PatOutHosCode =pDoc.GetValueAt("//*[@root="_OutPatCS_"]/@extension")
-        $$$LOGINFO(gxwdDoc.PatOutHosCode)
+        $$$TRACE(gxwdDoc.PatOutHosCode)
         /// 患者姓名
         //Set gxwdDoc.PatName =pDoc.GetValueAt("controlActProcess(1).subject(1).clinicalDocument(1).recordTarget(1).patient(1).choice.patientPerson(1).name(1).item(1).part(1).value")
 
@@ -101,34 +104,36 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
 
         //获得文档BASE64字符串
         Set DocBase64 = pDoc.GetValueAt("/RCMR_IN000002UV02/controlActProcess[1]/subject[1]/clinicalDocument[1]/storageCode[1]/originalText[1]/@value") 
-        $$$LOGINFO(DocBase64)
+        $$$TRACE(DocBase64)
         //Base64 解码
         Set DocContent= ##class(%SYSTEM.Encryption).Base64Decode(DocBase64)
 
         /// 文档原始内容
         Set DocContent = $ZCONVERT(DocContent,"I","UTF8")
+        Set DocContent = $ZCONVERT(DocContent,"O","UTF8")
         
         
-        
-        $$$LOGINFO("验证设置"_..DocSchemaValidate_"  "_..DocValueSetValidate)
+        $$$TRACE("验证设置"_..DocSchemaValidate_"  "_..DocValueSetValidate)
         // 验证文档是否符合值域规则
         
         If (..DocValueSetValidate =1)
         {   
-           Set DocContent = $ZCONVERT(DocContent,"O","UTF8")
+           
            Set ValueVResult= ##class(HCC.Utils.XMLValid).ValidDocsValueRange(##class(HS.Util.StreamUtils).EnsureStream(DocContent),pDoc.DocType,.ValueErr)
 
-           $$$LOGINFO(DocContent)
+           $$$TRACE(DocContent)
 
-           $$$LOGINFO("验证结果"_ValueVResult_"-----------"_SchemaVResult)
+           $$$TRACE("验证结果"_ValueVResult_"-----------"_SchemaVResult)
 
-           $$$LOGINFO(ValueErr)
+           $$$TRACE(ValueErr)
            
         }
         // 验证文档是否符合schema 规则
         If (..DocSchemaValidate =1)
-        {
-            Set SchemaVResult = ##class(HCC.Utils.SchemaValidate).Validate(##class(HS.Util.StreamUtils).EnsureStream(DocContent),.SchemaErr)
+        {   
+            set SchemaErr=""
+            Set SchemaVResult = ##class(HCC.Utils.SchemaValidate).Validate(##class(HS.Util.StreamUtils).EnsureStream(DocContent),..SchemaFolder,.SchemaErr)
+            $$$TRACE(SchemaErr)
         }
 
         If (ValueVResult=0)&&(SchemaVResult=1)
@@ -146,7 +151,7 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
             Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档值域验证成功，文档结构验证失败："_$CHAR(10)_SchemaErr)
             Quit
         }
-         If (ValueVResult="")&&(SchemaVResult=1)
+         If (ValueVResult="")&&(SchemaVResult=0)
         {
             Set pResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(pRequest.MsgId,"文档值域未验证，文档结构验证失败："_$CHAR(10)_SchemaErr)
             Quit

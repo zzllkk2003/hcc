@@ -23,7 +23,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </property>
 <property name='tResponse' type='HCC.SVR.Prod.MSG.SVRResponse' instantiate='1' />
 </context>
-<sequence xend='200' yend='1000' >
+<sequence xend='200' yend='900' >
 <assign name="设定订阅topic" property="context.EventName" value="request.Action" action="set" xpos='200' ypos='250' >
 <annotation><![CDATA[根据请求消息的Action]]></annotation>
 </assign>
@@ -36,12 +36,11 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <assign property="context.TargetList" value="callresponse.TargetList" action="set" />
 </response>
 </call>
-<if name='判断是否有订户' condition='context.TargetList.Count()=0' xpos='200' ypos='450' xend='200' yend='800' >
+<if name='判断是否有订户' condition='context.TargetList.Count()=0' xpos='200' ypos='450' xend='200' yend='700' >
 <true>
 <code name='业务未实现，没有订户' xpos='470' ypos='600' >
 <![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(request.MsgId,"异常服务代码，系统未实现该业务流程,没有订阅方.")]]>
 </code>
-<assign name="返回业务未实现，没有订户" property="response" value="context.tResponse" action="set" xpos='470' ypos='700' />
 </true>
 <false>
 <foreach name='发送请求消息到订阅者' property='context.TargetList' key='context.Iterator' xpos='200' ypos='600' xend='200' yend='550' >
@@ -59,7 +58,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </foreach>
 </false>
 </if>
-<sync calls='同步订阅者' type='all' xpos='200' ypos='900' />
+<sync calls='同步订阅者' type='all' xpos='200' ypos='800' />
 </sequence>
 </process>
 }

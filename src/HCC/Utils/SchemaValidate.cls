@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-08-11 13:30:11
-/// LastEditTime: 2021-08-13 17:04:17
+/// LastEditTime: 2021-09-01 16:46:09
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Utils/SchemaValidate.cls
@@ -12,11 +12,11 @@ Class HCC.Utils.SchemaValidate Extends %RegisteredObject
 {
 
 /// 验证xml schema
-ClassMethod Validate(Msg As %Stream.GlobalCharacter, ByRef Errors) As %Status
+ClassMethod Validate(Msg As %Stream.GlobalCharacter, SchemaFolder As %String, ByRef Errors As %String) As %Boolean
 {
    
   set ErrMsg =""
- Set tSchema="urn:hl7-org:v3 /home/UCR/V3SCHEMA/cda/CDA.xsd"	
+ Set tSchema="urn:hl7-org:v3 "_SchemaFolder_"CDA.xsd"	
  Set tSC=##class(%XML.TextReader).ParseStream(Msg,.tReader,,,,tSchema)
  set verifyResult=0	
  set errCount=0

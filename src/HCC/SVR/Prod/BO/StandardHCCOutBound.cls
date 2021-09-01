@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-08-11 13:30:11
+/// LastEditTime: 2021-09-01 17:02:32
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/SVR/Prod/BO/StandardHCCOutBound.cls
+/// Jeff.liu@intersytems.com
+/// 
 Class HCC.SVR.Prod.BO.StandardHCCOutBound Extends Ens.BusinessOperation [ ProcedureBlock ]
 {
 
@@ -19,7 +28,7 @@ Method PatRegister(tRequest As HCC.SVR.Prod.MSG.SVRRequest, Output tResponse As 
  Set tSC = ..Adapter.InvokeMethod("PatRegister",.PatRegisterResult,pRequest.pat)  Quit:$$$ISERR(tSC) tSC
  Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
  Set pResponse.PatRegisterResult=$get(PatRegisterResult)
- $$$LOGINFO(pResponse.PatRegisterResult)
+ $$$TRACE(pResponse.PatRegisterResult)
  set x=pResponse.PatRegisterResult
  //set stream =##class(%Stream.GlobalCharacter).%New()
  do tResponse.Message.Write(x)
