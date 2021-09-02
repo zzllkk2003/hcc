@@ -1,7 +1,7 @@
 /// HealthConnect消息及服务的一些统计示例<br/>
-/// Business logic class defined by OpenAPI in HCC.api.spec<br/>
-/// Updated Aug 20, 2021 16:41:38
-Class HCC.api.impl Extends %REST.Impl [ ProcedureBlock ]
+/// Business logic class defined by OpenAPI in HCC.Interface.Monitor.spec<br/>
+/// Updated Aug 30, 2021 12:57:17
+Class HCC.Interface.Monitor.impl Extends %REST.Impl [ ProcedureBlock ]
 {
 
 /// If ExposeServerExceptions is true, then details of internal errors will be exposed.

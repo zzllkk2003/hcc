@@ -5,9 +5,6 @@
 Class HCC.SQL.Tools Extends %RegisteredObject
 {
 
-/// 输出XML文件的路径
-Parameter SampleOutputFolder = "c:\temp\HCC\samples\";
-
 /// 关系属性列表
 Parameter tRSList = "HCC.SQL.Document.HighValueConsumable,HCC.SQL.Document.NursingObservation,HCC.SQL.Document.Symptom,HCC.SQL.Document.MedicationAdministered,HCC.SQL.Document.PhysicalExam,HCC.SQL.Document.FamilyHistory,HCC.SQL.Document.VitalSign,HCC.SQL.Document.Vaccination,HCC.SQL.Document.NursingOperation,HCC.SQL.Document.SupplementaryExam,HCC.SQL.Document.SurgicalOperationNotePostoperativeDX,HCC.SQL.Document.Anesthesia,";
 
@@ -196,7 +193,14 @@ ClassMethod GenerateHCCDocument(pDocNo = "Doc21", Output pDoc As %Stream.TmpChar
         If ($G(^HCC("Debug"))=1)
         {
             Set tFile = ##class(%Stream.FileCharacter).%New()
-            Set tSC=tFile.LinkToFile(..#SampleOutputFolder_pDocNo_".xml")
+            Set tSplit=$Case($system.Version.GetOS(),"Windows":"\",:"/")
+            Set tFilePath = $ZStrip($G(^HCC("Debug","SQLDocOutputFolder")), "<>W")
+            if ($E(tFilePath,$L(tFilePath))'="\") || ($E(tFilePath,$L(tFilePath))'="/") 
+            {
+                Set tFilePath = tFilePath_tSplit
+            }
+
+            Set tSC=tFile.LinkToFile(tFilePath_pDocNo_".xml")
             Set tFile.TranslateTable = "UTF8"
             Set tSC = tDoc.XMLExportToStream(tFile)
             Do tFile.%Save()
@@ -317,7 +321,7 @@ ClassMethod TestDocumentGenerate(pDocNo = "Doc123456", pDocType = 1)
     :pDocNo/*DocumentNo*/,
     :pDocType)
     )
-    W:(SQLCODE'=0) "HCC_SQL.Document:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL.Document:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成文件头
@@ -398,7 +402,8 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     recTgt_labrep_num_Value,
     recTgt_spec_num_Value,
     recTgt_op_num_Value,
-    recTgt_pat_Type_Value
+    recTgt_pat_Type_Value,
+    recTgt_con_num_Value
     ) 
     values(
     :pDocNo /*DocumentNo*/,
@@ -468,10 +473,11 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     'LR9766'/*recTgt_labrep_num_Value*/,
     'SP7888'/*recTgt_spec_num_Value*/,
     'OP235123465'/*recTgt_op_num_Value*/,
-    '2'/*recTgt_pat_Type_Value*/
+    '2'/*recTgt_pat_Type_Value*/,
+    'A001'/*recTgt_con_num_Value*/
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Header:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Header:",SQLCODE,": ",%msg,!
     /// 插入医生签名信息，法定审核者
     &SQL(insert into HCC_SQL_Document_Header.LegalAuthenticator(
     DocumentNo,
@@ -489,7 +495,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '2020-09-29 10:30:00'/*time_Value*/
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.LegalAuthenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.LegalAuthenticator:",SQLCODE,": ",%msg,!
     
     &SQL(insert into HCC_SQL_Document_Header.LegalAuthenticator(
     DocumentNo,
@@ -507,7 +513,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '2020-09-29 10:30:00'/*time_Value*/
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.LegalAuthenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.LegalAuthenticator:",SQLCODE,": ",%msg,!
 
 
     /// 插入医生签名信息，法定审核者(可以多条)
@@ -529,7 +535,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     3
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Authenticator(
     DocumentNo,
     asgnEnty_code,
@@ -548,7 +554,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     3
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Authenticator(
     DocumentNo,
     asgnEnty_code,
@@ -567,7 +573,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     3
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Authenticator(
     DocumentNo,
     asgnEnty_code,
@@ -586,7 +592,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     3
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Authenticator(
     DocumentNo,
     asgnEnty_code,
@@ -605,7 +611,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     4
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Authenticator(
     DocumentNo,
     asgnEnty_code,
@@ -624,7 +630,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     4
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Authenticator(
     DocumentNo,
     asgnEnty_code,
@@ -643,7 +649,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     5
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Authenticator(
     DocumentNo,
     asgnEnty_code,
@@ -662,7 +668,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     2
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     
     /// 插入联系人(可以多条)
     &SQL(insert into HCC_SQL_Document_Header.Participant(
@@ -693,7 +699,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '1300000000'/*telcom_Value*/,
     'NOT')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Participant(
     DocumentNo,
     assocPers_name_Value,
@@ -706,7 +712,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     null/*associatedEntity_code_Value*/,
     'ORG')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Participant(
     DocumentNo,
     assocPers_name_Value,
@@ -719,7 +725,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     null/*associatedEntity_code_Value*/,
     'ATND')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Participant(
     DocumentNo,
     assocPers_name_Value,
@@ -732,7 +738,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     null/*associatedEntity_code_Value*/,
     'ATND')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Participant(
     DocumentNo,
     assocPers_name_Value,
@@ -745,7 +751,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     null/*associatedEntity_code_Value*/,
     'CON')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
     &SQL(insert into HCC_SQL_Document_Header.Participant(
     DocumentNo,
     assocPers_name_Value,
@@ -758,7 +764,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     null/*associatedEntity_code_Value*/,
     'CON')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
     
     &SQL(insert into HCC_SQL_Document_Header.Participant(
     DocumentNo,
@@ -772,7 +778,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     null/*associatedEntity_code_Value*/,
     'PRCP')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
 
     &SQL(insert into HCC_SQL_Document_Header.Participant(
     DocumentNo,
@@ -786,7 +792,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     null/*associatedEntity_code_Value*/,
     'PRCP')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
     
     &SQL(insert into HCC_SQL_Document_Header.Participant(
     DocumentNo,
@@ -800,7 +806,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '系联总医院'/*whol_org*/,
     'PRF')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
 
     /// 插入病史陈述者(可以多条)
     &SQL(insert into HCC_SQL_Document_Header.Informant(
@@ -813,7 +819,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '李萍'
     )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
 
 
     /// 插入关联活动(可以多条)
@@ -828,7 +834,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     null/*parentDocument_setId*/,
     1/*parentDocument_versionNumber*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.RelatedDocument:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.RelatedDocument:",SQLCODE,": ",%msg,!
     /// 插入就诊场景
     &SQL(insert or update into HCC_SQL_Document_Header.EncompassingEncounter(
     DocumentNo,
@@ -841,7 +847,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '2020-09-29 09:30:00'/*discharge_time_Value*/,
     '2020-09-20 10:30:00'/*admit_time_Value*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.EncompassingEncounter:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.EncompassingEncounter:",SQLCODE,": ",%msg,!
     /// 插入就诊场景 - 地点 
     &SQL(insert into HCC_SQL_Document_Header_EncompassingEncounter.Location(
     DocumentNo,
@@ -859,12 +865,12 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '8床'/*病床号*/,
     '203'/*病房标识*/,
     '3病房'/*病房号*/,
-    null/*病区标识*/,
+    'A1'/*病区标识*/,
     '神经外科1病区'/*病区号*/,
     '2'/*科室标识*/,
     '神经外科'/*科室名称*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header_EncompassingEncounter.Location:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header_EncompassingEncounter.Location:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成卫生事件章节
@@ -913,7 +919,7 @@ ClassMethod TestHealthcareEventGenerate(pDocNo = "Doc123456")
     '2021-07-30 10:30:00'/*time_adm_Value*/,
     '2021-08-02 16:30:00'/*time_dchg_Value*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HealthcareEvent:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HealthcareEvent:",SQLCODE,": ",%msg,!
     
     ///卫生事件章节 - 西医诊断编码条目子表(可以多条)
     &SQL(Insert into HCC_SQL_Document_HealthcareEvent.Diagnosis(
@@ -925,7 +931,7 @@ ClassMethod TestHealthcareEventGenerate(pDocNo = "Doc123456")
     'G91'/*diag_Value*/,
     1/*result_Value*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.Diagnosis:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.Diagnosis:",SQLCODE,": ",%msg,!
     
     ///卫生事件章节 - 中医诊断条目子表(可以多条)
     &SQL(Insert into HCC_SQL_Document_HealthcareEvent.TCMDiagnosis(
@@ -939,7 +945,7 @@ ClassMethod TestHealthcareEventGenerate(pDocNo = "Doc123456")
     1/*result_Value*/,
     'ZZFG10'/*symptom_Value*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.TCMDiagnosis:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.TCMDiagnosis:",SQLCODE,": ",%msg,!
     
     ///卫生事件章节 - 手术及操作条目子表(可以多条)
     &SQL(Insert into HCC_SQL_Document_HealthcareEvent.Operation(
@@ -949,7 +955,7 @@ ClassMethod TestHealthcareEventGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '51.69012'/*name_Value*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.Operation:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.Operation:",SQLCODE,": ",%msg,!
     
     ///卫生事件章节 - 关键药物条目子表(可以多条)
     &SQL(Insert into HCC_SQL_Document_HealthcareEvent.KeyMedicine(
@@ -966,7 +972,7 @@ ClassMethod TestHealthcareEventGenerate(pDocNo = "Doc123456")
     '关键药物名称'/*name_Value*/,
     '关键药物用法'/*usage_Value*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.KeyMedicine:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.KeyMedicine:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成家族史章节
@@ -981,7 +987,7 @@ ClassMethod TestFamilyHistoryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '家族史描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.FamilyHistory:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.FamilyHistory:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成月经史章节
@@ -996,7 +1002,7 @@ ClassMethod TestMenstrualHistoryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '对患者月经史的详细描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.MenstrualHistory:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.MenstrualHistory:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成个人史章节
@@ -1011,7 +1017,7 @@ ClassMethod TestSocialHistoryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '患者个人生活习惯及有无烟、酒、药物等嗜好，职业与工作条件及有无工业毒物、粉尘、放射性物质接触史，有无冶游史的描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.SocialHistory:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.SocialHistory:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成预防接种史章节
@@ -1026,7 +1032,7 @@ ClassMethod TestVaccinationGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '预防接种史描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Vaccination:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Vaccination:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成过敏史章节
@@ -1042,7 +1048,7 @@ ClassMethod TestAllergyGenerate(pDocNo = "Doc123456")
     :pDocNo,
     1)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Allergy:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Allergy:",SQLCODE,": ",%msg,!
     /// 插入过敏史条目 (可以多条)
     &SQL(Insert into HCC_SQL_Document_Allergy.Item(
     DocumentNo,
@@ -1053,7 +1059,7 @@ ClassMethod TestAllergyGenerate(pDocNo = "Doc123456")
     null,
     '鸡蛋')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Allergy.Item:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Allergy.Item:",SQLCODE,": ",%msg,!
     /// 插入过敏史条目 (可以多条)
     &SQL(Insert into HCC_SQL_Document_Allergy.Item(
     DocumentNo,
@@ -1064,7 +1070,7 @@ ClassMethod TestAllergyGenerate(pDocNo = "Doc123456")
     null,
     '花生')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Allergy.Item:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Allergy.Item:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成诊断记录章节（需要修改！）
@@ -1088,7 +1094,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     '目前情况'/*目前情况。用于《交接班记录》、《转科记录》的"诊断记录章节"*/,
     '病情变化情况'/*病情变化情况。用于《抢救记录》*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Diagnosis:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Diagnosis:",SQLCODE,": ",%msg,!
     
     /// 诊断记录章节- 西医诊断(可以多条)
     &SQL(Insert into HCC_SQL_Document_Diagnosis.Western(
@@ -1106,7 +1112,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     1,
     '系联总医院')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Western:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Western:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_Diagnosis.Western(
     DocumentNo,
     diag_code_Value/*西医诊断编码*/,
@@ -1122,7 +1128,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     2,
     '系联总医院')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Western:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Western:",SQLCODE,": ",%msg,!
     /// 诊断记录章节- 病理(可以多条)
     &SQL(Insert into HCC_SQL_Document_Diagnosis.Pathology(
     DocumentNo,
@@ -1141,7 +1147,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     null,
     null)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Pathology:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Pathology:",SQLCODE,": ",%msg,!
     
     /// 诊断记录章节- 中医诊断子表(可以多条)
     &SQL(Insert into HCC_SQL_Document_Diagnosis.TCM(
@@ -1152,12 +1158,12 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     TCMdiag_orders_Value)
     values(
     :pDocNo,
-    'BNS130',
+    'BRXC0',
     '2021-07-01',
     null,
     1)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCM:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCM:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_Diagnosis.TCM(
     DocumentNo,
     TCMdiag_code_Value,
@@ -1171,7 +1177,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     '关格病',
     2)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCM:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCM:",SQLCODE,": ",%msg,!
     
     /// 诊断记录章节- 中医症候子表(可以多条)
     &SQL(Insert into HCC_SQL_Document_Diagnosis.TCMSyndrome(
@@ -1187,7 +1193,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     null,
     1)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCMSyndrome:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCMSyndrome:",SQLCODE,": ",%msg,!
 
     &SQL(Insert into HCC_SQL_Document_Diagnosis.TCMSyndrome(
     DocumentNo,
@@ -1202,7 +1208,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     '腑气不通症',
     2)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCMSyndrome:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCMSyndrome:",SQLCODE,": ",%msg,!
     
     /// 诊断记录章节- 中医四诊观察结果子表(可以多条)
     &SQL(Insert into HCC_SQL_Document_Diagnosis.TCMFourDiagnostic(
@@ -1212,7 +1218,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '舌红，苔薄腻，脉弦')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCMFourDiagnostic:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCMFourDiagnostic:",SQLCODE,": ",%msg,!
     
     /// 诊断记录章节- 死亡诊断子表(可以多条)
     &SQL(Insert into HCC_SQL_Document_Diagnosis.Death(
@@ -1224,7 +1230,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     'G91',
     null)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Death:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Death:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成既往史章节
@@ -1252,7 +1258,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
     0,
     0)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.PastHistory:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.PastHistory:",SQLCODE,": ",%msg,!
 
     if $E(pMode,1,1)="1"
     {
@@ -1261,7 +1267,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         Update HCC_SQL_Document.PastHistory Set health_stat=1
         WHERE DocumentNo=:pDocNo
         )
-        W:(SQLCODE'=0) "update HCC_SQL_Document.PastHistory:",SQLCODE,!
+        W:(SQLCODE'=0) "update HCC_SQL_Document.PastHistory:",SQLCODE,": ",%msg,!
 
         /// 插入既往史章节 - 疾病史条目子表(可以多条)
         &SQL(Insert into HCC_SQL_Document_PastHistory.Illness(
@@ -1270,7 +1276,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         :pDocNo,
         '疾病史（含外伤）描述')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Illness:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Illness:",SQLCODE,": ",%msg,!
 
     }
     if $E(pMode,2,2)="1"
@@ -1280,7 +1286,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         Update HCC_SQL_Document.PastHistory Set infection_stat=1
         WHERE DocumentNo=:pDocNo
         )
-        W:(SQLCODE'=0) "update HCC_SQL_Document.PastHistory:",SQLCODE,!
+        W:(SQLCODE'=0) "update HCC_SQL_Document.PastHistory:",SQLCODE,": ",%msg,!
         /// 插入既往史章节 - 传染病史条目子表(可以多条)
         &SQL(Insert into HCC_SQL_Document_PastHistory.Infection(
         DocumentNo,name_Value)
@@ -1288,7 +1294,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         :pDocNo,
         '传染病史描述')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Infection:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Infection:",SQLCODE,": ",%msg,!
 
     }
     if $E(pMode,3,3)="1"
@@ -1298,7 +1304,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         Update HCC_SQL_Document.PastHistory Set surgery_stat=1
         WHERE DocumentNo=:pDocNo
         )
-        W:(SQLCODE'=0) "update HCC_SQL_Document.PastHistory:",SQLCODE,!
+        W:(SQLCODE'=0) "update HCC_SQL_Document.PastHistory:",SQLCODE,": ",%msg,!
         /// 插入既往史章节 - 手术史条目子表(可以多条)
         &SQL(Insert into HCC_SQL_Document_PastHistory.Surgery(
         DocumentNo,name_Value)
@@ -1306,7 +1312,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         :pDocNo,
         '手术史描述')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Surgery:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Surgery:",SQLCODE,": ",%msg,!
     }
     if $E(pMode,4,4)="1"
     {
@@ -1316,7 +1322,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         labor_times=1
         WHERE DocumentNo=:pDocNo
         )
-        W:(SQLCODE'=0) "update Obstetric for HCC_SQL_Document.PastHistory:",SQLCODE,!
+        W:(SQLCODE'=0) "update Obstetric for HCC_SQL_Document.PastHistory:",SQLCODE,": ",%msg,!
 
         /// 插入既往史章节 - 孕产史条目子表(可以多条)
         &SQL(Insert into HCC_SQL_Document_PastHistory.Obstetric(
@@ -1326,7 +1332,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         :pDocNo,
         '孕产史描述')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Obstetric:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Obstetric:",SQLCODE,": ",%msg,!
     }
     if $E(pMode,5,5)="1"
     {
@@ -1338,7 +1344,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         :pDocNo,
         '对患者既往健康状况和疾病的详细描述')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Health:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Health:",SQLCODE,": ",%msg,!
     }
     if $E(pMode,6,6)="1"
     {
@@ -1349,7 +1355,7 @@ ClassMethod TestPastHistoryGenerate(pDocNo = "Doc123456", pMode = "111111")
         :pDocNo,
         '输血史描述')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Transfusion:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_PastHistory.Transfusion:",SQLCODE,": ",%msg,!
     }
 }
 
@@ -1398,7 +1404,7 @@ ClassMethod TestBloodTransfusionGenerate(pDocNo = "Doc123456")
     200/*输血量*/)
 
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.BloodTransfusion:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.BloodTransfusion:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成实验室检查章节
@@ -1443,7 +1449,7 @@ ClassMethod TestLabTestGenerate(pDocNo = "Doc123456", pMode = "0000")
         'MRI检查结果的详细描述',
         '对患者胸部X线检查结果的详细描述',
         '麻醉术前访视时，对患者凝血功能检查结果的详细描述',
-        '对患者肝功能检查结果的详细描述',
+        '1',
         '患者肺功能检查结果的详细描述',
         'B超检查结果的详细描述',
         '麻醉术前访视时，对患者尿常规检查结果的详细描述'     
@@ -1467,7 +1473,7 @@ ClassMethod TestLabTestGenerate(pDocNo = "Doc123456", pMode = "0000")
         )
     }
 
-    W:(SQLCODE'=0) "HCC_SQL_Document.LabTest:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.LabTest:",SQLCODE,": ",%msg,!
     If $E(pMode,1,1)=1
     {
         /// 插入实验室检验条目(多条)
@@ -1527,7 +1533,7 @@ ClassMethod TestLabTestGenerate(pDocNo = "Doc123456", pMode = "0000")
         '脑脊液'/*标本类别*/)
         )
 
-        W:(SQLCODE'=0) "HCC_SQL_Document_LabTest.Item:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_LabTest.Item:",SQLCODE,": ",%msg,!
     }
     If $E(pMode,2,2)=1
     {
@@ -1540,7 +1546,7 @@ ClassMethod TestLabTestGenerate(pDocNo = "Doc123456", pMode = "0000")
         '辅助检查项目',
         '辅助检查结果')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document_LabTest.AuxExam:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_LabTest.AuxExam:",SQLCODE,": ",%msg,!
     }
     If $E(pMode,3,3)=1
     {
@@ -1551,7 +1557,7 @@ ClassMethod TestLabTestGenerate(pDocNo = "Doc123456", pMode = "0000")
         :pDocNo,
         '阳性辅助检查结果')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document_LabTest.AuxExamResult:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document_LabTest.AuxExamResult:",SQLCODE,": ",%msg,!
     }
 }
 
@@ -1585,7 +1591,7 @@ ClassMethod TestProcedureGenerate(pDocNo = "Doc123456")
     '2021-07-01 14:32:00'/*抢救结束日期时间*/,
     '心肺复苏'/*抢救措施*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Procedure:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Procedure:",SQLCODE,": ",%msg,!
     /// 插入手术操作条目(可以多条)
     &SQL(Insert into HCC_SQL_Document.ProcedureItem(
     DocumentNo,
@@ -1627,7 +1633,7 @@ ClassMethod TestProcedureGenerate(pDocNo = "Doc123456")
     '麻醉观察结果正常'/*麻醉观察结果。用于《检查报告》*/,
     '1'/*麻醉中西医标识代码。用于《检查报告》*/,
     '2021-07-01 13:50:00'/*操作开始日期/时间*/,
-    '001'/*操作部位编码。DE06.00.093.00是错误的！*/,
+    '01'/*操作部位编码。DE06.00.093.00是错误的！*/,
     '背部'/*手术/操作目标部位名称*/,
     '84.51004'/*手术/操作代码*/,
     '1'/*手术切口级别*/,
@@ -1653,7 +1659,7 @@ ClassMethod TestProcedureGenerate(pDocNo = "Doc123456")
     '手术间2'/*手术间编号*/,
     '赵六'/*第二助手姓名*/    )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureItem:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureItem:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成行政管理章节
@@ -1678,7 +1684,7 @@ ClassMethod TestAdministrationGenerate(pDocNo = "Doc123456")
     '吴护士',
     '0')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Administration:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Administration:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成转科记录章节
@@ -1700,7 +1706,7 @@ ClassMethod TestReferralGenerate(pDocNo = "Doc123456")
     '神经外科',
     null)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Referral:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Referral:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成主要健康问题章节
@@ -1777,7 +1783,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '1'/*颅脑损伤患者入院前昏迷时间(天) */,
     '3'/*颅脑损伤患者入院前昏迷时间(小时) */,
     '15'/*颅脑损伤患者入院前昏迷时间(分钟) */,
-    'BNS130'/*中医初步诊断编码*/,
+    'BRXC0'/*中医初步诊断编码*/,
     '2021-07-01'/*中医初步诊断日期*/,
     null/*中医初步诊断病名名称*/,
     1/*诊断顺位*/,
@@ -1785,7 +1791,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '2021-07-01'/*中医症候诊断日期*/,
     null/*中医初步诊断症候名称*/,
     1/*诊断顺位*/,
-    'BNS130'/*中医修正诊断编码*/,
+    'BRXC0'/*中医修正诊断编码*/,
     '2021-07-02'/*中医修正诊断日期*/,
     null/*中医修正病名名称*/,
     1/*中医修正诊断顺位*/,
@@ -1830,7 +1836,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     2/*治疗类别。用于《中医住院病案首页》*/,
     '2021-07-03 15:28:00'/*清醒日期时间。用于《麻醉术后访视记录》*/    )
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HealthProblem:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HealthProblem:",SQLCODE,": ",%msg,!
     
     
     /// 插入主要健康问题章节 - 西医诊断(可以多条)
@@ -1849,7 +1855,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     1,
     '系联总医院')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.ConfirmedDiag:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.ConfirmedDiag:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_HealthProblem.ConfirmedDiag(
     DocumentNo,
     diag_code_Value/*西医诊断编码*/,
@@ -1865,7 +1871,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     2,
     '系联总医院')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.ConfirmedDiag:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.ConfirmedDiag:",SQLCODE,": ",%msg,!
     
 
     /// 插入主要健康问题章节 - 中医诊断子表(确定诊断)（多条）
@@ -1882,7 +1888,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     )
     values(
     :pDocNo,
-    'BNS130'/*中医诊断编码*/,
+    'BRXC0'/*中医诊断编码*/,
     '2021-07-01'/*诊断日期*/, 
     null/*中医病名名称*/, 
     1/*诊断顺位*/, 
@@ -1891,7 +1897,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     null/*中医症候名称*/, 
     1/*中医症候诊断顺位*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.TCMConfirmedDiag:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.TCMConfirmedDiag:",SQLCODE,": ",%msg,!
     
     &SQL(insert or update into HCC_SQL_Document_HealthProblem.TCMConfirmedDiag(
     DocumentNo,
@@ -1915,7 +1921,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '腑气不通症'/*中医症候名称*/, 
     2/*中医症候诊断顺位*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.TCMConfirmedDiag:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.TCMConfirmedDiag:",SQLCODE,": ",%msg,!
 
  
     /// 插入主要健康问题章节 - 特殊情况子表（多条）
@@ -1927,7 +1933,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '对存在特殊情况的描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HealthProblem:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HealthProblem:",SQLCODE,": ",%msg,!
  
     /// 插入主要健康问题章节 - 常规监测项目子表（多条）
     &SQL(insert or update into HCC_SQL_Document_HealthProblem.RegularMonitor(
@@ -1940,7 +1946,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '麻醉过程中，需要常规监测项目的名称',
     '麻醉过程中，常规监测项目结果的详细记录')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.RegularMonitor:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.RegularMonitor:",SQLCODE,": ",%msg,!
 
     /// 插入主要健康问题章节 - 特殊监测项目子表（多条）
     &SQL(insert or update into HCC_SQL_Document_HealthProblem.SpecialMonitor(
@@ -1953,7 +1959,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '麻醉过程中，需要特殊监测项目的名称',
     '麻醉过程中，特殊监测项目结果的详细记录')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.SpecialMonitor:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.SpecialMonitor:",SQLCODE,": ",%msg,!
 
     /// 插入主要健康问题章节 - 中医“四诊”观察结果子表（多条）
     &SQL(insert or update into HCC_SQL_Document_HealthProblem.TCMObservation(
@@ -1964,7 +1970,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '中医“四诊”观察结果的详细描述，包括望、闻、问、切四诊内容')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.TCMObservation:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.TCMObservation:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成出院诊断章节
@@ -1981,7 +1987,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     '1',
     '系联社区医院')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HospitalDischargeDX:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HospitalDischargeDX:",SQLCODE,": ",%msg,!
     
     /// 插入出院诊断章节 - 主要诊断(可以多条)
     &SQL(Insert into HCC_SQL_Document_HospitalDischargeDX."Primary"(
@@ -2001,7 +2007,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     null,
     '3')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.Primary:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.Primary:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_HospitalDischargeDX."Primary"(
     DocumentNo,
     diag_code_Value,
@@ -2019,7 +2025,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     null,
     '3')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.Primary:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.Primary:",SQLCODE,": ",%msg,!
     /// 插入出院诊断章节 - 其它诊断 (可以多条)
     &SQL(Insert into HCC_SQL_Document_HospitalDischargeDX.Other(
     DocumentNo,
@@ -2039,7 +2045,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     null,
     '3')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.Other:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.Other:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_HospitalDischargeDX.Other(
     DocumentNo,
     diag_code_Value,
@@ -2058,7 +2064,45 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     null,
     '3')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.Other:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.Other:",SQLCODE,": ",%msg,!
+    
+    
+    /// 插入出院诊断章节 - 中医诊断 (可以多条)
+    &SQL(Insert into HCC_SQL_Document_HospitalDischargeDX.TCM(
+    DocumentNo,
+    TCMdiag_code_Value,
+    TCMdiag_date_Value,
+    TCMdiag_name_Value,
+    TCMdiag_orders_Value,
+    sick_cond_Value
+    )
+    values(
+    :pDocNo,
+    'BRXC0',
+    '2020-09-20 10:00:00',
+    null,
+    1,
+    '3')
+    )
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.TCM:",SQLCODE,": ",%msg,!
+    
+    
+    /// 插入出院诊断章节 - 主证 (可以多条)
+    &SQL(Insert into HCC_SQL_Document_HospitalDischargeDX.TCMSyndrome(
+    DocumentNo,
+    syndrome_code_Value,
+    syndrome_date_Value,
+    syndrome_name_Value,
+    syndrome_orders_Value
+    )
+    values(
+    :pDocNo,
+    'ZZGA30',
+    '2020-09-20 10:00:00',
+    null,
+    1)
+    )
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.TCMSyndrome:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成住院史章节
@@ -2073,7 +2117,7 @@ ClassMethod TestHospitalizationGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Hospitalization:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Hospitalization:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成住院过程章节
@@ -2118,7 +2162,7 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     '10'/*住院天数*/,
     '诊疗过程描述'/*诊疗过程描述 */)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HospitalCourse:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HospitalCourse:",SQLCODE,": ",%msg,!
     /// 插入住院过程章节 - 死亡诊断-中医条目 (多条)
     &SQL(insert or update into HCC_SQL_Document_HospitalCourse.DeathTCMDiag(
     DocumentNo,
@@ -2141,7 +2185,7 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     '火毒上攻证'/*中医证候名称*/,
     '1'/*诊断顺位*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalCourse.DeathTCMDiag:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalCourse.DeathTCMDiag:",SQLCODE,": ",%msg,!
     &SQL(insert or update into HCC_SQL_Document_HospitalCourse.DeathTCMDiag(
     DocumentNo,
     TCMdiag_code_Value/*中医诊断编码*/,
@@ -2154,7 +2198,7 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     syndrome_orders_Value/*诊断顺位*/)
     values(
     :pDocNo,
-    'BN'/*中医诊断编码*/,
+    'BRXC0'/*中医诊断编码*/,
     '2021-06-28'/*诊断日期*/,
     null/*中医病名名称*/,
     '2'/*诊断顺位*/,
@@ -2163,7 +2207,7 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     null/*中医证候名称*/,
     '2'/*诊断顺位*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalCourse.DeathTCMDiag:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalCourse.DeathTCMDiag:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成费用章节
@@ -2240,7 +2284,7 @@ ClassMethod TestPaymentGenerate(pDocNo = "Doc123456")
     '1027'  /*  treatment_physical_Value    */,
     '2000')
      )
-     W:(SQLCODE'=0) "HCC_SQL_Document.Payment:",SQLCODE,!
+     W:(SQLCODE'=0) "HCC_SQL_Document.Payment:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成治疗计划章节
@@ -2328,11 +2372,11 @@ ClassMethod TestTreatmentPlanGenerate(pDocNo = "Doc123456")
     '接班诊疗计划'/*诊疗计划。《交接班记录》-接班诊疗计划、《转科记录》*/,
     '特殊检查及特殊治疗项目名称'/*特殊检查及特殊治疗项目名称*/,
     '特殊检查及特殊治疗目的'/*特殊检查及特殊治疗目的*/,
-    '目前予患者综合保守治疗'/*中医治则治法。用于《门急诊病历》、《中药处方》*/,
+    '10.5'/*中医治则治法。用于《门急诊病历》、《中药处方》*/,
     '诊疗过程的名称描述'/*诊疗过程名称。《会诊记录》*/)
     )
 
-    W:(SQLCODE'=0) "HCC_SQL_Document.TreatmentPlan:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.TreatmentPlan:",SQLCODE,": ",%msg,!
     /// 插入治疗计划章节 - 拟实施手术及操作子表 (多条)   
     &SQL(insert or update into HCC_SQL_Document_TreatmentPlan."Procedure"(
     DocumentNo,
@@ -2359,7 +2403,7 @@ ClassMethod TestTreatmentPlanGenerate(pDocNo = "Doc123456")
     '手术室12'/*手术间编号*/,
     '2021-07-01 14:50:00'/*拟实施手术时间*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_TreatmentPlan.Procedure:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_TreatmentPlan.Procedure:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成主诉章节
@@ -2374,7 +2418,7 @@ ClassMethod TestChiefComplaintGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '对患者本次疾病相关的主要症状及其持续时间的描述，一般由患者本人或监护人描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ChiefComplaint:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ChiefComplaint:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成现病史章节
@@ -2391,7 +2435,7 @@ ClassMethod TestPresentIllnessHistoryGenerate(pDocNo = "Doc123456")
     null,
     '对患者当前所患疾病情况的详细描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.PresentIllnessHistory:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.PresentIllnessHistory:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成术后去向章节
@@ -2408,7 +2452,7 @@ ClassMethod TestProcedureDispositionGenerate(pDocNo = "Doc123456")
     '患者当前诊疗过程结束后的去向在特定编码体系中的代码，这里指手术结束后的去向',
     '2021-07-21 09:30:00')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureDisposition:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureDisposition:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成一般状况检查章节
@@ -2423,7 +2467,7 @@ ClassMethod TestGeneralStatusGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '对患者一般状况检查结果的详细描述，包括其发育状况、营养状况、体味、步态、面容与表情、意识，检查能否合作等等')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.GeneralStatus:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.GeneralStatus:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成产前检查章节
@@ -2472,7 +2516,7 @@ ClassMethod TestPrenatalEventGenerate(pDocNo = "Doc123456")
     '宫口情况'/*uterine_orifice_Value*/,
     '61'/*uterus_fundus_hgt_Value*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.PrenatalEvent:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.PrenatalEvent:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成体格检查章节
@@ -2492,7 +2536,153 @@ ClassMethod TestPhysicalExamGenerate(pDocNo = "Doc123456", pMode = "100001")
         '体格检查结果等等')
         )
     }
-    W:(SQLCODE'=0) "HCC_SQL_Document.PhysicalExam:",SQLCODE,!
+    elseif $E(pMode,2,2)=1
+    {
+        /// 插入体格检查章节条目 - 一般状况检查
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.258.00',
+        '体格检查结果等等')
+        )
+        
+        /// 插入体格检查章节条目 - 皮肤和黏膜检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.126.00',
+        '皮肤和黏膜检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 全身浅表淋巴检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.114.00',
+        '全身浅表淋巴检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 头部及其器官检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.261.00',
+        '头部及其器官检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 颈部检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.255.00',
+        '颈部检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 胸部检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.263.00',
+        '胸部检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 腹部检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.046.00',
+        '腹部检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 肛门指检观察结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.065.00',
+        '肛门指检观察结果')
+        )
+        
+        /// 插入体格检查章节条目 - 外生殖器检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.195.00',
+        '外生殖器检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 脊柱检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.093.00',
+        '脊柱检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 四肢检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE04.10.179.00',
+        '体格检查结果等等')
+        )
+        
+        /// 插入体格检查章节条目 - 神经系统检查结果
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE05.10.149.00',
+        '神经系统检查结果')
+        )
+        
+        /// 插入体格检查章节条目 - 专科情况
+        &SQL(insert or update into HCC_SQL_Document.PhysicalExam(
+        DocumentNo,
+        type,
+        value)
+        Values(
+        :pDocNo,
+        'DE08.10.061.00',
+        '专科情况')
+        )
+
+    }
+    W:(SQLCODE'=0) "HCC_SQL_Document.PhysicalExam:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成《检查报告》的体格检查章节
@@ -2511,7 +2701,7 @@ ClassMethod TestERPhysicalExamGenerate(pDocNo = "Doc123456")
     0,
     '患者检查项目所属的类别详细描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ExamReportPhysicalExam:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ExamReportPhysicalExam:",SQLCODE,": ",%msg,!
     
     /// 插入体格检查章节条目(多条)
     &SQL(Insert into HCC_SQL_Document_ExamReportPhysicalExam.Item(
@@ -2539,7 +2729,7 @@ ClassMethod TestERPhysicalExamGenerate(pDocNo = "Doc123456")
     'ml',
     5)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_ExamReportPhysicalExam.Item:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_ExamReportPhysicalExam.Item:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_ExamReportPhysicalExam.Item(
     DocumentNo,
     code_Value,
@@ -2565,7 +2755,7 @@ ClassMethod TestERPhysicalExamGenerate(pDocNo = "Doc123456")
     'ml',
     5)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_ExamReportPhysicalExam.Item:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_ExamReportPhysicalExam.Item:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成阴道分娩章节
@@ -2627,7 +2817,7 @@ ClassMethod TestVaginalDeliveryGenerate(pDocNo = "Doc123456")
     '羊水性状'/*羊水性状*/,
     '30'/*羊水量（mL）*/,
     '麻醉药物名称'/*麻醉药物名称*/,
-    '01'/*麻醉方法代码*/,
+    '1'/*麻醉方法代码*/,
     '31'/*绕颈身（周）*/,
     '0'/*宫颈裂伤标志*/,
     '3'/*宫颈缝合情况*/,
@@ -2651,7 +2841,7 @@ ClassMethod TestVaginalDeliveryGenerate(pDocNo = "Doc123456")
     '会阴血肿处理'/*会阴血肿处理*/,
     '0'/*产妇会阴切开标志*/,
     '会阴切开位置'/*会阴切开位置*/,
-    '01'/*产妇会阴裂伤程度代码*/,
+    '2'/*产妇会阴裂伤程度代码*/,
     '3'/*产妇会阴缝合针数*/,
     '2021-06-01 11:45:00'/*胎盘娩出日期时间*/,
     '胎盘娩出情况'/*胎盘娩出情况*/,
@@ -2670,7 +2860,7 @@ ClassMethod TestVaginalDeliveryGenerate(pDocNo = "Doc123456")
     '0'/*阴道血肿标志*/,
     '0'/*阴道裂伤标志*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.VaginalDelivery:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.VaginalDelivery:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成四肢章节
@@ -2685,7 +2875,7 @@ ClassMethod TestExtremitiesGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Extremities:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Extremities:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成手术评估标志章节
@@ -2706,7 +2896,7 @@ ClassMethod TestProcedureAssessmentGenerate(pDocNo = "Doc123456")
     '1',
     '1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureAssessment:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureAssessment:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成护理隔离章节
@@ -2723,7 +2913,7 @@ ClassMethod TestNursingIsolationGenerate(pDocNo = "Doc123456")
     '1',
     '1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.NursingIsolation:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.NursingIsolation:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成皮肤章节
@@ -2738,7 +2928,7 @@ ClassMethod TestSkinGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '皮肤检查描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Skin:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Skin:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成器械物品核对章节
@@ -2787,7 +2977,7 @@ ClassMethod TestInstrumentVerificationGenerate(pDocNo = "Doc123456")
     '2021-06-01 12:04:00'/*术前巡台护士签名日期时间*/,
     '1'/*术前清点标志*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.InstrumentVerification:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.InstrumentVerification:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成术后交接章节
@@ -2808,7 +2998,7 @@ ClassMethod TestPostoperationHandoverGenerate(pDocNo = "Doc123456")
     '李建国',
     '1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.PostoperationHandover:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.PostoperationHandover:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成护理标志章节
@@ -2825,7 +3015,7 @@ ClassMethod TestNursingSignGenerate(pDocNo = "Doc123456")
     '1',
     '1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.NursingSign:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.NursingSign:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成高值耗材章节
@@ -2854,7 +3044,7 @@ ClassMethod TestHighValueConsumableGenerate(pDocNo = "Doc123456")
     '心脏植入',
     '个')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HighValueConsumable:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HighValueConsumable:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成入院信息章节
@@ -2873,7 +3063,7 @@ ClassMethod TestAdmissionInformationGenerate(pDocNo = "Doc123456")
     '入院原因描述',
     1)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.AdmissionInformation:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.AdmissionInformation:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成生活方式章节
@@ -2902,7 +3092,7 @@ ClassMethod TestLifeStyleGenerate(pDocNo = "Doc123456")
     '3',
     200)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.LifeStyle:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.LifeStyle:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成抢救记录章节
@@ -2921,7 +3111,7 @@ ClassMethod TestRescueRecordGenerate(pDocNo = "Doc123456")
     '急诊抢救记录描述',
     '2021-07-01 09:46:00')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.RescueRecord:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.RescueRecord:",SQLCODE,": ",%msg,!
     
     /// 插入抢救记录章节 - 参加抢救人员子表(可插入多条)
     &SQL(Insert into HCC_SQL_Document_RescueRecord.Attendee(
@@ -2933,7 +3123,7 @@ ClassMethod TestRescueRecordGenerate(pDocNo = "Doc123456")
     '李岚',
     '1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_RescueRecord.Attendee:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_RescueRecord.Attendee:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成其他相关信息章节
@@ -2950,7 +3140,7 @@ ClassMethod TestOtherGenerate(pDocNo = "Doc123456")
     '患者去向',
     '注意事项详细描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Other:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Other:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成会诊原因章节
@@ -2967,7 +3157,7 @@ ClassMethod TestConsultReasonGenerate(pDocNo = "Doc123456")
     '由会诊医师填写患者需会诊的主要情况的详细描述',
     '申请会诊的类型描述，如：院内会诊、院外会诊、多学科会诊等')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ConsultReason:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ConsultReason:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成会诊意见章节
@@ -2982,7 +3172,7 @@ ClassMethod TestConsultSuggestionGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '会诊意见')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ConsultSuggestion:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ConsultSuggestion:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成病历摘要章节
@@ -2997,7 +3187,7 @@ ClassMethod TestMRSummaryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '病历摘要')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.MRSummary:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.MRSummary:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成术前总结章节
@@ -3014,7 +3204,7 @@ ClassMethod TestPreoperativeSummaryGenerate(pDocNo = "Doc123456")
     '讨论结论',
     '讨论意见')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.PreoperativeSummary:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.PreoperativeSummary:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成尸检意见章节
@@ -3029,7 +3219,7 @@ ClassMethod TestAutopsyOpinionGenerate(pDocNo = "Doc123456")
     :pDocNo,
     1)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.AutopsyOpinion:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.AutopsyOpinion:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成讨论内容章节
@@ -3044,7 +3234,7 @@ ClassMethod TestDiscussionGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '讨论内容')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Discussion:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Discussion:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成讨论总结章节
@@ -3059,7 +3249,7 @@ ClassMethod TestDiscussionSummaryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '讨论总结')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.DiscussionSummary:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.DiscussionSummary:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成其他处置章节
@@ -3074,7 +3264,7 @@ ClassMethod TestOtherProcGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '诊疗过程描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.OtherProc:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.OtherProc:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成检查报告章节
@@ -3097,7 +3287,7 @@ ClassMethod TestCheckReportGenerate(pDocNo = "Doc123456")
     '检查报告机构名称',
     '检查报告结果-主观提示')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.CheckReport:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.CheckReport:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成检验报告章节
@@ -3118,7 +3308,7 @@ ClassMethod TestLabReportGenerate(pDocNo = "Doc123456")
     '检验报告机构名称',
     '检验报告结果')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.LabReport:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.LabReport:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成手术过程描述章节
@@ -3145,7 +3335,7 @@ ClassMethod TestProcedureNoteGenerate(pDocNo = "Doc123456")
     '手术过程的详细描述',
     '对手术中皮肤消毒情况的具体描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureNote:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureNote:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成引流章节
@@ -3166,7 +3356,7 @@ ClassMethod TestSurgicalDrainsGenerate(pDocNo = "Doc123456")
     1,
     '对手术中引流材料名称的具体描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalDrains:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalDrains:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成麻醉章节
@@ -3207,7 +3397,7 @@ ClassMethod TestAnesthesiaGenerate(pDocNo = "Doc123456")
     '在患者进行麻醉前给予的药品的具体描述'/*麻醉前用药*/,
     '局部麻醉中穿刺过程的详细描述'/*穿刺过程描述*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Anesthesia:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Anesthesia:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成注意事项章节
@@ -3226,7 +3416,7 @@ ClassMethod TestAttentionGenerate(pDocNo = "Doc123456")
     '术前准备',
     '手术要点')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Attention:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Attention:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成失血章节
@@ -3241,7 +3431,7 @@ ClassMethod TestBloodLossGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '500')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.BloodLoss:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.BloodLoss:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成宫剖产记录-手术操作章节
@@ -3297,7 +3487,7 @@ ClassMethod TestCaesareanProcedureGenerate(pDocNo = "Doc123456")
     '0'/*宫腔探查异常情况标志*/,
     '腹腔探查附件'/*腹腔探查附件*/,
     '麻醉效果'/*麻醉效果*/,
-    '01'/*麻醉方法代码*/,
+    '1'/*麻醉方法代码*/,
     '麻醉体位'/*麻醉体位*/,
     '2021-07-02 14:20:00'/*手术开始日期时间*/,
     '300'/*出血量（mL）*/,
@@ -3325,18 +3515,18 @@ ClassMethod TestCaesareanProcedureGenerate(pDocNo = "Doc123456")
     '宫缩剂名称'/*宫缩剂名称*/,
     '宫缩剂使用方法'/*宫缩剂使用方法*/,
     '胎盘黄染'/*胎盘黄染*/,
-    '02.34002'/*手术/操作代码*/,
+    '2.34002'/*手术/操作代码*/,
     null/*手术名称*/,
     '剖宫产手术过程'/*剖宫产手术过程*/,
     ''/*手术时产妇情况*/,
     '1'/*存脐带血情况标志*/,
     '手术指征'/*手术指征*/,
     '3'/*子宫壁缝合情况*/,
-    '宫腔探查处理情况'/*宫腔探查处理情况*/,
+    '1'/*宫腔探查处理情况*/,
     '子宫情况'/*子宫情况*/,
     '腹腔探查子宫'/*腹腔探查子宫*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.CaesareanProcedure:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.CaesareanProcedure:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成知情同意章节
@@ -3359,7 +3549,7 @@ ClassMethod TestConsentGenerate(pDocNo = "Doc123456")
     '2021-07-08 13:20:00',
     '病危（重）通知')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Consent:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Consent:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成死亡原因章节
@@ -3380,7 +3570,7 @@ ClassMethod TestDeathReasonGenerate(pDocNo = "Doc123456")
     'G91',
     '左上肺癌术后复发，食管气管瘘，肺部感染')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.DeathReason:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.DeathReason:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成分娩评估章节
@@ -3396,12 +3586,12 @@ ClassMethod TestDeliveryAssessmentGenerate(pDocNo = "Doc123456")
     result_Value)
     Values(
     :pDocNo,
+    10,
     3,
-    '01',
     1,
     1)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.DeliveryAssessment:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.DeliveryAssessment:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成健康评估章节
@@ -3433,14 +3623,14 @@ ClassMethod TestHealthAssessmentGenerate(pDocNo = "Doc123456")
     '1'/*发育程度代码*/,
     '1'/*精神状态正常标志*/,
     '2'/*心理状态代码*/,
-    ''/*自理能力代码*/,
+    '2'/*自理能力代码*/,
     '11'/*睡眠状况*/,
     '特殊情况'/*特殊情况*/,
     '讨论意见'/*讨论意见。用于《疑难病例讨论记录》*/,
     '主持人总结意见'/*主持人总结意见。用于《疑难病例讨论记录》*/,
     '查房记录'/*查房记录。用于《上级医师查房记录》*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HealthAssessment:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HealthAssessment:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成健康指导章节
@@ -3463,7 +3653,7 @@ ClassMethod TestHealthGuidanceGenerate(pDocNo = "Doc123456")
     '生活方式指导',
     '用药指导')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HealthGuidance:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HealthGuidance:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成入院诊断章节
@@ -3485,9 +3675,9 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     '(简要病史、阳性体征、有关实验室及器械检查结果):患者因“腹痛、腹胀7天伴肛门停止排气排便”入院。患者7天前无明显诱因出现腹痛、腹胀，以上腹部明显，向后背部放射，伴恶心，无呕吐，腹痛、腹胀呈阵发性加重，尚能忍受，2天前腹痛腹胀明显加重，无畏寒发热，曾于无锡第四人民医院灌肠后排出少许粪便，给予抗炎补液等治疗后，仍腹痛腹胀恶心，不能平卧，胸闷气急，进食量少，平时大便尚正常，无明显黑便。查体:神志清楚，体温37.6℃，腹部饱满，膨隆，腹部胀气，下腹部正中见手术切口疤痕长约12CM，愈合好，未见明显肠型、蠕动波，左上腹部压痛，无反跳痛及肌卫，未及明显异常包块，肝、脾肋下未及，全腹扣诊呈鼓音，肝、肾区无叩击痛，移动性浊音阴性，肠鸣音减弱、约1-2次/分，可闻及气过水声。盆腹腔CT示:结肠梗阻并扭转可能大，肠麻痹',
     '2021-07-02 10:30:00',
     '01',
-    '01')
+    '10.4')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.HospitalAdmissionDX:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.HospitalAdmissionDX:",SQLCODE,": ",%msg,!
     
     /// 插入入院诊断章节 - 西医诊断子表 (多条)
     &SQL(Insert into HCC_SQL_Document_HospitalAdmissionDX.Diagnosis(
@@ -3520,7 +3710,7 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     '酒精中毒',
     '2')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalAdmissionDX.Diagnosis:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalAdmissionDX.Diagnosis:",SQLCODE,": ",%msg,!
     
     /// 插入入院诊断章节 - 中医条目子表 (多条)
     &SQL(Insert into HCC_SQL_Document_HospitalAdmissionDX.TCM(
@@ -3566,7 +3756,7 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     '火毒上攻证',
     2)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalAdmissionDX.TCM:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalAdmissionDX.TCM:",SQLCODE,": ",%msg,!
     
     /// 插入入院诊断章节 - 阳性辅助检查结果子表 (多条)
     &SQL(Insert into HCC_SQL_Document_HospitalAdmissionDX.AuxExamResult(
@@ -3576,7 +3766,7 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '阳性辅助检查结果')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalAdmissionDX.AuxExamResult:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_HospitalAdmissionDX.AuxExamResult:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成输液章节
@@ -3593,7 +3783,7 @@ ClassMethod TestInfusionGenerate(pDocNo = "Doc123456")
     '手术过程中输入液体的描述',
     '500')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Infusion:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Infusion:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成用药管理章节
@@ -3649,7 +3839,7 @@ ClassMethod TestMedicationAdministeredGenerate(pDocNo = "Doc123456")
     '药物（含中药）治疗疾病具体用法的描述')
     )
 
-    W:(SQLCODE'=0) "HCC_SQL_Document.MedicationAdministered:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.MedicationAdministered:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成用药章节
@@ -3676,7 +3866,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     1 /*处方类别代码，用于《中药处方》*/,
     7 /*处方有效天数，用于《中药处方》*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.MedicationUseHistory:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.MedicationUseHistory:",SQLCODE,": ",%msg,!
     
     /// 用药章节 - 处方条目子表 (多条)
     &SQL(Insert into HCC_SQL_Document_MedicationUseHistory.MedicineItem(
@@ -3702,7 +3892,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     '200'/*药物使用总剂量*/,
     '药物用法'/*药物用法，用于《出入量记录》*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.MedicineItem:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.MedicineItem:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_MedicationUseHistory.MedicineItem(
     DocumentNo,
     TCM_type_Value/*中药使用类别代码，用于《出入量记录》*/,
@@ -3726,7 +3916,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     '400'/*药物使用总剂量*/,
     '药物用法'/*药物用法，用于《出入量记录》*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.MedicineItem:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.MedicineItem:",SQLCODE,": ",%msg,!
     
     
     /// 用药章节 - 中药饮片条目子表 (多条)
@@ -3745,7 +3935,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     1/*处方类别代码*/,
     '中药用药方法的描述'/*中药用药法*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.HerbalPiece:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.HerbalPiece:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_MedicationUseHistory.HerbalPiece(
     DocumentNo,
     decocting_Value/*中药饮片煎煮法*/,
@@ -3761,7 +3951,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     1/*处方类别代码*/,
     '中药用药方法的描述'/*中药用药法*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.HerbalPiece:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.HerbalPiece:",SQLCODE,": ",%msg,!
     
     /// 用药章节 - 术前用药条目子表, 用于《一般手术记录》(多条)
     &SQL(Insert into HCC_SQL_Document_MedicationUseHistory.PreSurMed(
@@ -3771,7 +3961,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '术前用药条目1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.PreSurMed:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.PreSurMed:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_MedicationUseHistory.PreSurMed(
     DocumentNo,
     item)
@@ -3779,7 +3969,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '术前用药条目2')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.PreSurMed:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.PreSurMed:",SQLCODE,": ",%msg,!
     
     /// 用药章节 - 术中用药条目子表, 用于《一般手术记录》(多条)
     &SQL(Insert into HCC_SQL_Document_MedicationUseHistory.InSurMed(
@@ -3789,7 +3979,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '术中用药条目1')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.InSurMed:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.InSurMed:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_MedicationUseHistory.InSurMed(
     DocumentNo,
     item)
@@ -3797,7 +3987,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '术中用药条目2')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.InSurMed:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_MedicationUseHistory.InSurMed:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成新生儿章节
@@ -3820,7 +4010,7 @@ ClassMethod TestNewBornGenerate(pDocNo = "Doc123456")
     '产瘤大小',
     '3000')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.NewBorn:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.NewBorn:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成护理观察章节
@@ -3850,7 +4040,7 @@ ClassMethod TestNursingObservationGenerate(pDocNo = "Doc123456")
     '护理观察项目名称2',
     '护理观察结果描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.NursingObservation:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.NursingObservation:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成护理操作章节
@@ -3884,7 +4074,7 @@ ClassMethod TestNursingOperationGenerate(pDocNo = "Doc123456")
     '进行护理操作的具体名称2',
     '护理操作结果描述')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.NursingOperation:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.NursingOperation:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成护理记录章节
@@ -3923,7 +4113,7 @@ ClassMethod TestNursingRecordGenerate(pDocNo = "Doc123456")
     '皮肤护理描述'/*皮肤护理*/,
     '1'/*气管护理代码*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.NursingRecord:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.NursingRecord:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成产后处置章节
@@ -3958,7 +4148,7 @@ ClassMethod TestProcessPostDeliveryGenerate(pDocNo = "Doc123456")
     '产后宫缩'/*产后宫缩*/,
     60/*产后宫底高度(cm)*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ProcessPostDelivery:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ProcessPostDelivery:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成医嘱章节
@@ -3979,7 +4169,7 @@ ClassMethod TestProviderOrderGenerate(pDocNo = "Doc123456")
     '1'/*医嘱类别*/,
     '中药用药方法'/*中药用药方法*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.ProviderOrder:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.ProviderOrder:",SQLCODE,": ",%msg,!
     
     
     /// 插入医嘱章节 - 条目(多条)
@@ -4032,7 +4222,7 @@ ClassMethod TestProviderOrderGenerate(pDocNo = "Doc123456")
     '王耀使'/*医嘱核对者签名*/,
     '2021-07-01 10:27:00'/*医嘱核对日期时间*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_ProviderOrder.Item:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_ProviderOrder.Item:",SQLCODE,": ",%msg,!
     
     &SQL(Insert into HCC_SQL_Document_ProviderOrder.Item(
     DocumentNo,
@@ -4083,7 +4273,7 @@ ClassMethod TestProviderOrderGenerate(pDocNo = "Doc123456")
     '王耀使'/*医嘱核对者签名*/,
     '2021-07-01 10:27:00'/*医嘱核对日期时间*/)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_ProviderOrder.Item:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_ProviderOrder.Item:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成风险章节
@@ -4100,7 +4290,7 @@ ClassMethod TestRiskGenerate(pDocNo = "Doc123456")
     '手术中可能出现的意外及风险',
     '手术后可能出现的意外')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Risk:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Risk:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成意见章节
@@ -4117,7 +4307,7 @@ ClassMethod TestSuggestionGenerate(pDocNo = "Doc123456")
     '医疗机构意见',
     '患者意见')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Suggestion:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Suggestion:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成辅助检查章节
@@ -4140,7 +4330,7 @@ ClassMethod TestSupplementaryExamGenerate(pDocNo = "Doc123456")
     :pDocNo,
     '患者辅助检查结果的详细描述2')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.SupplementaryExam:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.SupplementaryExam:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成术后诊断章节
@@ -4155,11 +4345,11 @@ ClassMethod TestSurgicalOperationNotePostoperativeDXGenerate(pDocNo = "Doc123456
     name_Value)
     Values(
     :pDocNo,
-    '诊断依据',
+    '01',
     'G51',
     null)
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalOperationNotePostoperativeDX:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalOperationNotePostoperativeDX:",SQLCODE,": ",%msg,!
     
     &SQL(insert or update into HCC_SQL_Document.SurgicalOperationNotePostoperativeDX(
     DocumentNo,
@@ -4168,11 +4358,11 @@ ClassMethod TestSurgicalOperationNotePostoperativeDXGenerate(pDocNo = "Doc123456
     name_Value)
     Values(
     :pDocNo,
-    '诊断依据',
+    '01',
     null,
     '诊断名称')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalOperationNotePostoperativeDX:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalOperationNotePostoperativeDX:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成术前诊断章节
@@ -4183,13 +4373,15 @@ ClassMethod TestSurgicalOperationNotePreoperativeDXGenerate(pDocNo = "Doc123456"
     &SQL(insert or update into HCC_SQL_Document.SurgicalOperationNotePreoperativeDX(
     DocumentNo,
     admit_time_Value,
-    basis_Value)
+    basis_Value,
+    complication_Value)
     Values(
     :pDocNo,
     '2021-07-01 10:10:00',
-    '14')
+    '14',
+    '术前合并疾病')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalOperationNotePreoperativeDX:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalOperationNotePreoperativeDX:",SQLCODE,": ",%msg,!
 
     /// 插入术前诊断章节 - 诊断条目子表 (多条)
     &SQL(insert or update into HCC_SQL_Document_SurgOperNotePreoperativeDX.Item(
@@ -4199,7 +4391,7 @@ ClassMethod TestSurgicalOperationNotePreoperativeDXGenerate(pDocNo = "Doc123456"
     :pDocNo,
     'G51')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_SurgOperNotePreoperativeDX.Item:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_SurgOperNotePreoperativeDX.Item:",SQLCODE,": ",%msg,!
     
     &SQL(insert or update into HCC_SQL_Document_SurgOperNotePreoperativeDX.Item(
     DocumentNo,
@@ -4208,7 +4400,7 @@ ClassMethod TestSurgicalOperationNotePreoperativeDXGenerate(pDocNo = "Doc123456"
     :pDocNo,
     'G52')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document_SurgOperNotePreoperativeDX.Item:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document_SurgOperNotePreoperativeDX.Item:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成症状章节
@@ -4242,7 +4434,7 @@ ClassMethod TestSymptomGenerate(pDocNo = "Doc123456")
     '走路不稳，不能走直线',
     '走路不稳')
     )
-    W:(SQLCODE'=0) "HCC_SQL_Document.Symptom:",SQLCODE,!
+    W:(SQLCODE'=0) "HCC_SQL_Document.Symptom:",SQLCODE,": ",%msg,!
 }
 
 /// 测试SQL生成生命体征章节
@@ -4264,6 +4456,18 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         '呼吸频率（次/min）',
         '83')
         )
+        &SQL(Insert into HCC_SQL_Document.VitalSign(
+        DocumentNo,
+        type,
+        display,
+        value)
+        Values(
+        :pDocNo,
+        'DE06.00.239.00',
+        '使用呼吸机标志',
+        '1')
+        )
+        
         &SQL(Insert into HCC_SQL_Document.VitalSign(
         DocumentNo,
         type,
@@ -4370,7 +4574,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
             )
         }
 
-        W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,": ",%msg,!
     }
     elseif ((pMode = 8)||(pMode = 12)||(pMode = 19)||(pMode = 21)||(pMode = 52))
     {
@@ -4385,7 +4589,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         '体重（kg）',
         '71')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,": ",%msg,!
     }
     else
     {
@@ -4401,7 +4605,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         '新生儿入院体重',
         '3500')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,": ",%msg,!
         /// 插入生命体征章节(可以多条)
         &SQL(Insert into HCC_SQL_Document.VitalSign(
         DocumentNo,
@@ -4414,7 +4618,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         '新生儿出生体重',
         '3300')
         )
-        W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,!
+        W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,": ",%msg,!
     }
 }
 
@@ -5048,7 +5252,7 @@ ClassMethod GenSampleFor34(pDocNo As %String = "Doc34")
    ///插入生命体征章节
    Do ..TestVitalSignGenerate(pDocNo,34)
    ///插入体格检查章节
-   Do ..TestPhysicalExamGenerate(pDocNo)
+   Do ..TestPhysicalExamGenerate(pDocNo,"010000")
    ///插入辅助检查章节
    Do ..TestSupplementaryExamGenerate(pDocNo)
    ///插入主要健康问题章节

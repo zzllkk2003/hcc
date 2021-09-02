@@ -26,38 +26,6 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 </Routes>
 }
 
-/// 根据文档号，输出其HTML格式
-/// pDocNo：文档编号
-ClassMethod GetDocumentHTML(pDocNo) As %Status
-{
-        #dim tSC As %Status = $$$OK    
-        #dim e As %Exception.AbstractException    
-        Try     
-        {    
-            Set tInput = ##class(TRIP.GXWD.MODEL.GXWDDOC).%OpenId(6).Content
-            Set tXSL = "C:\HCC\XSLT\backup\C32ViewerJW.xsl"
-            Set tHTML=""
-            If tInput '="" 
-            {
-                Set tInput = $P(tInput,"<?xml version=""1.0"" encoding=""UTF-8""?>",2)
-                Set tParams="",tCompiledStyleSheet=""
-                
-                Set tSC=##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile(tXSL,.tCompiledStyleSheet)
-                If $$$ISERR(tSC) Quit
-                
-                Set tSC=##class(%XML.XSLT.Transformer).TransformStringWithCompiledXSL(tInput,tCompiledStyleSheet,.tHTML,,.tParams)
-                //W:($$$ISERR(tSC)) tSC
-                Set tHTML = $ZCVT(tHTML,"I","UTF8")
-                W tHTML
-            }        
-        } 
-        Catch (e) 
-        {        
-            Set tSC=e.AsStatus()    
-        }    
-        Quit tSC
-}
-
 /// 获取HCC文档
 /// pDocNo：文档编号
 ClassMethod GetDocument(pDocNo) As %Status

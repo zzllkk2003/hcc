@@ -37,7 +37,7 @@ Property bodyPosition As WS.DE.DE060026000 [ SqlFieldName = body_pos ];
 Property skinDisinfection As WS.DE.DE085005700 [ SqlFieldName = skin_disinfection ];
 
 /// 手术切口描述
-Property cutNotes As WS.DE.DE060025500 [ SqlFieldName = cut_notes ];
+Property cutNotes As WS.DE.DE060032100 [ SqlFieldName = cut_notes ];
 
 /// 引流标志
 Property drainage As WS.DE.DE051016500 [ SqlFieldName = drainage ];

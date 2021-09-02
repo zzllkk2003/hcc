@@ -1,4 +1,4 @@
-Class HCC.api.spec Extends %REST.Spec [ ProcedureBlock ]
+Class HCC.Interface.Monitor.spec Extends %REST.Spec [ ProcedureBlock ]
 {
 
 XData OpenAPI [ MimeType = application/json ]
@@ -10,7 +10,7 @@ XData OpenAPI [ MimeType = application/json ]
     "version":"1.0.0",
     "description":"HealthConnect消息及服务的一些统计示例"
   },
-  "basePath":"/api/hcc",
+  "basePath":"/hcc/monitor",
   "consumes":[
     "application/x-www-form-urlencoded",
     "multipart/form-data"
@@ -118,12 +118,6 @@ XData OpenAPI [ MimeType = application/json ]
           },
           {
             "$ref":"#/parameters/endTime"
-          },
-          {
-            "$ref":"#/parameters/pageSize"
-          },
-          {
-            "$ref":"#/parameters/pageNumber"
           }
         ],
         "responses":{
@@ -166,12 +160,6 @@ XData OpenAPI [ MimeType = application/json ]
           },
           {
             "$ref":"#/parameters/endTime"
-          },
-          {
-            "$ref":"#/parameters/pageSize"
-          },
-          {
-            "$ref":"#/parameters/pageNumber"
           }
         ],
         "responses":{
