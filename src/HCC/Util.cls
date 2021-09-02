@@ -122,9 +122,10 @@ ClassMethod CreateDocTask()
 }
 
 /// 停止后台产生SQL互联互通文档的服务
-ClassMethod StopCreateDocTask()
+ClassMethod StopCreateDocTask() As %Status
 {
     Set ^HCC("DocGenTask")=0
+    Quit $$$OK
 }
 
 /// 创建文档对象实例,转换为互联互通文档，并保存到文档仓库
@@ -144,14 +145,19 @@ ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
         Do tSQLDoc.%Close()
         
         // 加载xsl转换文件
-        Set tXSL = $G(^HCC("XSLFilePath"))_"\C00"_$Case($L(tDocType),1:"0"_tDocType,2:tDocType)_".xsl"
+        Set tSplit=$Case($system.Version.GetOS(),"Windows":"\",:"/")
+        Set tFilePath = $ZStrip($G(^HCC("XSLFilePath")), "<>W")
+        if ($E(tFilePath,$L(tFilePath))'="\") || ($E(tFilePath,$L(tFilePath))'="/") 
+        {
+            Set tFilePath = tFilePath_tSplit
+        }
+        Set tXSL = tFilePath_"C00"_$Case($L(tDocType),1:"0"_tDocType,2:tDocType)_".xsl"
         If ('##class(%File).Exists(tXSL))
         {
             Return $$$ERROR(-10001,"xsl转换文件:"_tXSL_"不存在!")
         }
         
         // 产生SQL文档XML流对象
-        //Set tInput = ##class(%Stream.GlobalCharacter).%New()
         Set tSQLStream = ""
         Set tSC = ##class(HCC.SQL.Tools).GenerateHCCDocument(pDocNum,.tSQLStream)
         w "GenerateHCCDocument:",tSC,!
@@ -314,6 +320,48 @@ ClassMethod UpdateDoc(pDocInfo As %String, pDoc As %Stream.GlobalCharacter) As %
     {
         Return e.AsStatus()
     }
+}
+
+/// 禁用数据元约束检查
+ClassMethod SkipDEValidation() As %Status
+{
+    Set $bit(^WS.Setting.Validation,1)=0
+    Quit $$$OK
+}
+
+/// 启用数据元约束检查
+ClassMethod EnforceDEValidation() As %Status
+{
+    Set $bit(^WS.Setting.Validation,1)=1
+    Quit $$$OK
+}
+
+/// 设置xsl目录
+ClassMethod SetXSLPath(pPath) As %Status
+{
+    Set ^HCC("XSLFilePath")=pPath
+    Quit $$$OK
+}
+
+/// 启动Debug模式
+ClassMethod EnableDebugMode() As %Status
+{
+    Set ^HCC("Debug")=1
+    Quit $$$OK
+}
+
+/// 禁用Debug模式
+ClassMethod DisableDebugMode() As %Status
+{
+    Set ^HCC("Debug")=0
+    Quit $$$OK
+}
+
+/// 设置Debug模式下输出文档的路径
+ClassMethod SetDebugFilePath(pPath) As %Status
+{
+    Set ^HCC("Debug","SQLDocOutputFolder")=pPath
+    Quit $$$OK
 }
 
 ClassMethod toUTF8(ByRef tOutput As %GlobalCharacterStream)

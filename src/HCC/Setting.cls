@@ -10,6 +10,7 @@ Class HCC.Setting Extends %RegisteredObject
 /// ^HCC("XSLFilePath")="C:\HCC\XSLT"
 /// ^HCC("DocGenTask")=0 关闭后台产生SQL互联互通文档的任务
 /// ^HCC("Debug")=1 Debug模式，该模式会输出SQL XML文档
+/// ^HCC("Debug","SQLDocOutputFolder") 输出SQL XML文档的目录
 /// ^WS.Setting.Validation设置WS标准的bit串
 /// 其第一位为0，表示跳过值集检查。值集检查由WS.DT.CodedString执行；
 /// 其第二位为0，表示跳过数据元必要性约束检查。
@@ -19,6 +20,8 @@ ClassMethod Init()
     Set ^HCC("HostFacility")=$lb("H123456","系联总医院")
     Set ^HCC("XSLFilePath")="C:\HCC\XSLT"
     Set ^HCC("Debug")=1
+    Set ^HCC("Debug","SQLDocOutputFolder") = "c:\temp\HCC\samples\"
+
     Set $bit(^WS.Setting.Validation,1)=1
     Set $bit(^WS.Setting.Validation,2)=1
     Set $bit(^WS.Setting.Validation,3)=1

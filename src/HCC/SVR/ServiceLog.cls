@@ -33,7 +33,7 @@ Method DurationGet() As %Integer
 ClassMethod GetDuration(pBeginTS, pEndTS = "") As %Integer
 {
     Return:( pEndTS ="") 0
-    Return $SYSTEM.SQL.DATEDIFF("ms",pBeginTS,pEndTS)
+    Return $SYSTEM.SQL.Functions.DATEDIFF("ms",pBeginTS,pEndTS)
 }
 
 Index IndSvrType On ServiceType [ Type = bitmap ];

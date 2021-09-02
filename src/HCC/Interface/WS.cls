@@ -18,7 +18,9 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/DE/:Id" Method="GET" Call="GetDE"/>
 <Route Url="/DE" Method="PUT" Call="PUTDE"/>
 <Route Url="/VS/:Id" Method="GET" Call="ListValueSetItems"/>
+<Route Url="/VS/:Id" Method="DELETE" Call="DeleteValueSet"/>
 <Route Url="/VS/:Id/:key" Method="GET" Call="GetValueSetItem"/>
+<Route Url="/VS/:Id/:key" Method="DELETE" Call="DeleteValueSetItem"/>
 <Route Url="/VS/:Id" Method="PUT" Call="PutValueSetItem"/>
 <Route Url="/DocSection/:Doctype" Method="GET" Call="GetDocSections"/>
 <Route Url="/DocSection/:Doctype" Method="PUT" Call="UpdateDocSections"/>
@@ -78,6 +80,74 @@ ClassMethod GetDocSections(pDocType As %Numeric) As %Status
 /// 更新文档章节设置 
 ClassMethod UpdateDocSections(pDocType As %Numeric) As %Status
 {
+    Set tSC = $$$OK,tDocType = $ZStrip(pDocType, "<>W")
+    If tDocType =""
+    {
+        w "请输入文档类型编号"
+        Return $$$ERROR(-10001,"请输入文档类型编号")
+    }
+        
+    Try 
+    {
+        #; Ensure we are only passed json
+        If %request.ContentType'="application/json" 
+        {  
+            Set %response.Status=..#HTTP415UNSUPPORTEDMEDIATYPE
+            Quit
+        }
+
+        If '$IsObject(%request.Content) 
+        {
+            Set tSC=$$$ERROR(-10001,"没有提交的Content")
+            Set %response.Status=..#HTTP400BADREQUEST
+            Quit    
+        }
+
+        #; Parse the content (JSON array)
+        #dim tItemArray As %DynamicArray
+        Set tItemArray=##class(%DynamicArray).%FromJSON(%request.Content)
+        
+        TStart
+        #SQLCompile Select=ODBC 
+        //删除原有设置
+        &SQL(delete from WS_DOC.DocumentConfig where DocumentType=:tDocType )
+
+        For tI=0:1:tItemArray.%Size()-1 
+        {
+            #; Get the KV object
+            Set tKV=tItemArray.%Get(tI)
+            If 'tKV.%IsA("%DynamicObject")
+            {
+                TRollback
+                Set %response.Status=..#HTTP400BADREQUEST
+                Quit    
+            }
+            Set tCar=tKV.Cardinality, tSec = $ZCVT(tKV.Section,"I","UTF8")
+            If (tCar="")||(tSec="")
+            {
+                TRollback
+                Set %response.Status=..#HTTP400BADREQUEST
+                Quit     
+            } 
+            // 插入每一条章节约束
+            &SQL(Insert or update WS_DOC.DocumentConfig(DocumentType,DocumentSection,Cardinality) 
+            values(:tDocType,:tSec,:tCar) )
+            // 如果插入失败，回滚整个事务
+            If (SQLCODE '=0 )
+            {
+                w "数据错误:"_SQLCODE_" "_%msg
+                TRollback
+            }
+        }
+        
+        TCommit
+    }
+    catch (e)
+    {
+        TRollback
+    }
+    Return tSC
+
     Return $$$OK
 }
 
@@ -339,10 +409,11 @@ ClassMethod PutDE() As %Status
 }
 
 /// 列出值集所有元素
+/// pValueSet: 值集名称
 ClassMethod ListValueSetItems(pValueSet As %String = "CV0201101") As %Status
 {
     Set tSC = $$$OK
-    Set tGol = "^WS.VS."_$replace(pValueSet,".","")
+    Set tGol = "^WS.VS."_$replace($ZStrip(pValueSet, "<>W"),$C(10),"")
     If $D(@tGol)=0
     {
         Set tMsg = "值集:"_pValueSet_"不存在"
@@ -365,6 +436,8 @@ ClassMethod ListValueSetItems(pValueSet As %String = "CV0201101") As %Status
 }
 
 /// 获取值集元素
+/// pValueSet: 值集名称
+/// pKey:元素Key
 ClassMethod GetValueSetItem(pValueSet As %String, pKey As %String) As %Status
 {
     Set tSC = $$$OK
@@ -380,15 +453,16 @@ ClassMethod GetValueSetItem(pValueSet As %String, pKey As %String) As %Status
 }
 
 /// 更新值集元素
+/// pValueSet: 值集名称
 ClassMethod PutValueSetItem(pValueSet As %String) As %Status
 {
-    Set tSC = $$$OK,tVS = $ZStrip(pValueSet, "<>W")
+    Set tSC = $$$OK,tVS = $replace($ZStrip(pValueSet, "<>W"),$C(10),"")
     If tVS =""
     {
         Return $$$ERROR(-10001,"请输入值集名称")
     }
     Set tGol = "^WS.VS."_$Replace(tVS,".","")
-        
+    Set ^TestLog($I(^TestLog))=tGol
     Try 
     {
         #; Ensure we are only passed json
@@ -408,7 +482,7 @@ ClassMethod PutValueSetItem(pValueSet As %String) As %Status
         #; Parse the content (JSON array)
         #dim tItemArray As %DynamicArray
         Set tItemArray=##class(%DynamicArray).%FromJSON(%request.Content)
-        
+        Set ^TestLog($I(^TestLog))="ArraySize="_tItemArray.%Size()
         For tI=0:1:tItemArray.%Size()-1 
         {
             #; Get the KV object
@@ -427,11 +501,45 @@ ClassMethod PutValueSetItem(pValueSet As %String) As %Status
             Set tTemArray(tSub)=tValue
         }
         Merge @tGol=tTemArray
+        Merge ^TestLog($I(^TestLog))=tTemArray
         kill tTemArray
     }
     catch (e)
     {
     }
+    Return tSC
+}
+
+/// 删除整个值集
+/// pValueSet: 值集名称
+ClassMethod DeleteValueSet(pValueSet As %String) As %Status
+{
+    Set tSC = $$$OK
+    Set tGol = "^WS.VS."_$replace(pValueSet,".","")
+    If $D(@tGol)'=1
+    {
+        Set tMsg = "值集:"_pValueSet_"不存在"
+        W tMsg
+        Return $$$ERROR(-10001,tMsg)
+    }
+    k @tGol
+    Return tSC
+}
+
+/// 删除值集元素
+/// pValueSet: 值集名称
+/// pKey:元素Key
+ClassMethod DeleteValueSetItem(pValueSet As %String, pKey As %String) As %Status
+{
+    Set tSC = $$$OK
+    Set tGol = "^WS.VS."_$replace(pValueSet,".",""), tSub=pKey
+    If $D(@tGol@(tSub))'=1
+    {
+        Set tMsg = "值集:"_pValueSet_"不存在"
+        W tMsg
+        Return $$$ERROR(-10001,tMsg)
+    }
+    k @tGol@(tSub)
     Return tSC
 }
 
