@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-08-31 17:51:40
+/// LastEditTime: 2021-09-07 17:31:13
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Interface/PubSub/PubSubServer.cls
@@ -336,21 +336,25 @@ ClassMethod GetAllSubscribers() As %Status
 ClassMethod GetAllTopics() As %Status
 {
 	set myquery="SELECT KeyName,DataValue from Ens_Util.LookupTable WHERE TableName ='HCC.SVR.Prod.LT.ActionSchema' "
-	set dynamicObject =##class(%Library.DynamicObject).%New()
+	
+  set dynamicArray =##class(%Library.DynamicArray).%New()
 	SET tStatement = ##class(%SQL.Statement).%New()
   SET qStatus = tStatement.%Prepare(myquery)
    IF qStatus'=1 {WRITE "%Prepare failed:" DO $System.Status.DisplayError(qStatus) QUIT}
   SET rset = tStatement.%Execute()
-  set counter = 1
+  set counter = 0
+  //set Topic = "Topics"
   WHILE rset.%Next() {
-	  set Topic = "Topic "_counter
+	  set dynamicObject =##class(%Library.DynamicObject).%New()
 	  set topic=rset.%Get("KeyName")
 	  set schemaName=rset.%Get("DataValue")
-	  set content = "{ 'TopicName':'"_topic_"',"_"'SchemaName':'"_schemaName_"'}"
-	  do dynamicObject.%Set(Topic,content )
+    do dynamicObject.%Set("TopicName",topic)
+    do dynamicObject.%Set("SchemaName",schemaName)
+	  do dynamicArray.%Push(dynamicObject)
 	  set counter= counter+1
 	  }
-  write dynamicObject.%ToJSON()
+  set array= dynamicArray.%ToJSON()
+  write "{ ""Topics"":"_array_"}"
   quit $$$OK
 }
 
