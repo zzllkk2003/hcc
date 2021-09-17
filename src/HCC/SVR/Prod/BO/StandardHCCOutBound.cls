@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
-/// Date: 2021-08-11 13:30:11
-/// LastEditTime: 2021-09-01 17:02:32
+/// Date: 2021-09-09 13:43:29
+/// LastEditTime: 2021-09-14 11:09:41
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/SVR/Prod/BO/StandardHCCOutBound.cls
@@ -12,27 +12,25 @@ Class HCC.SVR.Prod.BO.StandardHCCOutBound Extends Ens.BusinessOperation [ Proced
 
 Parameter ADAPTER = "EnsLib.SOAP.OutboundAdapter";
 
-Method PatRegister(tRequest As HCC.SVR.Prod.MSG.SVRRequest, Output tResponse As HCC.SVR.Prod.MSG.SVRResponse) As %Library.Status
-{
- //Set ..Adapter.WebServiceClientClass = "HCC.JHFW.BO.Proxy.JiaoHuServiceSoap"
- //Set tSC = ..Adapter.InvokeMethod("PatRegister",.PatRegisterResult,pRequest.pat)  Quit:$$$ISERR(tSC) tSC
- //Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
- //Set pResponse.PatRegisterResult=$get(PatRegisterResult)
+Property SoapAction As %String(MAXLEN = "");
 
- #Dim pRequest as HCC.SVR.Prod.MSG.PatRegisterRequest =##class(HCC.SVR.Prod.MSG.PatRegisterRequest).%New()
- #Dim pResponse as HCC.SVR.Prod.MSG.PatRegisterResponse	=##class(HCC.SVR.Prod.MSG.PatRegisterResponse).%New()
- set tResponse =##class(HCC.SVR.Prod.MSG.SVRResponse).%New()
- set pRequest.pat.Message=##class(HS.Util.StreamUtils).EnsureString(tRequest.Message)
- set pRequest.pat.Action=tRequest.Action
+Parameter SETTINGS = "SoapAction:Basic";
+
+Method HIPMessageServer(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse As HCC.SVR.Prod.MSG.SVRResponse) As %Library.Status
+{
+ #Dim tRequest as HCC.SVR.Prod.MSG.HIPMessageServerRequest =##class(HCC.SVR.Prod.MSG.HIPMessageServerRequest).%New()
+ #Dim tResponse as HCC.SVR.Prod.MSG.HIPMessageServerResponse =##class(HCC.SVR.Prod.MSG.HIPMessageServerResponse).%New()
+ //set soapAction="urn:hl7-org:v3/EMR.WS.PatientService.HIPMessageServer"
+ set pResponse =##class(HCC.SVR.Prod.MSG.SVRResponse).%New()
+ set tRequest.message=##class(HS.Util.StreamUtils).EnsureString(pRequest.Message)
+ set tRequest.action=pRequest.Action
  Set ..Adapter.WebServiceClientClass = "HCC.SVR.Prod.BO.Proxy.StandardHCCOutBound"
- Set tSC = ..Adapter.InvokeMethod("PatRegister",.PatRegisterResult,pRequest.pat)  Quit:$$$ISERR(tSC) tSC
- Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
- Set pResponse.PatRegisterResult=$get(PatRegisterResult)
- $$$TRACE(pResponse.PatRegisterResult)
- set x=pResponse.PatRegisterResult
- //set stream =##class(%Stream.GlobalCharacter).%New()
- do tResponse.Message.Write(x)
- 
+ //SoapAction 传入设置
+ Set tSC = ..Adapter.InvokeMethod("HIPMessageServer",.HIPMessageServerResult,tRequest.action,tRequest.message,..SoapAction)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = tRequest.NewResponse(.tResponse)  Quit:$$$ISERR(tSC) tSC
+ Set tResponse.HIPMessageServerResult=$get(HIPMessageServerResult)
+ set x=tResponse.HIPMessageServerResult
+ do pResponse.Message.Write(x)
  Quit $$$OK
 }
 
@@ -40,7 +38,7 @@ XData MessageMap
 {
 <MapItems>
 	<MapItem MessageType="HCC.SVR.Prod.MSG.SVRRequest">
-		<Method>PatRegister</Method>
+		<Method>HIPMessageServer</Method>
 	</MapItem>
 </MapItems>
 }

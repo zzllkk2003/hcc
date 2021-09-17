@@ -1,6 +1,6 @@
 /// 检验定量结果
 /// 用于实验室检查章节
-Class HCC.SQL.Document.LabResult.ResultQuantity Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.LabResult.ResultQuantity Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 检验定量结果

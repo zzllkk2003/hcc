@@ -1,6 +1,6 @@
 /// 标本
 /// 用于实验室检查章节
-Class HCC.SQL.Document.Specimen Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Specimen Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 标本类别

@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-09-07 17:31:13
+/// LastEditTime: 2021-09-14 13:42:38
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Interface/PubSub/PubSubServer.cls
@@ -50,6 +50,7 @@ ClassMethod NewSubscriber() As %Status
   #Dim BusinessHost as Ens.Config.Item = ##class(Ens.Config.Item).%New()
   #Dim Setting as Ens.Config.Setting = ##class(Ens.Config.Setting).%New()
   #dim SettingCre as Ens.Config.Setting = ##class(Ens.Config.Setting).%New()
+  #dim SettingSA as Ens.Config.Setting = ##class(Ens.Config.Setting).%New()
   Set Setting.Name="WebServiceURL"
   Set Setting.Value=PubSub.SubscriberEndPointURL
   #Dim production as Ens.Config.Production = ##class(Ens.Config.Production).%OpenId("HCCPKG.FoundationProduction")
@@ -57,9 +58,15 @@ ClassMethod NewSubscriber() As %Status
   Set BusinessHost.Name =PubSub.SubscriberBusinessHostName
   Set BusinessHost.Production = production
   Do BusinessHost.Settings.Insert(Setting)
+  // 插入soap credential
   Set SettingCre.Name="SOAPCredentials"
   Set SettingCre.Value=PubSub.SubAuth
+  // 插入soap action
+  Set SettingSA.Name="SoapAction"
+  set SettingSA.Target="Host"
+  Set SettingSA.Value=PubSub.SoapAction
   Do BusinessHost.Settings.Insert(SettingCre)
+  Do BusinessHost.Settings.Insert(SettingSA)
   Do production.Items.Insert(BusinessHost)
   Set tsc = production.%Save()
   If tsc = 0
@@ -89,6 +96,14 @@ ClassMethod NewSubscriber() As %Status
 				       set newS =##class(Ens.Config.Setting).%New()
 			           set newS.Name="SOAPCredentials"
 			           set newS.Value=PubSub.SubAuth
+			           do cItem.Settings.SetAt(newS,index)
+				       }  
+                 if (cItem.Settings.GetAt(index).Name ="SoapAction")  
+			       {
+				       set newS =##class(Ens.Config.Setting).%New()
+			           set newS.Name="SoapAction"
+                 set newS.Target="Host"
+			           set newS.Value=PubSub.SoapAction
 			           do cItem.Settings.SetAt(newS,index)
 				       }  
 		      }
@@ -149,7 +164,7 @@ ClassMethod NewSubscriber() As %Status
       Write result.%ToJSON()
       Quit
   } 
-  Do result.%Set("Status",$ZCONVERT("订阅者注册成功","O","UTF8"))
+  Do result.%Set("Status",$ZCONVERT("订阅者注册/更新成功","O","UTF8"))
   Write result.%ToJSON()
   
   Quit $$$OK
@@ -242,7 +257,7 @@ ClassMethod CopyToPubSubModelFromJSON(ByRef cm As HCC.Interface.PubSub.PubSubMod
     Set cm.SubscriberBusinessHostName=obj.SubscriberBusinessHostName
     Set cm.SubscriberEndPointURL=obj.SubscriberEndPointURL
     Set cm.SubTopic=obj.SubTopic
-    //set cm.WSDL=obj.WSDL
+    set cm.SoapAction=obj.SoapAction
     Set cm.SubscriberName=obj.SubscriberName
     Quit $$$OK
 }
@@ -295,6 +310,9 @@ ClassMethod ValidateJSON(obj As %DynamicObject, Output error As %DynamicObject) 
 	}
     If obj.%Get("SubscriberName") = "" {
 		Set error.errormessage = $ZCONVERT("订阅者名为空","O","UTF8")_$CHAR(10)_error.errormessage
+	}
+    If obj.%Get("SoapAction") = "" {
+		Set error.errormessage = $ZCONVERT("订阅者SoapAction为空","O","UTF8")_$CHAR(10)_error.errormessage
 	}
 	If error.errormessage '= ""
     {

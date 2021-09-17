@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-08-04 23:51:45
+/// LastEditTime: 2021-09-14 12:15:46
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: \hcc\src\HCC\Service\Rest\PubSubModel.cls
+/// FilePath: /hcc/src/HCC/Interface/PubSub/PubSubModel.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// Description
@@ -20,6 +20,9 @@ Property SubTopic As %String;
 
 /// 订阅者url
 Property SubscriberEndPointURL As %String;
+
+/// 订阅者组件的SoapAction
+Property SoapAction As %String;
 
 /// 订阅者目标production 组件
 Property SubscriberBusinessHostName As %String;

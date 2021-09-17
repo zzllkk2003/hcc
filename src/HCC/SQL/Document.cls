@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 互联互通文档SQL模型
-Class HCC.SQL.Document Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 地域代码: 
@@ -736,7 +736,6 @@ Trigger GenerateHCCDocumentUpdate [ Event = UPDATE, Time = AFTER ]
     //如果NeedGenerate字段由0变1,触发文档生成
     if {NeedGenerate*C} && ({NeedGenerate}=1)
     {
-        Set ^QPTestLog($I(^QPTestLog),"NeedGenerateTrigger")=1
         Set tDocNum={DocumentNo}
         Do ##class(HCC.Util).PushDocGenQueue(tDocNum)
     }
@@ -768,6 +767,9 @@ Method GenDocInfo(ByRef pDocInfo As %String) As %Status
         Set tDocInfo.DocVersion = ..Version
         /// 患者身份证号
         Set tDocInfo.PatientIDNo=..Header.recordTarget.patient.patientId.Value
+        /// 患者姓名
+        Set tDocInfo.PatientName=..Header.recordTarget.patient.patientName.Value
+
         // 门急诊号
         //Set tDocInfo.OutPatientNum=..Header.recordTarget.inpatientNum
         /// 住院号标识

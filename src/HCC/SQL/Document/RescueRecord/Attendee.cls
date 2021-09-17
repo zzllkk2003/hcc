@@ -1,5 +1,5 @@
 /// 抢救记录章节- 参加抢救人员子表
-Class HCC.SQL.Document.RescueRecord.Attendee Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.RescueRecord.Attendee Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 参加抢救人员

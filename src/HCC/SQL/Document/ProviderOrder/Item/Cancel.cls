@@ -1,5 +1,5 @@
 /// 医嘱取消
-Class HCC.SQL.Document.ProviderOrder.Item.Cancel Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.ProviderOrder.Item.Cancel Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 医嘱取消日期时间

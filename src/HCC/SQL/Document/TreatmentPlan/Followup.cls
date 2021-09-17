@@ -1,5 +1,5 @@
 /// 治理计划 - 随访
-Class HCC.SQL.Document.TreatmentPlan.Followup Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.TreatmentPlan.Followup Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 随访方式代码表。用于《治疗记录》

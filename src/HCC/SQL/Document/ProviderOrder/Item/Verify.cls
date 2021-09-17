@@ -1,5 +1,5 @@
 /// 医嘱核对
-Class HCC.SQL.Document.ProviderOrder.Item.Verify Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.ProviderOrder.Item.Verify Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 医嘱核对日期时间

@@ -25,13 +25,13 @@
     <message name="HIPMessageServerSoapOut">
         <part name="parameters" element="s0:HIPMessageServerResponse"/>
     </message>
-    <portType name="JiaoHuServiceSoap">
+    <portType name="HIPMessageServerSoap">
         <operation name="HIPMessageServer">
             <input message="s0:HIPMessageServerSoapIn"/>
             <output message="s0:HIPMessageServerSoapOut"/>
         </operation>
     </portType>
-    <binding name="JiaoHuServiceSoap" type="s0:JiaoHuServiceSoap">
+    <binding name="HIPMessageServerSoap" type="s0:HIPMessageServerSoap">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
         <operation name="HIPMessageServer">
             <soap:operation soapAction="urn:hl7-org:v3/HCC.SVR.Prod.BS.HIPMessageServer.HIPMessageServer" style="document"/>
@@ -43,9 +43,9 @@
             </output>
         </operation>
     </binding>
-    <service name="JiaoHuService">
-        <port name="JiaoHuServiceSoap" binding="s0:JiaoHuServiceSoap">
-            <soap:address location="http://172.19.86.19:52773/csp/healthshare/hcc/HCC.SVR.Prod.BS.HIPMessageServer.cls"/>
+    <service name="HIPMessageServer">
+        <port name="HIPMessageServerSoap" binding="s0:HIPMessageServerSoap">
+            <soap:address location="http://172.19.85.68:52773/csp/healthshare/hcc/services/HCC.SVR.Prod.BS.HIPMessageServer.cls"/>
         </port>
     </service>
 </definitions>

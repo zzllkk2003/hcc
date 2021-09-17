@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 高值耗材章节条目表
-Class HCC.SQL.Document.HighValueConsumable Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HighValueConsumable Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "10160-0";

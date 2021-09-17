@@ -3,7 +3,7 @@
 /// Date:2021/08
 /// 《检查报告》的体格检查章节
 /// 注意，这是专门用于C0006《检查报告》的体格检查章节，和其它文档的“体格检查章节”不同！！！
-Class HCC.SQL.Document.ExamReportPhysicalExam Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ExamReportPhysicalExam Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "29545-1";

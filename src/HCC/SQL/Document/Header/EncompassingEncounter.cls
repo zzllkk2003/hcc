@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 互联互通文档头子表-就诊场景表
-Class HCC.SQL.Document.Header.EncompassingEncounter Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Header.EncompassingEncounter Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档编号 (同时作为Idkey)

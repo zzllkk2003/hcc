@@ -1,6 +1,6 @@
 /// 费用章节
 /// 治疗费 - 手术治疗项目费
-Class HCC.SQL.Document.Payment.Surgery Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.Surgery Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 治疗-手术治疗费

@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 费用章节
 /// 治疗费
-Class HCC.SQL.Document.Payment.Treatment Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.Treatment Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 治疗-非手术治疗项目费

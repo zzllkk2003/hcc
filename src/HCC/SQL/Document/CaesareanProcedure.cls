@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 《宫剖产记录》使用的“手术操作章节”表。
 /// 该手术操作章节非常特殊，因此独立为“宫剖产记录-手术操作章节”创建一个类/表
-Class HCC.SQL.Document.CaesareanProcedure Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.CaesareanProcedure Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "47519-4";

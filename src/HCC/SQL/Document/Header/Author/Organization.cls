@@ -1,4 +1,4 @@
-Class HCC.SQL.Document.Header.Author.Organization Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Header.Author.Organization Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// id

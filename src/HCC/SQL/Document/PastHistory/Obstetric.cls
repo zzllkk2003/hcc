@@ -1,5 +1,5 @@
 /// 既往史章节 - 孕产史条目子表
-Class HCC.SQL.Document.PastHistory.Obstetric Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PastHistory.Obstetric Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 孕产史条目名称

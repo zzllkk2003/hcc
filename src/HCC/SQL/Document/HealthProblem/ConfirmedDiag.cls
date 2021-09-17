@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 确定诊断-西医条目子表
-Class HCC.SQL.Document.HealthProblem.ConfirmedDiag Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.ConfirmedDiag Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 西医诊断名称

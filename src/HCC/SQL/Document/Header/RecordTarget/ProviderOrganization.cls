@@ -1,5 +1,5 @@
 /// 提供患者服务机构
-Class HCC.SQL.Document.Header.RecordTarget.ProviderOrganization Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Header.RecordTarget.ProviderOrganization Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 提供患者服务机构id

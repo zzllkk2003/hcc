@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 护理观察章节条目表
-Class HCC.SQL.Document.NursingObservation Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.NursingObservation Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

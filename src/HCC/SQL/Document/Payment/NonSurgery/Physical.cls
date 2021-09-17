@@ -1,6 +1,6 @@
 /// 费用章节
 /// 治疗费 - 非手术治疗项目费-临床物理治疗费
-Class HCC.SQL.Document.Payment.NonSurgery.Physical Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.NonSurgery.Physical Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 治疗-非手术治疗项目费-临床物理治疗费

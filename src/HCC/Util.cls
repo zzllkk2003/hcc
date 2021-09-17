@@ -133,16 +133,13 @@ ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
 {
     try
     {
-        Set tSC = $$$OK
-        // 加载SQL文档
-        Set tSQLDoc = ##class(HCC.SQL.Document).%OpenId(pDocNum)
-        Return:('$IsObject(tSQLDoc)) $$$ERROR(-10001,"SQL文档:"_pDocNum_"不存在!")
-        
-        // 获得文档信息
-        Set tDocInfo=""
-        Set tSC = tSQLDoc.GenDocInfo(.tDocInfo)
-        Set tDocType = tSQLDoc.DocumentType
-        Do tSQLDoc.%Close()
+        Set tSC = $$$OK,tDocType=""
+        #SQLCompile Select=ODBC 
+        &SQL(SELECT DocumentType INTO :tDocType FROM HCC_SQL.Document WHERE DocumentNo=:pDocNum)
+        If SQLCODE = 100
+        {
+            Return $$$ERROR(-10001,"SQL文档:"_pDocNum_"不存在!")
+        }
         
         // 加载xsl转换文件
         Set tSplit=$Case($system.Version.GetOS(),"Windows":"\",:"/")
@@ -160,11 +157,11 @@ ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
         // 产生SQL文档XML流对象
         Set tSQLStream = ""
         Set tSC = ##class(HCC.SQL.Tools).GenerateHCCDocument(pDocNum,.tSQLStream)
-        w "GenerateHCCDocument:",tSC,!
         if ($$$ISERR(tSC)) 
         {
             Return tSC
         }
+        
         
         // 转换XML流对象为HCC文档, 并保存
         If $IsObject(tSQLStream) 
@@ -180,11 +177,18 @@ ClassMethod CreateDocument(pDocNum As %String = "Doc1") As %Status
             Return:($$$ISERR(tSC)) tSC
             D ..toUTF8(.tDocument)
             
+            // 加载SQL文档
+            Set tDocInfo=""
+            Set tSQLDoc = ##class(HCC.SQL.Document).%OpenId(pDocNum)
+            Return:('$IsObject(tSQLDoc)) $$$ERROR(-10001,"SQL文档:"_pDocNum_"不存在!")
+            // 获得文档信息
+            Set tSC = tSQLDoc.GenDocInfo(.tDocInfo)
+            Do tSQLDoc.%Close()
+
             // 保存HCC文档到文档仓库
             //If $$$ISOK(tSC)
             //{
                 Set tSC = ..UpdateDoc(tDocInfo,tDocument)
-                w "UpdateDoc:",tSC,!
                 Return:($$$ISERR(tSC)) tSC
                 kill (tDocument,tCompiledStyleSheet)
             //}
@@ -222,6 +226,45 @@ ClassMethod PushDocGenQueue(pDocNum As %String) As %Status
     }
 }
 
+/// 获取文档的HTML展现
+/// pDocNo: 文档号
+/// pHTML: 输出的HTML
+ClassMethod GetDocHTML(pDocNo, Output pHTML) As %Status
+{
+    #dim tSC As %Status = $$$OK    
+    #dim e As %Exception.AbstractException    
+    Try     
+    {
+        Set (tInput, pHTML) =""
+
+        &SQL(SELECT Content into :tInput FROM HCC_DocRepository.LatestDocs WHERE DocId=:pDocNo)
+        If SQLCODE = 100
+        {
+            Set pHTML = "文档"_pDocNo_"不存在!"
+            Return tSC
+        }
+        Set tSplit=$Case($system.Version.GetOS(),"Windows":"\",:"/")
+
+        Set tXSL = $G(^HCC("XSLFilePath"))_tSplit_"C0032Viewer.xsl"
+        If tInput '="" 
+        {
+            Set tInput = $P(tInput,"<?xml version=""1.0"" encoding=""UTF-8""?>",2)
+            Set tParams="",tCompiledStyleSheet=""
+            
+            Set tSC=##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile(tXSL,.tCompiledStyleSheet)
+            If $$$ISERR(tSC) Quit
+            
+            Set tSC=##class(%XML.XSLT.Transformer).TransformStringWithCompiledXSL(tInput,tCompiledStyleSheet,.pHTML,,.tParams)
+            Set pHTML = $ZCVT(pHTML,"I","UTF8")
+        }        
+    } 
+    Catch (e) 
+    {        
+        Set tSC=e.AsStatus()    
+    }    
+    Return tSC
+}
+
 /// 通过身份证号，获得患者主索引记录
 /// pIDNo: 身份证号
 /// pPatient: 患者主索引
@@ -254,6 +297,7 @@ ClassMethod UpdateDoc(pDocInfo As %String, pDoc As %Stream.GlobalCharacter) As %
             Set tPatient = ##class(HCC.DocRepository.Patient).%New()
             Set (tPatient.PatCardId,tPatient.PatId) = tPatIDNo
             Set tPatient.PatName = tDocInfo.PatientName
+            Do tPatient.%Save()
         }
         
         //创建新仓库历史文档
@@ -283,7 +327,7 @@ ClassMethod UpdateDoc(pDocInfo As %String, pDoc As %Stream.GlobalCharacter) As %
         Set tDoc.DocCreatTime=tDocInfo.DocCreatTime
         /// 文档版本号
         Set tDoc.VersionNumber = tDocInfo.DocVersion
-        /// 患者就诊日期起始时间 20170101
+        /// 患者就诊日期起始时间 
         Set tDoc.PatEffectiveLowTime =tDocInfo.EncBeginTime
         /// 患者就诊日期截至时间  
         Set tDoc.PatEffectiveHighTime =tDocInfo.EncEndTime
@@ -378,6 +422,80 @@ ClassMethod toUTF8(ByRef tOutput As %GlobalCharacterStream)
         }
         Do tOutput.Clear()
         Do tOutput.Write(tStreamBuffer)
+}
+
+/// 获取HCC日志
+/// pBeginTime: 查询时间范围-开始时间
+/// pEndTime: 查询时间范围-结束时间
+/// pType: 日志类型
+ClassMethod GetHCCLog(pBeginTime = "", pEndTime = "", pType = "") As %String
+{
+    Set (tTypeClause,tBeginClause,tEndClause)="", tCondCount=0,tRet="",
+    tSQL = "SELECT JSON_ARRAYAGG(JSON_OBJECT('Action':Action,'DocNum':DocNum,'LogTime':LogTime,'Msg':Msg,'Type':Type)) As jmsg From HCC.log"
+    If $$$ISOK(##class(%TimeStamp).IsValid($replace($ZStrip(pBeginTime, "<>W"),$C(10),"")))
+    {
+        Set tBeginClause =" LogTime>='" _$replace($ZStrip(pBeginTime, "<>W"),$C(10),"")_"' "
+        Do $I(tCondCount)
+    }
+    If $$$ISOK(##class(%TimeStamp).IsValid($replace($ZStrip(pEndTime, "<>W"),$C(10),"")))
+    {
+        Set tEndClause = $case(tCondCount,1:" AND",:"" )_" LogTime<='" _$replace($ZStrip(pEndTime, "<>W"),$C(10),"")_"' "
+        Do $I(tCondCount)
+    }
+    If $replace($ZStrip(pType, "<>W"),$C(10),"") '=""
+    {
+        Set tTypeClause = $case(tCondCount,0:"",:" AND" )_" Type='"_$replace($ZStrip(pType, "<>W"),$C(10),"")_"' "
+        Do $I(tCondCount)
+    }
+    
+    If tCondCount>0
+    {
+        Set tSQL = tSQL _ " WHERE "_tBeginClause_tEndClause_tTypeClause
+    }
+    Set tSQL = tSQL _ " ORDER BY LogTime"
+        
+    Set tRS = ##class(%SQL.Statement).%ExecDirect(,tSQL)
+    While tRS.%Next()
+    {
+        Set tRet=tRS.jmsg
+    }
+
+    Q tRet
+}
+
+ClassMethod ListVS() As %String
+{
+    If $D(^WS.VSList)=1
+    {
+        Return $G(^WS.VSList)
+    }
+    
+    Set tRet ="",tJO = ##class(%DynamicObject).%New()
+    Set glo="^WS.VS"
+    For 
+    {
+        Set glo=$O(^$G(glo))
+        Quit:'(glo["^WS.VS.")
+        Set tTMP=$P(glo,".",3)
+        If glo["^WS.VS.DE"
+        {
+            //DE083000800
+            Set tJO.name=$E(tTMP,1,4)_"."_$E(tTMP,5,6)_"."_$E(tTMP,7,9)_"."_$E(tTMP,10,11)
+        }
+        ElseIf glo [ "^WS.VS.CV"
+        {
+            //WS.VS.CV0600118
+            Set tJO.name=$E(tTMP,1,4)_"."_$E(tTMP,5,7)_"."_$E(tTMP,8,9)
+        }
+        Else
+        {
+            Set tJO.name=tTMP
+        }
+        Set tRet = tRet_","_tJO.%ToJSON()
+    }
+    Set tRet = "["_$E(tRet,2,$L(tRet))_"]"
+    Set ^WS.VSList = tRet
+    Return tRet
 }
 
 ClassMethod Test()

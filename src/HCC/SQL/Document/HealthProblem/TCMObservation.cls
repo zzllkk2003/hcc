@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 中医“四诊”观察结果
-Class HCC.SQL.Document.HealthProblem.TCMObservation Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.TCMObservation Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医“四诊”观察结果

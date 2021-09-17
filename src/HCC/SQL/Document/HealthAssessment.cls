@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 健康评估章节表
-Class HCC.SQL.Document.HealthAssessment Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthAssessment Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "51848-0";

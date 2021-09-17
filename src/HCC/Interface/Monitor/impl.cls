@@ -1,6 +1,6 @@
 /// HealthConnect消息及服务的一些统计示例<br/>
 /// Business logic class defined by OpenAPI in HCC.Interface.Monitor.spec<br/>
-/// Updated Aug 30, 2021 12:57:17
+/// Updated Sep 15, 2021 14:20:26
 Class HCC.Interface.Monitor.impl Extends %REST.Impl [ ProcedureBlock ]
 {
 
@@ -9,6 +9,17 @@ Parameter ExposeServerExceptions = 0;
 
 /// 服务列表
 ClassMethod getServices() As %Stream.Object
+{
+    //(Place business logic here)
+    //Do ..%SetStatusCode(<HTTP_status_code>)
+    //Do ..%SetHeader(<name>,<value>)
+    //Quit (Place response here) ; response may be a string, stream or dynamic object
+}
+
+/// 包括总数，成功数（返回AA的数字），失败（返回AE），错误（内部错误，BS向web application返回500）。统计的时长为。。。<br/>
+/// The method arguments hold values for:<br/>
+///     action, action<br/>
+ClassMethod getHCCServiceStatistic(action As %String) As %Stream.Object
 {
     //(Place business logic here)
     //Do ..%SetStatusCode(<HTTP_status_code>)
@@ -70,7 +81,7 @@ ClassMethod getOneNamespaceServices(namespace As %String) As %Stream.Object
 ///     namespace<br/>
 ClassMethod getBusinessHostInfo(namespace As %String) As %Stream.Object
 {
-    set currentNS=$Namespace
+     set currentNS=$Namespace
     set queryNS=$ZCVT(namespace,"U")
    	set formatter = ##class(%JSON.Formatter).%New()
     set code ="", message=""
@@ -116,32 +127,56 @@ ClassMethod getBusinessHostInfo(namespace As %String) As %Stream.Object
     quit formattedResponse
 }
 
-/// 统计最近一个小时内的各个组件的消息计数，或者当给定时间间隔，统计时间间隔内的消息计算<br/>
+/// 统计当天（从零点到当前时间）各个组件的消息计数，或者当给定时间间隔，统计时间间隔内的消息计算<br/>
 /// The method arguments hold values for:<br/>
 ///     namespace<br/>
+///     action, action<br/>
 ///     beginTime, begin time<br/>
 ///     endTime, end time<br/>
-///     pageSize, 单页返回的记录数量<br/>
-///     pageNumber, Page Number<br/>
-ClassMethod getActivityData(namespace As %String, beginTime As %String, endTime As %String, pageSize As %String, pageNumber As %Integer) As %Stream.Object
+ClassMethod getActivityData(namespace As %String, action As %String, beginTime As %String, endTime As %String) As %Stream.Object
 {
     Set currentNS=$Namespace, queryNS=$ZCVT(namespace,"U")
    	zn queryNS
    	set formatter = ##class(%JSON.Formatter).%New()
    	SET tStatement = ##class(%SQL.Statement).%New()
     set pResponse=[], errorResponse={}
-   	
-   	//process time period
-   	if ('$DATA(beginTime))
-   	{	SET sqlstring="SELECT hostname, totalcount FROM Ens_Activity_Data.Hours where timeslot=(select max(timeslot) FROM       Ens_Activity_Data.Hours)"
+   	set SQLPrefix = "SELECT hostname, totalcount, totalduration/totalcount as AvgDuration, sitedimension FROM Ens_Activity_Data.Hours"
+
+    //仅处理没有参数的查询
+    if ('$DATA(action) & '$DATA(beginTime)) 
+    {   SET sqlstring="SELECT hostname, totalcount, totalduration/totalcount as AvgDuration, sitedimension FROM  Ens_Activity_Data.Days where timeslot=(select max(timeslot) FROM Ens_Activity_Data.Days)"
    		SET qStatus = tStatement.%Prepare(sqlstring)
    		set resultSet = tStatement.%Execute()
-   	}else
-   	{ 
-		SET sqlstring="SELECT hostname, sum(totalcount) as totalcount FROM Ens_Activity_Data.Seconds where timeslot>? and timeslot<? group by hostname"  	
+    }elseif ('$DATA(beginTime) & $DATA(action))
+    //处理有action参数没有时间段的查询
+    {
+        SET sqlstring="SELECT hostname, totalcount, totalduration/totalcount as AvgDuration, sitedimension FROM  Ens_Activity_Data.Days where timeslot=(select max(timeslot) FROM Ens_Activity_Data.Days) and sitedimension like '%"_action_"%'"
+   		SET qStatus = tStatement.%Prepare(sqlstring)
+   		set resultSet = tStatement.%Execute()
+
+    }elseif ($DATA(beginTime) & '$DATA(action))
+    //处理有时间段没有action参数的查询
+    {   SET sqlstring="SELECT hostname, sum(totalcount) as totalcount, sum(totalduration)/sum(totalcount) as AvgDuration, sitedimension FROM Ens_Activity_Data.hours where timeslot>=? and timeslot<? group by hostname"  	
 	   	SET qStatus = tStatement.%Prepare(sqlstring)
    		set resultSet = tStatement.%Execute(beginTime,endTime)
-	}
+    }else 
+    //处理有两种入参的查询
+   	{	SET sqlstring="SELECT hostname, sum(totalcount) as totalcount, sum(totalduration)/sum(totalcount) as AvgDuration, sitedimension FROM Ens_Activity_Data.hours where timeslot>=? and timeslot<? and sitedimension =? group by hostname"	
+	   	SET qStatus = tStatement.%Prepare(sqlstring)
+   		set resultSet = tStatement.%Execute(beginTime,endTime,action)
+   	}
+
+   	#; //process time period
+   	#; if ('$DATA(beginTime))
+   	#; {	SET sqlstring="SELECT hostname, totalcount, totalduration/totalcount as AvgDuration, sitedimension FROM  Ens_Activity_Data.Days where timeslot=(select max(timeslot) FROM Ens_Activity_Data.Days)"
+   	#; 	SET qStatus = tStatement.%Prepare(sqlstring)
+   	#; 	set resultSet = tStatement.%Execute()
+   	#; }else
+   	#; { 
+	#; 	SET sqlstring="SELECT hostname, totalcount, totalduration/totalcount as AvgDuration, sitedimension FROM Ens_Activity_Data.hours where timeslot>? and timeslot<? group by hostname"  	
+	#;    	SET qStatus = tStatement.%Prepare(sqlstring)
+   	#; 	set resultSet = tStatement.%Execute(beginTime,endTime)
+	#; }
    
    	IF qStatus'=1 {
 	    set pResponse={"code":500,"message":"prepare failed"}	
@@ -156,6 +191,8 @@ ClassMethod getActivityData(namespace As %String, beginTime As %String, endTime 
            	set record = {}
            	set record.hostname=resultSet.%Get("HostName")
            	set record.totalcount=resultSet.%Get("TotalCount")
+            set record.AvgDuration=resultSet.%Get("AvgDuration")
+            set record.SiteDimension=resultSet.%Get("SiteDimension")
            	set stupid=pResponse.%Push(record)       
     	}
     }
@@ -174,9 +211,7 @@ ClassMethod getActivityData(namespace As %String, beginTime As %String, endTime 
 ///     level<br/>
 ///     beginTime, begin time<br/>
 ///     endTime, end time<br/>
-///     pageSize, 单页返回的记录数量<br/>
-///     pageNumber, Page Number<br/>
-ClassMethod getEventLog(namespace As %String, level As %String, beginTime As %String, endTime As %String, pageSize As %String, pageNumber As %Integer) As %Stream.Object
+ClassMethod getEventLog(namespace As %String, level As %String, beginTime As %String, endTime As %String) As %Stream.Object
 {
     Set currentNS=$Namespace
    	set queryNS=$ZCVT(namespace,"U")
@@ -195,7 +230,7 @@ ClassMethod getEventLog(namespace As %String, level As %String, beginTime As %St
    	zn queryNS
    	
     //process SQL   
-   	SET sqlstring="SELECT top 30 timelogged,configname,text FROM Ens_Util.Log order by timelogged desc"
+   	SET sqlstring="SELECT timelogged,configname,text FROM Ens_Util.Log order by timelogged desc"
    	SET tStatement = ##class(%SQL.Statement).%New()
  	SET qStatus = tStatement.%Prepare(sqlstring)
    	IF qStatus'=1 {

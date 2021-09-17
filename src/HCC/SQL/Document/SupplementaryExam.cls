@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 辅助检查条目表
 /// 注意，这不是章节类，是辅助检查条目类。不需要辅助检查章节类
-Class HCC.SQL.Document.SupplementaryExam Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.SupplementaryExam Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

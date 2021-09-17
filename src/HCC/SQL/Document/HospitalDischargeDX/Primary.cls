@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 出院诊断 - 主要诊断子表
-Class HCC.SQL.Document.HospitalDischargeDX.Primary Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HospitalDischargeDX.Primary Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 主要诊断 

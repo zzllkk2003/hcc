@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/08
 /// 失血章节表
-Class HCC.SQL.Document.BloodLoss Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.BloodLoss Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "55103-6";

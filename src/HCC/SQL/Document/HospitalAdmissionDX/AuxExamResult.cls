@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 入院诊断 - 阳性辅助检查结果子表
-Class HCC.SQL.Document.HospitalAdmissionDX.AuxExamResult Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HospitalAdmissionDX.AuxExamResult Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 阳性辅助检查结果

@@ -1,6 +1,6 @@
 /// 费用章节
 /// 中药费
-Class HCC.SQL.Document.Payment.TCM Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.TCM Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中药费-中成药费

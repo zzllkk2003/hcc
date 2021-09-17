@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 生命体征章节条目表
 /// 注意，这不是章节类，是生命体征条目类。没有生命体征章节类
-Class HCC.SQL.Document.VitalSign Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.VitalSign Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "8716-3";

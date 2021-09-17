@@ -1,5 +1,5 @@
 /// 辅助检查条目子表
-Class HCC.SQL.Document.LabTest.AuxExam Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.LabTest.AuxExam Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档编号

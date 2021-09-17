@@ -1,5 +1,5 @@
 /// 互联互通文档头-医生签名信息，法定审核者子表
-Class HCC.SQL.Document.Header.LegalAuthenticator Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Header.LegalAuthenticator Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档编号

@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 转科记录章节表
 /// 涵盖《住院病案首页》和《住院病程记录/转科记录》
-Class HCC.SQL.Document.Referral Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Referral Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "42349-1";

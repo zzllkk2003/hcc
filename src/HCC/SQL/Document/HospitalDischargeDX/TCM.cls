@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 出院中医诊断-主病子表
-Class HCC.SQL.Document.HospitalDischargeDX.TCM Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HospitalDischargeDX.TCM Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医病

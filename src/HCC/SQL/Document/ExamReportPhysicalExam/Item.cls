@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/08
 /// 《检查报告》的体格检查章节 - 检查项目条目子表
-Class HCC.SQL.Document.ExamReportPhysicalExam.Item Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ExamReportPhysicalExam.Item Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 检查项目代码

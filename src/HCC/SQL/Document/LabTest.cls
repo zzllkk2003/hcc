@@ -18,7 +18,7 @@
 /// 2. WST500.02-2016《门（急）诊病历》和 WST500.03-2016《急诊留观病历》需要提交辅助检查条目子表：HCC_SQL_Document_LabTest.AuxExam
 /// 3. WST500.053-2016《出院小结》需要提交阳性辅助检查结果条目子表：HCC_SQL_Document_LabTest.AuxExamResult
 /// 4. WST500.07-2016《检验记录》和WST500.44-2016《抢救记录》需要提交检验条目子表：HCC_SQL_Document_LabTest.Item
-Class HCC.SQL.Document.LabTest Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.LabTest Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter XMLIGNORENULL = 1;

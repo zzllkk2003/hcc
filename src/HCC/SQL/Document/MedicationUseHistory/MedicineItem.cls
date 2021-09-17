@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 用药章节 - 处方条目子表
 /// 用于《西药处方》、《中药处方》、《出入量记录》
-Class HCC.SQL.Document.MedicationUseHistory.MedicineItem Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.MedicationUseHistory.MedicineItem Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 药物使用途径代码

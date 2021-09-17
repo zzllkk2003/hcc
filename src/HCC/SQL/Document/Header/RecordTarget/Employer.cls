@@ -1,5 +1,5 @@
 /// 文档记录对象或健康保健对象 (患者信息)的工作单位
-Class HCC.SQL.Document.Header.RecordTarget.Employer Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Header.RecordTarget.Employer Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 工作单位名称

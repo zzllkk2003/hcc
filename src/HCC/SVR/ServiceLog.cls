@@ -5,6 +5,10 @@
 Class HCC.SVR.ServiceLog Extends (%Persistent, %XML.Adaptor)
 {
 
+Parameter DSTIME As STRING [ Constraint = ",AUTO,MANUAL", Flags = ENUM ] = "AUTO";
+
+Parameter DSINTERVAL = 1;
+
 /// 服务类型。对应46个互联互通服务
 Property ServiceType As %String;
 

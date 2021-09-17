@@ -1,6 +1,6 @@
 /// 抢救记录
 /// 用于《抢救记录》的"手术操作章节"
-Class HCC.SQL.Document.Rescue Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Rescue Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

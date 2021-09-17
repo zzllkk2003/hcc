@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 术后去向章节表
-Class HCC.SQL.Document.ProcedureDisposition Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ProcedureDisposition Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "59775-7";

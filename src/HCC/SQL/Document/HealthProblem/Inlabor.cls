@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 待产记录
-Class HCC.SQL.Document.HealthProblem.Inlabor Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.Inlabor Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 待产日期时间

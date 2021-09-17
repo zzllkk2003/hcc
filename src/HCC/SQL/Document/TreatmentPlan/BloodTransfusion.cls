@@ -1,5 +1,5 @@
 /// 治疗计划章节 - 输血过程
-Class HCC.SQL.Document.TreatmentPlan.BloodTransfusion Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.TreatmentPlan.BloodTransfusion Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 输血时间

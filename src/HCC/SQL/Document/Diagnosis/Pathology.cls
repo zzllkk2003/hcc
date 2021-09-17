@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 病理诊断子表
-Class HCC.SQL.Document.Diagnosis.Pathology Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Diagnosis.Pathology Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 病理号标识

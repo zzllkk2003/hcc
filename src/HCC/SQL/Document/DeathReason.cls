@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 死亡原因章节表
-Class HCC.SQL.Document.DeathReason Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.DeathReason Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

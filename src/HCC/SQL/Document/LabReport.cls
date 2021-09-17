@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 检验报告章节表
 /// 《检验记录》需要
-Class HCC.SQL.Document.LabReport Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.LabReport Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

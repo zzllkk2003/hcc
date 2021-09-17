@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 护理操作条目表
 /// 注意，这不是章节类，是护理操作条目类。不需要护理操作章节类
-Class HCC.SQL.Document.NursingOperation Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.NursingOperation Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

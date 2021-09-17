@@ -1,5 +1,5 @@
 /// 阳性辅助检查结果条目子表
-Class HCC.SQL.Document.LabTest.AuxExamResult Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.LabTest.AuxExamResult Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档编号

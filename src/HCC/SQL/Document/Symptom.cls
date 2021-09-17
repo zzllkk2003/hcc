@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 症状章节条目表
 /// 涵盖《检查报告》、《入院评估》
-Class HCC.SQL.Document.Symptom Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Symptom Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "11450-4";

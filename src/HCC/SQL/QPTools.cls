@@ -363,6 +363,35 @@ ClassMethod GeneratePopulateDocMethod()
     }
 }
 
+/// 为包增加父类
+ClassMethod AddParentClass(pPackage = "QP.Test", pParentClass = "%XML.Adaptor") As %Status
+{
+    Set tSQL = "SELECT ID FROM %Dictionary.ClassDefinition WHERE ID %STARTSWITH ?"
+    Set tQuery = ##class(%SQL.Statement).%New()
+    Set tSC = tQuery.%Prepare(tSQL)
+    Q:$$$ISERR(tSC) tSC
+    Set tRS=tQuery.%Execute(pPackage_".")
+    While (tRS.%Next()) 
+    {
+        Set tClassName = tRS.%Get("ID")
+        Set tClassDef = ##class(%Dictionary.ClassDefinition).%OpenId(tClassName)
+        If tClassDef.Super = ""
+        {
+            Set tClassDef.Super = pParentClass
+        }
+        Else
+        {
+            Set tClassDef.Super = tClassDef.Super _","_ pParentClass
+        }
+        Set tSC=tClassDef.%Save()
+        
+        Set tSC= $System.OBJ.Compile(tClassName,"-d")
+    }
+    Do tQuery.%Close(),tRS.%Close()
+
+    Quit tSC
+}
+
 ClassMethod Test() As %Status
 {
     Set pFullTableName="HCC_SQL_Document.RescueRecord"
@@ -374,6 +403,81 @@ ClassMethod Test() As %Status
     while rs.%Next() 
     {
         w rs.Data("FIELD_NAME"),"--",rs.Data("HIDDEN"),"--",rs.Data("ODBC_DATATYPE_CODE"),!
+    }
+}
+
+ClassMethod GenInvalidData(pCount = 10)
+{
+    #SQLCompile Select=ODBC 
+
+    For i=1:1:pCount
+    {
+        Set tDocNo = "WR20"_i
+        &SQL(insert or update into HCC_SQL.Document(
+        DocumentNo,
+        DocumentType,
+        BatchNo)
+        values(
+        :tDocNo,
+        15,
+        'A234'))
+        w SQLCODE,!
+        
+        Set tGender=$P("0,1,2,9,男性,nan,nv,M,F",",",$R(9)+1)
+        Set tHeight=$P("61,62,58,59,69,67,63cm,64.5厘米,57厘米,50,48,71",",",$R(12)+1)
+        Set tWeight=$P("3031,4002,2768,2890,3265,2927,3000克,8斤2两,3.2公斤,2880,1900,3180",",",$R(12)+1)
+        Set tSize=$P("乒乓球,鸡蛋,拳头,,约3cm直径大小,约6cm,7.5厘米,无",",",$R(8)+1)
+        Set tPos=$P("头顶部,前囟偏左,后囟偏左,后囟偏右,额部,该患儿为枕左前。新生儿出生时，头顶左侧或右侧，或后方有瘤样隆起，即为产瘤。在分娩过程中，当胎头抵达母体骨盆底时，胎头受压颅骨互相重叠逐渐蛮形，其中在胎头最前面的部分受压最大，局部的血液循环受影响，发生水肿，形成产瘤。产瘤一般在出生后一、二天自行消失，不需处理。",",",$R(6)+1)
+        
+        If i#7=1
+        {
+            &SQL(insert %NOCHECK into HCC_SQL_Document.NewBorn(
+            DocumentNo,
+            gender_Value,
+            height_Value,
+            weight_Value)
+            Values(
+            :tDocNo,
+            :tGender,
+            :tHeight,
+            :tWeight))
+            /*
+            w SQLCODE,!
+            
+            if i=1
+            {
+                &SQL(insert %NOCHECK into HCC_SQL_Document.NewBorn(
+                DocumentNo,
+                gender_Value,
+                height_Value,
+                weight_Value)
+                Values(
+                :tDocNo,
+                :tGender,
+                :tHeight,
+                :tWeight))
+                
+                w "code:",SQLCODE,!
+            }*/
+        }
+        Else
+        {
+            &SQL(insert %NOCHECK into HCC_SQL_Document.NewBorn(
+            DocumentNo,
+            gender_Value,
+            height_Value,
+            position_Value,
+            size_Value,
+            weight_Value)
+            Values(
+            :tDocNo,
+            :tGender,
+            :tHeight,
+            :tPos,
+            :tSize,
+            :tWeight))
+        }
+        w SQLCODE,!
     }
 }
 

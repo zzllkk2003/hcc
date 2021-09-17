@@ -1,5 +1,5 @@
 /// 预防接种史章节条目表
-Class HCC.SQL.Document.Vaccination Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Vaccination Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "11369-6";

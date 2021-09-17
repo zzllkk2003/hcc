@@ -2,6 +2,7 @@
                 "SubscriberName": "Pacs",
                 "SubTopic": "PatientInfoRegistry",
                 "SubscriberEndPointURL": "http://172.19.86.19:52773/csp/healthshare/mocksys/EMR.WS.PatientService.cls",
+                "SoapAction":"urn:hl7-org:v3/HCC.SVR.Prod.BS.HIPMessageServer.HIPMessageServer",
                 "SubscriberBusinessHostName": "Mocksys",
                 "SubAuth": "HS_Service"              
 }

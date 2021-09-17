@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 手术操作条目子表
-Class HCC.SQL.Document.ProcedureItem Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ProcedureItem Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档号

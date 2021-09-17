@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 皮肤章节表
-Class HCC.SQL.Document.Skin Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Skin Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "29302-7";

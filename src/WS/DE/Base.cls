@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date: 2021/07/04
 /// 卫生数据元基类
-Class WS.DE.Base Extends (%SerialObject, %XML.Adaptor, %JSON.Adaptor) [ Abstract, Language = objectscript, Not ProcedureBlock ]
+Class WS.DE.Base Extends (%SerialObject, %XML.Adaptor, %JSON.Adaptor, HCC.SQL.Base) [ Abstract, Language = objectscript, Not ProcedureBlock ]
 {
 
 /// 数据集

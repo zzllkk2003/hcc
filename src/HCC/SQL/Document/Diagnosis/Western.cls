@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 西医诊断子表
-Class HCC.SQL.Document.Diagnosis.Western Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Diagnosis.Western Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 西医诊断

@@ -1,5 +1,5 @@
 /// 文档创作者
-Class HCC.SQL.Document.Header.Author Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Header.Author Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 时间

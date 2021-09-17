@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 用药章节 - 术前用药条目子表
 /// 用于《一般手术记录》
-Class HCC.SQL.Document.MedicationUseHistory.PreSurMed Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.MedicationUseHistory.PreSurMed Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 术前用药

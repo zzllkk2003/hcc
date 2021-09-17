@@ -1,5 +1,5 @@
 /// 入出院时间条目
-Class HCC.SQL.Document.HealthcareEvent.Time Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.HealthcareEvent.Time Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 入院日期时间

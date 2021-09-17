@@ -9,7 +9,7 @@
 /// 这2个条目在C0002和C0010中声明为0..*,但实际用例中都为0..1 (C0003就是如此定义的)
 /// 因此这2个条目按其它条目一样对待
 /// 而C0006的体格检查章节非常特殊，由独立的章节类实现！！！
-Class HCC.SQL.Document.PhysicalExam Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PhysicalExam Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "29545-1";

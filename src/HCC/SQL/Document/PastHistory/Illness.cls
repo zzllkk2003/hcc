@@ -1,5 +1,5 @@
 /// 既往史章节 - 疾病史条目子表
-Class HCC.SQL.Document.PastHistory.Illness Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PastHistory.Illness Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 疾病史条目名称

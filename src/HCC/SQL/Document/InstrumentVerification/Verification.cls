@@ -1,5 +1,5 @@
 /// 器械物品核对
-Class HCC.SQL.Document.InstrumentVerification.Verification Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.InstrumentVerification.Verification Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 器械护士

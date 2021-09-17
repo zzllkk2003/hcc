@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 手术过程描述章节表
-Class HCC.SQL.Document.ProcedureNote Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ProcedureNote Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "8724-7";

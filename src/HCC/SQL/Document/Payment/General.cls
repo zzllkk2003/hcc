@@ -1,6 +1,6 @@
 /// 费用章节
 /// 综合医疗服务费
-Class HCC.SQL.Document.Payment.General Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.General Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 综合医疗服务费-一般医疗服务费

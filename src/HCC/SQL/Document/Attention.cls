@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 注意事项章节表
-Class HCC.SQL.Document.Attention Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Attention Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "DE09.00.119.00";

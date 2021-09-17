@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 其他处置章节表
 /// 《检查记录》需要
-Class HCC.SQL.Document.OtherProc Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.OtherProc Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

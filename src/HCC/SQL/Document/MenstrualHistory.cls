@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 月经史章节
 /// 涵盖《病历概要》
-Class HCC.SQL.Document.MenstrualHistory Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.MenstrualHistory Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "49033-4";

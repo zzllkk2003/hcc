@@ -1,5 +1,5 @@
 /// 护士
-Class HCC.SQL.Document.InstrumentVerification.Nurse Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.InstrumentVerification.Nurse Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 签名日期时间

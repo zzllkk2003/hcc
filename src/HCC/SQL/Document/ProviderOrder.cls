@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 医嘱章节类表
-Class HCC.SQL.Document.ProviderOrder Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ProviderOrder Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "46209-3";

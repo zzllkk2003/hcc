@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 入院诊断章节表
-Class HCC.SQL.Document.HospitalAdmissionDX Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HospitalAdmissionDX Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "46241-6";

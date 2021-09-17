@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 用药章节 - 中药饮片条目子表， 用于《中药处方》
-Class HCC.SQL.Document.MedicationUseHistory.HerbalPiece Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.MedicationUseHistory.HerbalPiece Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中药饮片处方

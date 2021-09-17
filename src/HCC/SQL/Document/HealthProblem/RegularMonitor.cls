@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 常规监测项目
-Class HCC.SQL.Document.HealthProblem.RegularMonitor Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.RegularMonitor Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 常规监测项目名称。用于《麻醉记录》
