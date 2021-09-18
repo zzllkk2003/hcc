@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-09-14 13:42:38
+/// LastEditTime: 2021-09-18 13:39:17
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Interface/PubSub/PubSubServer.cls
@@ -39,7 +39,8 @@ ClassMethod NewSubscriber() As %Status
   
   Set PubSub = ##class(HCC.Interface.PubSub.PubSubModel).%New()
   Do ..CopyToPubSubModelFromJSON(.PubSub,obj)
-  
+  set PubSub.SubscriberBusinessHostName=$ZCONVERT(PubSub.SubscriberBusinessHostName,"I","UTF8") 
+  set PubSub.SubscriberName =$ZCONVERT(PubSub.SubscriberName,"I","UTF8")
   set bName = PubSub.SubscriberBusinessHostName
     set cID=""
    // 加入 BO
@@ -55,7 +56,8 @@ ClassMethod NewSubscriber() As %Status
   Set Setting.Value=PubSub.SubscriberEndPointURL
   #Dim production as Ens.Config.Production = ##class(Ens.Config.Production).%OpenId("HCCPKG.FoundationProduction")
   Set BusinessHost.ClassName="HCC.SVR.Prod.BO.StandardHCCOutBound"
-  Set BusinessHost.Name =PubSub.SubscriberBusinessHostName
+  
+  Set BusinessHost.Name=PubSub.SubscriberBusinessHostName
   Set BusinessHost.Production = production
   Do BusinessHost.Settings.Insert(Setting)
   // 插入soap credential
@@ -71,7 +73,7 @@ ClassMethod NewSubscriber() As %Status
   Set tsc = production.%Save()
   If tsc = 0
   {
-      Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)))
+      Do result.%Set("Status",$ZCONVERT($SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)),"O","UTF8"))
       Write result.%ToJSON()
       Quit
   }
@@ -338,8 +340,8 @@ ClassMethod GetAllSubscribers() As %Status
     While rset.%Next() {
          #Dim col as HCC.Interface.PubSub.PubSubModel = ##Class(HCC.Interface.PubSub.PubSubModel).%New()
       Set col.SubTopic= rset.%Get("Topic")
-      Set col.SubscriberBusinessHostName=rset.%Get("Target")
-      Set col.SubscriberName =rset.%Get("Name")
+      Set col.SubscriberBusinessHostName=$ZCONVERT(rset.%Get("Target"),"O","UTF8")
+      Set col.SubscriberName =$ZCONVERT(rset.%Get("Name"),"O","UTF8")
       Set col.SubscriberID= rset.%Get("ID")
       set col.SubscriptionID = rset.%Get("SID")
       Do JSONResult.Subscribers.Insert(col)
