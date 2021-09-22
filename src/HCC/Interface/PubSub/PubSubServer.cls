@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-09-18 13:39:17
+/// LastEditTime: 2021-09-22 09:43:51
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Interface/PubSub/PubSubServer.cls
@@ -73,7 +73,7 @@ ClassMethod NewSubscriber() As %Status
   Set tsc = production.%Save()
   If tsc = 0
   {
-      Do result.%Set("Status",$ZCONVERT($SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)),"O","UTF8"))
+      Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)))
       Write result.%ToJSON()
       Quit
   }
@@ -125,7 +125,7 @@ ClassMethod NewSubscriber() As %Status
       //失败返回消息并回退删除已经添加的BO
       Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)))
       Write result.%ToJSON()
-      Do ..RollBackConfigItem(production,BusinessHost."%%OID",PubSub.SubscriberBusinessHostName)
+      Do ..RollBackConfigItem(production,BusinessHost.%Id(),PubSub.SubscriberBusinessHostName)
       do ##class(Ens.Config.Item).%DeleteId(BusinessHost.%Id())
       Quit $$$OK
   } 
@@ -166,22 +166,27 @@ ClassMethod NewSubscriber() As %Status
       Write result.%ToJSON()
       Quit
   } 
-  Do result.%Set("Status",$ZCONVERT("订阅者注册/更新成功","O","UTF8"))
+  Set tSC = ##class(EnsPortal.Template.prodConfigSCPage).CallProductionUpdateAndSaveToClass(production,"","SaveProduction")
+  //Do result.%Set("Status",$ZCONVERT("订阅者注册/更新成功","O","UTF8"))
+  Do result.%Set("Status","订阅者注册/更新成功")
   Write result.%ToJSON()
   
-  Quit $$$OK
+  Quit tSC
 }
 
 /// 失败回退BO
-ClassMethod RollBackConfigItem(Production As Ens.Config.Production, BusinessHostOID As %String, PubSubBusinessHostName As %String) As %Status
+ClassMethod RollBackConfigItem(Production As Ens.Config.Production, BusinessHostID As %String, PubSubBusinessHostName As %String) As %Status
 {
-   Job ##class(Ens.Director).EnableConfigItem(PubSubBusinessHostName,0)
-   Set key= Production.Items.Find(BusinessHostOID)
-   Do Production.Items.RemoveAt(key)
-   //Do ##class(Ens.Config.Item).%DeleteId(BusinessHostID)
-   Do Production.%Save()
-   Do ##class(Ens.Director).UpdateProduction()
-   quit $$$OK
+  #;  Job ##class(Ens.Director).EnableConfigItem(PubSubBusinessHostName,0)
+  #;  Set key= Production.Items.Find(BusinessHostOID)
+  #;  Do Production.Items.RemoveAt(key)
+  #;  //Do ##class(Ens.Config.Item).%DeleteId(BusinessHostID)
+  #;  Do Production.%Save()
+  #;  Do ##class(Ens.Director).UpdateProduction()
+  #;  quit $$$OK
+  do ##class(EnsPortal.ProductionConfig).DeleteConfigItem(Production.%Id(),BusinessHostID)
+
+  Return $$$OK
 }
 
 /// 回退订阅者
@@ -193,15 +198,6 @@ ClassMethod RollBackSubscriber(PubSub As HCC.Interface.PubSub.PubSubModel) As %S
     //TODO: 写死的domain name
     Set tsc = ##class(EnsLib.PubSub.Utils).DeleteSubscriber(a,"HLHT")
     Quit tsc
-}
-
-/// 修改订阅者
-/// 
-ClassMethod EditSubscriber() As %Status
-{
-    Set sc = $$$OK
-    
-    Return sc
 }
 
 /// 删除订阅者
@@ -216,7 +212,7 @@ ClassMethod RemoveSubscriber(ID As %String) As %Status
     set Sub = ##class(EnsLib.PubSub.Subscriber).%OpenId(ID)
     if Sub=""
     {
-	    Do result.%Set("Status",$ZCONVERT("订阅者未找到","O","UTF8"))
+	    Do result.%Set("Status","订阅者未找到")
 	    Write result.%ToJSON()
         Quit $$$OK
 	    }
@@ -239,14 +235,15 @@ ClassMethod RemoveSubscriber(ID As %String) As %Status
     }
     if a=""
     {
-	    Do result.%Set("Status",$ZCONVERT("订阅者未找到","O","UTF8"))
+	    Do result.%Set("Status","订阅者未找到")
 	    Write result.%ToJSON()
         Quit $$$OK
 	    }
   set ConItem=##class(Ens.Config.Item).%OpenId(a)
-  set tsc= ..RollBackConfigItem(production,ConItem."%%OID",Sub.Target)
+  set tsc= ..RollBackConfigItem(production,ConItem.%Id(),Sub.Target)
   do ##class(Ens.Config.Item).%DeleteId(a)
-  Do result.%Set("Status",$ZCONVERT("订阅者已删除","O","UTF8"))
+  Do ##class(Ens.Director).UpdateProduction()
+  Do result.%Set("Status","订阅者已删除")
   Write result.%ToJSON()
     Quit tsc
 }
@@ -300,21 +297,21 @@ ClassMethod ValidateJSON(obj As %DynamicObject, Output error As %DynamicObject) 
    	Set error = {}
 	Set error.errormessage=""
 	If obj.%Get("SubscriberBusinessHostName") = "" {
-		Set error.errormessage = $ZCONVERT("业务操作组件为空","O","UTF8")_$CHAR(10)_error.errormessage
+		Set error.errormessage ="业务操作组件为空"_$CHAR(10)_error.errormessage
 	}	
 	
 	If obj.%Get("SubscriberEndPointURL") = "" {
-		Set error.errormessage = $ZCONVERT("订阅者url为空","O","UTF8")_$CHAR(10)_error.errormessage
+		Set error.errormessage ="订阅者url为空"_$CHAR(10)_error.errormessage
 	}
 
     If obj.%Get("SubTopic") = "" {
-		Set error.errormessage = $ZCONVERT("订阅主题为空","O","UTF8")_$CHAR(10)_error.errormessage
+		Set error.errormessage ="订阅主题为空"_$CHAR(10)_error.errormessage
 	}
     If obj.%Get("SubscriberName") = "" {
-		Set error.errormessage = $ZCONVERT("订阅者名为空","O","UTF8")_$CHAR(10)_error.errormessage
+		Set error.errormessage ="订阅者名为空"_$CHAR(10)_error.errormessage
 	}
     If obj.%Get("SoapAction") = "" {
-		Set error.errormessage = $ZCONVERT("订阅者SoapAction为空","O","UTF8")_$CHAR(10)_error.errormessage
+		Set error.errormessage ="订阅者SoapAction为空"_$CHAR(10)_error.errormessage
 	}
 	If error.errormessage '= ""
     {
@@ -340,8 +337,10 @@ ClassMethod GetAllSubscribers() As %Status
     While rset.%Next() {
          #Dim col as HCC.Interface.PubSub.PubSubModel = ##Class(HCC.Interface.PubSub.PubSubModel).%New()
       Set col.SubTopic= rset.%Get("Topic")
-      Set col.SubscriberBusinessHostName=$ZCONVERT(rset.%Get("Target"),"O","UTF8")
-      Set col.SubscriberName =$ZCONVERT(rset.%Get("Name"),"O","UTF8")
+     // Set col.SubscriberBusinessHostName=$ZCONVERT(rset.%Get("Target"),"O","UTF8")
+    //  Set col.SubscriberName =$ZCONVERT(rset.%Get("Name"),"O","UTF8")
+      Set col.SubscriberBusinessHostName=rset.%Get("Target")
+      Set col.SubscriberName =rset.%Get("Name")
       Set col.SubscriberID= rset.%Get("ID")
       set col.SubscriptionID = rset.%Get("SID")
       Do JSONResult.Subscribers.Insert(col)
@@ -384,12 +383,12 @@ ClassMethod RemoveSubscription(ID As %String) As %Status
   &sql( delete from EnsLib_PubSub.Subscription where %ID = :ID)
   IF SQLCODE<0 
 	{
-		Do result.%Set("Status",$ZCONVERT("删除失败，错误信息：","O","UTF8")_SQLCODE_%msg)
+		Do result.%Set("Status","删除失败，错误信息："_SQLCODE_%msg)
        Write result.%ToJSON()
 		quit $$$OK
 		
 		}
-	Do result.%Set("Status",$ZCONVERT("订阅已删除","O","UTF8"))
+	Do result.%Set("Status","订阅已删除")
     Write result.%ToJSON()
 	quit $$$OK
 }
