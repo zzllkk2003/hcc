@@ -48,11 +48,11 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </code>
 </true>
 <false>
-<foreach name='发送请求消息到订阅者' property='context.TargetList' key='context.Iterator' xpos='470' ypos='600' xend='200' yend='550' >
+<foreach name='发送请求消息到订阅者' property='context.TargetList' key='context.Iterator' xpos='470' ypos='600' xend='200' yend='650' >
 <annotation><![CDATA[根据订阅列表发送消息到目标处理过程]]></annotation>
 <assign name="取出Target" property="context.Target" value="context.TargetList.GetAt(context.Iterator)" action="set" xpos='200' ypos='250' />
 <trace name='get' value='context.Target.Target' xpos='200' ypos='350' />
-<call name='同步订阅者' target='@context.Target.Target' async='1' xpos='200' ypos='450' >
+<call name='同步订阅者' target='@context.Target.Target' async='1' xpos='200' ypos='550' >
 <request type='HCC.SVR.Prod.MSG.SVRRequest' >
 <assign property="callrequest" value="request" action="set" />
 </request>

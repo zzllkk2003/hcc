@@ -100,6 +100,9 @@ Method RetrieveCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRes
       Set content=DocCopy.Content
       $$$TRACE(content)
       s BinaryText=$ZCONVERT(content,"O","UTF8")
+      //添加匿名化处理 --Louis
+      //d ##class(HCC.Utils.Anonymization).Do(BinaryText,.reText)
+      //s Base64Encoded=$system.Encryption.Base64Encode(reText)
       s Base64Encoded=$system.Encryption.Base64Encode(BinaryText)
       set DocCopy.Content=Base64Encoded
       $$$TRACE(Doc)

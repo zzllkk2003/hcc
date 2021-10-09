@@ -41,6 +41,8 @@ Relationship RelatedDocuments As HCC.SQL.Document.Header.RelatedDocument [ Cardi
 /// 就诊场景 
 Property encompassingEncounter As HCC.SQL.Document.Header.EncompassingEncounter [ SqlFieldName = ecpsEnc ];
 
+Property VisitType As %String;
+
 Method SetEncounter(pDocNo)
 {
     Set ..encompassingEncounter=##class(HCC.SQL.Document.Header.EncompassingEncounter).%OpenId(pDocNo)
@@ -66,6 +68,9 @@ Storage Default
 </Value>
 <Value name="6">
 <Value>encompassingEncounter</Value>
+</Value>
+<Value name="7">
+<Value>VisitType</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.Document.HeaderD</DataLocation>

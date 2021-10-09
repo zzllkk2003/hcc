@@ -64,7 +64,8 @@ ClassMethod GetDocument(pDocNo) As %Status
     )
     If SQLCODE = 0
     {
-        W tRet
+	     d ##class(HCC.Utils.Anonymization).Do(tRet,.reText)
+ 				W reText
     }
     Else
     {
@@ -100,12 +101,13 @@ ClassMethod GetDocSections(pDocType) As %Status
       FROM WS_DOC.DocumentConfig
      WHERE DocumentType=:pDocType
     )
+    
     W tRet
     Return $$$OK
 }
 
 /// 更新文档章节设置 
-ClassMethod UpdateDocSections(pDocType As %Numeric) As %Status
+ClassMethod UpdateDocSections(pDocType) As %Status
 {
     Set tSC = $$$OK,tDocType = $ZStrip(pDocType, "<>W")
     If tDocType =""
@@ -135,7 +137,7 @@ ClassMethod UpdateDocSections(pDocType As %Numeric) As %Status
         Set tItemArray=##class(%DynamicArray).%FromJSON(%request.Content)
         
         TStart
-        #SQLCompile Select=ODBC 
+        #SQLCompile Select=Display
         //删除原有设置
         &SQL(delete from WS_DOC.DocumentConfig where DocumentType=:tDocType )
         For tI=0:1:tItemArray.%Size()-1 
@@ -444,7 +446,7 @@ ClassMethod PutDE() As %Status
 /// 列出所有值集
 ClassMethod ListValueSet() As %Status
 {
-    w ##class(HCC.Util).ListVS()
+    w tRet = ##class(HCC.Util).ListVS()
     Q $$$OK
 }
 
@@ -470,8 +472,10 @@ ClassMethod ListValueSetItems(pValueSet As %String = "") As %Status
         Do tOutput.%Push(tItem)
         Set tSub = $O(@tGol@(tSub))
     }
+    
+    set tRet = tOutput.%ToJSON()
 
-    W tOutput.%ToJSON()
+    W tRet
     Return tSC
 }
 
@@ -488,6 +492,7 @@ ClassMethod GetValueSetItem(pValueSet As %String, pKey As %String) As %Status
         W tMsg
         Return $$$ERROR(-10001,tMsg)
     }
+    
     W $G(@tGol@(tSub))
     Return tSC
 }

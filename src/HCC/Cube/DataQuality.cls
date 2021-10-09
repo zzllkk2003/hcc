@@ -16,7 +16,7 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
   </dimension>
   <dimension name="ErrorCode" disabled="false" hasAll="false" allCaption="All ErrorCode" allDisplayName="ErrorCode" type="data" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
-      <level name="ErrorCode" disabled="false" sourceProperty="ErrorCode" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="4">
+      <level name="ErrorCode" disabled="false" sourceExpression="##class(HIP.DataGov.Code).GetDisplay(%source.ErrorCode)" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="4">
       </level>
     </hierarchy>
   </dimension>
@@ -26,7 +26,7 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
       </level>
     </hierarchy>
   </dimension>
-  <listing name="detail" displayName="明细" disabled="false" listingType="table" fieldList="SQLTable,RecordId,ColumnName,Error,ErrorCode,Value,Batch">
+  <listing name="detail" displayName="明细" disabled="false" listingType="table" fieldList="SQLTable,RecordId,ColumnName,Value,Error,ErrorCode,Batch">
   </listing>
 </cube>
 }
