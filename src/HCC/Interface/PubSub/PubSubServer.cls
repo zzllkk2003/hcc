@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-09-22 09:43:51
+/// LastEditTime: 2021-10-12 23:44:25
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Interface/PubSub/PubSubServer.cls
@@ -167,6 +167,7 @@ ClassMethod NewSubscriber() As %Status
       Quit
   } 
   Set tSC = ##class(EnsPortal.Template.prodConfigSCPage).CallProductionUpdateAndSaveToClass(production,"","SaveProduction")
+  Do ##class(Ens.Director).UpdateProduction()
   //Do result.%Set("Status",$ZCONVERT("订阅者注册/更新成功","O","UTF8"))
   Do result.%Set("Status","订阅者注册/更新成功")
   Write result.%ToJSON()
