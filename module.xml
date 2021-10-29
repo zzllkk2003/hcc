@@ -11,11 +11,11 @@
       <Resource Name="HCC.PKG"/>
       <Resource Name="HIP.PKG"/>
       <Resource Name="WS.PKG"/>
+      <Resource Name="HCC.GBL"/>
+      <Resource Name="LookupTable.GBL"/>
+      <Resource Name="PubSub.GBL"/>
+      <Resource Name="WS.GBL"/>
       <CSPApplication CookiePath="/csp/hcc/subpub/" DefaultTimeout="900" Description="pubsub service" DispatchClass="HCC.Service.Rest.SubAndPubServer" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="0" Url="/csp/hcc/subpub" UseSessionCookie="2"/>
-      <CSPApplication AuthenticationMethods="8224" AutoCompile="0" CookiePath="/csp/healthshare/hcc/fhirconfig/api/" DefaultTimeout="900" Description="FHIR configuration REST API" DispatchClass="HS.FHIRServer.Config.RestHandler" GroupById="%ISCMgtPortal" InboundWebServicesEnabled="0" MatchRoles=":{$dbrole}:%DB_HSCUSTOM:%DB_HSLIB:%DB_HSSYS" Recurse="1" ServeFiles="2" ServeFilesTimeout="3600" Url="/csp/healthshare/hcc/fhirconfig/api" UseSessionCookie="2"/>
-      <CSPApplication AuthenticationMethods="8224" AutoCompile="0" CookiePath="/csp/healthshare/hcc/fhirconfig/" DefaultTimeout="900" DeployPath="${cspdir}hslib/HealthConnect.FHIRServer/" Description="FHIR configuration UI" GroupById="%ISCMgtPortal" InboundWebServicesEnabled="0" MatchRoles=":{$dbrole}:%DB_HSCUSTOM:%DB_HSLIB:%DB_HSSYS" Recurse="1" ServeFiles="2" ServeFilesTimeout="3600" Url="/csp/healthshare/hcc/fhirconfig" UseSessionCookie="2"/>
-      <CSPApplication AutoCompile="0" CookiePath="/csp/healthshare/" DefaultTimeout="900" DeployPath="${cspdir}healthshare/hcc/" Description="HealthShare Foundation Services" GroupById="%ISCMgtPortal" MatchRoles=":%DB_HSCUSTOM:%DB_HSLIB:%HS_DB_HCC:%HS_DB_HSSYS" PasswordAuthEnabled="1" Recurse="1" ServeFiles="2" ServeFilesTimeout="3600" UnauthenticatedEnabled="0" Url="/csp/healthshare/hcc/services" UseSessionCookie="2"/>
-      <CSPApplication AuthenticationMethods="8224" AutoCompile="0" CookiePath="/csp/healthshare/" DefaultTimeout="900" DeployPath="${cspdir}healthshare/hcc/" Description="HealthShare Foundation Portal" GroupById="%ISCMgtPortal" MatchRoles=":%DB_%DEFAULT" Recurse="1" ServeFiles="2" ServeFilesTimeout="3600" Url="/csp/healthshare/hcc" UseSessionCookie="2"/>
       <CSPApplication CookiePath="/esb/web/" DefaultTimeout="900" DispatchClass="EnsLib.SOAP.GenericService" MatchRoles=":%All" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="0" Url="/esb/web" UseSessionCookie="2"/>
       <CSPApplication CookiePath="/hcc/pubsub/" DefaultTimeout="900" DispatchClass="HCC.Service.Rest.SubAndPubServer" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc/pubsub" UseSessionCookie="2"/>
       <SourcesRoot>src</SourcesRoot>
