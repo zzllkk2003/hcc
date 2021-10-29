@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-13 14:29:38
-/// LastEditTime: 2021-07-14 14:52:51
+/// LastEditTime: 2021-10-29 18:00:22
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/DocRepository/LatestDocs.cls
@@ -90,7 +90,7 @@ Property RepHosName As %String;
 Property AddDate As %TimeStamp;
 
 /// 病人 one
-Relationship Patient As HCC.DocRepository.Patient(XMLPROJECTION = "element") [ Cardinality = one, Inverse = Doc ];
+Relationship Patient As HCC.DocRepository.Patient(XMLPROJECTION = "element") [ Cardinality = one, Inverse = DocL ];
 
 Storage Default
 {

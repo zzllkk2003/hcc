@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-09-27 13:36:33
+/// LastEditTime: 2021-10-29 18:00:55
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/DocRepository/DocRetrieveModel.cls
+/// Jeff.liu@intersytems.com
+/// 
 /// 文档检索中建模型
 Class HCC.DocRepository.DocRetrieveModel Extends (%RegisteredObject, %XML.Adaptor)
 {
@@ -37,5 +46,7 @@ Property ResponseMessageID As %String;
 
 /// 返回消息创建时间
 Property ResultResponseTime As %String;
+
+Relationship Patient As HCC.DocRepository.Patient(XMLPROJECTION = "element") [ Cardinality = one, Inverse = DocA ];
 
 }

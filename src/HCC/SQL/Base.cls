@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-10-29 15:14:47
+/// LastEditTime: 2021-10-29 18:06:23
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/SQL/Base.cls
+/// Jeff.liu@intersytems.com
+/// 
 /// SQL文档基类
 Class HCC.SQL.Base Extends %RegisteredObject
 {
@@ -6,7 +15,7 @@ Class HCC.SQL.Base Extends %RegisteredObject
 /// 模版方法
 Method SetModified() As %Status [ CodeMode = objectgenerator, ForceGenerate ]
 {
-    // 不处理基类
+   /** // 不处理基类
     Quit:%classname="HCC.SQL.Base" $$$OK
     // 不处理以下属性
     Do %code.WriteLine(" Set tSC=1")
@@ -36,6 +45,7 @@ Method SetModified() As %Status [ CodeMode = objectgenerator, ForceGenerate ]
     Do %code.WriteLine("    Set tSC = $$$ERROR(e.Code,e.Data)")
     Do %code.WriteLine(" }")
     Do %code.WriteLine(" Quit tSC")
+    **/
     Quit $$$OK
 }
 
