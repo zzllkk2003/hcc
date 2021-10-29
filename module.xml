@@ -7,17 +7,16 @@
       <Description>互联互通模块</Description>
       <Keywords>hcc</Keywords>
       <Packaging>module</Packaging>
-      <Resource Name="HCCPKG.PKG"/>
-      <Resource Name="HCC.PKG"/>
       <Resource Name="HIP.PKG"/>
+      <Resource Name="WS.Tools.PKG"/>
       <Resource Name="WS.PKG"/>
+      <Resource Name="HCC.PKG"/> 
+      <Resource Name="HCCPKG.PKG"/>
       <Resource Name="HCC.GBL"/>
       <Resource Name="LookupTable.GBL"/>
       <Resource Name="PubSub.GBL"/>
       <Resource Name="WS.GBL"/>
-      <CSPApplication CookiePath="/csp/hcc/subpub/" DefaultTimeout="900" Description="pubsub service" DispatchClass="HCC.Service.Rest.SubAndPubServer" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="0" Url="/csp/hcc/subpub" UseSessionCookie="2"/>
-      <CSPApplication CookiePath="/esb/web/" DefaultTimeout="900" DispatchClass="EnsLib.SOAP.GenericService" MatchRoles=":%All" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="0" Url="/esb/web" UseSessionCookie="2"/>
-      <CSPApplication CookiePath="/hcc/pubsub/" DefaultTimeout="900" DispatchClass="HCC.Service.Rest.SubAndPubServer" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc/pubsub" UseSessionCookie="2"/>
+      <CSPApplication CookiePath="/hcc/" DefaultTimeout="900" DispatchClass="HCC.Interface.RestHandler" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc" UseSessionCookie="2"/>
       <SourcesRoot>src</SourcesRoot>
     </Module>
   </Document>
