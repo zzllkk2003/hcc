@@ -2,6 +2,12 @@
 Class HCC.Utils.Anonymization Extends %RegisteredObject
 {
 
+Method %OnNew() As %Status [ Private ]
+{
+	d:'$d(^HCC.Anonymization("Enable")) ##class(HCC.Utils.Anonymization).Init()
+	q $$$OK
+}
+
 Property Enable As %Boolean;
 
 Method EnableGet() As %Boolean [ ServerOnly = 1 ]
@@ -87,7 +93,7 @@ ClassMethod Do(docString As %String, ByRef reString As %String) As %Status
 		s reString = docString
 		q tSC
 	}
-  
+  s docString=$ZCONVERT(docString,"O","UTF8")
   // 加载xsl转换文件
   Set tSplit=$Case($system.Version.GetOS(),"Windows":"\",:"/")
   Set tFilePath = $ZStrip($G(^HCC("XSLFilePath")), "<>W")
@@ -104,7 +110,10 @@ ClassMethod Do(docString As %String, ByRef reString As %String) As %Status
   Set reString="",params="",tCompiledStyleSheet=""
   
   Set tSC=##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile(tXSL,.tCompiledStyleSheet)
-  q:tSC tSC
+  if $$$ISERR(tSC){
+	  s reString = $System.OBJ.DisplayError(tSC)
+	  q tSC
+  }
   
 	set params("patientName") = "'"_anony.patientName_"'"
 	set params("patientIds") = "'"_anony.patientIds_"'"
@@ -112,7 +121,11 @@ ClassMethod Do(docString As %String, ByRef reString As %String) As %Status
 	set params("patientTelcom") = "'"_anony.patientTelcom_"'"
 	
   Set tSC=##class(%XML.XSLT.Transformer).TransformStringWithCompiledXSL(docString,tCompiledStyleSheet,.reString,,.params)
-	q:tSC tSC
+  if $$$ISERR(tSC){
+	  s reString = $System.OBJ.DisplayError(tSC)
+	  q tSC
+  }
+  s reString=$ZCONVERT(reString,"I","UTF8")
   
   q $$$OK
 }

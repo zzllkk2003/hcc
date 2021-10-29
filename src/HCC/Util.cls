@@ -243,6 +243,10 @@ ClassMethod GetDocHTML(pDocNo, Output pHTML) As %Status
             Set pHTML = "文档"_pDocNo_"不存在!"
             Return tSC
         }
+	     	
+	     	d ##class(HCC.Utils.Anonymization).Do(tInput,.reText)
+	     	s tInput = reText
+        
         Set tSplit=$Case($system.Version.GetOS(),"Windows":"\",:"/")
 
         Set tXSL = $G(^HCC("XSLFilePath"))_tSplit_"C0032Viewer.xsl"

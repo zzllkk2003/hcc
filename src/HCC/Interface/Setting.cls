@@ -19,8 +19,66 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/SetDebugFilePath" Method="PUT" Call="SetDebugFilePath"/>
 <Route Url="/EnableDebugMode" Method="GET" Call="EnableDebugMode"/>
 <Route Url="/DisableDebugMode" Method="GET" Call="DisableDebugMode"/>
+<Route Url="/Anonymization" Method="GET" Call="GetAnonySetting"/>
+<Route Url="/Anonymization" Method="PUT" Call="SetAnonySetting"/>
 
 </Routes>
+}
+
+/// 获取匿名化设置信息
+ClassMethod GetAnonySetting() As %Status
+{
+    s anonySetting = ##class(HCC.Utils.Anonymization).%New()
+    s resp ={}
+    s resp.Enable = anonySetting.Enable
+    s resp.patientAddrs = anonySetting.patientAddrs
+    s resp.patientIds = anonySetting.patientIds
+    s resp.patientName = anonySetting.patientName
+    s resp.patientTelcom = anonySetting.patientTelcom
+    
+    w resp.%ToJSON()
+    Quit $$$OK
+}
+
+/// 设置匿名化配置信息
+/// {
+///    "Enable": 0,
+///    "patientAddrs": 1,
+///    "patientIds": 1,
+///    "patientName": 1,
+///    "patientTelcom": 0
+/// }
+ClassMethod SetAnonySetting() As %Status
+{
+    #; Ensure we are only passed json
+    If %request.ContentType'="application/json" 
+    {  
+        s %response.Status=..#HTTP415UNSUPPORTEDMEDIATYPE
+        q
+    }
+
+    If '$IsObject(%request.Content) 
+    {
+        s tSC=$$$ERROR(-10001,"没有提交的Content")
+        s %response.Status=..#HTTP400BADREQUEST
+        q    
+    }
+
+    #; Parse the content (JSON object)
+    #dim tFilePath As %DynamicObject
+    s anonySetting={}.%FromJSON(%request.Content)
+
+    s anony = ##class(HCC.Utils.Anonymization).%New()
+    s anony.Enable = anonySetting.Enable
+    s anony.patientAddrs = anonySetting.patientAddrs
+    s anony.patientIds = anonySetting.patientIds
+    s anony.patientName = anonySetting.patientName
+    s anony.patientTelcom = anonySetting.patientTelcom
+    s resp = {"Result": "更新设置成功！"}
+    s resp.settings = anonySetting
+
+    w resp.%ToJSON()
+    Quit $$$OK
 }
 
 /// 获得HCC系统设置

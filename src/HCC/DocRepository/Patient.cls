@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-14 14:20:35
-/// LastEditTime: 2021-08-15 23:48:18
+/// LastEditTime: 2021-10-29 17:08:33
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/DocRepository/Patient.cls
@@ -32,7 +32,9 @@ Index UKPatCardIdI On PatCardId [ Unique ];
 /// 患者姓名
 Property PatName As %String;
 
-Relationship Doc As HCC.DocRepository.LatestDocs(XMLPROJECTION = "NONE") [ Cardinality = many, Inverse = Patient ];
+Relationship DocL As HCC.DocRepository.LatestDocs(XMLPROJECTION = "NONE") [ Cardinality = many, Inverse = Patient ];
+
+Relationship DocA As HCC.DocRepository.LatestDocs(XMLPROJECTION = "NONE") [ Cardinality = many, Inverse = Patient ];
 
 Storage Default
 {

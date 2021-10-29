@@ -65,7 +65,7 @@ ClassMethod GetDocument(pDocNo) As %Status
     If SQLCODE = 0
     {
 	     d ##class(HCC.Utils.Anonymization).Do(tRet,.reText)
- 				W reText
+ 			 W reText
     }
     Else
     {
