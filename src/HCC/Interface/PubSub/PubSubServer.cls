@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-15 09:58:06
-/// LastEditTime: 2021-08-05 17:58:21
+/// LastEditTime: 2021-10-12 23:44:25
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/src/HCC/Service/Rest/SubAndPubServer.cls
+/// FilePath: /hcc/src/HCC/Interface/PubSub/PubSubServer.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// 接收订阅消息
@@ -39,30 +39,36 @@ ClassMethod NewSubscriber() As %Status
   
   Set PubSub = ##class(HCC.Interface.PubSub.PubSubModel).%New()
   Do ..CopyToPubSubModelFromJSON(.PubSub,obj)
-  
+  set PubSub.SubscriberBusinessHostName=$ZCONVERT(PubSub.SubscriberBusinessHostName,"I","UTF8") 
+  set PubSub.SubscriberName =$ZCONVERT(PubSub.SubscriberName,"I","UTF8")
   set bName = PubSub.SubscriberBusinessHostName
+    set cID=""
    // 加入 BO
-    set myquery= "select %ID From Ens_Config.Item where Name = ?"
-    Set tStatement = ##class(%SQL.Statement).%New()
-    Set qStatus = tStatement.%Prepare(myquery)
-    If qStatus'=1 {Write "%Prepare failed:" Do $SYSTEM.Status.DisplayError(qStatus) Quit}
-    Set rset = tStatement.%Execute(bName)
+    &sql(select %ID into :cID from Ens_Config.Item where Name = :bName)
 	// if bo doesn't exist add 
-   if ('rset.%Next())
+   if ( cID ="")
    {	   
   #Dim BusinessHost as Ens.Config.Item = ##class(Ens.Config.Item).%New()
   #Dim Setting as Ens.Config.Setting = ##class(Ens.Config.Setting).%New()
   #dim SettingCre as Ens.Config.Setting = ##class(Ens.Config.Setting).%New()
+  #dim SettingSA as Ens.Config.Setting = ##class(Ens.Config.Setting).%New()
   Set Setting.Name="WebServiceURL"
   Set Setting.Value=PubSub.SubscriberEndPointURL
   #Dim production as Ens.Config.Production = ##class(Ens.Config.Production).%OpenId("HCCPKG.FoundationProduction")
   Set BusinessHost.ClassName="HCC.SVR.Prod.BO.StandardHCCOutBound"
-  Set BusinessHost.Name =PubSub.SubscriberBusinessHostName
+  
+  Set BusinessHost.Name=PubSub.SubscriberBusinessHostName
   Set BusinessHost.Production = production
   Do BusinessHost.Settings.Insert(Setting)
+  // 插入soap credential
   Set SettingCre.Name="SOAPCredentials"
   Set SettingCre.Value=PubSub.SubAuth
+  // 插入soap action
+  Set SettingSA.Name="SoapAction"
+  set SettingSA.Target="Host"
+  Set SettingSA.Value=PubSub.SoapAction
   Do BusinessHost.Settings.Insert(SettingCre)
+  Do BusinessHost.Settings.Insert(SettingSA)
   Do production.Items.Insert(BusinessHost)
   Set tsc = production.%Save()
   If tsc = 0
@@ -75,19 +81,9 @@ ClassMethod NewSubscriber() As %Status
    }
    else
    {
-	   set cID=""
-	      set sqlstr= "select %ID from Ens_Config.Item where Name = ?"
-    Set tStatement = ##class(%SQL.Statement).%New()
-    Set qStatus = tStatement.%Prepare(sqlstr)
-    If qStatus'=1 {Write "%Prepare failed:" Do $SYSTEM.Status.DisplayError(qStatus) Quit}
-    Set rset = tStatement.%Execute(bName)
-    while rset.%Next()
-    {
-	    set cID = rset.%Get("ID")
-	    
-	 }
+     
 	   set cItem= ##class(Ens.Config.Item).%OpenId(cID)
-	   
+
 	      for index=1:1:cItem.Settings.Count()
 	      {
 		      if (cItem.Settings.GetAt(index).Name ="WebServiceURL")
@@ -104,28 +100,39 @@ ClassMethod NewSubscriber() As %Status
 			           set newS.Value=PubSub.SubAuth
 			           do cItem.Settings.SetAt(newS,index)
 				       }  
+                 if (cItem.Settings.GetAt(index).Name ="SoapAction")  
+			       {
+				       set newS =##class(Ens.Config.Setting).%New()
+			           set newS.Name="SoapAction"
+                 set newS.Target="Host"
+			           set newS.Value=PubSub.SoapAction
+			           do cItem.Settings.SetAt(newS,index)
+				       }  
 		      }
 		do cItem.%Save() 
 		    Do ##class(Ens.Director).UpdateProduction() 	  
 	   }
-	   
+   
    
   //TODO: Domain 目前写死
   set SubscriberExit= ##class(EnsLib.PubSub.Subscriber).FindSubscriberId("HLHT",PubSub.SubscriberName)
   if (SubscriberExit ="")
   {
   Set tsc = ..AddSubscriber("HLHT",PubSub.SubscriberName,PubSub.SubscriberBusinessHostName)
-  }
+  
   If tsc = 0
   {
       //失败返回消息并回退删除已经添加的BO
       Do result.%Set("Status",$SELECT($$$ISERR(tsc):$SYSTEM.Status.GetOneErrorText(tsc)))
       Write result.%ToJSON()
-      Do ..RollBackConfigItem(production,BusinessHost."%%OID",PubSub.SubscriberBusinessHostName)
+      Do ..RollBackConfigItem(production,BusinessHost.%Id(),PubSub.SubscriberBusinessHostName)
       do ##class(Ens.Config.Item).%DeleteId(BusinessHost.%Id())
       Quit $$$OK
   } 
-  
+  }
+  else{
+    &sql(update EnsLib_PubSub.Subscriber set Target=:bName where Name= :PubSub.SubscriberName)
+  }
   
    set sqlstr= "select Topic from EnsLib_PubSub.Subscription where Subscriber = ?"
     Set tStatement = ##class(%SQL.Statement).%New()
@@ -159,22 +166,28 @@ ClassMethod NewSubscriber() As %Status
       Write result.%ToJSON()
       Quit
   } 
-  Do result.%Set("Status","订阅者注册成功")
+  Set tSC = ##class(EnsPortal.Template.prodConfigSCPage).CallProductionUpdateAndSaveToClass(production,"","SaveProduction")
+  Do ##class(Ens.Director).UpdateProduction()
+  //Do result.%Set("Status",$ZCONVERT("订阅者注册/更新成功","O","UTF8"))
+  Do result.%Set("Status","订阅者注册/更新成功")
   Write result.%ToJSON()
   
-  Quit $$$OK
+  Quit tSC
 }
 
 /// 失败回退BO
-ClassMethod RollBackConfigItem(Production As Ens.Config.Production, BusinessHostOID As %String, PubSubBusinessHostName As %String) As %Status
+ClassMethod RollBackConfigItem(Production As Ens.Config.Production, BusinessHostID As %String, PubSubBusinessHostName As %String) As %Status
 {
-   Job ##class(Ens.Director).EnableConfigItem(PubSubBusinessHostName,0)
-   Set key= Production.Items.Find(BusinessHostOID)
-   Do Production.Items.RemoveAt(key)
-   //Do ##class(Ens.Config.Item).%DeleteId(BusinessHostID)
-   Do Production.%Save()
-   Do ##class(Ens.Director).UpdateProduction()
-   quit $$$OK
+  #;  Job ##class(Ens.Director).EnableConfigItem(PubSubBusinessHostName,0)
+  #;  Set key= Production.Items.Find(BusinessHostOID)
+  #;  Do Production.Items.RemoveAt(key)
+  #;  //Do ##class(Ens.Config.Item).%DeleteId(BusinessHostID)
+  #;  Do Production.%Save()
+  #;  Do ##class(Ens.Director).UpdateProduction()
+  #;  quit $$$OK
+  do ##class(EnsPortal.ProductionConfig).DeleteConfigItem(Production.%Id(),BusinessHostID)
+
+  Return $$$OK
 }
 
 /// 回退订阅者
@@ -186,15 +199,6 @@ ClassMethod RollBackSubscriber(PubSub As HCC.Interface.PubSub.PubSubModel) As %S
     //TODO: 写死的domain name
     Set tsc = ##class(EnsLib.PubSub.Utils).DeleteSubscriber(a,"HLHT")
     Quit tsc
-}
-
-/// 修改订阅者
-/// 
-ClassMethod EditSubscriber() As %Status
-{
-    Set sc = $$$OK
-    
-    Return sc
 }
 
 /// 删除订阅者
@@ -237,8 +241,9 @@ ClassMethod RemoveSubscriber(ID As %String) As %Status
         Quit $$$OK
 	    }
   set ConItem=##class(Ens.Config.Item).%OpenId(a)
-  set tsc= ..RollBackConfigItem(production,ConItem."%%OID",Sub.Target)
+  set tsc= ..RollBackConfigItem(production,ConItem.%Id(),Sub.Target)
   do ##class(Ens.Config.Item).%DeleteId(a)
+  Do ##class(Ens.Director).UpdateProduction()
   Do result.%Set("Status","订阅者已删除")
   Write result.%ToJSON()
     Quit tsc
@@ -252,7 +257,7 @@ ClassMethod CopyToPubSubModelFromJSON(ByRef cm As HCC.Interface.PubSub.PubSubMod
     Set cm.SubscriberBusinessHostName=obj.SubscriberBusinessHostName
     Set cm.SubscriberEndPointURL=obj.SubscriberEndPointURL
     Set cm.SubTopic=obj.SubTopic
-    //set cm.WSDL=obj.WSDL
+    set cm.SoapAction=obj.SoapAction
     Set cm.SubscriberName=obj.SubscriberName
     Quit $$$OK
 }
@@ -293,18 +298,21 @@ ClassMethod ValidateJSON(obj As %DynamicObject, Output error As %DynamicObject) 
    	Set error = {}
 	Set error.errormessage=""
 	If obj.%Get("SubscriberBusinessHostName") = "" {
-		Set error.errormessage = "业务操作组件为空"_$CHAR(10)_error.errormessage
+		Set error.errormessage ="业务操作组件为空"_$CHAR(10)_error.errormessage
 	}	
 	
 	If obj.%Get("SubscriberEndPointURL") = "" {
-		Set error.errormessage = "订阅者url为空"_$CHAR(10)_error.errormessage
+		Set error.errormessage ="订阅者url为空"_$CHAR(10)_error.errormessage
 	}
 
     If obj.%Get("SubTopic") = "" {
-		Set error.errormessage = "订阅主题为空"_$CHAR(10)_error.errormessage
+		Set error.errormessage ="订阅主题为空"_$CHAR(10)_error.errormessage
 	}
     If obj.%Get("SubscriberName") = "" {
-		Set error.errormessage = "订阅者名为空"_$CHAR(10)_error.errormessage
+		Set error.errormessage ="订阅者名为空"_$CHAR(10)_error.errormessage
+	}
+    If obj.%Get("SoapAction") = "" {
+		Set error.errormessage ="订阅者SoapAction为空"_$CHAR(10)_error.errormessage
 	}
 	If error.errormessage '= ""
     {
@@ -328,8 +336,10 @@ ClassMethod GetAllSubscribers() As %Status
     If qStatus'=1 {Write "%Prepare failed:" Do $SYSTEM.Status.DisplayError(qStatus) Quit}
     Set rset = tStatement.%Execute()
     While rset.%Next() {
-         #Dim col as HCC.Service.Rest.PubSubModel = ##Class(HCC.Interface.PubSub.PubSubModel).%New()
+         #Dim col as HCC.Interface.PubSub.PubSubModel = ##Class(HCC.Interface.PubSub.PubSubModel).%New()
       Set col.SubTopic= rset.%Get("Topic")
+     // Set col.SubscriberBusinessHostName=$ZCONVERT(rset.%Get("Target"),"O","UTF8")
+    //  Set col.SubscriberName =$ZCONVERT(rset.%Get("Name"),"O","UTF8")
       Set col.SubscriberBusinessHostName=rset.%Get("Target")
       Set col.SubscriberName =rset.%Get("Name")
       Set col.SubscriberID= rset.%Get("ID")
@@ -346,38 +356,42 @@ ClassMethod GetAllSubscribers() As %Status
 ClassMethod GetAllTopics() As %Status
 {
 	set myquery="SELECT KeyName,DataValue from Ens_Util.LookupTable WHERE TableName ='HCC.SVR.Prod.LT.ActionSchema' "
-	set dynamicObject =##class(%Library.DynamicObject).%New()
+	
+  set dynamicArray =##class(%Library.DynamicArray).%New()
 	SET tStatement = ##class(%SQL.Statement).%New()
   SET qStatus = tStatement.%Prepare(myquery)
    IF qStatus'=1 {WRITE "%Prepare failed:" DO $System.Status.DisplayError(qStatus) QUIT}
   SET rset = tStatement.%Execute()
-  set counter = 1
+  set counter = 0
+  //set Topic = "Topics"
   WHILE rset.%Next() {
-	  set Topic = "Topic "_counter
+	  set dynamicObject =##class(%Library.DynamicObject).%New()
 	  set topic=rset.%Get("KeyName")
 	  set schemaName=rset.%Get("DataValue")
-	  set content = "{ 'TopicName':'"_topic_"',"_"'SchemaName':'"_schemaName_"'}"
-	  do dynamicObject.%Set(Topic,content )
+    do dynamicObject.%Set("TopicName",topic)
+    do dynamicObject.%Set("SchemaName",schemaName)
+	  do dynamicArray.%Push(dynamicObject)
 	  set counter= counter+1
 	  }
-  write dynamicObject.%ToJSON()
+  set array= dynamicArray.%ToJSON()
+  write "{ ""Topics"":"_array_"}"
   quit $$$OK
 }
 
 ClassMethod RemoveSubscription(ID As %String) As %Status
 {
 	Set result  ={}
-	set tsc = ##class(EnsLib.PubSub.Subscription).%DeleteId(ID) 
-	if 'tsc
+  &sql( delete from EnsLib_PubSub.Subscription where %ID = :ID)
+  IF SQLCODE<0 
 	{
-		Do result.%Set("Status","删除失败，错误信息："_tsc)
+		Do result.%Set("Status","删除失败，错误信息："_SQLCODE_%msg)
        Write result.%ToJSON()
 		quit $$$OK
 		
 		}
 	Do result.%Set("Status","订阅已删除")
     Write result.%ToJSON()
-	quit tsc
+	quit $$$OK
 }
 
 ClassMethod test() As %Status

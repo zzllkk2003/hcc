@@ -1,5 +1,5 @@
 /// 文档记录对象或健康保健对象 (患者信息)
-Class HCC.SQL.Document.Header.RecordTarget Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Header.RecordTarget Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 健康档案标识号。用于《病历概要》
@@ -16,6 +16,9 @@ Property inpatientNum As WS.DE.DE010001400 [ Required, SqlFieldName = ip_num ];
 
 /// 门（急）诊号标识 
 Property outpatientNum As WS.DE.DE010001000 [ SqlFieldName = op_num ];
+
+/// 知情同意书编号标识
+Property consentFormNum As WS.DE.DE090011800 [ SqlFieldName = con_num ];
 
 /// 患者地址
 Property addr As HCC.SQL.Addr;
@@ -207,6 +210,9 @@ Storage Default
 </Value>
 <Value name="55">
 <Value>patientType</Value>
+</Value>
+<Value name="56">
+<Value>consentFormNum</Value>
 </Value>
 </Data>
 <State>RecordTargetState</State>

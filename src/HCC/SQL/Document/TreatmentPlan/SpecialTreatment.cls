@@ -1,5 +1,5 @@
 /// 治疗计划章节 - 特殊检查及特殊治疗项目
-Class HCC.SQL.Document.TreatmentPlan.SpecialTreatment Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.TreatmentPlan.SpecialTreatment Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 特殊检查及特殊治疗项目名称

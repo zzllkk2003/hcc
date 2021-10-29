@@ -1,5 +1,5 @@
 /// 治疗计划章节 - 拟实施手术及操作子表
-Class HCC.SQL.Document.TreatmentPlan.Procedure Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.TreatmentPlan.Procedure Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档编号

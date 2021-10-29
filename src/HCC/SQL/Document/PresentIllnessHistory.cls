@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 现病史章节表
 /// 涵盖《门急诊病历》
-Class HCC.SQL.Document.PresentIllnessHistory Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PresentIllnessHistory Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "10164-2";

@@ -1,6 +1,6 @@
 /// 费用章节
 /// 血液制品费
-Class HCC.SQL.Document.Payment.Blood Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.Blood Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 血液制品费-血费 

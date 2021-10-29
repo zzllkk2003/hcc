@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 主要健康问题章节表
-Class HCC.SQL.Document.HealthProblem Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "11450-4";

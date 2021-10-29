@@ -4,7 +4,7 @@
 /// 既往史章节表
 /// 注意，既往史不包含过敏史。涵盖C0001、C0002、C0003、C0008、C0009、C0010、C0014、C0015、C0023、C0034
 /// 而C0046的既往史章节其实是过敏史章节
-Class HCC.SQL.Document.PastHistory Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PastHistory Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "11348-0";

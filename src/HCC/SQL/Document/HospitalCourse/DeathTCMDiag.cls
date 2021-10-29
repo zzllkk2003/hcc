@@ -1,5 +1,5 @@
 /// 死亡诊断-中医条目表
-Class HCC.SQL.Document.HospitalCourse.DeathTCMDiag Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HospitalCourse.DeathTCMDiag Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医病

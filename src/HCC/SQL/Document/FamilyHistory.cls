@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 家族史章节条目
 /// 注意，这不是章节类，是家族史元素类。不需要家族史章节类
-Class HCC.SQL.Document.FamilyHistory Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.FamilyHistory Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "10157-6";

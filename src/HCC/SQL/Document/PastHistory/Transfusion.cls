@@ -1,5 +1,5 @@
 /// 既往史章节 - 输血史条目子表
-Class HCC.SQL.Document.PastHistory.Transfusion Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PastHistory.Transfusion Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 输血史条目名称

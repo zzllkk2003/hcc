@@ -1,5 +1,5 @@
 /// 文档管理机构信息
-Class HCC.SQL.Document.Header.Custodian Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Header.Custodian Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档保管的医疗机构标识

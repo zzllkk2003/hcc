@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 修正诊断-中医条目
-Class HCC.SQL.Document.HealthProblem.TCMRevisedDiag Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.TCMRevisedDiag Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 修正诊断-中医

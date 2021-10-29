@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 护理标志章节表
-Class HCC.SQL.Document.NursingSign Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.NursingSign Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

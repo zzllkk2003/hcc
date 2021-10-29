@@ -1,5 +1,5 @@
 /// 治疗计划章节 - 拟实施麻醉方法
-Class HCC.SQL.Document.TreatmentPlan.Anesthesia Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.TreatmentPlan.Anesthesia Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 麻醉方法代码

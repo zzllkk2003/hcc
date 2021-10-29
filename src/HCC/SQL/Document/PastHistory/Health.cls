@@ -1,5 +1,5 @@
 /// 既往史章节 - 既往史条目子表
-Class HCC.SQL.Document.PastHistory.Health Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PastHistory.Health Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 既往史条目名称

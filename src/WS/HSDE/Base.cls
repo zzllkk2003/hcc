@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date: 2021/07/11
 /// 卫生数据集元素基类
-Class WS.HSDE.Base Extends (%SerialObject, %XML.Adaptor, %JSON.Adaptor) [ Abstract, Language = objectscript, Not ProcedureBlock ]
+Class WS.HSDE.Base Extends (%SerialObject, %XML.Adaptor, %JSON.Adaptor, HCC.SQL.Base) [ Abstract, Language = objectscript, Not ProcedureBlock ]
 {
 
 /// 数据集

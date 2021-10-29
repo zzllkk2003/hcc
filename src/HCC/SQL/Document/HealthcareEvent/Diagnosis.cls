@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 卫生事件章节-西医诊断条目表
-Class HCC.SQL.Document.HealthcareEvent.Diagnosis Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthcareEvent.Diagnosis Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 西医诊断编码

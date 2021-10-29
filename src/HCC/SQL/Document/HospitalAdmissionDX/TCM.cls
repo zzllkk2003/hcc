@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 入院诊断 - 中医条目子表
-Class HCC.SQL.Document.HospitalAdmissionDX.TCM Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HospitalAdmissionDX.TCM Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医病

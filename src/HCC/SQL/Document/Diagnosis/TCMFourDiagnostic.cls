@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/08
 /// 诊断记录 - 中医四诊观察结果
-Class HCC.SQL.Document.Diagnosis.TCMFourDiagnostic Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Diagnosis.TCMFourDiagnostic Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医四诊观察结果

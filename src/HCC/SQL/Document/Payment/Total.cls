@@ -1,6 +1,6 @@
 /// 费用章节
 /// 住院总费用
-Class HCC.SQL.Document.Payment.Total Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.Total Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 总费用

@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 器械物品核对章节表
-Class HCC.SQL.Document.InstrumentVerification Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.InstrumentVerification Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

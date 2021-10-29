@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 主诉章节表
-Class HCC.SQL.Document.ChiefComplaint Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ChiefComplaint Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "10154-3";

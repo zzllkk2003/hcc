@@ -1,5 +1,5 @@
 /// 文档记录对象或健康保健对象的患者信息
-Class HCC.SQL.Document.Header.RecordTarget.Patient Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Header.RecordTarget.Patient Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 患者身份证号标识

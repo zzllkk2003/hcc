@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 出院中医诊断-主证子表
-Class HCC.SQL.Document.HospitalDischargeDX.TCMSyndrome Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HospitalDischargeDX.TCMSyndrome Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医主证

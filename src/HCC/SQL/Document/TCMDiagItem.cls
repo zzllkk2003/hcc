@@ -1,6 +1,6 @@
 /// 中医诊断条目类
 /// 用于所有中医诊断数据场景
-Class HCC.SQL.Document.TCMDiagItem Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.TCMDiagItem Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医病名名称

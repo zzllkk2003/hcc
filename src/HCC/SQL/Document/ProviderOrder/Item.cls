@@ -3,7 +3,7 @@
 /// Date:2021/07
 /// 医嘱条目子表
 /// 注意，这不是章节类，是医嘱条目类
-Class HCC.SQL.Document.ProviderOrder.Item Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ProviderOrder.Item Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档号

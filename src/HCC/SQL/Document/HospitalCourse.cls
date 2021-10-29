@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 住院过程章节表
-Class HCC.SQL.Document.HospitalCourse Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HospitalCourse Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "8648-8";

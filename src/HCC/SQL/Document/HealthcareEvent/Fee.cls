@@ -1,5 +1,5 @@
 /// 卫生事件章节-自付金额
-Class HCC.SQL.Document.HealthcareEvent.Fee Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.HealthcareEvent.Fee Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 医疗保险类别

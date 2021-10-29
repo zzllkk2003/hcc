@@ -1,5 +1,5 @@
 /// 互联互通文档头子表 - 就诊场景子表 - 病床、病房、病区与科室子表
-Class HCC.SQL.Document.Header.EncompassingEncounter.Location Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Header.EncompassingEncounter.Location Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 病床标识

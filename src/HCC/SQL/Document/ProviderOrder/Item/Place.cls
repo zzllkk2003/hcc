@@ -1,5 +1,5 @@
 /// 医嘱开立
-Class HCC.SQL.Document.ProviderOrder.Item.Place Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.ProviderOrder.Item.Place Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 医嘱开立日期时间

@@ -8,7 +8,7 @@
 /// Jeff.liu@intersytems.com
 /// 
 /// 共享文档存储表
-Class HCC.DocRepository.AllDocs Extends (%Persistent, %XML.Adaptor) [ SqlTableName = AllDocs ]
+Class HCC.DocRepository.AllDocs Extends (%Persistent, %XML.Adaptor) [ DependsOn = HCC.DocRepository.Patient, SqlTableName = AllDocs ]
 {
 
 Parameter XMLNamespace = "urn:hl7-org:v3";
@@ -35,7 +35,7 @@ Property DocCreatTime As %TimeStamp;
 Property VersionNumber As %Integer [ InitialExpression = 1 ];
 
 /// 文档原始内容
-Property Content As %String(MAXLEN = 4000000);
+Property Content As %String(MAXLEN = "");
 
 // Property PatId As %String;
 

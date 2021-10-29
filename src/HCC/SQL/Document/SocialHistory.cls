@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 个人史/社会史章节
-Class HCC.SQL.Document.SocialHistory Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.SocialHistory Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "29762-2";

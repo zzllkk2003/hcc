@@ -1,6 +1,6 @@
 /// 西医诊断条目类
 /// 用于所有西医诊断数据场景
-Class HCC.SQL.Document.DiagnosisItem Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.DiagnosisItem Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 西医诊断编码

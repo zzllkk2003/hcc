@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-08-11 13:45:00
+/// LastEditTime: 2021-09-09 13:44:38
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/SVR/Prod/BS/HIPMessageServer.cls
+/// Jeff.liu@intersytems.com
+/// 
 /// 互联互通交互服务接口
 Class HCC.SVR.Prod.BS.HIPMessageServer Extends EnsLib.SOAP.Service
 {
@@ -5,7 +14,7 @@ Class HCC.SVR.Prod.BS.HIPMessageServer Extends EnsLib.SOAP.Service
 /// 暂时没有使用，防止报错，暂不删除
 Parameter ADAPTER;
 
-Parameter SERVICENAME = "JiaoHuService";
+Parameter SERVICENAME = "HIPMessageServer";
 
 /// WebService 的名称.
 /// WebService 的 SOAP Namespace
@@ -22,6 +31,7 @@ Parameter USECLASSNAMESPACES = 1;
 /// <returns></returns>
 Method HIPMessageServer(action As %String, message As %Stream.GlobalCharacter) As %Stream.GlobalCharacter [ WebMethod ]
 {
+	s start = $zh
 	Set tRequest = ##class(HCC.SVR.Prod.MSG.SVRRequest).%New()
 	Set tRequest.Action	= action
 	Set tRequest.Message = message
@@ -36,6 +46,10 @@ Method HIPMessageServer(action As %String, message As %Stream.GlobalCharacter) A
 		Set tStatus = ..SendRequestSync("HCC.SVR.Prod.BP.MainControl", tRequest,.tResponse)
 		//Set tResponse= ##class(HCC.Utils.ResponseHelper).ReturnError("平台接收到消息后的解析异常。")
 	}
+	s dur = $zh - start
+	//If ##class(Ens.Util.Statistics).StatsStarted(..%ConfigName) {
+		Do ##class(Ens.Util.Statistics).RecordStats(1,..%ConfigName,action,,,dur) 	
+	//}
 	Quit tResponse.Message
 }
 

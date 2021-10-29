@@ -1,5 +1,5 @@
 /// 文档活动类
-Class HCC.SQL.Document.Header.Activity Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Header.Activity Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档模板编号OID

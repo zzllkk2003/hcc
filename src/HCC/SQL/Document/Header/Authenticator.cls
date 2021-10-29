@@ -1,5 +1,5 @@
 /// 互联互通文档头-医师签名信息子表
-Class HCC.SQL.Document.Header.Authenticator Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Header.Authenticator Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档编号

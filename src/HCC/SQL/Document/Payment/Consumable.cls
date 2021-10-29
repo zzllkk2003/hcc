@@ -1,6 +1,6 @@
 /// 费用章节
 /// 耗材费
-Class HCC.SQL.Document.Payment.Consumable Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.Consumable Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 耗材-一次性医用材料费-检查用 

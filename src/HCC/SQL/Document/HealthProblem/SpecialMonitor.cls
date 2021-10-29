@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 特殊监测项目
-Class HCC.SQL.Document.HealthProblem.SpecialMonitor Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.SpecialMonitor Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 特殊监测项目名称。用于《麻醉记录》

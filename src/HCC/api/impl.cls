@@ -1,6 +1,6 @@
 /// HealthConnect消息及服务的一些统计示例<br/>
 /// Business logic class defined by OpenAPI in HCC.api.spec<br/>
-/// Updated Aug 20, 2021 16:41:38
+/// Updated Sep 14, 2021 11:12:04
 Class HCC.api.impl Extends %REST.Impl [ ProcedureBlock ]
 {
 

@@ -4,7 +4,7 @@
 /// 实验室检查 （已作废）
 /// 注意，这不是章节类，是实验室检查元素类
 /// 不需要实验室检查章节类
-Class HCC.SQL.Document.LabTestbackup Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.LabTestbackup Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档号

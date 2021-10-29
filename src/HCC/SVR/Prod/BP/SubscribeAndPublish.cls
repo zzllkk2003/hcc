@@ -43,17 +43,16 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </call>
 <if name='判断是否有订户' condition='context.TargetList.Count()=0' xpos='200' ypos='450' xend='200' yend='800' >
 <true>
-<code name='业务未实现，没有订户' xpos='470' ypos='600' >
+<code name='业务未实现，没有订户' xpos='200' ypos='600' >
 <![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnErrorMsgNoSenderInfo(request.MsgId,"异常服务代码，系统未实现该业务流程,没有订阅方.")]]>
 </code>
-<assign name="返回业务未实现，没有订户" property="response" value="context.tResponse" action="set" xpos='470' ypos='700' />
 </true>
 <false>
-<foreach name='发送请求消息到订阅者' property='context.TargetList' key='context.Iterator' xpos='200' ypos='600' xend='200' yend='550' >
+<foreach name='发送请求消息到订阅者' property='context.TargetList' key='context.Iterator' xpos='470' ypos='600' xend='200' yend='650' >
 <annotation><![CDATA[根据订阅列表发送消息到目标处理过程]]></annotation>
 <assign name="取出Target" property="context.Target" value="context.TargetList.GetAt(context.Iterator)" action="set" xpos='200' ypos='250' />
-<trace name='get' value='context.Target.Name' xpos='200' ypos='350' />
-<call name='同步订阅者' target='@context.Target.Target' async='1' xpos='200' ypos='450' >
+<trace name='get' value='context.Target.Target' xpos='200' ypos='350' />
+<call name='同步订阅者' target='@context.Target.Target' async='1' xpos='200' ypos='550' >
 <request type='HCC.SVR.Prod.MSG.SVRRequest' >
 <assign property="callrequest" value="request" action="set" />
 </request>
@@ -62,9 +61,12 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </response>
 </call>
 </foreach>
+<code name='交互服务成功' xpos='470' ypos='700' >
+<![CDATA[ set context.tResponse= ##class(HCC.Utils.ResponseHelper).ReturnSuccessMsgNoContentAndSenderInfo(request.MsgId)]]>
+</code>
 </false>
 </if>
-<sync calls='同步订阅者' type='all' xpos='200' ypos='900' />
+<assign name="返回消息" property="response" value="context.tResponse" action="set" xpos='200' ypos='900' />
 </sequence>
 </process>
 }

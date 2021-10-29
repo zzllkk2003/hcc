@@ -1,4 +1,4 @@
-Class HCC.SQL.Document.LabTest.AnesthesiaVisit Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.LabTest.AnesthesiaVisit Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter XMLIGNORENULL = 1;

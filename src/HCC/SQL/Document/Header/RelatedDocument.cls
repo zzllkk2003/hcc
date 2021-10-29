@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 互联互通文档头-父文档信息子表
-Class HCC.SQL.Document.Header.RelatedDocument Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Header.RelatedDocument Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档编号 

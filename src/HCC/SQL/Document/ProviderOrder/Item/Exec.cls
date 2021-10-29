@@ -1,5 +1,5 @@
 /// 医嘱执行
-Class HCC.SQL.Document.ProviderOrder.Item.Exec Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.ProviderOrder.Item.Exec Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 医嘱执行日期时间

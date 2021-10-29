@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 尸检意见章节表
-Class HCC.SQL.Document.AutopsyOpinion Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.AutopsyOpinion Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

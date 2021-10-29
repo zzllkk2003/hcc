@@ -1,5 +1,5 @@
 /// 既往史章节 - 传染病史条目子表
-Class HCC.SQL.Document.PastHistory.Infection Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PastHistory.Infection Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 传染病史条目名称

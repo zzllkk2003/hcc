@@ -1,5 +1,5 @@
 /// 抢救记录章节表
-Class HCC.SQL.Document.RescueRecord Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.RescueRecord Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

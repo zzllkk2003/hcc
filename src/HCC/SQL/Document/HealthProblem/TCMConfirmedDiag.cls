@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 确定诊断-中医条目子表
-Class HCC.SQL.Document.HealthProblem.TCMConfirmedDiag Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.TCMConfirmedDiag Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 诊断-中医

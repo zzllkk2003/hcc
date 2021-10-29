@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 手术评估记录标志章节表
-Class HCC.SQL.Document.ProcedureAssessment Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.ProcedureAssessment Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 术前总结章节表
-Class HCC.SQL.Document.PreoperativeSummary Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.PreoperativeSummary Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

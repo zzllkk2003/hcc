@@ -1,7 +1,7 @@
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
-Class HCC.SQL.Document.HealthProblem.ComaAfterAdmit Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.ComaAfterAdmit Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 颅脑损伤患者入院后昏迷时间(天)  

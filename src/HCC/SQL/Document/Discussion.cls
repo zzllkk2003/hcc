@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 讨论内容章节表
-Class HCC.SQL.Document.Discussion Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Discussion Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "DE06.00.181.00";

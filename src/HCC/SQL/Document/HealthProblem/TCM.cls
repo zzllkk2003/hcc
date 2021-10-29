@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 中医住院病案首页
-Class HCC.SQL.Document.HealthProblem.TCM Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.TCM Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 治疗类别 DE06.00.304.00

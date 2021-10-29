@@ -1,5 +1,5 @@
 /// 其他相关信息章节表
-Class HCC.SQL.Document.Other Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Other Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

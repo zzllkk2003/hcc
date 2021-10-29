@@ -1,5 +1,5 @@
 /// 主要健康问题章节 - 特殊情况。用于《麻醉术后访视记录》
-Class HCC.SQL.Document.HealthProblem.Exception Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthProblem.Exception Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 特殊情况

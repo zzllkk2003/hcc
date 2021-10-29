@@ -1,6 +1,6 @@
 /// 费用章节
 /// 诊断费
-Class HCC.SQL.Document.Payment.Diag Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.Diag Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 诊断-病理诊断费

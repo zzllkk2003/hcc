@@ -1,5 +1,5 @@
 /// 医嘱审核
-Class HCC.SQL.Document.ProviderOrder.Item.Review Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.ProviderOrder.Item.Review Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 医嘱审核日期时间

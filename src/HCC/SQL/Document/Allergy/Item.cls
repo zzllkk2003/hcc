@@ -3,7 +3,7 @@
 /// Date:2021/07/01
 /// 过敏条目
 /// 注意，这不是章节类，是过敏条目类
-Class HCC.SQL.Document.Allergy.Item Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Allergy.Item Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档号

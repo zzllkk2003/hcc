@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 中医症候子表
-Class HCC.SQL.Document.Diagnosis.TCMSyndrome Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Diagnosis.TCMSyndrome Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医症候

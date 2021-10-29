@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 术前诊断章节表
-Class HCC.SQL.Document.SurgicalOperationNotePreoperativeDX Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.SurgicalOperationNotePreoperativeDX Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "10219-4";
@@ -30,6 +30,9 @@ Property basis As WS.DE.DE050107000 [ SqlFieldName = basis ];
 /// 入院日期时间
 Property admitTime As WS.DE.DE060009200 [ SqlFieldName = admit_time ];
 
+/// 术前合并疾病
+Property complication As WS.DE.DE050107600 [ SqlFieldName = complication ];
+
 Relationship Items As HCC.SQL.Document.SurgOperNotePreoperativeDX.Item [ Cardinality = children, Inverse = Diagnosis ];
 
 Storage Default
@@ -46,6 +49,9 @@ Storage Default
 </Value>
 <Value name="4">
 <Value>admitTime</Value>
+</Value>
+<Value name="5">
+<Value>complication</Value>
 </Value>
 </Data>
 <DataLocation>^HCC.SQL.Do70F6.SurgicalOpe1CCCD</DataLocation>

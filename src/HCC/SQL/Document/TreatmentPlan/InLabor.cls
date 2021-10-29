@@ -1,5 +1,5 @@
 /// 治疗计划章节 - 针对于《待产记录》
-Class HCC.SQL.Document.TreatmentPlan.InLabor Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.TreatmentPlan.InLabor Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 处置计划

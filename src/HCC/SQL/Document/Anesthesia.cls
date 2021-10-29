@@ -4,7 +4,7 @@
 /// 麻醉章节条目表
 /// 一个文档可以有多条麻醉记录条目
 /// 注意，这不是章节类，是麻醉记录条目类。没有麻醉章节类
-Class HCC.SQL.Document.Anesthesia Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Anesthesia Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "59774-0";

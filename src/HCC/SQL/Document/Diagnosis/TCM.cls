@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 中医诊断子表
-Class HCC.SQL.Document.Diagnosis.TCM Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Diagnosis.TCM Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 中医诊断

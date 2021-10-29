@@ -1,6 +1,6 @@
 /// 费用章节
 /// 西药费
-Class HCC.SQL.Document.Payment.Medicine Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Document.Payment.Medicine Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 西药费 - 费用

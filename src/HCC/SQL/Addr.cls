@@ -1,5 +1,5 @@
 /// 地址
-Class HCC.SQL.Addr Extends (%SerialObject, %XML.Adaptor)
+Class HCC.SQL.Addr Extends (%SerialObject, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 地址-门牌号

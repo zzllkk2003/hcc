@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07
 /// 新生儿章节表
-Class HCC.SQL.Document.NewBorn Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.NewBorn Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode = "57075-4";

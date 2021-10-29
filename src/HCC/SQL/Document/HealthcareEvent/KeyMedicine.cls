@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 卫生事件章节-关键药物子表
-Class HCC.SQL.Document.HealthcareEvent.KeyMedicine Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.HealthcareEvent.KeyMedicine Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 关键药物名称

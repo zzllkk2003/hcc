@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-08-11 13:30:11
-/// LastEditTime: 2021-08-17 00:20:08
+/// LastEditTime: 2021-10-09 13:14:58
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: \HCC\SVR\Prod\BO\RetrieveCDAOperation.cls
+/// FilePath: /hcc/src/HCC/SVR/Prod/BO/RetrieveCDAOperation.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// 共享文档调阅BO
@@ -12,9 +12,9 @@ Class HCC.SVR.Prod.BO.RetrieveCDAOperation Extends Ens.BusinessOperation
 {
 
 /// 调阅xsl
-Property DocRetrieveXSL As %String;
+Property DocRetrieveXSL As %String(MAXLEN = "");
 
-Parameter SETTINGS = "DocRetrieveXSL:Basic";
+Parameter SETTINGS = "DocRetrieveXSL:Basic:fileSelector";
 
 Parameter INVOCATION = "Queue";
 
@@ -84,7 +84,7 @@ Method RetrieveCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRes
 
     //获得患者姓名
     Set PatientName =pDoc.GetValueAt("/RCMR_IN000031UV01/controlActProcess[1]/queryByParameter[1]/patient.id[1]/semanticsText[1]/@value")
-    $$$LOGINFO(sqlStr)
+    //$$$TRACE(sqlStr)
     Set DocList=##class(HCC.DocRepository.DocRetrieveModel).%New()
     Set tStatement = ##class(%SQL.Statement).%New(1)
    Set qStatus = tStatement.%Prepare(sqlStr)
@@ -98,14 +98,26 @@ Method RetrieveCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRes
       Set Doc = ##class(HCC.DocRepository.LatestDocs).%OpenId(ID)
       set DocCopy=Doc.%ConstructClone()
       Set content=DocCopy.Content
-      $$$LOGINFO(content)
-      s BinaryText=$ZCONVERT(content,"O","UTF8")
-      s Base64Encoded=$system.Encryption.Base64Encode(BinaryText)
+      //10.9
+      set x = ##class(HS.Util.StreamUtils).EnsureStream(content)
+      do ##class(HCC.Utils.Functions).toUTF8(.x)
+      set a =  ##class(HS.Util.StreamUtils).EnsureString(x)
+      //set a=$ZSTRIP(a,"*")
+      //$$$TRACE(a)
+      //s BinaryText=$ZCONVERT(a,"O","UTF8")
+      //$$$TRACE(BinaryText)
+      //添加匿名化处理 --Louis
+      d ##class(HCC.Utils.Anonymization).Do(a,.reText)
+      $$$TRACE(reText)
+      s Base64Encoded=$system.Encryption.Base64Encode($ZCONVERT(reText,"O","UTF8"))
+      //s Base64Encoded=$system.Encryption.Base64Encode()
       set DocCopy.Content=Base64Encoded
-      $$$LOGINFO(Doc)
+      
+     //$$$TRACE(Base64Encoded)
+      //$$$TRACE(Doc)
       Do DocList.DocRetrieveResults.Insert(DocCopy)
      }
-    $$$LOGINFO(DocList.DocRetrieveResults)
+    //$$$TRACE(DocList.DocRetrieveResults)
    if (marker="")
    {
        set pResponse=##class(HCC.Utils.ResponseHelper).ReturnErrorMsg(pRequest.MsgId,"调阅文档不存在",SenderID)
@@ -120,17 +132,23 @@ Method RetrieveCDAOperation(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pRes
    Set RTime = ##class(Ens.Util.Time).ConvertDateTime($ZDATETIME($ZDATETIMEH($ZTIMESTAMP,-3),3,1,4),"%q(1)","%q(0)",,.tsc)
    Set DocList.ResultResponseTime=RTime
    Set xml =##class(%Stream.GlobalCharacter).%New()
-   Do DocList.XMLExportToStream(.xml)
-   //Do DocList.XMLExportToString(.string)
-   set x = ##class(HS.Util.StreamUtils).EnsureString(xml)
-   $$$LOGINFO(x)
+  // Do DocList.XMLExportToStream(.xml)
+   Do DocList.XMLExportToString(.string)
+  // set x = ##class(HS.Util.StreamUtils).EnsureString(xml)
+  // $$$TRACE(x)
    set tsc = ##class(%XML.XSLT.CompiledStyleSheet).CreateFromFile(..DocRetrieveXSL,.xsl)
    
-   set xslResult =##class(%Stream.GlobalCharacter).%New()
-   set tsc = ##class(%XML.XSLT.Transformer).TransformStreamWithCompiledXSL(xml,xsl,.xslResult)
-   do ##class(HCC.Utils.Functions).toUTF8(.xslResult) 
+   //set xslResult =##class(%Stream.GlobalCharacter).%New()
+   //set tsc = ##class(%XML.XSLT.Transformer).TransformStreamWithCompiledXSL(xml,xsl,.xslResult)
+   //do ##class(HCC.Utils.Functions).toUTF8(.xslResult) 
    //set x = ##class(HS.Util.StreamUtils).EnsureString(xslResult)
-    //$$$LOGINFO(x)
+ //  $$$TRACE(x)
+   
+   set tResult=""
+   set tsc=##class(%XML.XSLT.Transformer).TransformStringWithCompiledXSL(string,xsl,.tResult)
+   set tResult=$REPLACE(tResult,"&#10;","")
+   set xslResult = ##class(HS.Util.StreamUtils).EnsureStream(tResult)
+   do ##class(HCC.Utils.Functions).toUTF8(.xslResult) 
     set pResponse = ##class(HCC.SVR.Prod.MSG.SVRResponse).%New()
     set pResponse.Message=xslResult
    Quit $$$OK

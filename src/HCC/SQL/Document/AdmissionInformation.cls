@@ -2,7 +2,7 @@
 /// Version: 1.0
 /// Date:2021/07/01
 /// 入院信息章节表
-Class HCC.SQL.Document.AdmissionInformation Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.AdmissionInformation Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 Parameter SectionCode;

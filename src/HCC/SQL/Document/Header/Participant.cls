@@ -1,5 +1,5 @@
 /// 互联互通文档头 - 参与人子表
-Class HCC.SQL.Document.Header.Participant Extends (%Persistent, %XML.Adaptor)
+Class HCC.SQL.Document.Header.Participant Extends (%Persistent, %XML.Adaptor, HCC.SQL.Base)
 {
 
 /// 文档编号 (同时作为Idkey)
