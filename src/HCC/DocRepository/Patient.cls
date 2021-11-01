@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-14 14:20:35
-/// LastEditTime: 2021-10-29 17:08:33
+/// LastEditTime: 2021-11-01 15:15:20
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/src/HCC/DocRepository/Patient.cls
+/// FilePath: /hcc/Users/jiliu/Library/Caches/com.lemonmojo.RoyalTSX.App/LMFileTransferConnection/58960896-ff1c-4a69-b396-eb0b474ef9a2/L2hvbWUvaGNjL3NyYy9IQ0MvRG9jUmVwb3NpdG9yeQ==/Patient.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// 文档模型的患者类
@@ -34,7 +34,7 @@ Property PatName As %String;
 
 Relationship DocL As HCC.DocRepository.LatestDocs(XMLPROJECTION = "NONE") [ Cardinality = many, Inverse = Patient ];
 
-Relationship DocA As HCC.DocRepository.LatestDocs(XMLPROJECTION = "NONE") [ Cardinality = many, Inverse = Patient ];
+Relationship DocA As HCC.DocRepository.AllDocs(XMLPROJECTION = "NONE") [ Cardinality = many, Inverse = Patient ];
 
 Storage Default
 {

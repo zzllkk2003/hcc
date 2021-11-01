@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-09-27 13:36:33
-/// LastEditTime: 2021-10-29 18:00:55
+/// LastEditTime: 2021-11-01 15:11:49
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/src/HCC/DocRepository/DocRetrieveModel.cls
+/// FilePath: /hcc/Users/jiliu/Library/Caches/com.lemonmojo.RoyalTSX.App/LMFileTransferConnection/58960896-ff1c-4a69-b396-eb0b474ef9a2/L2hvbWUvaGNjL3NyYy9IQ0MvRG9jUmVwb3NpdG9yeQ==/DocRetrieveModel.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// 文档检索中建模型
@@ -46,7 +46,5 @@ Property ResponseMessageID As %String;
 
 /// 返回消息创建时间
 Property ResultResponseTime As %String;
-
-Relationship Patient As HCC.DocRepository.Patient(XMLPROJECTION = "element") [ Cardinality = one, Inverse = DocA ];
 
 }

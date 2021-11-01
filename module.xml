@@ -8,7 +8,6 @@
       <Keywords>hcc</Keywords>
       <Packaging>module</Packaging>
       <Resource Name="HIP.PKG"/>
-      <Resource Name="WS.Tools.PKG"/>
       <Resource Name="WS.PKG"/>
       <Resource Name="HCC.PKG"/> 
       <Resource Name="HCCPKG.PKG"/>

@@ -1,10 +1,10 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-13 14:29:38
-/// LastEditTime: 2021-07-14 14:53:23
+/// LastEditTime: 2021-11-01 15:07:40
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/src/HCC/DocRepository/AllDocs.cls
+/// FilePath: /hcc/Users/jiliu/Library/Caches/com.lemonmojo.RoyalTSX.App/LMFileTransferConnection/58960896-ff1c-4a69-b396-eb0b474ef9a2/L2hvbWUvaGNjL3NyYy9IQ0MvRG9jUmVwb3NpdG9yeQ==/AllDocs.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// 共享文档存储表
@@ -86,7 +86,7 @@ Property RepHosName As %String;
 Property AddDate As %TimeStamp;
 
 /// 病人 one
-Relationship Patient As HCC.DocRepository.Patient [ Cardinality = one, Inverse = Doc ];
+Relationship Patient As HCC.DocRepository.Patient [ Cardinality = one, Inverse = DocA ];
 
 Storage Default
 {
