@@ -15,6 +15,7 @@
       <Resource Name="LookupTable.GBL"/>
       <Resource Name="PubSub.GBL"/>
       <Resource Name="WS.GBL"/>
+      <FileCopy Name="xsl/" Target="${libdir}xsl/"/>
       <CSPApplication CookiePath="/hcc/" DefaultTimeout="900" DispatchClass="HCC.Interface.RestHandler" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc" UseSessionCookie="2"/>
       <SourcesRoot>src</SourcesRoot>
     </Module>
