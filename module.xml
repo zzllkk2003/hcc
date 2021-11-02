@@ -22,11 +22,13 @@
       <Resource Name="LookupTable.GBL"/>
       <Resource Name="PubSub.GBL"/>
       <Resource Name="WS.GBL"/>
-      <FileCopy Name="xsl/" Target="${libdir}xsl/"/>
+      <FileCopy Name="xsl/" Target="${libdir}isc/xsl/"/>
+      <FileCopy Name="CDACoreSchemas/" Target="${libdir}isc/CDACoreSchemas/"/>
+      <FileCopy Name="Messages/" Target="${libdir}isc/Messages/"/>
       <SystemSetting Name="CSP.DefaultFileCharset" Value="UTF-8"/>
       <Invoke Class="HCC.Install" Method="Deploy" Phase="Compile" When="After" CheckStatus="true">
       </Invoke>
-      <CSPApplication CookiePath="/hcc" DefaultTimeout="900" DispatchClass="HCC.Interface.RestHandler" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc" UseSessionCookie="2"/>
+      <CSPApplication CookiePath="/hcc/" DefaultTimeout="900" DispatchClass="HCC.Interface.RestHandler" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc" UseSessionCookie="2"/>
       <SourcesRoot>src</SourcesRoot>
     </Module>
   </Document>
