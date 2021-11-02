@@ -1,8 +1,6 @@
 Class WS.DE.DE060008100 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Decimal(SCALE = 1);
-
 Parameter Category = "计划与干预";
 
 Parameter Description = "目标体重(kg)";
@@ -12,6 +10,8 @@ Parameter Format = "N3..5,1";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
+
+Property Value As WS.DT.Decimal(SCALE = 1);
 
 Storage Default
 {

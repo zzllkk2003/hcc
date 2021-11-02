@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+  <Document name="hcc.ZPM">
+    <Module>
+      <Name>hcc</Name>
+      <Version>0.1.0</Version>
+      <Description>互联互通模块</Description>
+      <Keywords>hcc</Keywords>
+      <Packaging>module</Packaging>
+      <Resource Name="HIP.PKG"/>
+      <Resource Name="WS.PKG"/>
+      <Resource Name="HCC.PKG"/> 
+      <Resource Name="HCCPKG.PKG"/>
+      <Resource Name="HCC.GBL"/>
+      <Resource Name="LookupTable.GBL"/>
+      <Resource Name="PubSub.GBL"/>
+      <Resource Name="WS.GBL"/>
+      <FileCopy Name="xsl/" Target="${libdir}xsl/"/>
+      <CSPApplication CookiePath="/hcc/" DefaultTimeout="900" DispatchClass="HCC.Interface.RestHandler" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc" UseSessionCookie="2"/>
+      <SourcesRoot>src</SourcesRoot>
+    </Module>
+  </Document>
+</Export>

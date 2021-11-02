@@ -1,17 +1,19 @@
 Class WS.DE.DE060002600 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %String(MAXLEN = 50, MINLEN = 0);
-
 Parameter Category = "计划与干预";
 
 Parameter Description = "分娩结局";
 
-Parameter Format = "AN..50";
+Parameter Format = "N1";
+
+Parameter ValueSetDisplay = "1:活产;2:死胎;3:死产;";
 
 Parameter ValueSet;
 
-Parameter WSDT = "S1";
+Parameter WSDT = "S2";
+
+Property Value As WS.DT.CodedString(ValueSet = "DE06.00.026.00");
 
 Storage Default
 {

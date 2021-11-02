@@ -1,8 +1,6 @@
 Class WS.DE.DE045007800 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Decimal(SCALE = 2);
-
 Parameter Category = "实验室检查";
 
 Parameter Description = "嗜酸性粒细胞百分率(%)";
@@ -12,6 +10,8 @@ Parameter Format = "N..5,2";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
+
+Property Value As WS.DT.Decimal(SCALE = 2);
 
 Storage Default
 {

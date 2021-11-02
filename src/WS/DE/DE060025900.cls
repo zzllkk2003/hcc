@@ -3,7 +3,7 @@ Class WS.DE.DE060025900 Extends WS.DE.Base [ Language = objectscript, Not Proced
 
 Parameter Category = "计划与干预";
 
-Parameter Description = "手术日期时间";
+/*Parameter Description = "手术日期时间";
 
 Parameter Format = "DT15";
 
@@ -11,17 +11,19 @@ Parameter ValueSet;
 
 Parameter WSDT = "DT";
 
-Property Value As WS.DT.TimeStamp;
+Property Value As WS.DT.TimeStamp;*/
+Parameter Description = "手术全程时长(min)";
+
+Parameter Format = "N1..4";
+
+Parameter ValueSet;
+
+Parameter WSDT = "N";
+
+Property Value As %Integer(MAXVAL = 9999, MINVAL = 0);
 
 Storage Default
 {
-<Data name="DE060025900State">
-<Value name="1">
-<Value>Value</Value>
-</Value>
-</Data>
-<State>DE060025900State</State>
-<StreamLocation>^WS.DE.DE060025900S</StreamLocation>
 <Type>%Storage.Serial</Type>
 }
 

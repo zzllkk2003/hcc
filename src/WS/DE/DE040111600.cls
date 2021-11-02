@@ -7,11 +7,12 @@ Parameter Description = "症状代码";
 
 Parameter Format = "AN..5";
 
-Parameter ValueSet = "ICD10R";
+/// ICD.10R
+Parameter ValueSet = "ICD.10";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "ICD-10.R");
+Property Value As WS.DT.CodedString(ValueSet = "ICD.10");
 
 Storage Default
 {

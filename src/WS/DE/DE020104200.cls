@@ -7,11 +7,11 @@ Parameter Description = "学位代码";
 
 Parameter Format = "N8";
 
-Parameter ValueSet = "GBT.6864";
+Parameter ValueSet = "GBT.6864.2003";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.6864");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.6864.2003");
 
 Storage Default
 {

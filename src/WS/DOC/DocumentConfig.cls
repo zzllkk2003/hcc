@@ -179,6 +179,8 @@ ClassMethod Init()
     Set DocConfig(152)=$lb(23,"生命体征章节","1..1")
     Set DocConfig(153)=$lb(23,"既往史章节","0..1")
     Set DocConfig(154)=$lb(23,"过敏史章节","0..1")
+    // 修正C0023 《入院评估》，增加“预防接种史章节”
+    Set DocConfig(154.1)=$lb(23,"预防接种史章节","0..1")
     Set DocConfig(155)=$lb(23,"家族史章节","0..1")
     Set DocConfig(156)=$lb(23,"健康评估章节","0..1")
     Set DocConfig(157)=$lb(23,"生活方式章节","1..1")

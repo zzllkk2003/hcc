@@ -1,8 +1,6 @@
 Class WS.DE.DE045004600 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Decimal(SCALE = 3);
-
 Parameter Category = "实验室检查";
 
 Parameter Description = "尿比重";
@@ -12,6 +10,8 @@ Parameter Format = "N5,3";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
+
+Property Value As WS.DT.Decimal(SCALE = 3);
 
 Storage Default
 {

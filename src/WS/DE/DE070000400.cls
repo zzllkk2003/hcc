@@ -1,8 +1,6 @@
 Class WS.DE.DE070000400 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Decimal(SCALE = 2);
-
 Parameter Category = "卫生费用";
 
 Parameter Description = "门诊费用金额(元)";
@@ -12,6 +10,8 @@ Parameter Format = "N..8,2";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
+
+Property Value As WS.DT.Decimal(SCALE = 2);
 
 Storage Default
 {

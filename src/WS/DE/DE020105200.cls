@@ -14,13 +14,13 @@ Parameter Format = "AN3";
 
 // Parameter ValueSet = "GB/T 6565";
 
-Parameter ValueSet = "GBT.2261.4";
+Parameter ValueSet = "GBT.2261.4.2003";
 
 Parameter WSDT = "S3";
 
 // Property Value As WS.DT.CodedString(ValueSet = "GBT.6565");
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.2261.4");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.2261.4.2003");
 
 Storage Default
 {

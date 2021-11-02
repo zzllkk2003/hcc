@@ -1,8 +1,6 @@
 Class WS.DE.DE045006400 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Decimal(SCALE = 1);
-
 Parameter Category = "实验室检查";
 
 Parameter Description = "尿微量白蛋白(mg/dL)";
@@ -12,6 +10,8 @@ Parameter Format = "N5,1";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
+
+Property Value As WS.DT.Decimal(SCALE = 1);
 
 Storage Default
 {

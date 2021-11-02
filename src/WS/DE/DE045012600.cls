@@ -1,8 +1,6 @@
 Class WS.DE.DE045012600 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Decimal(SCALE = 1);
-
 Parameter Category = "实验室检查";
 
 Parameter Description = "总胆红素值(μmol/L)";
@@ -12,6 +10,8 @@ Parameter Format = "N..4,1";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
+
+Property Value As WS.DT.Decimal(SCALE = 1);
 
 Storage Default
 {

@@ -7,11 +7,11 @@ Parameter Description = "经济类型代码";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "GBT.12402";
+Parameter ValueSet = "GBT.12402.2000";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.12402");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.12402.2000");
 
 Storage Default
 {

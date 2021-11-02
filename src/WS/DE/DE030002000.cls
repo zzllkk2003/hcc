@@ -1,8 +1,6 @@
 Class WS.DE.DE030002000 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Decimal(SCALE = 1);
-
 Parameter Category = "健康危险因素";
 
 Parameter Description = "户外活动时长(h)";
@@ -12,6 +10,8 @@ Parameter Format = "N..4,1";
 Parameter ValueSet;
 
 Parameter WSDT = "F";
+
+Property Value As WS.DT.Decimal(SCALE = 1);
 
 Storage Default
 {

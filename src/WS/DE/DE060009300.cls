@@ -7,11 +7,11 @@ Parameter Description = "手术/操作代码";
 
 Parameter Format = "AN..5";
 
-Parameter ValueSet = "ICD9CM";
+Parameter ValueSet = "ICD.9.CM.3";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "ICD9CM");
+Property Value As WS.DT.CodedString(ValueSet = "ICD.9.CM.3");
 
 Storage Default
 {

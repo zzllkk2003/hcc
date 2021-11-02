@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-09-27 13:36:33
-/// LastEditTime: 2021-10-29 14:25:52
+/// LastEditTime: 2021-11-02 14:53:23
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/Install.cls
@@ -31,6 +31,16 @@ ClassMethod GlobalExport(pPath As %String) As %Status
    do $System.OBJ.Export("EnsLib.PubSub*.GBL",pPath_"PubSub.xml")
 
    do $System.OBJ.Export("Ens.LookupTable.GBL",pPath_"LookupTable.xml")
+}
+
+/// deploy mode after zpm compile
+ClassMethod Deploy() As %Status
+{
+    Set sc = $$$OK
+    d $system.OBJ.MakeClassDeployed("WS.DE.Tools")
+    d $system.OBJ.MakeClassDeployed("HIP.DataGov.Util")
+    d $system.OBJ.MakeClassDeployed("HCC.Util")
+    Return sc
 }
 
 }

@@ -1,27 +1,20 @@
 Class WS.DE.DE060028900 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %String(MAXLEN = 100, MINLEN = 0);
-
 Parameter Category = "计划与干预";
 
 Parameter Description = "医嘱项目类型";
 
-Parameter Format = "AN..100";
+Parameter WSDT = "S3";
 
-Parameter ValueSet;
+Parameter Format = "N1";
 
-Parameter WSDT = "S1";
+Parameter ValueSet = "CV06.00.229";
+
+Property Value As WS.DT.CodedString(ValueSet = "CV06.00.229");
 
 Storage Default
 {
-<Data name="DE060028900State">
-<Value name="1">
-<Value>Value</Value>
-</Value>
-</Data>
-<State>DE060028900State</State>
-<StreamLocation>^WS.DE.DE060028900S</StreamLocation>
 <Type>%Storage.Serial</Type>
 }
 

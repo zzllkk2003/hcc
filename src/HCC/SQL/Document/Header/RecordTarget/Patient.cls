@@ -44,6 +44,9 @@ Property ageInMonth As WS.DE.DE020103200 [ SqlFieldName = age_month ];
 /// 职业类别代码
 Property occupationCode As WS.DE.DE020105200 [ SqlFieldName = occp_code ];
 
+/// 学历代码
+Property educationCode As WS.DE.DE020104100 [ SqlFieldName = edu_code ];
+
 Storage Default
 {
 <Data name="PatientState">
@@ -94,6 +97,9 @@ Storage Default
 </Value>
 <Value name="16">
 <Value>providerOrganizationName</Value>
+</Value>
+<Value name="17">
+<Value>educationCode</Value>
 </Value>
 </Data>
 <State>PatientState</State>

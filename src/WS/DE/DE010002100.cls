@@ -5,11 +5,11 @@ Parameter Category = "标识";
 
 Parameter Description = "居民健康卡号";
 
-Parameter Format = "AN..20";
+Parameter Format = "AN..18";
 
 Parameter WSDT = "S1";
 
-Property Value As %String(MAXLEN = 20, MINLEN = 0);
+Property Value As %String(MAXLEN = 18, MINLEN = 0);
 
 Storage Default
 {

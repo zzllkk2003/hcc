@@ -1,27 +1,22 @@
 Class WS.DE.DE060010600 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Boolean;
-
 Parameter Category = "计划与干预";
 
 Parameter Description = "输血史标志";
 
-Parameter Format;
+Parameter WSDT = "S2";
 
-Parameter ValueSet;
+Parameter Format = "N1";
 
-Parameter WSDT = "L";
+Parameter ValueSetDisplay = "1:无;2:有;9:未说明;";
+
+Parameter ValueSet = "DE06.00.106.00";
+
+Property Value As WS.DT.CodedString(ValueSet = "DE06.00.106.00");
 
 Storage Default
 {
-<Data name="DE060010600State">
-<Value name="1">
-<Value>Value</Value>
-</Value>
-</Data>
-<State>DE060010600State</State>
-<StreamLocation>^WS.DE.DE060010600S</StreamLocation>
 <Type>%Storage.Serial</Type>
 }
 

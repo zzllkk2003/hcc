@@ -7,11 +7,11 @@ Parameter Description = "行政区划代码";
 
 Parameter Format = "N6";
 
-Parameter ValueSet = "GBT.2260";
+Parameter ValueSet = "GBT.2260.1999";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.2260");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.2260.1999");
 
 Storage Default
 {

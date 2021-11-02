@@ -7,11 +7,11 @@ Parameter Description = "职称代码";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "GBT.8561";
+Parameter ValueSet = "GBT.8561.2001";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.8561");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.8561.2001");
 
 Storage Default
 {

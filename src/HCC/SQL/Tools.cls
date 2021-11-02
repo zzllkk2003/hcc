@@ -4976,6 +4976,8 @@ ClassMethod GenSampleFor23(pDocNo As %String = "Doc23")
    Do ..TestVitalSignGenerate(pDocNo,23)
    ///插入既往史章节
    Do ..TestPastHistoryGenerate(pDocNo)
+   ///插入预防接种史章节
+   Do ..TestVaccinationGenerate(pDocNo)
    ///插入过敏史章节
    Do ..TestAllergyGenerate(pDocNo)
    ///插入家族史章节

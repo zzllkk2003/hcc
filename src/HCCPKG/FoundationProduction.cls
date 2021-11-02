@@ -39,7 +39,7 @@ XData ProductionDefinition
     <Setting Target="Host" Name="DocAccessXSL">/isc/irishealth/mgr/HCC/xsl/DocumentAccess.xsl</Setting>
     <Setting Target="Host" Name="InactivityTimeout">0</Setting>
   </Item>
-  <Item Name="HCC.SVR.Prod.BO.RetrieveCDAOperation" Category="" ClassName="HCC.SVR.Prod.BO.RetrieveCDAOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="HCC.SVR.Prod.BO.RetrieveCDAOperation" Category="" ClassName="HCC.SVR.Prod.BO.RetrieveCDAOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Host" Name="DocRetrieveXSL">/isc/irishealth/mgr/HCC/xsl/DocRetrieve.xsl</Setting>
     <Setting Target="Host" Name="InactivityTimeout">0</Setting>
   </Item>
@@ -49,6 +49,12 @@ XData ProductionDefinition
   <Item Name="HCC.SVR.Prod.BO.StandardHCCOutBound" Category="" ClassName="HCC.SVR.Prod.BO.StandardHCCOutBound" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Adapter" Name="WebServiceURL">http://172.19.822225.68:52773/csp/healthshare/hcc/services/HCC.SVR.Prod.BS.HIPMessageServer.cls</Setting>
     <Setting Target="Adapter" Name="Credentials">ws</Setting>
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+  </Item>
+  <Item Name="EMR" Category="" ClassName="HCC.SVR.Prod.BO.StandardHCCOutBound" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="WebServiceURL">http://bjsvmse01:52773/csp/healthshare/mocksys/services/EMR.WS.PatientService.cls</Setting>
+    <Setting Target="Adapter" Name="SOAPCredentials">ws</Setting>
+    <Setting Target="Host" Name="SoapAction">urn:hl7-org:v3/EMR.WS.PatientService.HIPMessageServer</Setting>
     <Setting Target="Host" Name="InactivityTimeout">0</Setting>
   </Item>
 </Production>

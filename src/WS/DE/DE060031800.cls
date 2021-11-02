@@ -3,15 +3,15 @@ Class WS.DE.DE060031800 Extends WS.DE.Base [ Language = objectscript, Not Proced
 
 Parameter Category = "计划与干预";
 
-Parameter Description = "供氧时间";
+Parameter Description = "供氧时间(min)";
 
-Parameter Format = "DT15";
+Parameter Format = "N..4";
 
 Parameter ValueSet;
 
-Parameter WSDT = "DT";
+Parameter WSDT = "N";
 
-Property Value As WS.DT.TimeStamp;
+Property Value As %Integer(MAXVAL = 9999, MINVAL = 0);
 
 Storage Default
 {

@@ -2,10 +2,17 @@
 <Export generator="Cache" version="25">
   <Document name="hcc.ZPM">
     <Module>
-      <Name>hcc</Name>
-      <Version>0.1.0</Version>
+      <Name>hcc-deploy</Name>
+      <Version>0.3.0</Version>
       <Description>互联互通模块</Description>
       <Keywords>hcc</Keywords>
+       <Author>
+        <Person>China SE</Person>
+        <Organization>Intersytems China</Organization>
+        <CopyrightDate>2021</CopyrightDate>
+        <License>MIT</License>
+        <Notes>互联互通套件</Notes>
+      </Author>
       <Packaging>module</Packaging>
       <Resource Name="HIP.PKG"/>
       <Resource Name="WS.PKG"/>
@@ -16,7 +23,12 @@
       <Resource Name="PubSub.GBL"/>
       <Resource Name="WS.GBL"/>
       <FileCopy Name="xsl/" Target="${libdir}xsl/"/>
-      <CSPApplication CookiePath="/hcc/" DefaultTimeout="900" DispatchClass="HCC.Interface.RestHandler" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc" UseSessionCookie="2"/>
+      <SystemSetting Name="CSP.DefaultFileCharset" Value="UTF-8"/>
+      <Invoke Class="HCC.Install" Method="deploy" Phase="Compile" When="After" CheckStatus="true">
+         <Arg>${namespace}</Arg>
+         <Arg>${verbose}</Arg>
+      </Invoke>
+      <CSPApplication CookiePath="/hcc" DefaultTimeout="900" DispatchClass="HCC.Interface.RestHandler" MatchRoles=":%DB_%DEFAULT" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/hcc" UseSessionCookie="2"/>
       <SourcesRoot>src</SourcesRoot>
     </Module>
   </Document>
