@@ -15,6 +15,7 @@ ClassMethod GenerateAllSamples()
     {
         // generate all doc numbers
         Set tDocNo = "Doc"_i
+        w tDocNo,"-----------------",!
         // clear existing docs
         Do ..ClearDoc(tDocNo)
         // get method name
@@ -22,7 +23,9 @@ ClassMethod GenerateAllSamples()
         // run the method to generate doc data
         do $CLASSMETHOD("HCC.SQL.Tools",tMethod,tDocNo)
         // generate XML export file for each document
-        do ..GenerateHCCDocument(tDocNo)
+        w ..GenerateHCCDocument(tDocNo),!
+        //Do $system.OBJ.DisplayError(%objlasterror)
+        w !
     }
 }
 
@@ -30,7 +33,7 @@ ClassMethod GenerateAllSamples()
 /// pDocNo: 文档号
 /// pDoc：产生的XML文档，以字符串保存
 /// 返回值为%Status，标识是否产生成功
-ClassMethod GenerateHCCDocument(pDocNo = "Doc21", Output pDoc As %Stream.TmpCharacter) As %Status
+ClassMethod GenerateHCCDocument(pDocNo = "Doc6", Output pDoc As %Stream.TmpCharacter) As %Status
 {
     Set tErrlog="", tSC = $$$OK    
     // section list
@@ -108,7 +111,7 @@ ClassMethod GenerateHCCDocument(pDocNo = "Doc21", Output pDoc As %Stream.TmpChar
     Set tSec("症状章节")=$LB("Symptoms","HCC.SQL.Document.Symptom")
     Set tSec("用药管理章节")=$LB("MedicationAdministereds","HCC.SQL.Document.MedicationAdministered")
     Set tSec("体格检查章节")=$LB("PhysicalExams","HCC.SQL.Document.PhysicalExam")
-    Set tSec("检查报告体格检查章节")=$LB("ExamReportPhysicalExam","HCC.SQL.Document.ExamReportPhysicalExam")
+    Set tSec("检查报告体格检查章节")=$LB("ERPhysicalExam","HCC.SQL.Document.ExamReportPhysicalExam")
     Set tSec("家族史章节")=$LB("FamilyHistories","HCC.SQL.Document.FamilyHistory")
     Set tSec("生命体征章节")=$LB("VitalSigns","HCC.SQL.Document.VitalSign")
     Set tSec("预防接种史章节")=$LB("Vaccinations","HCC.SQL.Document.Vaccination")
@@ -371,6 +374,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     recTgt_pat_bp_county_Value,
     recTgt_pat_bp_post_Value,
     recTgt_pat_bp_state_Value,
+    recTgt_pat_edu_code_Value,
     recTgt_pat_emp_addr_city_Value,
     recTgt_pat_emp_addr_county_Value,
     recTgt_pat_emp_addr_house_Value,
@@ -403,7 +407,8 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     recTgt_spec_num_Value,
     recTgt_op_num_Value,
     recTgt_pat_Type_Value,
-    recTgt_con_num_Value
+    recTgt_con_num_Value,
+    recTgt_pres_num_Value
     ) 
     values(
     :pDocNo /*DocumentNo*/,
@@ -416,9 +421,9 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '1003'/*Author_assignedPerson_id*/,
     '张医生'/*文档作者*/,
     ''/*Author_author_id*/,
-    'H123456',
+    'A100',
     '系联总医院',
-    '2020-09-29 00:00:00'/*Author_time*/,
+    '2020-09-29'/*Author_time*/,
     '1234567890'/*Custodian_organization_id*/,
     '系联总医院'/*Custodian_organization_name*/,
     '银泰写字楼C座'/*cstn_org_addr*/,
@@ -431,7 +436,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '北京'/*RecordTarget_addr_state_Value*/,
     '建国门外大街'/*RecordTarget_addr_streetName_Value*/,
     null/*RecordTarget_addr_township_Value*/,
-    'HC110220198610010990'/*健康卡号标识*/,
+    '11022019861001099'/*健康卡号标识*/,
     'HR202102113366666'/* 健康档案标识*/,
     'IP123456'/* 住院号标识*/,
     '0'/*患者性别*/,
@@ -442,6 +447,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '东城区'/*RecordTarget_patient_birthplace_county_Value*/,
     '100011'/*RecordTarget_patient_birthplace_postalCode_Value*/,
     '北京'/*RecordTarget_patient_birthplace_state_Value*/,
+    '20'/*recTgt_pat_edu_code_Value*/,
     '北京'/*RecordTarget_employer_addr_city_Value*/,
     '朝阳区'/*RecordTarget_employer_addr_county_Value*/,
     '2号银泰写字楼C座2701-2702室'/*RecordTarget_employer_addr_houseNumber_Value*/,
@@ -464,8 +470,8 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '太原市'/*RecordTarget_patient_nativePlace_city_Value*/,
     '山西省'/*RecordTarget_patient_nativePlace_state_Value*/,
     '17'/*RecordTarget_patient_occupationCode_Value*/,
-    '110220198610010990'/*RecordTarget_patient_id_Value*/,
-    '李四'/*RecordTarget_patient_name_Value*/,
+    '110220199610010990'/*RecordTarget_patient_id_Value*/,
+    '孙悟空'/*RecordTarget_patient_name_Value*/,
     '1234567890'/*RecordTarget_providerOrganization_id_Value*/,
     '系联总医院'/*RecordTarget_providerOrganization_name*/,
     '85249999'/*RecordTarget_telcom_Value*/,
@@ -474,7 +480,8 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     'SP7888'/*recTgt_spec_num_Value*/,
     'OP235123465'/*recTgt_op_num_Value*/,
     '2'/*recTgt_pat_Type_Value*/,
-    'A001'/*recTgt_con_num_Value*/
+    'A001'/*recTgt_con_num_Value*/,
+    '1237523656'/*recTgt_pres_num_Value*/
     )
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.Header:",SQLCODE,": ",%msg,!
@@ -901,17 +908,17 @@ ClassMethod TestHealthcareEventGenerate(pDocNo = "Doc123456")
     values(
     :pDocNo,
     '就诊原因描述'/*adm_rsn_Value*/,
-    'G91' /*death_rsn_Value*/,
+    'G91.200' /*death_rsn_Value*/,
     '科室名称'/*dept_name_Value*/,
     '张三医生'/*doc_name_Value*/,
     '2021-07-30 10:30:00'/*enc_time_Value*/,
     '2860'/*fee_ip_Value*/,
-    '1'/*fee_insur_type_Value*/,
+    '01'/*fee_insur_type_Value*/,
     '159'/*fee_op_Value*/,
     '1030'/*fee_pat_pay_Value*/,
     '01'/*fee_pay_type_Value*/,
     'ip123456'/*ip_num_Value*/,
-    'G91'/*oth_diag_Value*/,
+    'G91.200'/*oth_diag_Value*/,
     '其他医学处置'/*oth_treat_Value*/,
     'op123456'/*op_num_Value*/,
     '1'/*pat_type_Value*/,
@@ -928,7 +935,7 @@ ClassMethod TestHealthcareEventGenerate(pDocNo = "Doc123456")
     result_Value)
     values(
     :pDocNo,
-    'G91'/*diag_Value*/,
+    'G91.200'/*diag_Value*/,
     1/*result_Value*/)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HealthcareEvent.Diagnosis:",SQLCODE,": ",%msg,!
@@ -1122,7 +1129,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     diag_org_Value/*诊断机构名称。用于《检查报告》、《检验报告》*/)
     values(
     :pDocNo,
-    'G91',
+    'G91.200',
     '2021-07-01',
     null,
     2,
@@ -1141,7 +1148,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     values(
     :pDocNo,
     'p123456',
-    'B95',
+    'B95.000',
     '2021-07-01',
     null,
     null,
@@ -1158,7 +1165,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     TCMdiag_orders_Value)
     values(
     :pDocNo,
-    'BRXC0',
+    'BRK090',
     '2021-07-01',
     null,
     1)
@@ -1227,7 +1234,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     name_Value/*死亡诊断名称*/)
     values(
     :pDocNo,
-    'G91',
+    'G91.200',
     null)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Death:",SQLCODE,": ",%msg,!
@@ -1399,7 +1406,7 @@ ClassMethod TestBloodTransfusionGenerate(pDocNo = "Doc123456")
     '输血原因'/*输血原因*/,
     1/*输血次数*/,
     '输血指征'/*输血指征*/,
-    '血浆'/*输血品种代码*/,
+    '4'/*输血品种代码*/,
     'ml'/*输血量计量单位*/,
     200/*输血量*/)
 
@@ -1496,7 +1503,7 @@ ClassMethod TestLabTestGenerate(pDocNo = "Doc123456", pMode = "0000")
         '红细胞计数'/*检验项目名称*/,
         '2021-07-01',
         null/*检验结果*/,
-        'N'/*检验结果代码*/,
+        '2'/*检验结果代码*/,
         '10x12/L'/*检查/检验计量单位*/,
         '3.99'/*检验定量结果*/,
         '2021-07-01 12:10:00'/*标本采样日期时间*/,
@@ -1524,7 +1531,7 @@ ClassMethod TestLabTestGenerate(pDocNo = "Doc123456", pMode = "0000")
         '白细胞计数'/*检验项目名称*/,
         '2021-07-01',
         null/*检验结果*/,
-        'N'/*检验结果代码*/,
+        '2'/*检验结果代码*/,
         '10(9)/L'/*检查/检验计量单位*/,
         '5.1'/*检验定量结果*/,
         '2021-07-01 12:10:00'/*标本采样日期时间*/,
@@ -1783,7 +1790,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '1'/*颅脑损伤患者入院前昏迷时间(天) */,
     '3'/*颅脑损伤患者入院前昏迷时间(小时) */,
     '15'/*颅脑损伤患者入院前昏迷时间(分钟) */,
-    'BRXC0'/*中医初步诊断编码*/,
+    'BRK090'/*中医初步诊断编码*/,
     '2021-07-01'/*中医初步诊断日期*/,
     null/*中医初步诊断病名名称*/,
     1/*诊断顺位*/,
@@ -1791,7 +1798,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '2021-07-01'/*中医症候诊断日期*/,
     null/*中医初步诊断症候名称*/,
     1/*诊断顺位*/,
-    'BRXC0'/*中医修正诊断编码*/,
+    'BRK090'/*中医修正诊断编码*/,
     '2021-07-02'/*中医修正诊断日期*/,
     null/*中医修正病名名称*/,
     1/*中医修正诊断顺位*/,
@@ -1802,7 +1809,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '入院情况'/*入院情况 。用于《出院小结》*/,
     '麻醉恢复情况'/*麻醉恢复情况。用于《麻醉术后访视记录》*/,
     2/*实施临床路径。用于《中医住院病案首页》*/,
-    'B95'/*损伤和中毒的外部原因 - 疾病编码*/,
+    'B95.000'/*损伤和中毒的外部原因 - 疾病编码*/,
     '损伤和中毒外部原因'/*住院患者损伤和中毒外部原因*/,
     '患者入院后完善各项常规检查，做好术前准备，保守治疗无明显好转，于2021-07-02在全身麻醉下行乙状结肠冗肠扭转整复+肠腔减压术，术中见:腹腔约300ml淡黄色积液，全腹肠管扩张胀气，以结肠明显，乙状结肠冗肠约80-100CM长，乙状结肠冗肠顺时针方向扭转720度、肠管高度扩张胀气，直径最大约30CM，肠壁充血水肿明显，未见明显变黑坏死，余未见明显异常。术中扩肛后通过肛门排出大量气体及稀便。术程顺利，麻醉平稳，术后安返病房，予消炎补液支持对症等治疗，术后恢复好，患者及家属要求明日出院。'/*住院病程。用于《日常病程记录》*/,
     '2021-07-03'/*预产期*/,
@@ -1814,19 +1821,19 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     1/*孕次*/,
     1/*产前检查标志*/,
     1/*拔除气管插管标志。用于《麻醉术后访视记录》*/,
-    'G51'/*初步西医诊断编码*/,
+    'G51.000'/*初步西医诊断编码*/,
     '2021-07-01'/*初步诊断日期*/,
     null/*初步西医诊断名称*/,
     1/*诊断顺位*/,
     null/*诊断机构名称。用于《检查报告》、《检验报告》*/,
     1/*陈述内容可靠标识。用于《入院记录》、《24h内入出院记录》*/,
-    'G51'/*修正西医诊断编码*/,
+    'G51.000'/*修正西医诊断编码*/,
     '2021-07-02'/*修正诊断日期*/,
     null/*修正西医诊断名称*/,
     1/*诊断顺位*/,
     null/*诊断机构名称。用于《检查报告》、《检验报告》*/,
     2/*住院者疾病状态代码*/,
-    'G51'/*补充西医诊断编码*/,
+    'G51.000'/*补充西医诊断编码*/,
     '2021-07-01'/*补充诊断日期*/,
     null/*补充西医诊断名称*/,
     1/*补充诊断顺位*/,
@@ -1865,7 +1872,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     diag_org_Value/*诊断机构名称。用于《检查报告》、《检验报告》*/)
     values(
     :pDocNo,
-    'G91',
+    'G91.200',
     '2021-07-01',
     null,
     2,
@@ -1888,7 +1895,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     )
     values(
     :pDocNo,
-    'BRXC0'/*中医诊断编码*/,
+    'BRK090'/*中医诊断编码*/,
     '2021-07-01'/*诊断日期*/, 
     null/*中医病名名称*/, 
     1/*诊断顺位*/, 
@@ -2000,7 +2007,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     sick_cond_Value)
     values(
     :pDocNo,
-    'G91',
+    'G91.200',
     '2020-09-20 10:00:00',
     null,
     null,
@@ -2038,7 +2045,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     )
     values(
     :pDocNo,
-    'B95',
+    'B95.000',
     '2020-09-20 10:00:00',
     null,
     null,
@@ -2078,7 +2085,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     )
     values(
     :pDocNo,
-    'BRXC0',
+    'BRK090',
     '2020-09-20 10:00:00',
     null,
     1,
@@ -2093,14 +2100,16 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     syndrome_code_Value,
     syndrome_date_Value,
     syndrome_name_Value,
-    syndrome_orders_Value
+    syndrome_orders_Value,
+    sick_cond_Value
     )
     values(
     :pDocNo,
     'ZZGA30',
     '2020-09-20 10:00:00',
     null,
-    1)
+    1,
+    '3')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.TCMSyndrome:",SQLCODE,": ",%msg,!
 }
@@ -2149,7 +2158,7 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     '出院情况'/*出院情况*/,
     '神经外科'/*住院患者科室名称*/,
     '四病房'/*住院患者出院病房*/,
-    'G91'/*西医诊断编码*/,
+    'G91.200'/*西医诊断编码*/,
     '2021-07-20'/*诊断日期*/,
     null/*西医诊断名称*/,
     '1'/*诊断顺位*/,
@@ -2198,7 +2207,7 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     syndrome_orders_Value/*诊断顺位*/)
     values(
     :pDocNo,
-    'BRXC0'/*中医诊断编码*/,
+    'BRK090'/*中医诊断编码*/,
     '2021-06-28'/*诊断日期*/,
     null/*中医病名名称*/,
     '2'/*诊断顺位*/,
@@ -2349,7 +2358,7 @@ ClassMethod TestTreatmentPlanGenerate(pDocNo = "Doc123456")
     '输血指征'/*输血指征*/,
     '输血前有关检查项目以及结果'/*输血前有关检查项目以及结果*/,
     '2021-07-01 15:35:00'/*输血时间*/,
-    '血浆'/*输血品种代码*/,
+    '4'/*输血品种代码*/,
     '输血方式'/*输血方式*/,
     '（1）完善各项常规检查:生化免疫全套、凝血五项、肿瘤12项等。（3）予外科护理常规、禁食、胃肠减压，灌肠，予头孢匹胺、替硝唑BID静滴消炎、维持水电解质平衡。密切观察病情变化，急查血细胞分析+血型、血电解质、肾功能、心电图、腹部B超、胸片及腹部平片必要时查腹部CT检查等，根据生化报告情况进一步调节治疗方案。'/*诊疗计划。用于《首次病程记录》*/,
     '注意事项'/*注意事项。《交接班记录》、《转科记录》*/,
@@ -2449,7 +2458,7 @@ ClassMethod TestProcedureDispositionGenerate(pDocNo = "Doc123456")
     leave_time_Value)
     Values(
     :pDocNo,
-    '患者当前诊疗过程结束后的去向在特定编码体系中的代码，这里指手术结束后的去向',
+    '1',
     '2021-07-21 09:30:00')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.ProcedureDisposition:",SQLCODE,": ",%msg,!
@@ -3137,7 +3146,7 @@ ClassMethod TestOtherGenerate(pDocNo = "Doc123456")
     notes_Value)
     Values(
     :pDocNo,
-    '患者去向',
+    '1',
     '注意事项详细描述')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.Other:",SQLCODE,": ",%msg,!
@@ -3515,7 +3524,7 @@ ClassMethod TestCaesareanProcedureGenerate(pDocNo = "Doc123456")
     '宫缩剂名称'/*宫缩剂名称*/,
     '宫缩剂使用方法'/*宫缩剂使用方法*/,
     '胎盘黄染'/*胎盘黄染*/,
-    '2.34002'/*手术/操作代码*/,
+    '02.34002'/*手术/操作代码*/,
     null/*手术名称*/,
     '剖宫产手术过程'/*剖宫产手术过程*/,
     ''/*手术时产妇情况*/,
@@ -3566,8 +3575,8 @@ ClassMethod TestDeathReasonGenerate(pDocNo = "Doc123456")
     Values(
     :pDocNo,
     '2021-07-08 13:20:00',
-    'G91',
-    'G91',
+    'G91.200',
+    'G91.200',
     '左上肺癌术后复发，食管气管瘘，肺部感染')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.DeathReason:",SQLCODE,": ",%msg,!
@@ -3689,7 +3698,7 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     diag_orders_Value)
     Values(
     :pDocNo,
-    'Y53.6',
+    'Y53.600',
     '2021-07-02 10:30:00',
     null,
     null,
@@ -3875,7 +3884,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     dose_Value/*单次用药剂量(例如：2)*/,
     form_Value/*药物剂型代码*/,
     name_Value/*药物名称*/,
-    rate_Value/*药物使用频率 (例如：2)*/,
+    rate_Value/*药物使用频率 (例如：qid)*/,
     route_Value/*药物使用途径代码*/,
     spec_Value/*药物规格*/,
     total_dose_Value/*药物使用总剂量*/,
@@ -3886,7 +3895,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     '20'/*单次用药剂量(例如：2)*/,
     '01'/*药物剂型代码*/,
     '氢氯噻臻'/*药物名称*/,
-    3 /*药物使用频率 (例如：2)*/,
+    '10' /*药物使用频率 (例如：qid)*/,
     1 /*药物使用途径代码*/,
     '规格描述'/*药物规格*/,
     '200'/*药物使用总剂量*/,
@@ -3899,7 +3908,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     dose_Value/*单次用药剂量(例如：2)*/,
     form_Value/*药物剂型代码*/,
     name_Value/*药物名称*/,
-    rate_Value/*药物使用频率 (例如：2)*/,
+    rate_Value/*药物使用频率 (例如：bid)*/,
     route_Value/*药物使用途径代码*/,
     spec_Value/*药物规格*/,
     total_dose_Value/*药物使用总剂量*/,
@@ -3910,7 +3919,7 @@ ClassMethod TestMedicationUseHistoryGenerate(pDocNo = "Doc123456")
     '20'/*单次用药剂量(例如：2)*/,
     '01'/*药物剂型代码*/,
     '葡萄糖酸钠'/*药物名称*/,
-    2 /*药物使用频率 (例如：2)*/,
+    '10' /*药物使用频率 (例如：bid)*/,
     '404' /*药物使用途径代码*/,
     '规格描述'/*药物规格*/,
     '400'/*药物使用总剂量*/,
@@ -4346,7 +4355,7 @@ ClassMethod TestSurgicalOperationNotePostoperativeDXGenerate(pDocNo = "Doc123456
     Values(
     :pDocNo,
     '01',
-    'G51',
+    'G51.000',
     null)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.SurgicalOperationNotePostoperativeDX:",SQLCODE,": ",%msg,!
@@ -4389,7 +4398,7 @@ ClassMethod TestSurgicalOperationNotePreoperativeDXGenerate(pDocNo = "Doc123456"
     diag_code_Value)
     Values(
     :pDocNo,
-    'G51')
+    'G51.000')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_SurgOperNotePreoperativeDX.Item:",SQLCODE,": ",%msg,!
     
@@ -4398,7 +4407,7 @@ ClassMethod TestSurgicalOperationNotePreoperativeDXGenerate(pDocNo = "Doc123456"
     diag_code_Value)
     Values(
     :pDocNo,
-    'G52')
+    'G52.000')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_SurgOperNotePreoperativeDX.Item:",SQLCODE,": ",%msg,!
 }
@@ -4532,7 +4541,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         :pDocNo,
         'DE04.10.188.00',
         '体重（kg）',
-        '71')
+        '110.00')
         )
         &SQL(Insert into HCC_SQL_Document.VitalSign(
         DocumentNo,
@@ -4587,7 +4596,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         :pDocNo,
         'DE04.10.188.00',
         '体重（kg）',
-        '71')
+        '110.00')
         )
         W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,": ",%msg,!
     }

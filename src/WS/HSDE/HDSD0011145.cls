@@ -19,7 +19,7 @@ Parameter CodeSystem = "2.16.156.10011.2.2.4";
 /// Code System Name
 Parameter CodeSystemName = "住院病案首页基本数据集";
 
-Property Value As %Decimal(SCALE = 2);
+Property Value As WS.DT.Decimal(SCALE = 2);
 
 Storage Default
 {

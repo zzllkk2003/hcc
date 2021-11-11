@@ -8,6 +8,9 @@ Class HCC.SQL.Document.HospitalDischargeDX.TCMSyndrome Extends (%Persistent, %XM
 /// 中医主证
 Property syndrome As HCC.SQL.Document.TCMDiagItem [ SqlFieldName = syndrome ];
 
+/// 中医入院病情
+Property sickCondition As WS.DE.DE090010400 [ Required, SqlFieldName = sick_cond ];
+
 /// 文档编号
 Relationship HospitalDischargeDX As HCC.SQL.Document.HospitalDischargeDX [ Cardinality = parent, Inverse = TCMSyndrome, SqlFieldName = DocumentNo ];
 
@@ -25,6 +28,9 @@ Storage Default
 </Value>
 <Value name="4">
 <Value>syndrome</Value>
+</Value>
+<Value name="5">
+<Value>sickCondition</Value>
 </Value>
 </Data>
 <DataLocation>{%%PARENT}("TCMSyndrome")</DataLocation>

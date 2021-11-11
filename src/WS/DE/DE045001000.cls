@@ -7,13 +7,13 @@ Parameter Description = "Rh血型代码";
 
 Parameter Format = "N1";
 
-Parameter ValueSetDisplay = "1:Rh阴性;2:Rh阳性;3:不详;";
+Parameter ValueSetDisplay = "1:阴性;2:阳性;3:不详;4:未查";
 
-Parameter ValueSet = "DE04.50.010.00";
+Parameter ValueSet = "CV04.50.020";
 
-Parameter WSDT = "S2";
+Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "DE04.50.010.00");
+Property Value As WS.DT.CodedString(ValueSet = "CV04.50.020");
 
 Storage Default
 {

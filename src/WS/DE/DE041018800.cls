@@ -11,17 +11,10 @@ Parameter ValueSet;
 
 Parameter WSDT = "F";
 
-Property Value As WS.DT.Decimal(SCALE = 2);
+Property Value As WS.DT.Decimal(MAXVAL = 99999.99, MINVAL = 100, SCALE = 2);
 
 Storage Default
 {
-<Data name="DE041018800State">
-<Value name="1">
-<Value>Value</Value>
-</Value>
-</Data>
-<State>DE041018800State</State>
-<StreamLocation>^WS.DE.DE041018800S</StreamLocation>
 <Type>%Storage.Serial</Type>
 }
 

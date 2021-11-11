@@ -237,7 +237,6 @@ ClassMethod GetColPropMapping(pTable, Output pMapping) As %Status
 
 ClassMethod GetClassType(pClassName) As %String
 {
-    set tClassType=""
     &SQL(SELECT ClassType into :tClassType FROM %Dictionary.CompiledClass WHERE ID = :pClassName)
     Q tClassType
 }

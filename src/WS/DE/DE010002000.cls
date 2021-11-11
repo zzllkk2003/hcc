@@ -5,11 +5,11 @@ Parameter Category = "标识";
 
 Parameter Description = "处方编号";
 
-Parameter Format = "AN..20";
+Parameter Format = "N..30";
 
 Parameter WSDT = "S1";
 
-Property Value As %String(MAXLEN = 20, MINLEN = 0);
+Property Value As %Integer(MAXVAL = 999999999999999999999999999999);
 
 Storage Default
 {

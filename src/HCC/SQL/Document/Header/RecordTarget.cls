@@ -41,6 +41,9 @@ Property labOrderNum As WS.DE.DE010000800 [ SqlFieldName = labord_num ];
 /// 检验标本编号标识
 Property specimenNum As WS.DE.DE010000300 [ SqlFieldName = spec_num ];
 
+/// 处方编号
+Property prescriptionNum As WS.DE.DE010000300 [ SqlFieldName = pres_num ];
+
 Property providerOrganization As HCC.SQL.Document.Header.RecordTarget.ProviderOrganization [ SqlFieldName = prov_org ];
 
 Storage Default
@@ -213,6 +216,9 @@ Storage Default
 </Value>
 <Value name="56">
 <Value>consentFormNum</Value>
+</Value>
+<Value name="57">
+<Value>prescriptionNum</Value>
 </Value>
 </Data>
 <State>RecordTargetState</State>

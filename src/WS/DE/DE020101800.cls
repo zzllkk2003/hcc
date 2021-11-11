@@ -7,11 +7,11 @@ Parameter Description = "婚姻状况代码";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "GBT.2261.2";
+Parameter ValueSet = "GBT.2261.2.2003";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.2261.2");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.2261.2.2003");
 
 Storage Default
 {

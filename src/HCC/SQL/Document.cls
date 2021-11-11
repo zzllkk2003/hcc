@@ -382,7 +382,7 @@ Method SetHospitalCourse(pDocNo)
 }
 
 /// 诊断记录章节
-Method SetExamReportPhysicalExam(pDocNo)
+Method SetERPhysicalExam(pDocNo)
 {
     Set ..ERPhysicalExam=##Class(HCC.SQL.Document.ExamReportPhysicalExam).%OpenId(pDocNo)
 }

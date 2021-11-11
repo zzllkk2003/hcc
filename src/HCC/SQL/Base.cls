@@ -1,14 +1,14 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-10-29 15:14:47
-/// LastEditTime: 2021-11-01 14:40:01
+/// LastEditTime: 2021-10-29 18:06:23
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/Users/jiliu/Library/Caches/com.lemonmojo.RoyalTSX.App/LMFileTransferConnection/58960896-ff1c-4a69-b396-eb0b474ef9a2/L2hvbWUvaGNjL3NyYy9IQ0MvU1FM/Base.cls
+/// FilePath: /hcc/src/HCC/SQL/Base.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// SQL文档基类
-Class HCC.SQL.Base Extends %RegisteredObject [ DependsOn = HIP.DataGov.Util ]
+Class HCC.SQL.Base Extends %RegisteredObject
 {
 
 /// 设置对象的Modified标志
@@ -45,6 +45,7 @@ Method SetModified() As %Status [ CodeMode = objectgenerator, ForceGenerate ]
     Do %code.WriteLine("    Set tSC = $$$ERROR(e.Code,e.Data)")
     Do %code.WriteLine(" }")
     Do %code.WriteLine(" Quit tSC")
+  
     Quit $$$OK
 }
 

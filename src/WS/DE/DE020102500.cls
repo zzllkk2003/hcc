@@ -7,11 +7,11 @@ Parameter Description = "民族";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "GBT.3304.1991";
+Parameter ValueSet = "GB.3304.1991";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.3304.1991");
+Property Value As WS.DT.CodedString(ValueSet = "GB.3304.1991");
 
 Storage Default
 {

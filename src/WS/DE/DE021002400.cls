@@ -7,11 +7,11 @@ Parameter Description = "患者与本人关系代码";
 
 Parameter Format = "N2";
 
-Parameter ValueSet = "GBT.4761";
+Parameter ValueSet = "GBT.4761.2008";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "GBT.4761");
+Property Value As WS.DT.CodedString(ValueSet = "GBT.4761.2008");
 
 Storage Default
 {

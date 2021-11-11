@@ -140,6 +140,7 @@ ClassMethod UpdateDocSections(pDocType) As %Status
         #SQLCompile Select=Display
         //删除原有设置
         &SQL(delete from WS_DOC.DocumentConfig where DocumentType=:tDocType )
+
         For tI=0:1:tItemArray.%Size()-1 
         {
             #; Get the KV object
@@ -151,7 +152,8 @@ ClassMethod UpdateDocSections(pDocType) As %Status
                 Set %response.Status=..#HTTP400BADREQUEST
                 Quit    
             }
-            Set tCar=tKV.Cardinality, tSec = $ZCVT(tKV.Section,"I","UTF8")
+            //Set tCar=tKV.Cardinality, tSec = $ZCVT(tKV.Section,"I","UTF8")
+            Set tCar=tKV.Cardinality, tSec = tKV.Section
             If (tCar="")||(tSec="")
             {
                 ;TRollback
@@ -159,6 +161,7 @@ ClassMethod UpdateDocSections(pDocType) As %Status
                 Set %response.Status=..#HTTP400BADREQUEST
                 Quit     
             } 
+          
             // 插入每一条章节约束
             &SQL(Insert or update WS_DOC.DocumentConfig(DocumentType,DocumentSection,Cardinality) 
             values(:tDocType,:tSec,:tCar) )
@@ -446,7 +449,8 @@ ClassMethod PutDE() As %Status
 /// 列出所有值集
 ClassMethod ListValueSet() As %Status
 {
-    w tRet = ##class(HCC.Util).ListVS()
+	s tSet = ##class(HCC.Util).ListVS()
+    w tSet
     Q $$$OK
 }
 

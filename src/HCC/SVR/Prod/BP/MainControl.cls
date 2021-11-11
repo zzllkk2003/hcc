@@ -74,7 +74,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
  set sTS= $zdt($System.Util.UTCtoLocalWithZTIMEZONE($zdth(sTS,3)),3)
  do ##class(HCC.Util).HCCSvrLog(request.Action,..%Process.%PrimaryRequestHeader.%Id(),sTS)]]>
 </code>
-<trace value='..%Process.%PrimaryRequestHeader.TimeCreated' xpos='200' ypos='450' />
+<trace name='追踪请求创建时间' value='..%Process.%PrimaryRequestHeader.TimeCreated' xpos='200' ypos='450' />
 <sql name='LT获得action 对应schema' xpos='200' ypos='550' >
 <![CDATA[
 SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableName= 'HCC.SVR.Prod.LT.ActionSchema' and KeyName=:request.Action]]>
@@ -83,8 +83,9 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 <true>
 <code name='判断消息体结构合规性' xpos='470' ypos='800' >
 <![CDATA[ Set val=##class(Ens.Director).GetHostSettingValue("HCCPKG.FoundationProduction||HCC.SVR.Prod.BP.MainControl","MsgSchemaValidate",.tSC) 
+ set schemalocation =##class(Ens.Director).GetHostSettingValue("HCCPKG.FoundationProduction||HCC.SVR.Prod.BP.MainControl","SchemaFolder",.tSC) 
   if (val=1) {
- Set tSchema="urn:hl7-org:v3 E:\HCC\schema\multicacheschemas\"_request.DocType_".xsd"	
+ Set tSchema="urn:hl7-org:v3 "_schemalocation_request.DocType_".xsd"	
  Set tSC=##class(%XML.TextReader).ParseStream(request.Message,.tReader,,,,tSchema)
  set context.verifyResult=0	
  set errCount=0
@@ -156,7 +157,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </code>
 </false>
 </if>
-<trace value='context.tDocType_"   "_request.DocType_"   "_context.verifyResult_"   "_context.valueVerifyResult_"   "_context.ErrMsg_" "' xpos='200' ypos='1800' />
+<trace name='追踪错误信息' value='context.tDocType_"   "_request.DocType_"   "_context.verifyResult_"   "_context.valueVerifyResult_"   "_context.ErrMsg_" "' xpos='200' ypos='1800' />
 <sync name='等待返回消息' calls='同步订阅发布,异步订阅发布' timeout='2' type='all' xpos='200' ypos='1900' />
 <if name='处理超时' condition='synctimedout =0' xpos='200' ypos='2000' xend='200' yend='2250' >
 <false>
@@ -165,7 +166,7 @@ SELECT DataValue INTO :context.tDocType FROM Ens_Util.LookupTable WHERE TableNam
 </code>
 </false>
 </if>
-<trace value='synctimedout' xpos='200' ypos='2350' />
+<trace name='追踪同步超时时间' value='synctimedout' xpos='200' ypos='2350' />
 <assign name="返回标准消息" property="response" value="context.tResponse" action="set" xpos='200' ypos='2450' />
 <faulthandlers>
 <catchall xpos='200' ypos='2550' xend='200' yend='550' >

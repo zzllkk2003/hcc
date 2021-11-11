@@ -1,17 +1,8 @@
-/// 
-/// Author: Jeff Liu
-/// Date: 2021-11-01 14:39:50
-/// LastEditTime: 2021-11-01 14:41:06
-/// LastEditors: Jeff Liu
-/// Description: 
-/// FilePath: /hcc/Users/jiliu/Library/Caches/com.lemonmojo.RoyalTSX.App/LMFileTransferConnection/58960896-ff1c-4a69-b396-eb0b474ef9a2/L2hvbWUvaGNjL3NyYy9XUy9ERQ==/Base.cls
-/// Jeff.liu@intersytems.com
-/// 
 /// Author: QP
 /// Version: 1.0
 /// Date: 2021/07/04
 /// 卫生数据元基类
-Class WS.DE.Base Extends (%SerialObject, %XML.Adaptor, %JSON.Adaptor, HCC.SQL.Base) [ Abstract, DependsOn = WS.Tools.CreateWSCode, Language = objectscript, Not ProcedureBlock ]
+Class WS.DE.Base Extends (%SerialObject, %XML.Adaptor, %JSON.Adaptor, HCC.SQL.Base) [ Abstract, Language = objectscript, Not ProcedureBlock ]
 {
 
 /// 数据集
