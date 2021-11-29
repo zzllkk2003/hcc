@@ -2,7 +2,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			
@@ -20,6 +20,8 @@
 			<!--患者信息-->
 			<recordTarget typeCode="RCT" contextControlCode="OP">
 				<patientRole>
+					<!--患者身份证号码，必选-->
+					<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>	
 					<!-- 门（急）诊号标识 -->
 					<xsl:apply-templates select="Header/recordTarget/outpatientNum" mode="outpatientNum"/>
 					<!--住院号-->
@@ -97,10 +99,18 @@
 												<xsl:comment>科室名称</xsl:comment>
 												<asOrganizationPartOf classCode="PART">
 													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<xsl:if test="Header/encompassingEncounter/Locations/Location/deptId">
+															<id root="2.16.156.10011.1.26" extension="{Header/encompassingEncounter/Locations/Location/deptId}"/>
+														</xsl:if>
+														
+														<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/deptName/Value"/></name>
 														<!-- DE08.10.054.00	病区名称 -->
 														<xsl:comment>病区名称</xsl:comment>
 														<asOrganizationPartOf classCode="PART">
 															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<xsl:if test="Header/encompassingEncounter/Locations/Location/areaId">
+																	<id root="2.16.156.10011.1.27" extension="{Header/encompassingEncounter/Locations/Location/areaId}"/>
+																</xsl:if>
 																<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/areaName/Value"/></name>
 																<!--XXX医院 -->
 																<xsl:comment>医院</xsl:comment>
@@ -158,12 +168,14 @@
 	</xsl:template>
 	<!--诊断代码条目-->
 	<xsl:template match="Westerns/Western">
-		<entry>
-			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录" displayName="{diag/code/displayName}"/>
-				<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.1.100" codeSystemName="ICD-10"/>
-			</observation>
-		</entry>
+		<xsl:if test="diag/code/Value">
+			<entry>
+				<observation classCode="OBS" moodCode="EVN">
+					<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
+					<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{diag/code/Display}"/>
+				</observation>
+			</entry>
+		</xsl:if>
 	</xsl:template>
 	
 	<!--知情同意章节模板-->
@@ -176,13 +188,13 @@
 				<xsl:comment>知情同意书名称</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE09.00.117.00" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录" displayName="{title/displayName}"/>
+						<code code="DE09.00.117.00" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录" displayName="知情同意书名称"/>
 						<value xsi:type="ST"><xsl:value-of select="title/Value"/></value>
 					</observation>
 				</entry>					
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE09.00.116.00" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录" displayName="{content/displayName}"/>
+						<code code="DE09.00.116.00" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录" displayName="知情同意内容"/>
 						<value xsi:type="ST"><xsl:value-of select="content/Value"/></value>
 					</observation>
 				</entry>
@@ -200,7 +212,7 @@
 				<xsl:comment>医疗机构意见</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{hospital/displayName}"/>
+						<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="医疗机构的意见"/>
 						<value xsi:type="ST"><xsl:value-of select="hospital/Value"/></value>
 					</observation>
 				</entry>
@@ -208,7 +220,7 @@
 				<xsl:comment>患者意见</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{patient/displayName}"/>
+						<code code="DE06.00.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="患者的意见"/>
 						<value xsi:type="ST"><xsl:value-of select="patient/Value"/></value>
 					</observation>
 				</entry>

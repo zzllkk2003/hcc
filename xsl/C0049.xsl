@@ -109,21 +109,13 @@
                         <entryRelationship typeCode="COMP">
                             <observation classCode="OBS" moodCode="EVN">
                                 <code code="DE05.01.024.00" displayName="疾病诊断编码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-                                <value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="诊断代码表（ICD-10）"/>
+                                <value xsi:type="CD" code="{diag/code/Value}" displayName="{diag/code/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
                             </observation>
                         </entryRelationship>
                     </observation>
                 </entry>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:comment>西医诊断条目</xsl:comment> 
-                <entry>
-                    <observation classCode="OBS" moodCode="EVN ">
-                        <code code="DE05.01.025.00" displayName="出院诊断-西医诊断名称" 
-                            codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-                        <value xsi:type="ST"><xsl:value-of select="diag/name/Value"/></value>
-                    </observation>
-                </entry>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -164,14 +156,6 @@
                 </entry>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:comment>中医症候条目</xsl:comment>
-                <entry>
-                    <observation classCode="OBS" moodCode="EVN ">
-                        <code code="DE05.10.172.00" displayName="辩证分型名称" 
-                            codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-                        <value xsi:type="ST"><xsl:value-of select="syndrome/name/Value"/></value>
-                    </observation>
-                </entry>
             </xsl:otherwise>
         </xsl:choose>
         
@@ -264,18 +248,11 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断编码"/>
-                        <value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11.3" displayName="{diag/code/Display}" codeSystemName="诊断编码表（ICD-10）"/>
+                        <value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" displayName="{diag/code/Display}" codeSystemName="ICD-10"/>
                     </observation>
                 </entry>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:comment>入院诊断条目</xsl:comment>
-                <entry>
-                    <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断编码"/>
-                        <value xsi:type="ST"><xsl:value-of select="diag/name/Value"/></value>
-                    </observation>
-                </entry>
             </xsl:otherwise>
         </xsl:choose>
         
@@ -366,7 +343,7 @@
             <signatureCode code="S"/> 
             <assignedEntity>
                 <id root="2.16.156.10011.1.4"/>
-                <code displayName="{assignedEntityCode}签名"></code>
+                <code displayName="{assignedEntityCode}"></code>
                 <assignedPerson classCode="PSN" determinerCode="INSTANCE">
                     <name>
                         <xsl:value-of select="assignedPersonName/Value"/>

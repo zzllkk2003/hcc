@@ -29,7 +29,6 @@
                 <patientRole classCode="PAT">
                     <xsl:apply-templates select="Header/recordTarget/healthRecordId" mode="healthRecordNumber"/>  
                     <xsl:apply-templates select="Header/recordTarget/outpatientNum" mode="outpatientNum"/>  
-                        mode="healthRecordNumber"/>
                     <xsl:comment>患者基本信息</xsl:comment>
                     <!--患者信息-->
                     <patient classCode="PSN" determinerCode="INSTANCE">
@@ -53,8 +52,7 @@
             <xsl:apply-templates select="Header/RelatedDocuments/RelatedDocument"
                 mode="relatedDocument"/>
             <componentOf>
-                <xsl:apply-templates select="Header/encompassingEncounter/Locations/Location"
-                mode="EncompassingEncounter"/>
+                <xsl:apply-templates select="Header/encompassingEncounter"/>
             </componentOf>
             <component>
                 <structuredBody>
@@ -79,7 +77,14 @@
                     <!-- 手术操作章节 -->
                     <xsl:apply-templates select ="Procedure"></xsl:apply-templates>
                     <!-- 术后交接章节 -->
-                    <xsl:apply-templates select="PostoperationHandover"/>
+                    <!--住院过程章节 术后交接-->
+                    <component>
+                        <section>
+                            <code code="8648-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Hospital Course"/>
+                            <title>住院过程章节</title>
+                            <xsl:apply-templates select="PostoperationHandover"/>
+                        </section>
+                    </component>
                 </structuredBody>
             </component>
         </ClinicalDocument>
@@ -102,7 +107,7 @@
             <procedure classCode="PROC" moodCode="EVN">
                 <xsl:comment></xsl:comment>
                 <xsl:comment>手术及操作编码:DE06.00.093.00</xsl:comment>  
-                <code code="{code/Value}" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表（ICD-9-CM）"/>
+                <code code="{code/Value}" displayName="{code/Display}" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表(ICD-9-CM)"/>
                 <statusCode/>
                 <xsl:comment>手术时间：开始日期时间DE06.00.218.00、结束日期时间DE06.00.221.00</xsl:comment>  
                 <effectiveTime>
@@ -110,7 +115,7 @@
                     <high value="{endTime/Value}"/>
                 </effectiveTime>
                 <xsl:comment> 手术目标部位名称：DE06.00.187.00</xsl:comment>
-                <targetSiteCode code="{bodyPart/Value}" displayName="{bodyPart/displayName}" codeSystem="2.16.156.10011.2.3.1.266" codeSystemName="手术目标部位编码"/>
+                <targetSiteCode code="{bodyPart/Value}" displayName="{bodyPart/Display}" codeSystem="2.16.156.10011.2.3.1.266" codeSystemName="手术目标部位编码"/>
                 <xsl:comment>手术操作者：DE02.01.039.00</xsl:comment> 
                 <performer>
                     <assignedEntity>
@@ -167,7 +172,6 @@
             <section>
                 <code displayName="术前器械物品核对"/>
                 <text/>
-                <title>器械物品核对章节</title>
                 <xsl:comment>术前</xsl:comment>
                 <entry>
                     <organizer classCode="CLUSTER" moodCode="EVN">
@@ -318,7 +322,6 @@
         <component>
             <section>
                 <code nullFlavor="UNK" displayName="护理操作"/>
-                <title>护理操作章节</title>
                 <xsl:apply-templates select="NursingOperation"></xsl:apply-templates>
             </section>
         </component>
@@ -350,7 +353,6 @@
         <component>
             <section>
                 <code displayName="护理观察章节"/>
-                <title>护理观察章节</title>
                 <!--多个观察写多个entry即可，每个观察对应着观察结果描述-->
                 <xsl:apply-templates select="NursingObservation"></xsl:apply-templates>
             </section>
@@ -378,7 +380,6 @@
         <component>
             <section>
                 <code code="X-NN" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Nursing Note"/>
-                <title>护理记录章节</title>
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE06.00.211.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理等级代码"/>
@@ -400,7 +401,6 @@
         <component>
             <section>
                 <code code="48765-2" displayName="Allergies, adverse reactions, alerts" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
-                <title>过敏史章节</title>
                 <text/>
                 <!-- 过敏史条目 -->
                 <xsl:apply-templates select="Allergies/Item"></xsl:apply-templates>
@@ -437,7 +437,6 @@
         <component>
             <section>
                 <code code="29302-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="INTEGUMENTARY SYSTEM"/>
-                <title>皮肤章节</title>
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE04.10.126.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="皮肤检查描述"/>
@@ -453,7 +452,6 @@
         <component>
             <section classCode="DOCSECT" moodCode="EVN">
                 <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="STUDIES SUMMARY"/>
-                <title>实验室检查章节</title>
                 <text/>
                 <entry typeCode="COMP" contextConductionInd="true">
                     <xsl:comment>血型</xsl:comment> 
@@ -470,7 +468,7 @@
                             <xsl:comment>Rh血型</xsl:comment>      
                             <observation classCode="OBS" moodCode="EVN">
                                 <code code="DE04.50.010.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-                                <value xsi:type="CD" code="{bloodRh/Value}" displayName="{bloodRh/Display}" codeSystem="2.16.156.10011.2.3.1.250" codeSystemName="Rh血型代码表"/>
+                                <value xsi:type="CD" code="{bloodRh/Value}" displayName="{bloodRh/Display}" codeSystem="2.16.156.10011.2.3.1.250" codeSystemName="Rh(D)血型代码表"/>
                             </observation>
                         </component>
                     </organizer>
@@ -484,7 +482,6 @@
         <component>
             <section>
                 <code code="8716-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="VITAL SIGNS"/>
-                <title>生命体征章节</title>
                 <text/>
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
@@ -502,7 +499,6 @@
             <section>
                 <code code="10219-4" displayName="Surgical operation note preoperative Dx"
                     codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
-                <title>术前诊断章节</title>
                 <text/>
                 <xsl:apply-templates select="Item"/>
             </section>
@@ -516,23 +512,12 @@
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1"
                             codeSystemName="卫生信息数据元目录" displayName="术前诊断编码"/>
-                        <value xsi:type="ST">
-                            <xsl:value-of select="diagnosisCode/displayName"/>
-                        </value>
+                        <value xsi:type="CD" code="{diagnosisCode/Value}" displayName="{diagnosisCode/Display}"
+                            codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
                     </observation>
                 </entry>
             </xsl:when>
-            <xsl:otherwise>
-                <entry>
-                    <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1"
-                            codeSystemName="卫生信息数据元目录" displayName="术前诊断编码"/>
-                        <value xsi:type="CD" code="{diagnosisCode/Value}"
-                            codeSystem="2.16.156.10011.2.3.3.11.5" codeSystemName="疾病代码表（ICD-10）"/>
-                    </observation>
-                </entry>
-            </xsl:otherwise>
-        </xsl:choose>
+        </xsl:choose>  
     </xsl:template>
     <!-- 手术authenticator 模板 -->
     <xsl:template match="Header/Authenticators/Authenticator">
@@ -574,5 +559,57 @@
                 <xsl:value-of select="providerOrganizationId/displayName"/>
             </name>
         </providerOrganization>
+    </xsl:template>
+    <!-- 住院状况 模板-->
+    <xsl:template match="Header/encompassingEncounter">
+        <!--住院状况模板： C0038-->
+        <xsl:comment>住院信息</xsl:comment>
+        <encompassingEncounter>
+            <!--入院途径 -->
+            <code code="{admissionCode/Value}" displayName="{admissionCode/Display}" codeSystem="2.16.156.10011.2.3.1.270" codeSystemName="入院途径代码表"/>
+            <!-- 入院日期时间 -->
+            <effectiveTime value="{effectiveTimeLow/Value}"/>
+            <location>
+                <healthCareFacility>
+                    <serviceProviderOrganization>
+                        <asOrganizationPartOf classCode="PART">
+                            <!-- DE01.00.026.00	病床号 -->
+                            <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                <id root="2.16.156.10011.1.22" extension="001"/>
+                                <name><xsl:value-of select="Locations/Location/bedNum/Value"/></name>
+                                <!-- DE01.00.019.00	病房号 -->
+                                <asOrganizationPartOf classCode="PART">
+                                    <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                        <id root="2.16.156.10011.1.21" extension="{Locations/Location/wardId}"/>
+                                        <name><xsl:value-of select="Locations/Location/wardName/Value"/></name>
+                                        <!-- DE08.10.026.00	科室名称 -->
+                                        <asOrganizationPartOf classCode="PART">
+                                            <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                                <id root="2.16.156.10011.1.26" extension="{Locations/Location/deptId}"/>
+                                                <name><xsl:value-of select="Locations/Location/deptName/Value"/></name>
+                                                <!-- DE08.10.054.00	病区名称 -->
+                                                <asOrganizationPartOf classCode="PART">
+                                                    <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                                        <id root="2.16.156.10011.1.27" extension="{Locations/Location/areaId}"/>
+                                                        <name><xsl:value-of select="Locations/Location/areaName/Value"/></name>
+                                                        <!--XXX医院 -->
+                                                        <asOrganizationPartOf classCode="PART">
+                                                            <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+                                                                <id root="2.16.156.10011.1.5" extension="{Locations/Location/hosId}"/>
+                                                                <name><xsl:value-of select="Locations/Location/hosName"/></name>
+                                                            </wholeOrganization>
+                                                        </asOrganizationPartOf>
+                                                    </wholeOrganization>
+                                                </asOrganizationPartOf>
+                                            </wholeOrganization>
+                                        </asOrganizationPartOf>
+                                    </wholeOrganization>
+                                </asOrganizationPartOf>
+                            </wholeOrganization>
+                        </asOrganizationPartOf>
+                    </serviceProviderOrganization>
+                </healthCareFacility>
+            </location>
+        </encompassingEncounter>
     </xsl:template>
 </xsl:stylesheet>

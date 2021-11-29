@@ -9,7 +9,7 @@ Parameter Format = "N20";
 
 Parameter WSDT = "S1";
 
-Property Value As %String(MAXLEN = 20, MINLEN = 20);
+Property Value As %String(PATTERN = "20N");
 
 Storage Default
 {

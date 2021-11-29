@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
@@ -23,6 +23,8 @@
 					<!-- 住院号标识 todo-->
 					<xsl:apply-templates select="Header/recordTarget/inpatientNum" mode="inpatientNum"/>
 					<patient classCode="PSN" determinerCode="INSTANCE">
+						<!--患者身份证号码，必选-->
+						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>
 						<!--患者姓名，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
 						<!-- 性别，必选 -->
@@ -39,12 +41,29 @@
 			<!-- 保管机构-数据录入者信息 -->
 			<xsl:apply-templates select="Header/custodian" mode="Custodian"/>
 			<!-- Authenticator签名 -->
-			<xsl:apply-templates select="Header/Authenticators/Authenticator" mode="Authenticator"/>
+			<xsl:for-each select="Header/Authenticators/Authenticator">
+				<xsl:if test="assignedEntityCode = '护士'">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<authenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</authenticator>
+				</xsl:if>
+			</xsl:for-each>
 			<!--关联活动信息-->
 			<xsl:apply-templates select="Header/RelatedDocuments/RelatedDocument" mode="relatedDocument"/>
 			<!--文档中医疗卫生事件的就诊场景,即入院场景记录-->
 			<componentOf typeCode="COMP">
-				<xsl:apply-templates select="Header/encompassingEncounter" mode="EncompassingEncounter"/>
+				<xsl:apply-templates select="Header/encompassingEncounter/Locations/Location"/>
 			</componentOf>
 			<!--****************************文档体Body********************-->
 			<component>
@@ -88,7 +107,11 @@
 							<entry>
 								<observation classCode="OBS" moodCode="EVN">
 									<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
-									<value xsi:type="CD" code="{Diagnosis/Westerns/Western/diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11.5" codeSystemName="疾病代码表（ICD-10）"/>
+									<value xsi:type="CD" code="{Diagnosis/Westerns/Western/diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10">
+										<xsl:if test="Diagnosis/Westerns/Western/diag/code/Display">
+											<xsl:attribute name="displayName"><xsl:value-of select="Diagnosis/Westerns/Western/diag/code/Display"/></xsl:attribute>
+										</xsl:if>
+									</value>
 								</observation>
 							</entry>
 						</section>
@@ -166,18 +189,18 @@
 					<!--护理记录章节-->
 					<component>
 						<section>
-							<code code="X-NN" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Nursing Note"/>
+							<code displayName="护理记录"/>
 							<title>护理记录章节</title>
 							<entry>
 								<observation classCode="OBS" moodCode="EVN">
 									<code code="DE06.00.211.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理等级代码"/>
-									<value xsi:type="CD" code="1" displayName="特级护理" codeSystem="2.16.156.10011.2.3.1.259" codeSystemName="护理等级代码"/>
+									<value xsi:type="CD" code="1" displayName="特级护理" codeSystem="2.16.156.10011.2.3.1.259" codeSystemName="护理等级代码表"/>
 								</observation>
 							</entry>
 							<entry>
 								<observation classCode="OBS" moodCode="EVN">
 									<code code="DE06.00.212.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理类型代码"/>
-									<value xsi:type="CD" code="1" displayName="基础护理" codeSystem="2.16.156.10011.2.3.1.260" codeSystemName="护理类型代码"/>
+									<value xsi:type="CD" code="1" displayName="基础护理" codeSystem="2.16.156.10011.2.3.1.260" codeSystemName="护理类型代码表"/>
 								</observation>
 							</entry>
 						</section>
@@ -252,5 +275,68 @@
 				</structuredBody>
 			</component>
 		</ClinicalDocument>
+	</xsl:template>
+	<xsl:template match="Header/encompassingEncounter/Locations/Location">
+		<xsl:comment>住院信息</xsl:comment>
+		<encompassingEncounter>
+			<code/>
+			<!-- 入院日期时间 -->
+			<effectiveTime/>
+			<location>
+				<healthCareFacility>
+					<serviceProviderOrganization>
+						<asOrganizationPartOf classCode="PART">
+							<!-- DE01.00.026.00	病床号 -->
+							<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+								<xsl:if test="bedId">
+									<id root="2.16.156.10011.1.22" extension="{bedId}"/>
+								</xsl:if>
+								<name><xsl:value-of select="bedNum/Value"/></name>
+								<!-- DE01.00.019.00	病房号 -->
+								<asOrganizationPartOf classCode="PART">
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<xsl:if test="wardId">
+											<id root="2.16.156.10011.1.21" extension="{wardId}"/>
+										</xsl:if>
+										
+										<name><xsl:value-of select="wardName/Value"/></name>
+										<!-- DE08.10.026.00	科室名称 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<xsl:if test="deptId">
+													<id root="2.16.156.10011.1.26" extension="{deptId}"/>
+												</xsl:if>
+												
+												<name><xsl:value-of select="deptName/Value"/></name>
+												<!-- DE08.10.054.00	病区名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<xsl:if test="areaId">
+															<id root="2.16.156.10011.1.27" extension="{areaId}"/>
+														</xsl:if>
+														
+														<name><xsl:value-of select="areaName/Value"/></name>
+														<!--XXX医院 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<xsl:if test="hosId">
+																	<id root="2.16.156.10011.1.5" extension="{hosId}"/>
+																</xsl:if>
+																
+																<name><xsl:value-of select="hosName"/></name>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</serviceProviderOrganization>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
 	</xsl:template>
 </xsl:stylesheet>

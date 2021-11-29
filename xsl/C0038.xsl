@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Diagnosis.xsl"/>
@@ -21,15 +21,19 @@
 			<!--文档记录对象（患者）-->
 			<recordTarget typeCode="RCT" contextControlCode="OP">
 				<patientRole classCode="PAT">
+					<!--住院号-->
+					<xsl:apply-templates select="Header/recordTarget/inpatientNum" mode="inpatientNum"/>
 					<patient classCode="PSN" determinerCode="INSTANCE">
+						<!--患者身份证号码，必选-->
+						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>
 						<!--患者姓名，必选-->
-						<xsl:apply-templates select="Header/recordTarget/patient" mode="Name"/>
+						<xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
 						<!-- 性别，必选 -->
-						<xsl:apply-templates select="Header/recordTarget/patient" mode="Gender"/>
+						<xsl:apply-templates select="Header/recordTarget/patient/administrativeGender" mode="Gender"/>
 						<!-- 出生时间1..1 -->
-						<xsl:apply-templates select="Header/recordTarget/Patient" mode="BirthTime"/>
+						<xsl:apply-templates select="Header/recordTarget/Patient/birthTime" mode="BirthTime"/>
 						<!-- 年龄 -->
-						<xsl:apply-templates select="Header/recordTarget/patient" mode="Age"/>
+						<xsl:apply-templates select="Header/recordTarget/patient/ageInYear" mode="Age"/>
 					</patient>
 				</patientRole>
 			</recordTarget>
@@ -38,11 +42,30 @@
 			<!-- 保管机构-数据录入者信息 -->
 			<xsl:apply-templates select="Header/custodian" mode="Custodian"/>
 			<!-- Authenticator签名 -->
-			<xsl:apply-templates select="Header/Authenticators/Authenticator" mode="Authenticator"/>
+			<xsl:for-each select="Header/Authenticators/Authenticator">
+				<xsl:if test="assignedEntityCode = '医师'">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<authenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</authenticator>
+				</xsl:if>
+			</xsl:for-each>
 			<!--关联活动信息-->
 			<xsl:apply-templates select="Header/RelatedDocuments/RelatedDocument" mode="relatedDocument"/>
 			<!--文档中医疗卫生事件的就诊场景,即入院场景记录-->
-			<xsl:apply-templates select="Header/encompassingEncounter" mode="EncompassingEncounter"/>
+			<componentOf>
+				<xsl:apply-templates select="Header/encompassingEncounter/Locations/Location" mode="EncompassingEncounter"/>
+			</componentOf>
 			<!--****************************文档体Body********************-->
 			<component>
 				<structuredBody>

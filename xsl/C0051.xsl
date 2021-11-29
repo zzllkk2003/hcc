@@ -4,7 +4,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -79,34 +79,34 @@
 			</xsl:for-each>
 		
 			<!--讨论成员信息-->
-			<participant typeCode="CON">
-				<associatedEntity classCode="ECON">
-					<xsl:comment>检验申请机构及科室</xsl:comment>
-					<!--参加讨论人员名单-->
-					<associatedPerson>
-						<xsl:for-each select="Header/Participants/Participant">
-							<xsl:if test="typeCode = 'CON'">
-								<name><xsl:value-of select="associatedPersonName/Value"/></name>
-							</xsl:if>
-						</xsl:for-each>
-					</associatedPerson>
-				</associatedEntity>
-			</participant>
+			<xsl:for-each select="Header/Participants/Participant[typeCode = 'CON'][1]">
+				<xsl:comment>讨论成员信息</xsl:comment>
+				<participant typeCode="CON">
+					<!--联系人@classCode：CON，固定值，表示角色是联系人 -->
+					<associatedEntity classCode="ECON">
+						<!--联系人-->
+						<associatedPerson>
+							<!--讨论人-->
+							<xsl:apply-templates select="/Document/Header/Participants/Participant[typeCode='CON']/associatedPersonName"></xsl:apply-templates>
+						</associatedPerson>
+					</associatedEntity>
+				</participant>
+			</xsl:for-each>
 			
-			<!--讨论主持人信息-->
-			<xsl:for-each select="Header/Participants/Participant">
-				<xsl:if test="typeCode = 'ORG'">
-					<xsl:comment>检验申请机构及科室</xsl:comment>
-					<participant typeCode="ORG">
-						<associatedEntity classCode="ECON">
-							<code displayName="主持人"/>
-							<associatedPerson>
-								<!--主持人姓名-->
-								<name><xsl:value-of select="associatedPersonName/Value"/></name>
-							</associatedPerson>
-						</associatedEntity>
-					</participant>
-				</xsl:if>
+			<!--主持人..*-->
+			<xsl:for-each select="Header/Participants/Participant[typeCode = 'ORG'][1]">
+				<xsl:comment>主持人信息</xsl:comment>
+				<participant typeCode="ORG">
+					<!--联系人@classCode：CON，固定值，表示角色是联系人 -->
+					<associatedEntity classCode="ECON">
+						<!--联系人-->
+						<code displayName="主持人"/>
+						<associatedPerson>
+							<!--主持人-->
+							<xsl:apply-templates select="/Document/Header/Participants/Participant[typeCode='ORG']/associatedPersonName"></xsl:apply-templates>
+						</associatedPerson>
+					</associatedEntity>
+				</participant>
 			</xsl:for-each>
 			<!--关联活动信息-->
 			<xsl:if test="Header/RelatedDocuments/RelatedDocument">
@@ -211,54 +211,49 @@
 				<xsl:comment>直接死亡原因</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{reasonName/displayName}"/>
+						<code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="直接死亡原因名称"/>
 						<value xsi:type="ST"><xsl:value-of select="reasonName/Value"/></value>
-					</observation>
-				</entry>
-				<xsl:comment>死亡诊断编码</xsl:comment>
-				<entry>
-					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE05.01.021.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{reasonCode/displayName}"/>
-						<value xsi:type="CD" code="{reasonCode/Value}" codeSystem="2.16.156.10011.2.3.3.11.2" codeSystemName="死因代码表（ICD-10）"/>
+						<!--直接死亡原因编码-->
+						<xsl:call-template name="DeathReasonCode"></xsl:call-template>
 					</observation>
 				</entry>
 			</section>
 		</component>
 	</xsl:template>
-	
+	<!--直接死亡原因编码-->
+	<xsl:template name="DeathReasonCode">
+		<entryRelationship typeCode="CAUS">
+			<observation classCode="OBS" moodCode="EVN">
+				<code code="DE05.01.021.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="直接死亡原因编码"/>
+				<value xsi:type="CD" code="{reasonCode/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{reasonCode/Display}"/>
+			</observation>
+		</entryRelationship>
+	</xsl:template>
 	<!--诊断章节模板-->
 	<xsl:template match="Diagnosis">
 		<component>
 			<section>
-				<code code="11535-2" displayName="HOSPITAL DISCHARGE DX" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+				<code code="11535-2" displayName="Diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
 				<text/>
 				<!--死亡诊断条目-->
 				<xsl:comment>死亡诊断条目</xsl:comment>
-				<xsl:apply-templates select="Deaths/Death"></xsl:apply-templates>
+				<xsl:apply-templates select="Deaths/Death[code/Display]"></xsl:apply-templates>
 			</section>
 		</component>
 	</xsl:template>
 	
 	<!--死亡诊断条目-->
-	<xsl:template match="Deaths/Death">
+	<xsl:template match="Deaths/Death[code/Value]">
 		<entry>
 			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{name/displayName}"/>
-				<value xsi:type="ST"><xsl:value-of select="name/Value"/></value>
-			</observation>
-		</entry>
-		<entry>
-			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE05.01.021.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="死亡诊断编码"/>
-				<xsl:choose>
-					<xsl:when test="code/Value and code/Display">
-						<value xsi:type="CD" code="{code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10诊断编码表" displayName="{code/Display}" />
-					</xsl:when>
-					<xsl:when test="code/Value and not(code/Display)">
-						<value xsi:type="CD" code="{code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10诊断编码表" />
-					</xsl:when>
-				</xsl:choose>
-				
+				<code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="死亡诊断名称"/>
+				<value xsi:type="ST"><xsl:value-of select="code/Display"/></value>
+				<entryRelationship typeCode="CAUS">
+					<observation classCode="OBS" moodCode="EVN">
+						<code code="DE05.01.021.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="死亡诊断编码"/>
+						<value xsi:type="CD" code="{code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{code/Display}" />
+					</observation>
+				</entryRelationship>
 			</observation>
 		</entry>
 	</xsl:template>
@@ -268,7 +263,7 @@
 		<xsl:if test="content/Value">
 			<component>
 				<section>
-					<code code="DE06.00.181.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{content/displayName}"/>
+					<code code="DE06.00.181.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="死亡讨论记录"/>
 					<text><xsl:value-of select="content/Value"/></text>
 				</section>
 			</component>
@@ -280,10 +275,19 @@
 	<xsl:template match="DiscussionSummary">
 		<component>
 			<section>
-				<code code="DE06.00.181.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{content/displayName}"/>
+				<code code="DE06.00.181.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="主持人总结意见"/>
 				<text><xsl:value-of select="content/Value"/></text>
 			</section>
 		</component>
 	</xsl:template>
-
+	<xsl:template match="/Document/Header/Participants/Participant[typeCode='ORG']/associatedPersonName">
+		<name>
+			<xsl:value-of select="Value"/>
+		</name>
+	</xsl:template>
+	<xsl:template match="/Document/Header/Participants/Participant[typeCode='CON']/associatedPersonName">
+		<name>
+			<xsl:value-of select="Value"/>
+		</name>
+	</xsl:template>
 </xsl:stylesheet>

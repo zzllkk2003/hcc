@@ -1,7 +1,7 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
@@ -158,14 +158,21 @@
 	</xsl:template>
 	<!--疾病诊断条目-->
 	<xsl:template match="Westerns/Western">
-		<entry>
-			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1"
-					codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
-				<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11.5"
-					codeSystemName="疾病代码表（ICD-10）"/>
-			</observation>
-		</entry>
+		<xsl:if test="diag/code/Value">
+			<entry>
+				<observation classCode="OBS" moodCode="EVN">
+					<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1"
+						codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
+					<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11"
+						codeSystemName="ICD-10">
+						<xsl:if test="diag/code/Display">
+							<xsl:attribute name="displayName"><xsl:value-of select="diag/code/Display"/></xsl:attribute>
+						</xsl:if>
+					</value>
+				</observation>
+			</entry>
+		</xsl:if>
+		
 	</xsl:template>
 
 	<!--高值耗材章节模板-->

@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
@@ -43,10 +43,27 @@
 				<xsl:apply-templates select="Header/custodian" mode="Custodian"/>
 			</xsl:if>
 			<!-- LegalAuthenticator签名 -->
-			<xsl:apply-templates select="Header/LegalAuthenticators/LegalAuthenticator[1]" mode="legalAuthenticator"/>
+			<xsl:for-each select="Header/LegalAuthenticators/LegalAuthenticator">
+				<xsl:if test="assignedEntityCode = '医师'">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<legalAuthenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</legalAuthenticator>
+				</xsl:if>
+			</xsl:for-each>
 			<!-- Authenticator签名 -->
 			<xsl:for-each select="Header/Authenticators/Authenticator">
-				<xsl:if test="assignedEntityCode = '手术者' or assignedEntityCode = '患者' or assignedEntityCode = '代理人'">
+				<xsl:if test="assignedEntityCode = '患者' or assignedEntityCode = '代理人'">
 					<xsl:comment>
 						<xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
 					<authenticator>
@@ -68,57 +85,9 @@
 			<xsl:if test="Header/RelatedDocuments/RelatedDocument">
 				<xsl:apply-templates select="Header/RelatedDocuments/RelatedDocument" mode="relatedDocument"/>
 			</xsl:if>
-			<!-- 病床号、病房、病区、科室和医院的关联 -->
+			<!--文档中医疗卫生事件的就诊场景,即入院场景记录-->
 			<componentOf>
-				<encompassingEncounter>
-					<effectiveTime/>
-					<location>
-						<healthCareFacility>
-							<serviceProviderOrganization>
-								<asOrganizationPartOf classCode="PART">
-									<!-- DE01.00.026.00	病床号 -->
-									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
-										<xsl:if test="Header/encompassingEncounter/Locations/Location/bedId">
-											<id root="2.16.156.10011.1.22" extension="{Header/encompassingEncounter/Locations/Location/bedId}"/>
-										</xsl:if>
-										<!-- DE01.00.019.00	病房号 -->
-										<asOrganizationPartOf classCode="PART">
-											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
-												<xsl:if test="Header/encompassingEncounter/Locations/Location/wardId">
-													<id root="2.16.156.10011.1.21" extension="{Header/encompassingEncounter/Locations/Location/wardId}"/>
-												</xsl:if>
-												<!-- DE08.10.026.00	科室名称 -->
-												<asOrganizationPartOf classCode="PART">
-													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
-														<!-- DE08.10.054.00	病区名称 -->
-														<asOrganizationPartOf classCode="PART">
-															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
-																<name>
-																	<xsl:value-of select="Header/encompassingEncounter/Locations/Location/areaName/Value"/>
-																</name>
-																<!--XXX医院 -->
-																<asOrganizationPartOf classCode="PART">
-																	<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
-																		<xsl:if test="Header/encompassingEncounter/Locations/Location/hosId">
-																			<id root="2.16.156.10011.1.5" extension="{Header/encompassingEncounter/Locations/Location/hosId}"/>
-																		</xsl:if>
-																		<name>
-																			<xsl:value-of select="Header/encompassingEncounter/Locations/Location/hosName"/>
-																		</name>
-																	</wholeOrganization>
-																</asOrganizationPartOf>
-															</wholeOrganization>
-														</asOrganizationPartOf>
-													</wholeOrganization>
-												</asOrganizationPartOf>
-											</wholeOrganization>
-										</asOrganizationPartOf>
-									</wholeOrganization>
-								</asOrganizationPartOf>
-							</serviceProviderOrganization>
-						</healthCareFacility>
-					</location>
-				</encompassingEncounter>
+				<xsl:apply-templates select="Header/encompassingEncounter/Locations/Location" mode="EncompassingEncounter"/>
 			</componentOf>
 			<!--CDA body-->
 			<component>
@@ -129,7 +98,7 @@
 							<code code="29548-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Diagnosis"/>
 							<text/>
 							<!--疾病诊断编码-->
-							<xsl:apply-templates select="Diagnosis/Westerns/Western/diag" mode="Diag024"/>
+							<xsl:apply-templates select="Diagnosis/Westerns/Western" mode="Diag024"/>
 						</section>
 					</component>
 					<!--输血章节-->
@@ -141,7 +110,7 @@
 								<observation classCode="OBS" moodCode="EVN">
 									<code code="DE06.00.106.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
 									<!--1无，2有，9未说明-->
-									<value xsi:type="CD" code="{BloodTransfusion/historyMark/Value}" codeSystem="2.16.156.10011.2.3.2.49" codeSystemName="输血史标识代码表"/>
+									<value xsi:type="CD" code="{BloodTransfusion/historyMark/Value}" codeSystem="2.16.156.10011.2.3.2.42" codeSystemName="输血史标识代码表" displayName="{BloodTransfusion/historyMark/Display}"/>
 								</observation>
 							</entry>
 						</section>
@@ -156,9 +125,7 @@
 								<procedure classCode="PROC" moodCode="EVN">
 									<code/>
 									<!--输血时间-->
-									<effectiveTime>
-										<xsl:value-of select="BloodTransfusion/beginTime/Value"/>
-									</effectiveTime>
+									<effectiveTime/>
 									<!--输血方式-->
 									<entryRelationship typeCode="COMP">
 										<observation classCode="OBS" moodCode="EVN">
@@ -183,7 +150,7 @@
 											<consumable>
 												<manufacturedProduct>
 													<manufacturedMaterial>
-														<code code="{BloodTransfusion/type/Value}" codeSystem="2.16.156.10011.2.3.1.251" codeSystemName="输血品种代码表" displayName="{BloodTransfusion/type/Diaplay}"/>
+														<code code="{BloodTransfusion/type/Value}" codeSystem="2.16.156.10011.2.3.1.251" codeSystemName="输血品种代码表" displayName="{BloodTransfusion/type/Display}"/>
 													</manufacturedMaterial>
 												</manufacturedProduct>
 											</consumable>

@@ -2,7 +2,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<realmCode code="CN"/>
@@ -21,6 +21,8 @@
 					<!-- 住院号标识 todo-->
 					<xsl:apply-templates select="Header/recordTarget/inpatientNum" mode="inpatientNum"/>
 					<patient classCode="PSN" determinerCode="INSTANCE">
+						<!--患者身份证号码，必选-->
+						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>	
 						<!--患者姓名，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
 						<!-- 性别，必选 -->
@@ -173,8 +175,8 @@
 		<xsl:if test="diag/code/Value">
 			<entry>
 				<observation classCode="OBS" moodCode="EVN">
-					<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{diag/code/displayName}"/>
-					<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11.5" codeSystemName="疾病代码表（ICD-10）"/>
+					<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="疾病诊断代码"/>
+					<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{diag/code/Display}"/>
 				</observation>
 			</entry>
 		</xsl:if>
@@ -200,17 +202,17 @@
 	<xsl:template match="NursingRecord">
 		<component>
 			<section>
-				<code code="X-NN" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Nursing Note"/>
+				<code displayName="护理记录"/>
 				<text/>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE06.00.211.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理等级代码"/>
 						<xsl:choose>
 							<xsl:when test="nursingLevel/Value and nursingLevel/Display">
-								<value xsi:type="CD" code="{nursingLevel/Value}" displayName="{nursingLevel/Display}" codeSystem="2.16.156.10011.2.3.1.259" codeSystemName="护理等级代码"/>
+								<value xsi:type="CD" code="{nursingLevel/Value}" displayName="{nursingLevel/Display}" codeSystem="2.16.156.10011.2.3.1.259" codeSystemName="护理等级代码表"/>
 							</xsl:when>
 							<xsl:when test="nursingLevel/Value and not(nursingLevel/Display)">
-								<value xsi:type="CD" code="{nursingLevel/Value}" codeSystem="2.16.156.10011.2.3.1.259" codeSystemName="护理等级代码"/>
+								<value xsi:type="CD" code="{nursingLevel/Value}" codeSystem="2.16.156.10011.2.3.1.259" codeSystemName="护理等级代码表"/>
 							</xsl:when>
 						</xsl:choose>
 						
@@ -221,10 +223,10 @@
 						<code code="DE06.00.212.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理类型代码"/>
 						<xsl:choose>
 							<xsl:when test="nursingType/Value and nursingType/Display">
-								<value xsi:type="CD" code="{nursingType/Value}" displayName="{nursingType/Display}" codeSystem="2.16.156.10011.2.3.1.260" codeSystemName="护理类型代码"/>
+								<value xsi:type="CD" code="{nursingType/Value}" displayName="{nursingType/Display}" codeSystem="2.16.156.10011.2.3.1.260" codeSystemName="护理类型代码表"/>
 							</xsl:when>
 							<xsl:when test="nursingType/Value and not(nursingType/Display)">
-								<value xsi:type="CD" code="{nursingType/Value}" codeSystem="2.16.156.10011.2.3.1.260" codeSystemName="护理类型代码"/>
+								<value xsi:type="CD" code="{nursingType/Value}" codeSystem="2.16.156.10011.2.3.1.260" codeSystemName="护理类型代码表"/>
 							</xsl:when>
 						</xsl:choose>
 						
@@ -250,11 +252,11 @@
 	<xsl:template match="NursingObservation">
 		<entry>
 			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE02.10.031.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{item/displayName}"/>
+				<code code="DE02.10.031.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="观察项目名称"/>
 				<value xsi:type="ST"><xsl:value-of select="item/Value"/></value>
 				<entryRelationship typeCode="COMP">
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE02.10.028.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{result/displayName}"/>
+						<code code="DE02.10.028.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="观察结果"/>
 						<value xsi:type="ST"><xsl:value-of select="result/Value"/></value>
 					</observation>
 				</entryRelationship>
@@ -278,15 +280,15 @@
 	<xsl:template match="NursingOperation">
 		<entry>
 			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE06.00.342.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{operation/displayName}"/>
+				<code code="DE06.00.342.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理操作名称"/>
 				<value xsi:type="ST"><xsl:value-of select="operation/Value"/></value>
 				<entryRelationship typeCode="COMP">
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE06.00.210.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{category/displayName}"/>
+						<code code="DE06.00.210.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理操作项目类目名称"/>
 						<value xsi:type="ST"><xsl:value-of select="category/Value"/></value>
 						<entryRelationship typeCode="COMP">
 							<observation classCode="OBS" moodCode="EVN">
-								<code code="DE06.00.209.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{result/displayName}"/>
+								<code code="DE06.00.209.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="导管护理描述"/>
 								<value xsi:type="ST"><xsl:value-of select="result/Value"/></value>
 							</observation>
 						</entryRelationship>
@@ -316,7 +318,7 @@
 				<!--药物使用途径代码：DE06.00.134.00-->
 				<xsl:comment>药物使用途径代码</xsl:comment>
 				<xsl:if test="route/Value">
-					<routeCode code="{route/Value}" codeSystem="2.16.156.10011.2.3.1.158" codeSystemName="用药途径代码表"/>
+					<routeCode code="{route/Value}" displayName="{route/Display}" codeSystem="2.16.156.10011.2.3.1.158" codeSystemName="用药途径代码表"/>
 				</xsl:if>
 				
 				<!--用药剂量-单次 -->
@@ -347,7 +349,7 @@
 				<xsl:if test="useWay/Value">
 					<entryRelationship typeCode="COMP">
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.136.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{useWay/displayName}"/>
+							<code code="DE06.00.136.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="药物用法"/>
 							<!--药物用法描述-->
 							<xsl:comment>药物用法描述</xsl:comment>
 							<value xsi:type="ST"><xsl:value-of select="useWay/Value"/></value>
@@ -358,10 +360,10 @@
 				<xsl:if test="TCMType/Value">
 					<entryRelationship typeCode="COMP">
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.164.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{TCMType/displayName}"/>
+							<code code="DE06.00.164.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中药使用类别代码"/>
 							<!--中药使用类别代码-->
 							<xsl:comment>中药使用类别代码</xsl:comment>
-							<value code="{TCMType/Value}" codeSystem="2.16.156.10011.2.3.1.157" codeSystemName="中药使用类别代码" xsi:type="CD"/>
+							<value code="{TCMType/Value}" displayName="{TCMType/Display}" codeSystem="2.16.156.10011.2.3.1.157" codeSystemName="中药使用类别代码表" xsi:type="CD"/>
 						</observation>
 					</entryRelationship>
 				</xsl:if>
@@ -369,7 +371,7 @@
 				<xsl:if test="totalDose/Value">
 					<entryRelationship typeCode="COMP">
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.135.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{totalDose/displayName}"/>
+							<code code="DE06.00.135.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="药物使用总剂量"/>
 							<!--药物使用总剂量-->
 							<xsl:comment>药物使用总剂量</xsl:comment>
 							<value xsi:type="PQ" value="{totalDose/Value}" unit="mg"/>
@@ -391,7 +393,7 @@
 				<xsl:comment>呕吐标志条目</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE04.01.048.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{vomit/displayName}"/>
+						<code code="DE04.01.048.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="呕吐标志"/>
 						<value xsi:type="BL" value="{vomit/Value}"/>
 					</observation>
 				</entry>
@@ -399,7 +401,7 @@
 				<xsl:comment>排尿困难标志条目</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE04.01.051.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{dysuria/displayName}"/>
+						<code code="DE04.01.051.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="排尿困难标志"/>
 						<value xsi:type="BL" value="{dysuria/Value}"/>
 					</observation>
 				</entry>

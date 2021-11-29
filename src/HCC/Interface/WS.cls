@@ -168,7 +168,6 @@ ClassMethod UpdateDocSections(pDocType) As %Status
             If (SQLCODE '=0 )
             {
                 Set tSC = $$$ERROR(-10001,"数据错误:"_SQLCODE_" "_%msg)
-                w "数据错误:"_SQLCODE_" "_%msg
                 Quit
             }
         }
@@ -530,7 +529,7 @@ ClassMethod PutValueSetItem(pValueSet As %String) As %Status
         #; Parse the content (JSON array)
         #dim tItemArray As %DynamicArray
         Set tItemArray=##class(%DynamicArray).%FromJSON(%request.Content)
-        Set ^TestLog($I(^TestLog))="ArraySize="_tItemArray.%Size()
+       // Set ^TestLog($I(^TestLog))="ArraySize="_tItemArray.%Size()
         For tI=0:1:tItemArray.%Size()-1 
         {
             #; Get the KV object
@@ -540,7 +539,12 @@ ClassMethod PutValueSetItem(pValueSet As %String) As %Status
                 Set %response.Status=..#HTTP400BADREQUEST
                 Quit    
             }
-            Set tSub=tKV.Key, tValue = $ZCVT(tKV.Value,"I","UTF8")
+            
+            //Set tSub=tKV.Key, tValue = $ZCVT(tKV.Value,"O","UTF8")
+            set tSub=tKV.Key 
+            
+            set tValue=tKV.Value
+            
             If (tSub="")||(tValue="")
             {
                 Set %response.Status=..#HTTP400BADREQUEST
@@ -549,7 +553,7 @@ ClassMethod PutValueSetItem(pValueSet As %String) As %Status
             Set tTemArray(tSub)=tValue
         }
         Merge @tGol=tTemArray
-        Merge ^TestLog($I(^TestLog))=tTemArray
+        //Merge ^TestLog($I(^TestLog))=tTemArray
         kill tTemArray
     }
     catch (e)

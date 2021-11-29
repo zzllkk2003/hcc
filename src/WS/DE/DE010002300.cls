@@ -6,13 +6,13 @@ Parameter Category = "标识";
 
 Parameter Description = "血袋编码";
 
-Parameter Format = "AN..20";
+Parameter Format = "N10";
 
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
 
-Property Value As %String(MAXLEN = 20, MINLEN = 0);
+Property Value As %String(PATTERN = "10N");
 
 Storage Default
 {

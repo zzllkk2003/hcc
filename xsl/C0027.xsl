@@ -14,7 +14,7 @@
             <templateId root="2.16.156.10011.2.1.1.47"/>
             <!--知情同意书编号-->
             <id root="2.16.156.10011.1.10" extension="D2011000001"/>
-            <code code="C0027" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档分类与编码系统"/>
+            <code code="C0027" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档规范编码体系"/>
             <title>麻醉知情同意书</title>
             <xsl:call-template name="effectiveTime"/>
             <xsl:call-template name="Confidentiality"/>
@@ -36,8 +36,9 @@
                     
                     <!--知情同意书编号标识-->
                     <xsl:comment>知情同意书编号标识</xsl:comment>
-                    <id root="2.16.156.10011.1.33" extension="{Header/recordTarget/consentFormNum/Value}"/>
-                    
+                    <xsl:if test="Header/recordTarget/consentFormNum/Value">
+                        <id root="2.16.156.10011.1.34" extension="{Header/recordTarget/consentFormNum/Value}"/> 
+                    </xsl:if>
                     <!--健康档案标识号-->
                     <xsl:comment>健康档案标识号</xsl:comment>
                     <id root="2.16.156.10011.1.24" extension="{Header/recordTarget/healthRecordId/Value}"/>
@@ -190,6 +191,7 @@
         <component>
             <section>
                 <code code="10219-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Surgical operation note preoperative Dx"/>
+                <text/>
                 <!--术前诊断编码-->
                 <xsl:for-each select="Items/Item">
                     <entry>
@@ -218,7 +220,7 @@
     <xsl:template match="TreatmentPlan">
         <component>
             <section>
-                <code code="10219-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Surgical operation note preoperative Dx"/>
+                <code code="10219-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="TREATMENT PLAN"/>
                 <text/>
                 <entry>
                     <!--拟实施麻醉-->

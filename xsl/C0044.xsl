@@ -39,7 +39,20 @@
             <xsl:apply-templates select="Header/author" mode="AuthorWithOrganization"/> 
             <xsl:apply-templates select="Header/custodian" mode="Custodian"/> 
             <xsl:apply-templates select="Header/Authenticators/Authenticator"></xsl:apply-templates>
-            <xsl:apply-templates select="Header/Participants"></xsl:apply-templates>
+            <!--联系人1..*-->
+            <xsl:for-each select="Header/Participants/Participant[typeCode = 'CON'][1]">
+                <xsl:comment>参加讨论人员名单</xsl:comment>
+                <participant typeCode="CON">
+                    <!--联系人@classCode：CON，固定值，表示角色是联系人 -->
+                    <associatedEntity classCode="ECON">
+                        <!--联系人-->
+                        <associatedPerson>
+                            <!--姓名-->
+                            <xsl:apply-templates select="/Document/Header/Participants/Participant[typeCode='CON']/associatedPersonName"></xsl:apply-templates>
+                        </associatedPerson>
+                    </associatedEntity>
+                </participant>
+            </xsl:for-each>
             <xsl:apply-templates select="Header/RelatedDocuments/RelatedDocument" mode="relatedDocument"></xsl:apply-templates>
             <componentOf>
                 <xsl:apply-templates select="Header/encompassingEncounter"/>
@@ -95,8 +108,8 @@
                         <entryRelationship typeCode="COMP">
                             <observation classCode="OBS " moodCode="EVN ">
                                 <code code="DE04.30.017.00" displayName="检查/检验结果代码" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录"/>
-                                <value xsi:type="CD" code="{resultCode/Value}" codeSystem="2.16.156.10011.2.3.2.38" codeSystemName="检查（检验）结果代码表"></value>
                                 <xsl:comment> 1.正常 2.异常 3.不确定</xsl:comment> 
+                                <value xsi:type="CD" code="{resultCode/Value}" displayName="{resultCode/Display}" codeSystem="2.16.156.10011.2.3.2.38" codeSystemName="检查/检验结果代码表"></value>
                             </observation>
                         </entryRelationship>
                     </xsl:if>
@@ -141,11 +154,17 @@
             <xsl:comment>手术及操作编码</xsl:comment>
             
             <procedure classCode="PROC" moodCode="EVN">
-                <code code="{code/Value}" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表（ICD-9-CM）"/>
+                <code code="{code/Value}" displayName="{code/Display}" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表(ICD-9-CM)"/>
                 <statusCode/>
-                <xsl:comment>手术操作目标部位名称DE06.00.187.00-</xsl:comment>
-               
-                <targetSiteCode code="{bodyPart/Value}" codeSystem="2.16.156.10011.2.3.1.266"  codeSystemName="操作部位代码表"></targetSiteCode>
+                <xsl:comment>手术操作目标部位名称-</xsl:comment>
+                <entryRelationship typeCode="COMP">
+                    <regionOfInterest classCode="ROIOVL" moodCode="EVN">
+                        <id/>
+                        <code code="DE06.00.187.00"/> 
+                        <!-- 应该使用DE06.00.187.00，但是测试工具只接收正负值，所以使用DE06.00.186.00的值-->
+                        <value value="{bodyPart/Value}"/>
+                    </regionOfInterest>
+                </entryRelationship>
                 <xsl:comment>手术及操作名称</xsl:comment>
            
                 <entryRelationship typeCode="COMP">
@@ -219,34 +238,23 @@
     <!-- 诊断条目 -->
     <xsl:template match="Western">
         <xsl:comment>条目:疾病诊断名称</xsl:comment> 
-        <entry>
+        <xsl:choose>
+            <xsl:when test="diag/code/Value">
+            <entry>
             <observation classCode="OBS" moodCode="EVN ">
                 <code code="DE05.01.025.00" displayName="疾病诊断名称" 
                     codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-                <value xsi:type="ST"><xsl:value-of select="diag/name/Value"/></value>
+                <value xsi:type="ST"><xsl:value-of select="diag/code/Display"/></value>
                 <entryRelationship typeCode="COMP">
                     <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE05.01.024.00" displayName="疾病诊断编码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-                        <value xsi:type="CD" code="{diag/code/Value}" displayName="{diag/code/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="诊断代码表（ICD-10）"/>
-                    </observation>
+                        <code code="DE05.01.024.00" displayName="疾病诊断编码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>       
+                         <value xsi:type="CD" code="{diag/code/Value}" displayName="{diag/code/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>                  
+                      </observation>
                 </entryRelationship>
             </observation>
-        </entry>	
-    </xsl:template>
-    <!-- 讨论参与者 -->
-    <xsl:template match="Header/Participants">
-      <xsl:comment>讨论成员信息</xsl:comment>  
-        <participant typeCode="CON">
-            <associatedEntity classCode="ECON">
-                <xsl:comment>参加讨论人员名单</xsl:comment>   
-                <associatedPerson>
-                    <xsl:apply-templates select="Participant"></xsl:apply-templates>
-                </associatedPerson>
-            </associatedEntity>
-        </participant>	
-    </xsl:template>
-    <xsl:template match="Participant">
-        <name><xsl:value-of select="associatedPersonName/Value"/></name>
+        </entry>
+            </xsl:when>
+        </xsl:choose>	
     </xsl:template>
     <!-- encompassing -->
     <xsl:template match ="Header/encompassingEncounter" >
@@ -319,5 +327,10 @@
                 </assignedPerson>
             </assignedEntity>
         </authenticator>
+    </xsl:template>
+    <xsl:template match="/Document/Header/Participants/Participant[typeCode='CON']/associatedPersonName">
+        <name>
+            <xsl:value-of select="Value"/>
+        </name>
     </xsl:template>
 </xsl:stylesheet>

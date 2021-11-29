@@ -4,7 +4,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -85,18 +85,16 @@
 										<xsl:comment>病床号</xsl:comment>
 										<id root="2.16.156.10011.1.22" extension="{Header/encompassingEncounter/Locations/Location/bedId}"/>
 										<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/bedName/Value"/></name>
-										<!--病房号：DE01.00.019.00-->
-										<xsl:comment>病房号</xsl:comment>
 										<asOrganizationPartOf classCode="PART">
 											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
-												<!--N:加上OID-->
+												<!--病房号：DE01.00.019.00-->
+												<xsl:comment>病房号</xsl:comment>
 												<id root="2.16.156.10011.1.21" extension="{Header/encompassingEncounter/Locations/Location/wardId}"/>
 												<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/wardName/Value"/></name>
-												<!--病区名称：DE08.10.054.00-->
-												<xsl:comment>病区名称</xsl:comment>
 												<asOrganizationPartOf classCode="PART">
 													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
-														<!--N:加上OID-->
+														<!--病区名称：DE08.10.054.00-->
+														<xsl:comment>病区名称</xsl:comment>
 														<id root="2.16.156.10011.1.27" extension="{Header/encompassingEncounter/Locations/Location/areaId}"/>
 														<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/areaName/Value"/></name>
 														<!--科室名称：DE08.10.026.00-->
@@ -149,12 +147,16 @@
 	</xsl:template>
 	<!--疾病诊断条目-->
 	<xsl:template match="Westerns/Western">
-		<entry>
-			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
-				<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11.5" codeSystemName="疾病代码表（ICD-10）"/>
-			</observation>
-		</entry>
+		<xsl:if test="diag/code/Value">
+			<entry>
+				<observation classCode="OBS" moodCode="EVN">
+					<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
+					<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10">
+						<xsl:attribute name="displayName"><xsl:value-of select="diag/code/Display"/></xsl:attribute>
+					</value>
+				</observation>
+			</entry>
+		</xsl:if>	
 	</xsl:template>
 	
 	<!--生命体征章节-->
@@ -222,7 +224,7 @@
 		<xsl:if test="type ='DE04.10.118.00'">
 			<entry>
 				<observation classCode="OBS" moodCode="EVN">
-					<code code="DE04.10.118.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="脉率"/>
+					<code code="DE04.10.118.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="脉率（次/min）"/>
 					<value xsi:type="PQ" value="{value}" unit="次/min"/>
 				</observation>
 			</entry>
@@ -233,7 +235,7 @@
 		<xsl:if test="type ='DE04.10.206.00'">
 			<entry>
 				<observation classCode="OBS" moodCode="EVN">
-					<code code="DE04.10.206.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="心率"/>
+					<code code="DE04.10.206.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="起搏器心率（次/min）"/>
 					<value xsi:type="PQ" value="{value}" unit="次/min"/>
 				</observation>
 			</entry>
@@ -244,7 +246,7 @@
 		<xsl:if test ="type ='DE04.10.186.00'">
 			<entry>
 				<observation classCode="OBS" moodCode="EVN">
-					<code code="DE04.10.186.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="体温"/>
+					<code code="DE04.10.186.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="体温（℃）"/>
 					<value xsi:type="PQ" value="{value}" unit="℃"/>
 				</observation>
 			</entry>
@@ -278,7 +280,7 @@
 			<entry>
 				<observation classCode="OBS" moodCode="EVN">
 					<code code="DE04.10.188.00" codeSystem="2.16.156.10011.2.2.1"
-						codeSystemName="卫生信息数据元目录" displayName="体重"/>
+						codeSystemName="卫生信息数据元目录" displayName="体重（kg）"/>
 					<value xsi:type="PQ" value="{value}" unit="kg"/>
 				</observation>
 			</entry>
@@ -300,7 +302,7 @@
 	<xsl:template match="NursingObservations">
 		<component>
 			<section>
-				<code nullFlavor="UNK" displayName="护理观察章节"/>
+				<code displayName="护理观察"/>
 				<title>护理观察章节</title>
 				<!--多个观察写多个entry即可，每个观察对应着观察结果描述-->
 				<xsl:comment>护理观察项目名称及结果描述</xsl:comment>

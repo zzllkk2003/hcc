@@ -14,7 +14,7 @@
             <templateId root="2.16.156.10011.2.1.1.27"/>
             <!--文档流水号-->
             <xsl:call-template name="DocumentNo"/>
-            <title>检验记录</title>
+            <title>检验报告</title>
             <xsl:call-template name="effectiveTime"/>
             <xsl:call-template name="Confidentiality"/>
             <xsl:call-template name="languageCode"/>
@@ -123,14 +123,15 @@
                 <xsl:if test="typeCode = 'PRF'">
                     <xsl:comment>检验申请机构及科室</xsl:comment>
                     <participant typeCode="PRF">
+                        <time/>
                         <associatedEntity classCode="ASSIGNED">
                             <scopingOrganization>
-                                <id root="2.16.156.10011.1.26" extension="{scopingOrganization/Value}"/>
-                                <name><xsl:value-of select="scopingOrganization/Display"/></name>
+                                <id root="2.16.156.10011.1.26" extension="{scopingOrganization/id/Value}"/>
+                                <name><xsl:value-of select="scopingOrganization/name/Value"/></name>
                                 <asOrganizationPartOf>
                                     <wholeOrganization>
-                                        <id root="2.16.156.10011.1.5" extension="{wholeOrganization/Value}"/>
-                                        <name><xsl:value-of select="wholeOrganization/Display"/></name>
+                                        <id root="2.16.156.10011.1.5" extension="{scopingOrganization/partOf/OrgId/Value}"/>
+                                        <name><xsl:value-of select="scopingOrganization/partOf/OrgName/Value"/></name>
                                     </wholeOrganization>
                                 </asOrganizationPartOf>
                             </scopingOrganization>
@@ -215,11 +216,11 @@
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE05.01.024.00" displayName="诊断代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
                         <!--effectiveTime为时间戳类型，不能出现value=""的情况，因此取不到值时整个数据结点都不能输出-->
-                        <xsl:if test="diag/code/Value">
+                        <xsl:if test="diag/date/Value">
                             <effectiveTime value="{diag/date/Value}"/>
                         </xsl:if>
                         <!--value为编码类型（CD），不能出现属性=""的情况，因此某属性取不到值时该属性不能输出-->
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{diag/code/Display}">
                             <xsl:if test="diag/code/Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="diag/code/Value" />
@@ -277,71 +278,76 @@
     <!--检验项目模板-->
     <xsl:template match="Items/Item">
         <entry>
-            <observation classCode="OBS" moodCode="EVN">
-                <code code="DE04.50.019.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验项目代码"></code>
-                <effectiveTime>
-                    <xsl:if test="date/Value">
-                        <xsl:attribute name="value">
-                            <xsl:value-of select="date/Value" />
-                        </xsl:attribute>
-                    </xsl:if>
-                </effectiveTime>
-                <value xsi:type="ST"><xsl:value-of select="code/Value"/></value>
-                <entryRelationship typeCode="COMP">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+                <statusCode/>
+                <component>
                     <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE04.50.134.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本类别"></code>
+                        <code code="DE04.30.019.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验项目代码"></code>
                         <effectiveTime>
-                            <xsl:if test="specimen/collectTime/Value">
-                                <low value="{specimen/collectTime/Value}"/>
-                            </xsl:if>
-                            <xsl:if test="specimen/receiveTime/Value">
-                                <high value="{specimen/receiveTime/Value}"/>
+                            <xsl:if test="date/Value">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="date/Value" />
+                                </xsl:attribute>
                             </xsl:if>
                         </effectiveTime>
-                        <xsl:if test="specimen/type/Value">
-                            <value xsi:type="ST"><xsl:value-of select="specimen/type/Value"/></value>
-                        </xsl:if>
+                        <value xsi:type="ST"><xsl:value-of select="code/Value"/></value>
+                        <entryRelationship typeCode="COMP">
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="DE04.50.134.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本类别"></code>
+                                <effectiveTime>
+                                    <xsl:if test="specimen/collectTime/Value">
+                                        <low value="{specimen/collectTime/Value}"/>
+                                    </xsl:if>
+                                    <xsl:if test="specimen/receiveTime/Value">
+                                        <high value="{specimen/receiveTime/Value}"/>
+                                    </xsl:if>
+                                </effectiveTime>
+                                <xsl:if test="specimen/type/Value">
+                                    <value xsi:type="ST"><xsl:value-of select="specimen/type/Value"/></value>
+                                </xsl:if>
+                            </observation>
+                        </entryRelationship>
+                        <entryRelationship typeCode="COMP">
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="DE04.50.135.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本状态"></code>
+                                <xsl:if test="specimenStatus/Value">
+                                    <value xsi:type="ST"><xsl:value-of select="specimenStatus/Value"/></value>
+                                </xsl:if>
+                            </observation>
+                        </entryRelationship>
                     </observation>
-                </entryRelationship>
-                <entryRelationship typeCode="COMP">
+                </component>   
+                <component>
                     <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE04.50.135.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本状态"></code>
-                        <xsl:if test="specimenStatus/Value">
-                            <value xsi:type="ST"><xsl:value-of select="specimenStatus/Value"/></value>
-                        </xsl:if>
+                        <code code="DE04.30.017.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验结果代码"></code>
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.38" codeSystemName="检查/检验结果代码表" displayName="{resultCode/Display}">
+                            <xsl:if test="resultCode/Value">
+                                <xsl:attribute name="code">
+                                    <xsl:value-of select="resultCode/Value" />
+                                </xsl:attribute>
+                            </xsl:if>
+                        </value>
                     </observation>
-                </entryRelationship>
-            </observation>
-        </entry>
-        <entry>
-            <observation classCode="OBS" moodCode="EVN">
-                <code code="DE04.30.017.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验结果代码"></code>
-                <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.38" codeSystemName="检查（检验）结果代码表">
-                    <xsl:if test="resultCode/Value">
-                        <xsl:attribute name="code">
-                            <xsl:value-of select="resultCode/Value" />
-                        </xsl:attribute>
-                    </xsl:if>
-                </value>
-            </observation>
-        </entry>
-        <entry>
-            <observation classCode="OBS" moodCode="EVN">
-                <code code="DE04.30.015.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验定量结果"></code>
-                <value xsi:type="REAL">
-                    <xsl:if test="resultQuantity/value/Value">
-                        <xsl:attribute name="value">
-                            <xsl:value-of select="resultQuantity/value/Value" />
-                        </xsl:attribute>
-                    </xsl:if>
-                </value>
-                <entryRelationship typeCode="COMP">
+                </component>
+                <component>
                     <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE04.30.016.00" displayName="检查定量结果计量单位" codeSystemName="卫生信息数据元目录" codeSystem="2.16.156.10011.2.2.1" />
-                        <value xsi:type="ST"><xsl:value-of select="resultQuantity/unit/Value"/></value>
+                        <code code="DE04.30.015.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检验定量结果"></code>
+                        <value xsi:type="REAL">
+                            <xsl:if test="resultQuantity/value/Value">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="resultQuantity/value/Value" />
+                                </xsl:attribute>
+                            </xsl:if>
+                        </value>
+                        <entryRelationship typeCode="COMP">
+                            <observation classCode="OBS" moodCode="EVN">
+                                <code code="DE04.30.016.00" displayName="检查定量结果计量单位" codeSystemName="卫生信息数据元目录" codeSystem="2.16.156.10011.2.2.1" />
+                                <value xsi:type="ST"><xsl:value-of select="resultQuantity/unit/Value"/></value>
+                            </observation>
+                        </entryRelationship>
                     </observation>
-                </entryRelationship>
-            </observation>
+                </component>
+            </organizer>     
         </entry>
     </xsl:template>
     <!-- 检验报告章节模板-->

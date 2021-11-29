@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-08-11 13:45:00
-/// LastEditTime: 2021-09-09 13:44:38
+/// LastEditTime: 2021-11-17 17:10:32
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/SVR/Prod/BS/HIPMessageServer.cls
@@ -13,6 +13,8 @@ Class HCC.SVR.Prod.BS.HIPMessageServer Extends EnsLib.SOAP.Service
 
 /// 暂时没有使用，防止报错，暂不删除
 Parameter ADAPTER;
+
+Parameter SOAPVERSION = 1.2;
 
 Parameter SERVICENAME = "HIPMessageServer";
 

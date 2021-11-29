@@ -421,7 +421,7 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '1003'/*Author_assignedPerson_id*/,
     '张医生'/*文档作者*/,
     ''/*Author_author_id*/,
-    'A100',
+    '12345678-9',
     '系联总医院',
     '2020-09-29'/*Author_time*/,
     '1234567890'/*Custodian_organization_id*/,
@@ -534,6 +534,25 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
+    '主任医师'/*assignedEntity_code*/,
+    '2.16.156.10011.1.4'/*assignedEntity_id*/,
+    null/*signature_code*/,
+    '吕主任'/*assignedPerson_name_Value*/,
+    '2020-09-29 10:30:00'/*time_Value*/,
+    3
+    )
+    )
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
+    &SQL(insert into HCC_SQL_Document_Header.Authenticator(
+    DocumentNo,
+    asgnEnty_code,
+    asgnEnty_id,
+    sig_code,
+    asgnPers_name_Value,
+    time_Value,
+    profTechPos_code)
+    Values(
+    :pDocNo /*DocumentNo*/,
     '主任(副主任)医师'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
@@ -557,6 +576,26 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
     '张医生'/*assignedPerson_name_Value*/,
+    '2020-09-29 10:30:00'/*time_Value*/,
+    3
+    )
+    )
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
+    
+    &SQL(insert into HCC_SQL_Document_Header.Authenticator(
+    DocumentNo,
+    asgnEnty_code,
+    asgnEnty_id,
+    sig_code,
+    asgnPers_name_Value,
+    time_Value,
+    profTechPos_code)
+    Values(
+    :pDocNo /*DocumentNo*/,
+    '接诊医师'/*assignedEntity_code*/,
+    '2.16.156.10011.1.4'/*assignedEntity_id*/,
+    null/*signature_code*/,
+    '何医生'/*assignedPerson_name_Value*/,
     '2020-09-29 10:30:00'/*time_Value*/,
     3
     )
@@ -667,6 +706,26 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     profTechPos_code)
     Values(
     :pDocNo /*DocumentNo*/,
+    '记录人'/*assignedEntity_code*/,
+    '2.16.156.10011.1.4'/*assignedEntity_id*/,
+    null/*signature_code*/,
+    '郑记录人'/*assignedPerson_name_Value*/,
+    '2020-09-29 10:30:00'/*time_Value*/,
+    5
+    )
+    )
+    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
+
+    &SQL(insert into HCC_SQL_Document_Header.Authenticator(
+    DocumentNo,
+    asgnEnty_code,
+    asgnEnty_id,
+    sig_code,
+    asgnPers_name_Value,
+    time_Value,
+    profTechPos_code)
+    Values(
+    :pDocNo /*DocumentNo*/,
     '手术者'/*assignedEntity_code*/,
     '2.16.156.10011.1.4'/*assignedEntity_id*/,
     null/*signature_code*/,
@@ -678,142 +737,163 @@ ClassMethod TestHeaderGenerate(pDocNo = "Doc123456")
     W:(SQLCODE'=0) "HCC_SQL_Document_Header.Authenticator:",SQLCODE,": ",%msg,!
     
     /// 插入联系人(可以多条)
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    addr_city_Value,
-    addr_county_Value,
-    addr_house_Value,
-    addr_post_Value,
-    addr_state_Value,
-    addr_street_Value,
-    addr_town_Value,
-    assocPers_name_Value,
-    assocEnty_code_Value,
-    telcom_Value,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '北京'/*addr_city_Value*/,
-    '朝阳区'/*addr_county_Value*/,
-    '2号银泰写字楼C座2701-2702室'/*addr_houseNumber_Value*/,
-    '100022'/*addr_postalCode_Value*/,
-    '北京'/*addr_state_Value*/,
-    '建国门外大街'/*addr_streetName_Value*/,
-    null/*addr_township_Value*/,
-    '李五'/*asociatedPerson_name_Value*/,
-    '3'/*associatedEntity_code_Value*/,
-    '1300000000'/*telcom_Value*/,
-    'NOT')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    assocPers_name_Value,
-    assocEnty_code_Value,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '张大伟'/*asociatedPerson_name_Value*/,
-    null/*associatedEntity_code_Value*/,
-    'ORG')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    assocPers_name_Value,
-    assocEnty_code_Value,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '张恒'/*asociatedPerson_name_Value*/,
-    null/*associatedEntity_code_Value*/,
-    'ATND')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    assocPers_name_Value,
-    assocEnty_code_Value,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '李斯特'/*asociatedPerson_name_Value*/,
-    null/*associatedEntity_code_Value*/,
-    'ATND')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    assocPers_name_Value,
-    assocEnty_code_Value,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '李五'/*asociatedPerson_name_Value*/,
-    null/*associatedEntity_code_Value*/,
-    'CON')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    assocPers_name_Value,
-    assocEnty_code_Value,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '赵长阳'/*asociatedPerson_name_Value*/,
-    null/*associatedEntity_code_Value*/,
-    'CON')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
-    
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    assocPers_name_Value,
-    assocEnty_code_Value,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '赵长阳'/*asociatedPerson_name_Value*/,
-    null/*associatedEntity_code_Value*/,
-    'PRCP')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
-
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    assocPers_name_Value,
-    assocEnty_code_Value,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '罗飞'/*asociatedPerson_name_Value*/,
-    null/*associatedEntity_code_Value*/,
-    'PRCP')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
-    
-    &SQL(insert into HCC_SQL_Document_Header.Participant(
-    DocumentNo,
-    scop_org,
-    whol_org,
-    type_code
-    )
-    Values(
-    :pDocNo /*DocumentNo*/,
-    '心内科'/*scop_org*/,
-    '系联总医院'/*whol_org*/,
-    'PRF')
-    )
-    W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+    If "C0001,C0014,C0015,C0016,C0032,C0033,C0046,C0048,C0053"[tDocType 
+    {
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        telcom_Value,
+        assocPers_name_Value,
+        addr_city_Value,
+        addr_county_Value,
+        addr_house_Value,
+        addr_post_Value,
+        addr_state_Value,
+        addr_street_Value,
+        addr_town_Value,
+        scop_org_id_Value,
+        scop_org_name_Value,
+        scop_org_partOf_id_Value,
+        scop_org_partOf_name_Value
+        )
+        Values(
+        :pDocNo/*DocumentNo*/,
+        'NOT'/*type_code*/,
+        '1300000000'/*telcom_Value*/,
+        '李五'/*assocPers_name_Value*/,
+        '北京'/*addr_city_Value*/,
+        '朝阳区'/*addr_county_Value*/,
+        '2号银泰写字楼C座2701-2702室'/*addr_house_Value*/,
+        '100022'/*addr_post_Value*/,
+        '北京'/*addr_state_Value*/,
+        '建国门外大街'/*addr_street_Value*/,
+        null/*addr_town_Value*/,
+        null/*scop_org_id_Value*/,
+        null/*scop_org_name_Value*/,
+        null/*scop_org_partOf_id_Value*/,
+        null/*scop_org_partOf_name_Value*/)
+        )
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+    }
+    // 插入申请机构及科室
+    ElseIf "C0006,C0007"[tDocType 
+    {
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        scop_org_id_Value,
+        scop_org_name_Value,
+        scop_org_partOf_id_Value,
+        scop_org_partOf_name_Value
+        )
+        Values(
+        :pDocNo/*DocumentNo*/,
+        'PRF'/*type_code*/,
+        '0003'/*scop_org_id_Value*/,
+        '神经外科'/*scop_org_name_Value*/,
+        '12345678-9'/*scop_org_partOf_id_Value*/,
+        '系联总医院'/*scop_org_partOf_name_Value*/)
+        )
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+    }
+    // 插入参与讨论人员（多个）
+    ElseIf "C0040"[tDocType 
+    {
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        assocPers_name_Value
+        )
+        Values(
+        :pDocNo /*DocumentNo*/,
+        'PRCP',
+        '张大伟'/*asociatedPerson_name_Value*/
+        )
+        )
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+        
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        assocPers_name_Value
+        )
+        Values(
+        :pDocNo /*DocumentNo*/,
+        'PRCP',
+        '张恒'/*asociatedPerson_name_Value*/
+        )
+        )
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+    }
+    // 插入参与抢救人员（多个）
+    ElseIf "C0044"[tDocType 
+    {
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        assocPers_name_Value
+        )
+        Values(
+        :pDocNo /*DocumentNo*/,
+        'CON',
+        '李斯特'/*asociatedPerson_name_Value*/
+        )
+        )
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        assocPers_name_Value
+        )
+        Values(
+        :pDocNo /*DocumentNo*/,
+        'CON',
+        '张恒'/*asociatedPerson_name_Value*/
+        )
+        )
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+    }
+    // 插入参与讨论人员（多个）和主持人
+    ElseIf "C0047,C0051"[tDocType 
+    {
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        assocPers_name_Value
+        )
+        Values(
+        :pDocNo /*DocumentNo*/,
+        'ORG',
+        '赵长阳'/*asociatedPerson_name_Value*/
+        )
+        )
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        assocPers_name_Value
+        )
+        Values(
+        :pDocNo /*DocumentNo*/,
+        'CON',
+        '罗飞'/*asociatedPerson_name_Value*/
+        )
+        )
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+        &SQL(insert into HCC_SQL_Document_Header.Participant(
+        DocumentNo,
+        type_code,
+        assocPers_name_Value
+        )
+        Values(
+        :pDocNo /*DocumentNo*/,
+        'CON',
+        '李五'/*asociatedPerson_name_Value*/
+        )
+        )
+        
+        W:(SQLCODE'=0) "HCC_SQL_Document_Header.Participant:",SQLCODE,": ",%msg,!
+    }
 
     /// 插入病史陈述者(可以多条)
     &SQL(insert into HCC_SQL_Document_Header.Informant(
@@ -1116,7 +1196,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     null,
     '2021-07-01',
     '脑积水',
-    1,
+    '01',
     '系联总医院')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Western:",SQLCODE,": ",%msg,!
@@ -1132,7 +1212,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     'G91.200',
     '2021-07-01',
     null,
-    2,
+    '02',
     '系联总医院')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.Western:",SQLCODE,": ",%msg,!
@@ -1168,7 +1248,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     'BRK090',
     '2021-07-01',
     null,
-    1)
+    '01')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCM:",SQLCODE,": ",%msg,!
     &SQL(Insert into HCC_SQL_Document_Diagnosis.TCM(
@@ -1182,7 +1262,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     null,
     '2021-07-01',
     '关格病',
-    2)
+    '02')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCM:",SQLCODE,": ",%msg,!
     
@@ -1198,7 +1278,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     'ZYV260',
     '2021-07-01',
     null,
-    1)
+    '01')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCMSyndrome:",SQLCODE,": ",%msg,!
 
@@ -1213,7 +1293,7 @@ ClassMethod TestDiagnosisGenerate(pDocNo = "Doc123456")
     null,
     '2021-07-01',
     '腑气不通症',
-    2)
+    '02')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_Diagnosis.TCMSyndrome:",SQLCODE,": ",%msg,!
     
@@ -1394,7 +1474,7 @@ ClassMethod TestBloodTransfusionGenerate(pDocNo = "Doc123456")
     :pDocNo,
     2/*申请ABO血型代码*/,
     1/*申请Rh血型代码*/,
-    'B0001'/*血袋编码*/,
+    '9876543210'/*血袋编码*/,
     '2021-07-01 16:10:00'/*输血日期时间*/,
     '2021-07-01 16:30:00'/*输血停止日期时间*/,
     '输血史描述'/*输血史。用于《入院记录》、《病历概要》*/,
@@ -1711,7 +1791,7 @@ ClassMethod TestReferralGenerate(pDocNo = "Doc123456")
     null,
     null,
     '神经外科',
-    null)
+    1)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.Referral:",SQLCODE,": ",%msg,!
 }
@@ -1755,6 +1835,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     inlabor_EDC_Value/*预产期*/,
     inlabor_LMP_Value/*末次月经日期*/,
     inlabor_abnormal_Value/*产前检查异常情况*/,
+    inlabor_special_Value/*此次妊娠特殊情况条目*/,
     inlabor_conception_form_Value/*受孕形式代码*/,
     inlabor_deliver_times_Value/*产次*/,
     inlabor_labor_time_Value/*待产日期时间*/,
@@ -1793,19 +1874,19 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     'BRK090'/*中医初步诊断编码*/,
     '2021-07-01'/*中医初步诊断日期*/,
     null/*中医初步诊断病名名称*/,
-    1/*诊断顺位*/,
+    '01'/*诊断顺位*/,
     'ZYV260'/*中医初步诊断症候编码*/,
     '2021-07-01'/*中医症候诊断日期*/,
     null/*中医初步诊断症候名称*/,
-    1/*诊断顺位*/,
+    '01'/*诊断顺位*/,
     'BRK090'/*中医修正诊断编码*/,
     '2021-07-02'/*中医修正诊断日期*/,
     null/*中医修正病名名称*/,
-    1/*中医修正诊断顺位*/,
+    '01'/*中医修正诊断顺位*/,
     'ZYV260'/*中医修正症候编码*/,
     '2021-07-02'/*中医修正症候日期*/,
     null/*中医修正症候名称*/,
-    1/*中医修正症候顺位*/,
+    '01'/*中医修正症候顺位*/,
     '入院情况'/*入院情况 。用于《出院小结》*/,
     '麻醉恢复情况'/*麻醉恢复情况。用于《麻醉术后访视记录》*/,
     2/*实施临床路径。用于《中医住院病案首页》*/,
@@ -1815,6 +1896,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     '2021-07-03'/*预产期*/,
     '2020-11-03'/*末次月经日期*/,
     '产前检查异常情况'/*产前检查异常情况*/,
+    '此次妊娠特殊情况'/*此次妊娠特殊情况条目*/,
     1/*受孕形式代码*/,
     1/*产次*/,
     '2021-07-03'/*待产日期时间*/,
@@ -1824,19 +1906,19 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     'G51.000'/*初步西医诊断编码*/,
     '2021-07-01'/*初步诊断日期*/,
     null/*初步西医诊断名称*/,
-    1/*诊断顺位*/,
+    '01'/*诊断顺位*/,
     null/*诊断机构名称。用于《检查报告》、《检验报告》*/,
     1/*陈述内容可靠标识。用于《入院记录》、《24h内入出院记录》*/,
     'G51.000'/*修正西医诊断编码*/,
     '2021-07-02'/*修正诊断日期*/,
     null/*修正西医诊断名称*/,
-    1/*诊断顺位*/,
+    '01'/*诊断顺位*/,
     null/*诊断机构名称。用于《检查报告》、《检验报告》*/,
     2/*住院者疾病状态代码*/,
     'G51.000'/*补充西医诊断编码*/,
     '2021-07-01'/*补充诊断日期*/,
     null/*补充西医诊断名称*/,
-    1/*补充诊断顺位*/,
+    '01'/*补充诊断顺位*/,
     null/*诊断机构名称。用于《检查报告》、《检验报告》*/,
     '症状名称'/*症状名称。用于 《24h内入出院记录》*/,
     '症状描述'/*症状描述。用于《24h内入出院记录》*/,
@@ -1859,7 +1941,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     null,
     '2021-07-01',
     '脑积水',
-    1,
+    '01',
     '系联总医院')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.ConfirmedDiag:",SQLCODE,": ",%msg,!
@@ -1875,7 +1957,7 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     'G91.200',
     '2021-07-01',
     null,
-    2,
+    '02',
     '系联总医院')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HealthProblem.ConfirmedDiag:",SQLCODE,": ",%msg,!
@@ -1898,11 +1980,11 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     'BRK090'/*中医诊断编码*/,
     '2021-07-01'/*诊断日期*/, 
     null/*中医病名名称*/, 
-    1/*诊断顺位*/, 
+    '01'/*诊断顺位*/, 
     'ZYV260'/*中医症候诊断编码*/, 
     '2021-07-01'/*中医症候诊断日期*/, 
     null/*中医症候名称*/, 
-    1/*中医症候诊断顺位*/)
+    '01'/*中医症候诊断顺位*/)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.TCMConfirmedDiag:",SQLCODE,": ",%msg,!
     
@@ -1922,11 +2004,11 @@ ClassMethod TestHealthProblemGenerate(pDocNo = "Doc123456")
     null/*中医诊断编码*/,
     '2021-07-01'/*诊断日期*/, 
     '关格病'/*中医病名名称*/, 
-    2/*诊断顺位*/, 
+    '02'/*诊断顺位*/, 
     null/*中医症候诊断编码*/, 
     '2021-07-01'/*中医症候诊断日期*/, 
     '腑气不通症'/*中医症候名称*/, 
-    2/*中医症候诊断顺位*/)
+    '02'/*中医症候诊断顺位*/)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.TCMConfirmedDiag:",SQLCODE,": ",%msg,!
 
@@ -1988,10 +2070,12 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     &SQL(insert or update into HCC_SQL_Document.HospitalDischargeDX(
     DocumentNo,
     dchg_disp_Value,
+    dchg_time_Value,
     recv_org_Value)
     values(
     :pDocNo,
     '1',
+    '2021-10-01 12:00:00',
     '系联社区医院')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document.HospitalDischargeDX:",SQLCODE,": ",%msg,!
@@ -2088,7 +2172,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     'BRK090',
     '2020-09-20 10:00:00',
     null,
-    1,
+    '01',
     '3')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.TCM:",SQLCODE,": ",%msg,!
@@ -2108,7 +2192,7 @@ ClassMethod TestHospitalDischargeDXGenerate(pDocNo = "Doc123456")
     'ZZGA30',
     '2020-09-20 10:00:00',
     null,
-    1,
+    '01',
     '3')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HospitalDischargeDX.TCMSyndrome:",SQLCODE,": ",%msg,!
@@ -2161,7 +2245,7 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     'G91.200'/*西医诊断编码*/,
     '2021-07-20'/*诊断日期*/,
     null/*西医诊断名称*/,
-    '1'/*诊断顺位*/,
+    '01'/*诊断顺位*/,
     '系联总医院'/*诊断机构名称。用于《检查报告》、《检验报告》*/,
     '死亡原因'/*死亡原因条目*/,
     '2021-07-21 15:30:00'/*死亡日期时间*/,
@@ -2188,11 +2272,11 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     null/*中医诊断编码*/,
     '2021-06-28'/*诊断日期*/,
     '内科病'/*中医病名名称*/,
-    '1'/*诊断顺位*/,
+    '01'/*诊断顺位*/,
     null/*中医证候编码*/,
     '2021-06-28'/*中医证候诊断日期*/,
     '火毒上攻证'/*中医证候名称*/,
-    '1'/*诊断顺位*/)
+    '01'/*诊断顺位*/)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HospitalCourse.DeathTCMDiag:",SQLCODE,": ",%msg,!
     &SQL(insert or update into HCC_SQL_Document_HospitalCourse.DeathTCMDiag(
@@ -2210,11 +2294,11 @@ ClassMethod TestHospitalCourseGenerate(pDocNo = "Doc123456")
     'BRK090'/*中医诊断编码*/,
     '2021-06-28'/*诊断日期*/,
     null/*中医病名名称*/,
-    '2'/*诊断顺位*/,
+    '02'/*诊断顺位*/,
     'ZBUD90'/*中医证候编码*/,
     '2021-06-28'/*中医证候诊断日期*/,
     null/*中医证候名称*/,
-    '2'/*诊断顺位*/)
+    '02'/*诊断顺位*/)
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HospitalCourse.DeathTCMDiag:",SQLCODE,": ",%msg,!
 }
@@ -2506,7 +2590,7 @@ ClassMethod TestPrenatalEventGenerate(pDocNo = "Doc123456")
     uterus_fundus_hgt_Value)
     Values(
     :pDocNo,
-    '60'/*abdominal_circum_Value*/,
+    '60.1'/*abdominal_circum_Value*/,
     '羊水情况'/*amniotic_fluid_Value*/,
     '0'/*bladder_filling_Value*/,
     '头位难产情况的评估'/*cephalic_dystocia_Value*/,
@@ -3702,7 +3786,7 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     '2021-07-02 10:30:00',
     null,
     null,
-    '1')
+    '01')
     )
     &SQL(Insert into HCC_SQL_Document_HospitalAdmissionDX.Diagnosis(
     DocumentNo,
@@ -3717,7 +3801,7 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     '2021-07-02 10:30:00',
     null,
     '酒精中毒',
-    '2')
+    '02')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HospitalAdmissionDX.Diagnosis:",SQLCODE,": ",%msg,!
     
@@ -3737,11 +3821,11 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     'BWC230',
     '2021-07-02 10:30:00',
     null,
-    1,
+    '01',
     'ZBF001',
     '2021-07-02 10:30:00',
     null,
-    1)
+    '01')
     )
     
     &SQL(Insert into HCC_SQL_Document_HospitalAdmissionDX.TCM(
@@ -3759,11 +3843,11 @@ ClassMethod TestHospitalAdmissionDXGenerate(pDocNo = "Doc123456")
     null,
     '2021-07-02 10:30:00',
     '内科病',
-    1,
+    '01',
     null,
     '2021-07-02 10:30:00',
     '火毒上攻证',
-    2)
+    '02')
     )
     W:(SQLCODE'=0) "HCC_SQL_Document_HospitalAdmissionDX.TCM:",SQLCODE,": ",%msg,!
     
@@ -4541,7 +4625,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         :pDocNo,
         'DE04.10.188.00',
         '体重（kg）',
-        '110.00')
+        '110.01')
         )
         &SQL(Insert into HCC_SQL_Document.VitalSign(
         DocumentNo,
@@ -4552,8 +4636,46 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         :pDocNo,
         'DE04.10.052.00',
         '腹围（cm）',
-        '82')
+        '82.1')
         )
+        if (pMode=14)
+        {
+            &SQL(Insert into HCC_SQL_Document.VitalSign(
+            DocumentNo,
+            type,
+            display,
+            value)
+            Values(
+            :pDocNo,
+            'DE04.10.188.00',
+            '孕前体重（kg）',
+            '110.01')
+            )
+            
+            &SQL(Insert into HCC_SQL_Document.VitalSign(
+            DocumentNo,
+            type,
+            display,
+            value)
+            Values(
+            :pDocNo,
+            'DE04.10.188.00',
+            '产前体重（kg）',
+            '140.01')
+            )
+            
+            &SQL(Insert into HCC_SQL_Document.VitalSign(
+            DocumentNo,
+            type,
+            display,
+            value)
+            Values(
+            :pDocNo,
+            'DE04.10.167.00',
+            '身高（cm）',
+            '168.1')
+            )
+        }
         if (pMode=17)
         {
             &SQL(Insert into HCC_SQL_Document.VitalSign(
@@ -4565,7 +4687,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
             :pDocNo,
             'DE04.50.149.00',
             '血氧饱和度（%）',
-            '98')
+            '99.1')
             )
         }
         if (pMode=18)
@@ -4579,7 +4701,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
             :pDocNo,
             'DE04.50.102.00',
             '血糖检测值（mmol/L）',
-            '8')
+            '10.1')
             )
         }
 
@@ -4596,7 +4718,7 @@ ClassMethod TestVitalSignGenerate(pDocNo = "Doc123456", pMode = 20)
         :pDocNo,
         'DE04.10.188.00',
         '体重（kg）',
-        '110.00')
+        '110.01')
         )
         W:(SQLCODE'=0) "HCC_SQL_Document.VitalSign:",SQLCODE,": ",%msg,!
     }

@@ -4,7 +4,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -26,6 +26,8 @@
 					<xsl:apply-templates select="Header/recordTarget/inpatientNum" mode="inpatientNum"/>
 					<xsl:apply-templates select="Header/recordTarget/telcom" mode="PhoneNumber"/>
 					<patient classCode="PSN" determinerCode="INSTANCE">
+						<!--患者身份证号码，必选-->
+						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>	
 						<!--患者姓名，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
 						<!-- 性别，必选 -->

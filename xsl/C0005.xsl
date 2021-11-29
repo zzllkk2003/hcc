@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
@@ -23,8 +23,10 @@
 					<!--门诊号-->
 					<xsl:apply-templates select="Header/recordTarget/outpatientNum" mode="outpatientNum"/>
 					<!--处方号-->
-					<id root="2.16.156.10011.1.20" extension="???"/>
+					<xsl:apply-templates select="Header/recordTarget/prescriptionNum" mode="prescriptionNum"/>
 					<patient>
+						<!--患者身份证号码，必选-->
+						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>
 						<!--患者姓名，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
 						<!-- 性别，必选 -->
@@ -32,7 +34,18 @@
 						<!-- 年龄 -->
 						<xsl:apply-templates select="Header/recordTarget/patient/ageInYear" mode="Age"/>
 					</patient>
-					<xsl:apply-templates select="Header/recordTarget/providerOrganization" mode="providerOrganization"/>
+					<!-- 开立科室 -->
+					<providerOrganization>
+						<id root="2.16.156.10011.1.26"/>
+						<name><xsl:value-of select="Header/recordTarget/providerOrganization/providerOrganizationId/Display"/></name>
+						<asOrganizationPartOf>
+							<wholeOrganization>
+								<!-- 医疗机构组织机构代码 -->
+								<id root="2.16.156.10011.1.26" extension="{Header/recordTarget/providerOrganization/providerOrganizationId/Value}"/>
+								<name><xsl:value-of select="Header/recordTarget/providerOrganization/providerOrganizationName"/></name>
+							</wholeOrganization>
+						</asOrganizationPartOf>
+					</providerOrganization>
 				</patientRole>
 			</recordTarget>
 			<!-- 文档创作者 -->
@@ -41,9 +54,29 @@
 			<xsl:if test="Header/custodian">
 				<xsl:apply-templates select="Header/custodian" mode="Custodian"/>
 			</xsl:if>
+			<!-- LegalAuthenticator签名 -->
+			<xsl:for-each select="Header/LegalAuthenticators/LegalAuthenticator">
+				<xsl:if test="assignedEntityCode = '处方开立医师' ">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<legalAuthenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</legalAuthenticator>
+				</xsl:if>
+			</xsl:for-each>
+			
 			<!-- Authenticator签名 -->
 			<xsl:for-each select="Header/Authenticators/Authenticator">
-				<xsl:if test="assignedEntityCode = '手术者' or assignedEntityCode = '患者' or assignedEntityCode = '代理人'">
+				<xsl:if test="assignedEntityCode = '处方审核药剂师' or assignedEntityCode = '处方调配药剂师' or assignedEntityCode = '处方核对药剂师' or assignedEntityCode = '处方发放药剂师'">
 					<xsl:comment>
 						<xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
 					<authenticator>
@@ -126,14 +159,14 @@
 							<code code="29548-5" displayName="Diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
 							<text/>
 							<!--条目：诊断-->
-							<xsl:apply-templates select="Diagnosis/Westerns/Western" mode="Diag024"/>
+							<xsl:apply-templates select="Diagnosis/Westerns/Western" mode="Diag005"/>
 							<xsl:apply-templates select="Diagnosis/TCM/TCM/TCMdiag" mode="Diag130"/>
-							<xsl:apply-templates select="Diagnosis/TCM/TCM/TCMdiag" mode="Diag130-2"/>
+							<xsl:apply-templates select="Diagnosis/TCMSyndrome/TCMSyndrome/syndrome" mode="Diag130-2"/>
 						</section>
 					</component>
 					<!-- 
 ********************************************************
-用药章节
+用药章节18776-5
 ********************************************************
 -->
 					<!--用药章节 1..*-->
@@ -204,7 +237,7 @@
 									<!--中药饮片煎煮法-->
 									<entryRelationship typeCode="COMP">
 										<observation classCode="OBS" moodCode="EVN ">
-											<code code="DE08.50.047.00" displayName="中药饮片煎煮法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+											<code code="DE08.50.047.00" displayName="中药煎煮法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
 											<value xsi:type="ST"><xsl:value-of select="MedicationUseHistory/HerbalPieces/HerbalPiece/decocting/Value"/></value>
 										</observation>
 									</entryRelationship>
@@ -256,14 +289,14 @@
 							<entry>
 								<observation classCode="OBS" moodCode="EVN">
 									<code code="DE06.00.179.00" displayName="处方备注信息" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-									<value xsi:type="ST"><xsl:value-of select="TreatmentPlan/notes"/></value>
+									<value xsi:type="ST"><xsl:value-of select="TreatmentPlan/notes/Value"/></value>
 								</observation>
 							</entry>
 							<!--治则治法-->
 							<entry>
 								<observation classCode="OBS" moodCode="EVN">
 									<code code="DE06.00.300.00" displayName="治则治法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-									<value xsi:type="ST"><xsl:value-of select="TreatmentPlan/treatmentPrinciple"/></value>
+									<value xsi:type="ST"><xsl:value-of select="TreatmentPlan/treatmentPrinciple/Value"/></value>
 								</observation>
 							</entry>
 						</section>

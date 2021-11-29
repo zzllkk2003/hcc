@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
@@ -57,15 +57,68 @@
 			<!-- 保管机构-数据录入者信息 -->
 			<xsl:apply-templates select="Header/custodian" mode="Custodian"/>
 			<!-- LegalAuthenticator签名 -->
-			<xsl:apply-templates select="Header/LegalAuthenticator" mode="legalAuthenticator"/>
+			<xsl:for-each select="Header/LegalAuthenticators/LegalAuthenticator">
+				<xsl:if test="assignedEntityCode = '住院医师'">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<legalAuthenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</legalAuthenticator>
+				</xsl:if>
+			</xsl:for-each>
 			<!-- Authenticator签名 -->
-			<xsl:apply-templates select="Header/Authenticators/Authenticator" mode="Authenticator"/>
-			<!--联系人1..*-->
-			<xsl:apply-templates select="Header/Participants" mode="SupportContact"/>
+			<xsl:for-each select="Header/Authenticators/Authenticator">
+				<xsl:if test="assignedEntityCode = '上级医师'">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<authenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</authenticator>
+				</xsl:if>
+			</xsl:for-each>
+			<!-- 检验申请机构及科室 -->
+			<xsl:for-each select="Header/Participants/Participant">
+				<xsl:if test="typeCode = 'NOT'">
+					<xsl:comment>检验申请机构及科室</xsl:comment>
+					<participant typeCode="NOT">
+						<associatedEntity classCode="ECON">
+							<code/>
+							<!--HDSD00.09.038 DE02.01.010.00 联系人电话号码 -->
+							<telecom  use="MP" value="{telcom/Value}"/>
+							<!--联系人-->
+							<associatedPerson>
+								<!--HDSD00.09.039 DE02.01.039.00 联系人姓名 -->
+								<name><xsl:value-of select="wholeOrganization/Display"/></name>
+							</associatedPerson>
+						</associatedEntity>
+					</participant>
+				</xsl:if>
+			</xsl:for-each>
 			<!--关联活动信息-->
 			<xsl:apply-templates select="Header/RelatedDocuments/RelatedDocument" mode="relatedDocument"/>
 			<!--文档中医疗卫生事件的就诊场景,即入院场景记录-->
-			<xsl:apply-templates select="Header/encompassingEncounter" mode="EncompassingEncounter"/>
+			<componentOf typeCode="COMP">
+				<xsl:apply-templates select="Header/encompassingEncounter" mode="EncompassingEncounter0053"/>
+			</componentOf>
+		
 			<!--****************************文档体Body********************-->
 			<component>
 				<structuredBody>
@@ -89,11 +142,11 @@
 							<code code="46241-6" displayName="HOSPITAL ADMISSION DX" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
 							<text/>
 							<!--HDSD00.16.032	DE05.01.024.00	入院诊断-西医诊断编码  条目-->
-							<xsl:apply-templates select="AdmDiag/Diagnoses/Diagnose/diag" mode="Diag024"/>
+							<xsl:apply-templates select="AdmDiag/Diagnoses/Diagnosis[diag/code/Value]" mode="Diag043"/>
 							<!--HDSD00.16.033	DE05.10.130.00	入院诊断-中医病名代码  条目-->
-							<xsl:apply-templates select="AdmDiag/TCM/TCM/diag" mode="Diag130"/>
+							<xsl:apply-templates select="AdmDiag/TCMs/TCM[diag/code/Value]" mode="Diag130"/>
 							<!--HDSD00.16.034	DE05.10.130.00	入院诊断-中医证候代码  条目-->
-							<xsl:apply-templates select="AdmDiag/TCM/TCM/diag" mode="Diag130-2"/>
+							<xsl:apply-templates select="AdmDiag/TCMs/TCM[syndrome/code/Value]" mode="Diag130-2"/>
 							
 						</section>
 					</component>
@@ -103,36 +156,38 @@
 							<code code="11535-2" displayName="Discharge Diagnosis" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
 							<text/>
 							<!--HDSD00.16.008	DE05.01.024.00	出院诊断-西医诊断编码  条目-->
-							<xsl:apply-templates select="DisDiag/Primarys/Primary/diag" mode="Diag024"/>
+							<xsl:apply-templates select="DisDiag/Primarys/Primary[diag/code/Value]" mode="DisDiag043"/>
 							<!--HDSD00.16.009	DE05.10.130.00	出院诊断-中医病名代码  条目-->
-							<xsl:apply-templates select="DisDiag/Primarys/Primary/diag" mode="Diag130"/>
+							<xsl:apply-templates select="DisDiag/Primarys/Primary[diag/code/Value]" mode="Diag130"/>
 							<!--HDSD00.16.010	DE05.10.130.00	出院诊断-中医诊断代码  条目-->
-							<xsl:apply-templates select="DisDiag/Primarys/Primary/diag" mode="Diag130-2"/>>
+							<xsl:apply-templates select="DisDiag/Primarys/Primary[syndrome/code/Value]" mode="Diag130-2"/>
 							<!--HDSD00.16.051	DE02.10.028.00	中医“四诊”观察结果  条目-->
-							<xsl:apply-templates select="DisDiag/Primarys/Primary/diag" mode="Diag028"/>
+							<xsl:apply-templates select="DisDiag/TCMObservation" mode="Diag028"/>
 							<!--HDSD00.16.006	DE04.01.117.00	出院时症状与体征  条目-->
 							<xsl:apply-templates select="DisDiag/dischargeSymptom" mode="Diag117"/>
 							<!--HDSD00.16.004	DE06.00.193.00	出院情况  条目   -->
-							<xsl:apply-templates select="DisDiag/dischargeCondition/Primary" mode="Diag193"/>
+							<xsl:apply-templates select="DisDiag/dischargeCondition" mode="Diag193"/>
 						</section>
 					</component>
 					<!--手术操作章节-->
-					<xsl:apply-templates select="Procedure/Items/ProcedureItem" mode="C0053PC"/>
+					<xsl:apply-templates select="Procedure/Items/ProcedureItem[1]" mode="C0053PC"/>
 					<!-- 治疗计划章节 -->
-					<component>
-						<section>
-							<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" displayName="TREATMENT PLAN" codeSystemName="LOINC"/>
-							<text/>
-							<!--HDSD00.16.048	DE06.00.300.00	治则治法  条目-->
-							<entry>
-								<observation classCode="OBS" moodCode="EVN">
-									<code code="DE06.00.300.00" codeSystem="2.16.156.10011.2.3.3.15" codeSystemName="卫生信息数据元目录" displayName="治则治法"/>
-									<value xsi:type="ST"><xsl:value-of select="TreatmentPlan/treatmentPrinciple/Value"/></value>
-									<!--GB/T 16751.3-1997-->
-								</observation>
-							</entry>
-						</section>
-					</component>
+					<xsl:if test="TreatmentPlan/treatmentPrinciple/Value">
+						<component>
+							<section>
+								<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" displayName="TREATMENT PLAN" codeSystemName="LOINC"/>
+								<text/>
+								<!--HDSD00.16.048	DE06.00.300.00	治则治法  条目-->
+								<entry>
+									<observation classCode="OBS" moodCode="EVN">
+										<code code="DE06.00.300.00" codeSystem="2.16.156.10011.2.3.3.15" codeSystemName="卫生信息数据元目录" displayName="治则治法"/>
+										<value xsi:type="ST"><xsl:value-of select="TreatmentPlan/treatmentPrinciple/Value"/></value>
+										<!--GB/T 16751.3-1997-->
+									</observation>
+								</entry>
+							</section>
+						</component>
+					</xsl:if>
 					<!--住院过程章节-->
 					<component>
 						<section>
@@ -149,7 +204,7 @@
 							<entry>
 								<observation classCode="OBS" moodCode="EVN">
 									<code code="DE05.10.113.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="治疗结果代码"/>
-									<value xsi:type="CD" code="{HospitalCourse/result/Value}" codeSystem="2.16.156.10011.2.3.1.148" codeSystemName="治疗结果代码"/>
+									<value xsi:type="CD" code="{HospitalCourse/result/Value}" displayName="{HospitalCourse/result/Display}" codeSystem="2.16.156.10011.2.3.1.148" codeSystemName="病情转归代码表"/>
 								</observation>
 							</entry>
 							<!--HDSD00.16.036	DE06.00.310.00	实际住院天数  条目-->
@@ -167,19 +222,23 @@
 							<code code="46209-3" codeSystem="2.16.840.1.113883.6.1" displayName="Provider Orders" codeSystemName="LOINC"/>
 							<text/>
 							<!--HDSD00.16.049	DE08.50.047.00	中药煎煮方法  条目-->
-							<entry>
-								<observation classCode="OBS" moodCode="EVN ">
-									<code code="DE08.50.047.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中药煎煮方法"/>
-									<value xsi:type="ST"><xsl:value-of select="ProviderOrder/decoctMethod/Value"/></value>
-								</observation>
-							</entry>
+							<xsl:if test="ProviderOrder/decoctMethod/Value">
+								<entry>
+									<observation classCode="OBS" moodCode="EVN ">
+										<code code="DE08.50.047.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中药煎煮方法"/>
+										<value xsi:type="ST"><xsl:value-of select="ProviderOrder/decoctMethod/Value"/></value>
+									</observation>
+								</entry>
+							</xsl:if>
 							<!--HDSD00.16.050	DE06.00.136.00	中药用药方法  条目-->
-							<entry>
-								<observation classCode="OBS" moodCode="EVN">
-									<code code="DE06.00.136.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中药用药方法"/>
-									<value xsi:type="ST"><xsl:value-of select="ProviderOrder/useMethod/Value"/></value>
-								</observation>
-							</entry>
+							<xsl:if test="ProviderOrder/useMethod/Value">
+								<entry>
+									<observation classCode="OBS" moodCode="EVN">
+										<code code="DE06.00.136.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="中药用药方法"/>
+										<value xsi:type="ST"><xsl:value-of select="ProviderOrder/useMethod/Value"/></value>
+									</observation>
+								</entry>
+							</xsl:if>
 							<!--HDSD00.16.007	DE06.00.287.00	出院医嘱  条目-->
 							<entry typeCode="COMP">
 								<observation classCode="OBS" moodCode="EVN">
@@ -195,23 +254,26 @@
 							<code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="STUDIES SUMMARY"/>
 							<text/>
 							<!--阳性辅助检查结果条目-->
-							<entry typeCode="COMP" contextConductionInd="true">
-								<!--阳性辅助检查结果-->
-								<organizer classCode="BATTERY" moodCode="EVN">
-									<statusCode nullFlavor="UNK"/>
-									<component typeCode="COMP" contextConductionInd="true">
-										<!--HDSD00.16.042	DE04.50.128.00	阳性辅助检查结果  -->
-										<observation classCode="OBS" moodCode="EVN">
-											<code code="DE04.50.128.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-											<value xsi:type="ST"><xsl:value-of select="AdmDiag/AuxExamResults/AuxExamResult/result/Value"/></value>
-										</observation>
-									</component>
-								</organizer>
-							</entry>
+							<xsl:apply-templates select="AdmDiag/AuxExamResults/AuxExamResult"></xsl:apply-templates>
 						</section>
 					</component>
 				</structuredBody>
 			</component>
 		</ClinicalDocument>
+	</xsl:template>
+	<xsl:template match="AdmDiag/AuxExamResults/AuxExamResult">
+		<entry typeCode="COMP" contextConductionInd="true">
+			<!--阳性辅助检查结果-->
+			<organizer classCode="BATTERY" moodCode="EVN">
+				<statusCode nullFlavor="UNK"/>
+				<component typeCode="COMP" contextConductionInd="true">
+					<!--HDSD00.16.042	DE04.50.128.00	阳性辅助检查结果  -->
+					<observation classCode="OBS" moodCode="EVN">
+						<code code="DE04.50.128.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+						<value xsi:type="ST"><xsl:value-of select="result/Value"/></value>
+					</observation>
+				</component>
+			</organizer>
+		</entry>
 	</xsl:template>
 </xsl:stylesheet>

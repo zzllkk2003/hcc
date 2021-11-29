@@ -189,48 +189,53 @@
     <!--确定诊断-中医条目--> 
     <xsl:template match="TCMdiagnoses/TCMConfirmedDiag">
         <xsl:comment>确定诊断-中医条目</xsl:comment>
-          
-        <entry> 
-            <observation classCode="OBS" moodCode="EVN"> 
-                <code code="DE05.10.172.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-中医病名名称"/>  
-                <xsl:comment>确定诊断日期</xsl:comment>   
-                <effectiveTime value="{TCMdiag/date/Value}"/>  
-                <value xsi:type="ST">无</value>  
-                <entryRelationship typeCode="COMP"> 
-                    <observation classCode="OBS" moodCode="EVN"> 
-                        <xsl:comment>确定诊断-中医诊断编码-代码</xsl:comment>   
-                        <code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-中医病名代码"/>  
-                        <value xsi:type="CD" code="{TCMdiag/code/Value}" displayName="{TCMdiag/code/Display}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)"/> 
-                    </observation> 
-                </entryRelationship>  
-                <entryRelationship typeCode="COMP"> 
-                    <observation classCode="OBS" moodCode="EVN"> 
-                        <xsl:comment>确定诊断-中医证候编码-名称</xsl:comment>   
-                        <code code="DE05.10.172.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-中医证候名称"/>  
-                        <value xsi:type="ST"><xsl:value-of select="syndrome/name/Value"/></value> 
-                    </observation> 
-                </entryRelationship>  
-                <entryRelationship typeCode="COMP"> 
-                    <observation classCode="OBS" moodCode="EVN"> 
-                        <xsl:comment>确定诊断-中医证候编码-代码</xsl:comment>  
-                        <code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-中医证候代码"/>  
-                        <value xsi:type="CD" code="{syndrome/code/Value}" displayName="{syndrome/code/Display}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)"/> 
-                    </observation> 
-                </entryRelationship>  
-                <xsl:comment>入院诊断顺位</xsl:comment>  
-                <entryRelationship typeCode="COMP"> 
-                    <observation classCode="OBS" moodCode="EVN"> 
-                        <code code="DE05.01.080.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断顺位"/>  
-                        <value xsi:type="INT" value="{TCMdiag/orders/Value}"/> 
-                    </observation> 
-                </entryRelationship> 
-            </observation> 
-        </entry>  
+          <xsl:choose>
+              <xsl:when test="(TCMdiag/code/Value) and (syndrome/code/Value)">
+                  <entry> 
+                      <observation classCode="OBS" moodCode="EVN"> 
+                          <code code="DE05.10.172.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-中医病名名称"/>  
+                          <xsl:comment>确定诊断日期</xsl:comment>   
+                          <effectiveTime value="{TCMdiag/date/Value}"/>  
+                          <value xsi:type="ST">无</value>  
+                          <entryRelationship typeCode="COMP"> 
+                              <observation classCode="OBS" moodCode="EVN"> 
+                                  <xsl:comment>确定诊断-中医诊断编码-代码</xsl:comment>   
+                                  <code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-中医病名代码"/>  
+                                   <value xsi:type="CD" code="{TCMdiag/code/Value}" displayName="{TCMdiag/code/Display}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)"/>
+                              </observation> 
+                          </entryRelationship>  
+                          <entryRelationship typeCode="COMP"> 
+                              <observation classCode="OBS" moodCode="EVN"> 
+                                  <xsl:comment>确定诊断-中医证候编码-名称</xsl:comment>   
+                                  <code code="DE05.10.172.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-中医证候名称"/>  
+                                  <value xsi:type="ST"><xsl:value-of select="syndrome/name/Value"/></value> 
+                              </observation> 
+                          </entryRelationship>  
+                          <entryRelationship typeCode="COMP"> 
+                              <observation classCode="OBS" moodCode="EVN"> 
+                                  <xsl:comment>确定诊断-中医证候编码-代码</xsl:comment>  
+                                  <code code="DE05.10.130.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-中医证候代码"/>  
+                                   <value xsi:type="CD" code="{syndrome/code/Value}" displayName="{syndrome/code/Display}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)"/>                             
+                              </observation> 
+                          </entryRelationship>  
+                          <xsl:comment>入院诊断顺位</xsl:comment>  
+                          <entryRelationship typeCode="COMP"> 
+                              <observation classCode="OBS" moodCode="EVN"> 
+                                  <code code="DE05.01.080.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="入院诊断顺位"/>  
+                                  <value xsi:type="INT" value="{TCMdiag/orders/Value}"/> 
+                              </observation> 
+                          </entryRelationship> 
+                      </observation> 
+                  </entry>  
+              </xsl:when>
+          </xsl:choose>
     </xsl:template>
     <!--确定诊断-西医条目-->  
     <xsl:template match="diagnoses/ConfirmedDiag">
         <xsl:comment>确定诊断-西医条目</xsl:comment>
-        <entry> 
+       <xsl:choose> 
+           <xsl:when test="diag/code/Value"> 
+           <entry> 
             <observation classCode="OBS" moodCode="EVN"> 
                 <code code="DE05.01.025.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-西医诊断名称"/>  
               <xsl:comment>确定诊断日期</xsl:comment>  
@@ -239,15 +244,8 @@
                 <entryRelationship typeCode="COMP"> 
                     <observation classCode="OBS" moodCode="EVN"> 
                         <xsl:comment>确定诊断-西医诊断编码-代码</xsl:comment> 
-                        <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-西医诊断编码"/>  
-                      <xsl:choose>
-                          <xsl:when test="diag/code/Value">     
-                             <value xsi:type="ST"><xsl:value-of select="diag/name/Value"/></value>
-                          </xsl:when>
-                          <xsl:otherwise>
-                             <value xsi:type="CD" code="{diag/code/Value}" displayName="{diag/code/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
-                          </xsl:otherwise>
-                      </xsl:choose>    
+                        <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="确定诊断-西医诊断编码"/>                  
+                         <value xsi:type="CD" code="{diag/code/Value}" displayName="{diag/code/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>    
                     </observation> 
                 </entryRelationship>  
                 <xsl:comment>入院诊断顺位</xsl:comment>  
@@ -258,7 +256,11 @@
                     </observation> 
                 </entryRelationship> 
             </observation> 
-        </entry>  
+        </entry>    
+           </xsl:when>                
+           <xsl:otherwise> 
+           </xsl:otherwise>
+       </xsl:choose> 
     </xsl:template>
     <!--修正诊断-中医条目-->  
     <xsl:template match="TCMRevisedDiag">

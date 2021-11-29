@@ -43,8 +43,22 @@
                     </providerOrganization>
                 </patientRole>
             </recordTarget>
-            <!-- 文档创作者 -->
-            <xsl:apply-templates select="Header/author" mode="AuthorNoOrganization"/>
+            <!--文档创作者 -->
+            <xsl:for-each select="Header/author">
+                <xsl:comment>文档作者</xsl:comment>
+                <author typeCode="AUT" contextControlCode="OP">
+                    <time value="{time}"/>
+                    <assignedAuthor classCode="ASSIGNED">
+                        <id root="2.16.156.10011.1.7" extension="{assignedPersonId}"/>
+                        <code displayName="护士"/>
+                        <assignedPerson>
+                            <name>
+                                <xsl:value-of select="assignedPersonName/Value"/>
+                            </name>
+                        </assignedPerson>
+                    </assignedAuthor>
+                </author>
+            </xsl:for-each>
             <!-- 保管机构-数据录入者信息 --><xsl:comment>保管机构</xsl:comment>
             <custodian typeCode="CST">
                 <assignedCustodian classCode="ASSIGNED">
@@ -180,15 +194,15 @@
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE05.01.024.00" displayName="诊断代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
                         <!--value为编码类型（CD），不能出现属性=""的情况，因此某属性取不到值时该属性不能输出-->
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10">
                             <xsl:if test="diag/code/Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="diag/code/Value" />
                                 </xsl:attribute>
                             </xsl:if>
-                            <xsl:if test="diag/name/Value">
+                            <xsl:if test="diag/code/Display">
                                 <xsl:attribute name="displayName">
-                                    <xsl:value-of select="diag/name/Value" />
+                                    <xsl:value-of select="diag/code/Display" />
                                 </xsl:attribute>
                             </xsl:if>
                         </value>
@@ -279,8 +293,7 @@
                         <statusCode/>
                         <component>
                             <observation classCode="OBS" moodCode="EVN">
-                                <code code="DE04.10.174.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目
-                                    录" displayName="收缩压"/>
+                                <code code="DE04.10.174.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="收缩压"/>
                                 <value xsi:type="PQ" unit="mmHg">
                                     <xsl:for-each select="VitalSign">
                                         <xsl:if test="type = 'DE04.10.174.00'">
@@ -294,8 +307,7 @@
                         </component>
                         <component>
                             <observation classCode="OBS" moodCode="EVN">
-                                <code code="DE04.10.176.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目
-                                    录" displayName="舒张压"/>
+                                <code code="DE04.10.176.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="舒张压"/>
                                 <value xsi:type="PQ" unit="mmHg">
                                     <xsl:for-each select="VitalSign">
                                         <xsl:if test="type = 'DE04.10.176.00'">
@@ -355,7 +367,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE03.00.080.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="饮食情况代码"/>
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.34" codeSystemName="饮食情况代码">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.34" codeSystemName="饮食情况代码表">
                             <xsl:if test="Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="Value" />
@@ -381,7 +393,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE06.00.291.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="饮食指导代码"/>
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.263" codeSystemName="饮食指导代码">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.263" codeSystemName="饮食指导代码表">
                             <xsl:if test="Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="Value" />
@@ -402,11 +414,11 @@
     <xsl:template match="NursingRecord">
         <component>
             <section>
-                <code code="X-NN" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Nursing Note"/>
+                <code displayName="护理记录"/>
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE06.00.211.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理等级代码"/>
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.259" codeSystemName="护理等级代码">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.259" codeSystemName="护理等级代码表">
                             <xsl:if test="nursingLevel/Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="nursingLevel/Value" />
@@ -423,7 +435,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE06.00.212.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="护理类型代码"/>
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.260" codeSystemName="护理类型代码">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.260" codeSystemName="护理类型代码表">
                             <xsl:if test="nursingType/Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="nursingType/Value" />
@@ -446,7 +458,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE06.00.229.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="气管护理代码"/>
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.50" codeSystemName="气管护理代码">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.50" codeSystemName="气管护理代码表">
                             <xsl:if test="tracheaNurse/Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="tracheaNurse/Value" />
@@ -481,7 +493,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE06.00.283.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="心理护理代码"/>
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.51" codeSystemName="心理护理代码">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.51" codeSystemName="心理护理代码表">
                             <xsl:if test="psychologyNurse/Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="psychologyNurse/Value" />
@@ -498,7 +510,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE06.00.178.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="安全护理代码"/>
-                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.52" codeSystemName="安全护理代码">
+                        <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.2.52" codeSystemName="安全护理代码表">
                             <xsl:if test="saftyNurse/Value">
                                 <xsl:attribute name="code">
                                     <xsl:value-of select="saftyNurse/Value" />
@@ -647,7 +659,7 @@
                         <entryRelationship typeCode="COMP">
                             <observation classCode="OBS" moodCode="EVN">
                                 <code code="DE06.00.202.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="隔离种类代码"/>
-                                <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.261" codeSystemName="隔离种类代码">
+                                <value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.261" codeSystemName="隔离种类代码表">
                                     <xsl:if test="isolationType/Value">
                                         <xsl:attribute name="code">
                                             <xsl:value-of select="isolationType/Value" />

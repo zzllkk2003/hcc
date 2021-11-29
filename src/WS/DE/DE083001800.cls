@@ -1,8 +1,6 @@
 Class WS.DE.DE083001800 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %String(MAXLEN = 6, MINLEN = 6);
-
 Parameter Category = "卫生人员";
 
 Parameter Description = "卫生监督员胸牌号码";
@@ -12,6 +10,8 @@ Parameter Format = "N6";
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
+
+Property Value As %String(PATTERN = "6N");
 
 Storage Default
 {

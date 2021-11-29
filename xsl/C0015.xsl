@@ -4,7 +4,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -34,18 +34,9 @@
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
 						<!-- 性别，必选 -->
 						<xsl:apply-templates select="Header/recordTarget/patient/administrativeGender" mode="Gender"/>
-						<!-- 出生时间1..1 -->
-						<xsl:apply-templates select="Header/recordTarget/patient/birthTime" mode="BirthTime"/>
-						<!-- 婚姻状况1..1 -->
-						<xsl:apply-templates select="Header/recordTarget/patient/maritalStatusCode" mode="MaritalStatus"/>
-						<!-- 民族1..1 -->
-						<xsl:apply-templates select="Header/recordTarget/patient/ethnicGroupCode" mode="EthnicGroup"/>
-						<!-- 出生地 -->
-						<xsl:apply-templates select="Header/recordTarget/patient/birthplace" mode="BirthPlace"/>
-						<!-- 工作单位 -->
-						<xsl:apply-templates select="Header/recordTarget/patient" mode="Employer"/>
-						<!--职业状况-->
-						<xsl:apply-templates select="Header/recordTarget/patient/occupationCode" mode="Occupation"/>
+						<!-- 年龄 -->
+						<xsl:apply-templates select="Header/recordTarget/patient/ageInYear"
+							mode="Age"/>
 					</patient>
 				</patientRole>
 			</recordTarget>
@@ -127,8 +118,10 @@
 												<asOrganizationPartOf classCode="PART">
 												<wholeOrganization classCode="ORG"
 												determinerCode="INSTANCE">
+												<xsl:if test="Header/encompassingEncounter/Locations/Location/areaId">
 													<id root="2.16.156.10011.1.27" extension="{Header/encompassingEncounter/Locations/Location/areaId}"/>
-													<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/areaName/Value"/></name>
+												</xsl:if>
+												<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/areaName/Value"/></name>
 												<!--XXX医院 -->
 												<xsl:comment>医院</xsl:comment>
 												<asOrganizationPartOf classCode="PART">
@@ -322,7 +315,7 @@
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE05.01.044.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录" displayName="胎方位代码"/>
-						<value xsi:type="CD" code="{fetalOrientation/Value}"
+						<value xsi:type="CD" code="{fetalOrientation/Value}" displayName="{fetalOrientation/Display}"
 							codeSystem="2.16.156.10011.2.3.1.106" codeSystemName="胎方位代码表"/>
 					</observation>
 				</entry>
@@ -456,7 +449,7 @@
 						<code code="DE05.01.003.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录" displayName="产妇会阴裂伤程度代码"/>
 						<value xsi:type="CD" code="{perinealLacerationDegree/Value}"
-							codeSystem="2.16.156.10011.2.3.1.109" codeSystemName="产妇会阴裂伤程度代码表"/>
+							codeSystem="2.16.156.10011.2.3.1.109" codeSystemName="会阴裂伤情况代码表" displayName="{perinealLacerationDegree/Display}"/>
 					</observation>
 				</entry>
 				<xsl:comment>会阴血肿标志</xsl:comment>
@@ -493,7 +486,7 @@
 						<code code="DE06.00.073.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录" displayName="麻醉方法代码"/>
 						<value xsi:type="CD" code="{anesthesiaMethod/Value}"
-							codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="麻醉方法代码表"/>
+							codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="麻醉方法代码表" displayName="{anesthesiaMethod/Display}"/>
 					</observation>
 				</entry>
 				<xsl:comment>麻醉药物名称</xsl:comment>
@@ -634,7 +627,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE05.10.007.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{diag/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="产后诊断"/>
 						<value xsi:type="ST">
 							<xsl:value-of select="diag/Value"/>
 						</value>
@@ -645,7 +638,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE06.00.218.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{obsTime/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="产后观察日期时间"/>
 						<value xsi:type="TS" value="{obsTime/Value}"/>
 					</observation>
 				</entry>
@@ -654,7 +647,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.246.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{checkTime/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="产后检查时间（min）"/>
 						<value xsi:type="PQ" value="{checkTime/Value}" unit="min"/>
 					</observation>
 				</entry>
@@ -666,14 +659,14 @@
 						<component>
 							<observation classCode="OBS" moodCode="EVN">
 								<code code="DE04.10.174.00" codeSystem="2.16.156.10011.2.2.1"
-									codeSystemName="卫生信息数据元目录" displayName="{systolic/displayName}"/>
+									codeSystemName="卫生信息数据元目录" displayName="收缩压"/>
 								<value xsi:type="PQ" value="{systolic/Value}" unit="mmHg"/>
 							</observation>
 						</component>
 						<component>
 							<observation classCode="OBS" moodCode="EVN">
 								<code code="DE04.10.176.00" codeSystem="2.16.156.10011.2.2.1"
-									codeSystemName="卫生信息数据元目录" displayName="{diastolic/displayName}"/>
+									codeSystemName="卫生信息数据元目录" displayName="舒张压"/>
 								<value xsi:type="PQ" value="{diastolic/Value}" unit="mmHg"/>
 							</observation>
 						</component>
@@ -684,7 +677,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.118.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{pulse/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="产后脉搏（次/min ）"/>
 						<value xsi:type="PQ" value="{pulse/Value}" unit="次/min"/>
 					</observation>
 				</entry>
@@ -693,7 +686,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.206.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{heartRate/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="产后心率（次/min ）"/>
 						<value xsi:type="PQ" value="{heartRate/Value}" unit="/次min"/>
 					</observation>
 				</entry>
@@ -703,7 +696,7 @@
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.012.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录"
-							displayName="{postpartumHemorrhage/displayName}"/>
+							displayName="产后出血量（mL）"/>
 						<value xsi:type="PQ" value="{postpartumHemorrhage/Value}" unit="ml"/>
 					</observation>
 				</entry>
@@ -713,7 +706,7 @@
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.245.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录"
-							displayName="{uterineContraction/displayName}"/>
+							displayName="产后宫缩"/>
 						<value xsi:type="ST">
 							<xsl:value-of select="uterineContraction/Value"/>
 						</value>
@@ -725,7 +718,7 @@
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.067.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录"
-							displayName="{uterusFundusHeight/displayName}"/>
+							displayName="产后宫底高度（cm）"/>
 						<value xsi:type="PQ" value="{uterusFundusHeight/Value}" unit="cm"/>
 					</observation>
 				</entry>
@@ -756,9 +749,13 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE02.01.040.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{gender/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="新生儿性别代码"/>
 						<value xsi:type="CD" code="{gender/Value}"
-							codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="性别代码表"/>
+							codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表(GB/T 2261.1)">
+							<xsl:if test="gender/Display">
+								<xsl:attribute name="displayName"><xsl:value-of select="gender/Display"/></xsl:attribute>
+							</xsl:if>
+						</value>
 					</observation>
 				</entry>
 				<!--新生儿出生体重-->
@@ -766,7 +763,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.019.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{weight/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="新生儿出生体重（g）"/>
 						<value xsi:type="PQ" value="{weight/Value}" unit="g"/>
 					</observation>
 				</entry>
@@ -775,7 +772,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.018.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{height/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="新生儿出生身长（cm）"/>
 						<value xsi:type="PQ" value="{height/Value}" unit="cm"/>
 					</observation>
 				</entry>
@@ -784,7 +781,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE05.10.168.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{size/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="产瘤大小"/>
 						<value xsi:type="ST">
 							<xsl:value-of select="size/Value"/>
 						</value>
@@ -795,7 +792,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE05.10.167.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{position/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="产瘤部位"/>
 						<value xsi:type="ST">
 							<xsl:value-of select="position/Value"/>
 						</value>
@@ -809,7 +806,7 @@
 	<xsl:template match="DeliveryAssessment">
 		<component>
 			<section>
-				<code code="51848-0" displayName="Assessment Note"
+				<code code="51848-0" displayName="Assessment note"
 					codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
 				<text/>
 				<!--Apgar评分间隔时间代码-->
@@ -839,7 +836,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE05.10.001.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{Apgar/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="Apgar评分值"/>
 						<value xsi:type="INT" value="{Apgar/Value}"/>
 					</observation>
 				</entry>

@@ -32,9 +32,8 @@
                     <patient classCode="PSN" determinerCode="INSTANCE">
                         <!--患者姓名，必选-->
                         <xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
-                        <xsl:apply-templates select="Header/recordTarget/patient/ageInYear" mode="Age"/>
-                        <!-- 性别，必选 -->
                         <xsl:apply-templates select="Header/recordTarget/patient/administrativeGender" mode="Gender"/>
+                       
                         <xsl:apply-templates select="Header/recordTarget/patient/birthTime" mode="BirthTime"></xsl:apply-templates>
                         <xsl:comment> 婚姻状况</xsl:comment>
                         <xsl:apply-templates select="Header/recordTarget/patient/maritalStatusCode" mode="MaritalStatus"></xsl:apply-templates>
@@ -42,6 +41,7 @@
                         <xsl:apply-templates select="Header/recordTarget/patient/ethnicGroupCode" mode="EthnicGroup"/>
                         <xsl:comment>出生地</xsl:comment>
                         <xsl:apply-templates select="Header/recordTarget/patient/birthplace" mode="BirthPlace"/>
+                        <xsl:apply-templates select="Header/recordTarget/patient/ageInYear" mode="Age"/>
                         <xsl:comment>工作单位</xsl:comment>
                         <xsl:apply-templates select="Header/recordTarget/patient" mode="Employer"/>
                         <xsl:comment>常住</xsl:comment>
@@ -105,7 +105,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE06.00.261.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{conceptionForm/displayName}"/>
-                        <value xsi:type="CD" code="{conceptionForm/Value}" displayName="自然" codeSystem="2.9999" codeSystemName="受孕形式代码表"/>
+                        <value xsi:type="CD" code="{conceptionForm/Value}" displayName="自然" codeSystem="2.16.156.10011.2.3.2.44" codeSystemName="受孕形式代码表"/>
                     </observation>
                 </entry>
                 <entry>
@@ -124,6 +124,12 @@
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE05.10.161.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{abnormal/displayName}"/>
                         <value xsi:type="ST"><xsl:value-of select="abnormal/Value"/></value>
+                    </observation>
+                </entry>
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="DE05.10.070.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{specialCase/displayName}"/>
+                        <value xsi:type="ST"><xsl:value-of select="specialCase/Value"/></value>
                     </observation>
                 </entry>
             </section>
@@ -164,11 +170,16 @@
             </xsl:when>
             <xsl:when test="type='DE04.10.176.00'">             
             </xsl:when>
-            <xsl:when test="substring-after(display,'（') != ''">
+            <xsl:when test="(substring-after(display,'（') != '')or(substring-after(display,'(') != '')">
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="{type}" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{display}"/>
-                        <value xsi:type="PQ" value="{value}" unit="{substring-before(substring-after(display,'（'),'）')}"/>
+                        <xsl:if test="substring-after(display,'（') != ''">
+                            <value xsi:type="PQ" value="{value}" unit="{substring-before(substring-after(display,'（'),'）')}"/>
+                        </xsl:if>
+                        <xsl:if test="substring-after(display,'(') != ''">
+                            <value xsi:type="PQ" value="{value}" unit="{substring-before(substring-after(display,'('),')')}"/>
+                        </xsl:if>   
                     </observation>
                 </entry>
             </xsl:when>
@@ -197,13 +208,13 @@
                 </entry>
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE04.10.052.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{abdominalCircum/displayName} "/>
+                        <code code="DE04.10.052.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{abdominalCircum/displayName}"/>
                         <value xsi:type="PQ" value="{abdominalCircum/Value}" unit="cm"/>
                     </observation>
                 </entry>
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE05.01.044.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="胎方位代码 "/>
+                        <code code="DE05.01.044.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="胎方位代码"/>
                         <value xsi:type="CD" code="{fetalOrientation/Value}" displayName="{fetalOrientation/Display}" codeSystem="2.16.156.10011.2.3.1.106" codeSystemName="胎方位代码表"/>
                     </observation>
                 </entry>
@@ -258,13 +269,13 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE05.10.155.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="胎膜情况代码"/>
-                        <value xsi:type="CD" code="{fetalMembrane/Value}" displayName="{fetalMembrane/Display}" codeSystem="2.16.156.10011.2.3.1.10" codeSystemName="胎膜情况代码表"/>
+                        <value xsi:type="CD" code="{fetalMembrane/Value}" displayName="{fetalMembrane/Display}" codeSystem="2.16.156.10011.2.3.2.45" codeSystemName="胎膜情况代码表"/>
                     </observation>
                 </entry>
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE04.10.256.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="破膜方式代码"/>
-                        <value xsi:type="CD" code="{fetalMembraneBreaking/Value}" displayName="{fetalMembraneBreaking/Display}" codeSystem="2.9999" codeSystemName="破膜方式代码表"/>
+                        <value xsi:type="CD" code="{fetalMembraneBreaking/Value}" displayName="{fetalMembraneBreaking/Display}" codeSystem="2.16.156.10011.2.3.2.46" codeSystemName="破膜方式代码表"/>
                     </observation>
                 </entry>
                 <entry>
@@ -294,7 +305,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE04.50.139.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查方式代码"/>
-                        <value xsi:type="CD" code="{inspectionMethod/Value}" displayName="{inspectionMethod/Display}" codeSystem="2.9999" codeSystemName="检查方式代码表"/>
+                        <value xsi:type="CD" code="{inspectionMethod/Value}" displayName="{inspectionMethod/Display}" codeSystem="2.16.156.10011.2.3.2.46" codeSystemName="检查方式代码表"/>
                     </observation>
                 </entry>
             </section>
@@ -336,7 +347,7 @@
     <!-- 联系人模板 -->
     <xsl:template match="Header/Participants/Participant">
         <xsl:choose>
-            <xsl:when test="typeCode = 'CON'">
+            <xsl:when test="typeCode = 'NOT'">
                 <participant typeCode="NOT">
                 <associatedEntity classCode="ECON">
                   <xsl:comment>联系人电话</xsl:comment>  

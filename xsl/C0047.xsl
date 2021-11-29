@@ -4,7 +4,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -67,7 +67,7 @@
 				
 			<!-- Authenticator签名 -->
 			<xsl:for-each select="Header/Authenticators/Authenticator">
-				<xsl:if test="assignedEntityCode = '手术者' or contains(assignedEntityCode , '医师')">
+				<xsl:if test="assignedEntityCode = '手术者' or assignedEntityCode ='医师' or  assignedEntityCode ='麻醉医师'">
 					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
 					<authenticator>
 						<!-- DE09.00.053.00	签名日期时间  -->
@@ -91,34 +91,34 @@
 			</xsl:for-each>
 			
 			<!--讨论成员信息-->
-			<participant typeCode="CON">
-				<associatedEntity classCode="ECON">
-					<xsl:comment>检验申请机构及科室</xsl:comment>
-					<!--参加讨论人员名单-->
-					<associatedPerson>
-						<xsl:for-each select="Header/Participants/Participant">
-							<xsl:if test="typeCode = 'CON'">
-								<name><xsl:value-of select="associatedPersonName/Value"/></name>
-							</xsl:if>
-						</xsl:for-each>
-					</associatedPerson>
-				</associatedEntity>
-			</participant>
+			<xsl:for-each select="Header/Participants/Participant[typeCode = 'CON'][1]">
+				<xsl:comment>讨论成员信息</xsl:comment>
+				<participant typeCode="CON">
+					<!--联系人@classCode：CON，固定值，表示角色是联系人 -->
+					<associatedEntity classCode="ECON">
+						<!--联系人-->
+						<associatedPerson>
+							<!--讨论人-->
+							<xsl:apply-templates select="/Document/Header/Participants/Participant[typeCode='CON']/associatedPersonName"></xsl:apply-templates>
+						</associatedPerson>
+					</associatedEntity>
+				</participant>
+			</xsl:for-each>
 			
-			<!--讨论主持人信息-->
-			<xsl:for-each select="Header/Participants/Participant">
-				<xsl:if test="typeCode = 'ORG'">
-					<xsl:comment>检验申请机构及科室</xsl:comment>
-					<participant typeCode="ORG">
-						<associatedEntity classCode="ECON">
-							<code displayName="主持人"/>
-							<associatedPerson>
-								<!--主持人姓名-->
-								<name><xsl:value-of select="associatedPersonName/Value"/></name>
-							</associatedPerson>
-						</associatedEntity>
-					</participant>
-				</xsl:if>
+			<!--主持人..*-->
+			<xsl:for-each select="Header/Participants/Participant[typeCode = 'ORG'][1]">
+				<xsl:comment>主持人信息</xsl:comment>
+				<participant typeCode="ORG">
+					<!--联系人@classCode：CON，固定值，表示角色是联系人 -->
+					<associatedEntity classCode="ECON">
+						<!--联系人-->
+						<code displayName="主持人"/>
+						<associatedPerson>
+							<!--主持人-->
+							<xsl:apply-templates select="/Document/Header/Participants/Participant[typeCode='ORG']/associatedPersonName"></xsl:apply-templates>
+						</associatedPerson>
+					</associatedEntity>
+				</participant>
 			</xsl:for-each>
 			<!--关联活动信息-->
 			<xsl:if test="Header/RelatedDocuments/RelatedDocument">
@@ -238,7 +238,7 @@
 					codeSystemName="卫生信息数据元目录" displayName="术前诊断编码"/>
 				<xsl:if test="diagnosisCode/Value">
 					<value xsi:type="CD" code="{diagnosisCode/Value}"
-						codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="ICD-10诊断编码表"/>
+						codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{diagnosisCode/Display}"/>
 				</xsl:if>
 				
 			</observation>
@@ -267,8 +267,8 @@
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE06.00.093.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录" displayName="拟实施手术及操作编码"/>
-						<value xsi:type="CD" code="{procedures/Procedure[1]/code/Value}"
-							codeSystem="2.9999" codeSystemName="ICD-9-CM-3"/>
+						<value xsi:type="CD" code="{procedures/Procedure[1]/code/Value}" displayName="{procedures/Procedure[1]/code/Display}"
+							codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表(ICD-9-CM)"/>
 					</observation>
 				</entry>
 				<xsl:comment>拟实施手术目标部位名称</xsl:comment>
@@ -294,8 +294,8 @@
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE06.00.073.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录" displayName="拟实施麻醉方法代码"/>
-						<value xsi:type="CD" code="{procedures/Procedure[1]/anesthesiaCode/Value}"
-							codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="实施麻醉方法代码表"/>
+						<value xsi:type="CD" code="{procedures/Procedure[1]/anesthesiaCode/Value}" displayName="{procedures/Procedure[1]/anesthesiaCode/Display}"
+							codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="麻醉方法代码表"/>
 					</observation>
 				</entry>
 			</section>
@@ -392,5 +392,14 @@
 			</section>
 		</component>
 	</xsl:template>
-
+	<xsl:template match="/Document/Header/Participants/Participant[typeCode='ORG']/associatedPersonName">
+		<name>
+			<xsl:value-of select="Value"/>
+		</name>
+	</xsl:template>
+	<xsl:template match="/Document/Header/Participants/Participant[typeCode='CON']/associatedPersonName">
+		<name>
+			<xsl:value-of select="Value"/>
+		</name>
+	</xsl:template>
 </xsl:stylesheet>

@@ -1,3 +1,4 @@
+/// 该数据元实际表达医疗机构10位组织机构编码
 Class WS.DE.DE081005200 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
@@ -11,7 +12,7 @@ Parameter ValueSet = "WS.218.2002";
 
 Parameter WSDT = "S3";
 
-Property Value As WS.DT.CodedString(ValueSet = "WS.218.2002");
+Property Value As %String(MAXLEN = 10, MINLEN = 10);
 
 Storage Default
 {

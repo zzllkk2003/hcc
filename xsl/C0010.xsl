@@ -4,7 +4,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -32,6 +32,8 @@
 					<!--电子申请单号-->
 					<xsl:apply-templates select="Header/recordTarget/MRN" mode="MRN"/>
 					<patient classCode="PSN" determinerCode="INSTANCE">
+						<!--患者身份证号码，必选-->
+						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>
 						<!--患者姓名，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName"
 							mode="Name"/>
@@ -196,8 +198,8 @@
 						<!--术前诊断编码-->
 						<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录" displayName="术前诊断编码"/>
-						<value xsi:type="CD" codeSystem="2.16.156.10011.2.3.3.11.3"
-							codeSystemName="诊断代码表（ICD-10）">
+						<value xsi:type="CD" codeSystem="2.16.156.10011.2.3.3.11"
+							codeSystemName="ICD-10">
 							<xsl:if test="Items/Item[1]/diagnosisCode/Value">
 								<xsl:attribute name="code">
 									<xsl:value-of select="Items/Item[1]/diagnosisCode/Value"/>
@@ -350,7 +352,7 @@
 								<code code="DE04.50.010.00" codeSystem="2.16.156.10011.2.2.1"
 									codeSystemName="卫生信息数据元目录" displayName="Rh（D）血型代码"/>
 								<value xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.250"
-									codeSystemName="Rh（D）血型代码表">
+									codeSystemName="Rh(D)血型代码表">
 									<xsl:if test="bloodRh/Value">
 										<xsl:attribute name="code">
 											<xsl:value-of select="bloodRh/Value"/>
@@ -513,7 +515,7 @@
 		<entry>
 			<procedure classCode="PROC" moodCode="EVN">
 				<code xsi:type="CD" codeSystem="2.16.156.10011.2.3.3.12"
-					codeSystemName="手术(操作)代码表（ICD-9-CM）">
+					codeSystemName="手术(操作)代码表(ICD-9-CM)">
 					<xsl:if test="code/Value">
 						<xsl:attribute name="code">
 							<xsl:value-of select="code/Value"/>

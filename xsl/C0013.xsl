@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
@@ -21,11 +21,11 @@
 			<recordTarget typeCode="RCT" contextControlCode="OP">
 				<patientRole classCode="PAT">
 					<!--门诊号-->
-					<xsl:apply-templates select="Header/recordTarget/patient/outpatientNum" mode="outpatientNum"/>
+					<xsl:apply-templates select="Header/recordTarget/outpatientNum" mode="outpatientNum"/>
 					<!--住院号-->
-					<xsl:apply-templates select="Header/recordTarget/patient/inpatientNum" mode="inpatientNum"/>
-					<!--电子申请单号-->
-					<xsl:apply-templates select="Header/recordTarget/patient/MRN" mode="MRN"/>
+					<xsl:apply-templates select="Header/recordTarget/inpatientNum" mode="inpatientNum"/>
+					<!-- 电子申请单编号 -->
+					<xsl:apply-templates select="Header/recordTarget/labOrderNum" mode="labOrderNum"/>
 					<patient classCode="PSN" determinerCode="INSTANCE">
 						<!--患者身份证号码，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>
@@ -42,12 +42,25 @@
 			<xsl:apply-templates select="Header/author" mode="AuthorWithOrganization"/>
 			<!-- 保管机构-数据录入者信息 -->
 			<xsl:apply-templates select="Header/custodian" mode="Custodian"/>
-			<!-- LegalAuthenticator签名 -->
-			<xsl:apply-templates select="Header/LegalAuthenticator" mode="legalAuthenticator"/>
 			<!-- Authenticator签名 -->
-			<xsl:apply-templates select="Header/Authenticators/Authenticator" mode="Authenticator"/>
-			<!--联系人1..*-->
-			<xsl:apply-templates select="Header/Participants" mode="SupportContact"/>
+			<xsl:for-each select="Header/Authenticators/Authenticator">
+				<xsl:if test="assignedEntityCode = '医师'">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<authenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</authenticator>
+				</xsl:if>
+			</xsl:for-each>
 			<!--关联活动信息-->
 			<xsl:apply-templates select="Header/RelatedDocuments/RelatedDocument" mode="relatedDocument"/>
 			<!--文档中医疗卫生事件的就诊场景,即入院场景记录-->
@@ -76,7 +89,7 @@
 										<!-- Rh血型 -->
 										<observation classCode="OBS" moodCode="EVN">
 											<code code="DE04.50.010.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="Rh（D）血型代码"/>
-											<value xsi:type="CD" code="{LabTest/bloodRh/Value}" displayName="{LabTest/bloodRh/Display}" codeSystem="2.16.156.10011.2.3.1.250" codeSystemName="Rh（D）血型代码表"/>
+											<value xsi:type="CD" code="{LabTest/bloodRh/Value}" displayName="{LabTest/bloodRh/Display}" codeSystem="2.16.156.10011.2.3.1.250" codeSystemName="Rh(D)血型代码表"/>
 										</observation>
 									</component>
 								</organizer>
@@ -93,7 +106,7 @@
 								<observation classCode="OBS" moodCode="EVN">
 									<!--疾病诊断编码-->
 									<code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
-									<value xsi:type="CD" code="S06.902" displayName="创伤性脑损伤" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
+									<value xsi:type="CD" code="{Problem/preliminaryDiag/code/Value}" displayName="{Problem/preliminaryDiag/code/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
 								</observation>
 							</entry>
 						</section>
@@ -113,7 +126,7 @@
 										<!-- 输血史标识代码 -->
 										<observation classCode="OBS" moodCode="EVN">
 											<code code="DE06.00.106.00" displayName="输血史标识代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-											<value xsi:type="CD" code="{BloodTransfusion/history/Value}" displayName="{BloodTransfusion/history/Display}" codeSystem="2.16.156.10011.2.3.2.42" codeSystemName="输血史标识代码表"/>
+											<value xsi:type="CD" code="{BloodTransfusion/historyMark/Value}" displayName="{BloodTransfusion/historyMark/Display}" codeSystem="2.16.156.10011.2.3.2.42" codeSystemName="输血史标识代码表"/>
 										</observation>
 									</entryRelationship>
 									<entryRelationship typeCode="COMP">
@@ -134,7 +147,7 @@
 										<!-- 申请Rh血型代码 -->
 										<observation classCode="OBS" moodCode="EVN">
 											<code code="DE04.50.010.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="申请Rh（D）血型代码"/>
-											<value code="{BloodTransfusion/RhType/Value}" xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.250" displayName="{BloodTransfusion/RhType/Display}" codeSystemName="Rh（D）血型代码表"/>
+											<value code="{BloodTransfusion/RhType/Value}" xsi:type="CD" codeSystem="2.16.156.10011.2.3.1.250" displayName="{BloodTransfusion/RhType/Display}" codeSystemName="Rh(D)血型代码表"/>
 										</observation>
 									</entryRelationship>
 									<!-- 输血指征 -->
@@ -166,7 +179,7 @@
 									<entryRelationship typeCode="COMP">
 										<observation classCode="OBS" moodCode="EVN">
 											<code code="DE01.00.023.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="血袋编码"/>
-											<value xsi:type="INT" value="{BloodTransfusion/bagNo/Value}"/>
+											<value xsi:type="INT" value="{BloodTransfusion/bagNo/Value}"></value>
 										</observation>
 									</entryRelationship>
 									<!--输血量（mL） -->
@@ -196,7 +209,7 @@
 									<entryRelationship typeCode="COMP">
 										<observation classCode="OBS" moodCode="EVN">
 											<code code="DE06.00.265.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="输血反应类型"/>
-											<value xsi:type="CD" code="{BloodTransfusion/reactionType/Value}" displayName="{BloodTransfusion/reactionType/Value}" codeSystem="2.16.156.10011.2.3.1.252" codeSystemName="输血反应类型代码表"/>
+											<value xsi:type="CD" code="{BloodTransfusion/reactionType/Value}" displayName="{BloodTransfusion/reactionType/Display}" codeSystem="2.16.156.10011.2.3.1.252" codeSystemName="输血反应类型代码表"/>
 										</observation>
 									</entryRelationship>
 									<!-- 输血次数 -->

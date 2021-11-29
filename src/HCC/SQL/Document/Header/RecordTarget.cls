@@ -42,7 +42,7 @@ Property labOrderNum As WS.DE.DE010000800 [ SqlFieldName = labord_num ];
 Property specimenNum As WS.DE.DE010000300 [ SqlFieldName = spec_num ];
 
 /// 处方编号
-Property prescriptionNum As WS.DE.DE010000300 [ SqlFieldName = pres_num ];
+Property prescriptionNum As WS.DE.DE010002000 [ SqlFieldName = pres_num ];
 
 Property providerOrganization As HCC.SQL.Document.Header.RecordTarget.ProviderOrganization [ SqlFieldName = prov_org ];
 

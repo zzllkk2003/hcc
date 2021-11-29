@@ -2,7 +2,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 	<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			
@@ -181,7 +181,7 @@
 				<xsl:comment>主诉条目</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE04.01.119.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{chiefComplaint/displayName}"/>
+						<code code="DE04.01.119.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="主诉"/>
 						<value xsi:type="ST"><xsl:value-of select="chiefComplaint/Value"/></value>
 					</observation>
 				</entry>
@@ -206,58 +206,15 @@
 				
 				<!--入院诊断-西医诊断编码-->
 				<xsl:comment>西医诊断编码</xsl:comment>
-				<entry>
-					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE05.01.024.00" displayName="入院诊断-西医诊断编码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-						<xsl:choose>
-							<xsl:when test="Diagnoses/Diagnosis[1]/diag/code/Value and Diagnoses/Diagnosis[1]/diag/code/Display">
-								<value xsi:type="CD" code="{Diagnoses/Diagnosis[1]/diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）" displayName="{Diagnoses/Diagnosis[1]/diag/code/Display}" />
-							</xsl:when>
-							<xsl:when test="Diagnoses/Diagnosis[1]/diag/code/Value and not(Diagnoses/Diagnosis[1]/diag/code/Display)">
-								<value xsi:type="CD" code="{Diagnoses/Diagnosis[1]/diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"  />
-							</xsl:when>
-						</xsl:choose>
-						
-					</observation>
-				</entry>
+				<xsl:apply-templates select="Diagnoses/Diagnosis[diag/code/Value]"></xsl:apply-templates>
 				
 				<!--入院诊断-中医病名代码-->
 				<xsl:comment>中医病名代码</xsl:comment>
-				<xsl:if test="TCMs/TCM[1]/diag/code/Value and TCMs/TCM[1]/diag/code/Display">
-					<entry>
-						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE05.10.130.00" displayName="入院诊断-中医病名代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" />
-							<xsl:choose>
-								<xsl:when test="TCMs/TCM[1]/diag/code/Value and TCMs/TCM[1]/diag/code/Display">
-									<value xsi:type="CD" code="{TCMs/TCM[1]/diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="{TCMs/TCM[1]/diag/code/Display}" />
-								</xsl:when>
-								<xsl:when test="TCMs/TCM[1]/diag/code/Value and not(TCMs/TCM[1]/diag/code/Display)">
-									<value xsi:type="CD" code="{TCMs/TCM[1]/diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" />
-								</xsl:when>
-							</xsl:choose>
-							
-						</observation>
-					</entry>
-				</xsl:if>
+				<xsl:apply-templates select="TCMs/TCM[diag/code/Value]"></xsl:apply-templates>
 				
 				<!--入院诊断-中医症候代码-->
 				<xsl:comment>中医症候代码</xsl:comment>
-				<xsl:if test="TCMs/TCM[1]/syndrome/code/Value and TCMs/TCM[1]/syndrome/code/Display">
-					<entry>
-						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE05.10.130.00" displayName="入院诊断-中医症候代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" />
-							<xsl:choose>
-								<xsl:when test="TCMs/TCM[1]/syndrome/code/Value and TCMs/TCM[1]/syndrome/code/Display">
-									<value xsi:type="CD" code="{TCMs/TCM[1]/syndrome/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="{TCMs/TCM[1]/syndrome/code/Display}" />
-								</xsl:when>
-								<xsl:when test="TCMs/TCM[1]/syndrome/code/Value and not(TCMs/TCM[1]/syndrome/code/Display)">
-									<value xsi:type="CD" code="{TCMs/TCM[1]/syndrome/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）"  />
-								</xsl:when>
-							</xsl:choose>
-							
-						</observation>
-					</entry>
-				</xsl:if>
+				<xsl:apply-templates select="TCMs/TCM[syndrome/code/Value]"></xsl:apply-templates>
 			</section>
 		</component>
 	</xsl:template>
@@ -276,61 +233,16 @@
 						<value xsi:type="ST"><xsl:value-of select="situation/Value"/></value>
 					</observation>
 				</entry>
-				
 				<!--目前诊断-西医诊断编码-->
 				<xsl:comment>目前诊断-西医诊断编码</xsl:comment>
-				<entry>
-					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE05.01.024.00" displayName="目前诊断-西医诊断编码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-						<xsl:choose>
-							<xsl:when test="Diagnoses/Diagnosis[1]/code/Vaule and Diagnoses/Diagnosis[1]/code/Display">
-								<value xsi:type="CD" code="{Diagnoses/Diagnosis[1]/code/Vaule}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="诊断代码表（ICD-10）" displayName="{Diagnoses/Diagnosis[1]/code/Display}" />
-							</xsl:when>
-							<xsl:when test="Diagnoses/Diagnosis[1]/code/Vaule and not(Diagnoses/Diagnosis[1]/code/Display)">
-								<value xsi:type="CD" code="{Diagnoses/Diagnosis[1]/code/Vaule}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="诊断代码表（ICD-10）" />
-							</xsl:when>
-						</xsl:choose>
-						
-					</observation>
-				</entry>
-				
+				<xsl:apply-templates select="Westerns/Western[diag/code/Value]"></xsl:apply-templates>
 				<!--目前诊断-中医病名代码-->
 				<xsl:comment>中医病名代码</xsl:comment>
-				<xsl:if test="TCM/TCM[1]/TCMdiag/code/Value and TCM/TCM[1]/TCMdiag/code/Display">
-					<entry>
-						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE05.10.130.00" displayName="目前诊断-中医病名代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-							<xsl:choose>
-								<xsl:when test="TCM/TCM[1]/TCMdiag/code/Value and TCM/TCM[1]/TCMdiag/code/Display">
-									<value xsi:type="CD" code="{TCM/TCM[1]/TCMdiag/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="{TCM/TCM[1]/TCMdiag/code/Display}" />
-								</xsl:when>
-								<xsl:when test="TCM/TCM[1]/TCMdiag/code/Value and not(TCM/TCM[1]/TCMdiag/code/Display)">
-									<value xsi:type="CD" code="{TCM/TCM[1]/TCMdiag/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" />
-								</xsl:when>
-							</xsl:choose>
-							
-						</observation>
-					</entry>
-				</xsl:if>	
+				<xsl:apply-templates select="TCM/TCM[TCMdiag/code/Value]"></xsl:apply-templates>
 				
 				<!--目前诊断-中医症候代码-->
 				<xsl:comment>中医症候代码</xsl:comment>
-				<xsl:if test="TCMSyndrome/TCMSyndrome[1]/syndrome/code/Value and TCM/TCM[1]/TCMdiag/syndrome/code/Display">
-					<entry>
-						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE05.10.130.00" displayName="目前诊断-中医症候代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-							<xsl:choose>
-								<xsl:when test="TCMSyndrome/TCMSyndrome[1]/syndrome/code/Value and TCMSyndrome/TCMSyndrome[1]/syndrome/code/Display">
-									<value xsi:type="CD" code="{TCMSyndrome/TCMSyndrome[1]/syndrome/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" displayName="{TCM/TCM[1]/TCMdiag/syndrome/code/Display}" />
-								</xsl:when>
-								<xsl:when test="TCMSyndrome/TCMSyndrome[1]/syndrome/code/Value and not(TCMSyndrome/TCMSyndrome[1]/syndrome/code/Display)">
-									<value xsi:type="CD" code="{TCMSyndrome/TCMSyndrome[1]/syndrome/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表（ GB/T 15657-1995）" />
-								</xsl:when>
-							</xsl:choose>
-							
-						</observation>
-					</entry>
-				</xsl:if>	
+				<xsl:apply-templates select="TCMSyndrome/TCMSyndrome[syndrome/code/Value]"></xsl:apply-templates>
 				
 				<!--中医“四诊”观察结果-->
 				<xsl:comment>中医“四诊”观察结果</xsl:comment>
@@ -356,7 +268,7 @@
 				<xsl:comment>接班诊疗计划</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE06.00.298.00" displayName="{shiftPlan/displayName}" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+						<code code="DE06.00.298.00" displayName="接班诊疗计划" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
 						<value xsi:type="ST"><xsl:value-of select="shiftPlan/Value"/></value> 
 					</observation>
 				</entry>
@@ -366,7 +278,7 @@
 				<xsl:if test="treatmentPrinciple/Value">
 					<entry>
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.300.00" displayName="{treatmentPrinciple/displayName}" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<code code="DE06.00.300.00" displayName="治则治法" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
 							<value xsi:type="ST"><xsl:value-of select="treatmentPrinciple/Value"/></value> 	 
 						</observation>
 					</entry>
@@ -377,7 +289,7 @@
 				<xsl:if test="caution/Value">
 					<entry>
 						<observation classCode="OBS" moodCode="EVN ">
-							<code code="DE09.00.119.00" displayName="{caution/displayName}" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<code code="DE09.00.119.00" displayName="注意事项" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
 							<value xsi:type="ST"><xsl:value-of select="caution/Value"/></value>
 						</observation>
 					</entry>
@@ -396,12 +308,65 @@
 				<xsl:comment>诊疗过程描述</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE06.00.296.00" displayName="{treatmentCourse/displayName}"  codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录"/>
+						<code code="DE06.00.296.00" displayName="诊疗过程描述"  codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="卫生信息数据元目录"/>
 						<value xsi:type="ST"><xsl:value-of select="treatmentCourse/Value"/></value>
 					</observation>
 				</entry>
 			</section>
 		</component>
 	</xsl:template>
-	
+	<!--入院诊断-西医诊断编码-->
+	<xsl:template match="Diagnoses/Diagnosis[diag/code/Value]">
+		<entry>
+			<observation classCode="OBS" moodCode="EVN">
+				<code code="DE05.01.024.00" displayName="入院诊断-西医诊断编码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+				<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{diag/code/Display}" />
+			</observation>
+		</entry>
+	</xsl:template>
+	<xsl:template match="TCMs/TCM[diag/code/Value]">
+		<!--入院诊断-中医病名代码-->
+		<entry>
+			<observation classCode="OBS" moodCode="EVN">
+				<code code="DE05.10.130.00" displayName="入院诊断-中医病名代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" />
+				<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)" displayName="{diag/code/Display}" />
+			</observation>
+		</entry>
+	</xsl:template>
+	<!--入院诊断-中医症候代码-->
+	<xsl:template match="TCMs/TCM[syndrome/code/Value]">
+		<entry>
+			<observation classCode="OBS" moodCode="EVN">
+				<code code="DE05.10.130.00" displayName="入院诊断-中医症候代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" />
+				<value xsi:type="CD" code="{syndrome/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)" displayName="{syndrome/code/Display}" />
+			</observation>
+		</entry>
+	</xsl:template>
+	<!--目前诊断-西医诊断编码-->
+	<xsl:template match="Westerns/Western[diag/code/Value]">
+		<entry>
+			<observation classCode="OBS" moodCode="EVN">
+				<code code="DE05.01.024.00" displayName="目前诊断-西医诊断编码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+				<value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{diag/code/Display}" />
+			</observation>
+		</entry>	
+	</xsl:template>
+	<!--目前诊断-中医病名代码-->
+	<xsl:template match="TCM/TCM[TCMdiag/code/Value]">
+		<entry>
+			<observation classCode="OBS" moodCode="EVN">
+				<code code="DE05.10.130.00" displayName="目前诊断-中医病名代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+				<value xsi:type="CD" code="{TCMdiag/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)" displayName="{TCMdiag/code/Display}" />
+			</observation>
+		</entry>
+	</xsl:template>
+	<!--目前诊断-中医症候代码-->
+	<xsl:template match="TCMSyndrome/TCMSyndrome[syndrome/code/Value]">
+		<entry>
+			<observation classCode="OBS" moodCode="EVN">
+				<code code="DE05.10.130.00" displayName="目前诊断-中医症候代码"  codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+				<value xsi:type="CD" code="{syndrome/code/Value}" codeSystem="2.16.156.10011.2.3.3.14" codeSystemName="中医病证分类与代码表( GB/T 15657)" displayName="{syndrome/code/Display}" />
+			</observation>
+		</entry>
+	</xsl:template>
 </xsl:stylesheet>

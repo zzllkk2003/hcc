@@ -4,5 +4,14 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"objectscript.conn": {
+			"host": "172.16.209.3",
+			"port": 52773,
+			"username": "superuser",
+			"password": "1104",
+			"ns": "HCC",
+			"active": true
+		}
+	}
 }

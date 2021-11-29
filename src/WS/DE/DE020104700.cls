@@ -11,7 +11,7 @@ Parameter ValueSet;
 
 Parameter WSDT = "S1";
 
-Property Value As %String(MAXLEN = 6, MINLEN = 6);
+Property Value As %String(PATTERN = "6N");
 
 Storage Default
 {

@@ -2,7 +2,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<!--
@@ -39,10 +39,12 @@
 					<patientType>
 						<patienttypeCode code="{Header/recordTarget/patientType/Value}" codeSystem="2.16.156.10011.2.3.1.271" codeSystemName="患者类型代码表" displayName="门诊"></patienttypeCode>
 					</patientType>
-					<xsl:apply-templates select="Header/recordTarget" mode="PhoneNumber"/>
+					<xsl:apply-templates select="Header/recordTarget/telcom" mode="PhoneNumber"/>
 					
 					
 					<patient classCode="PSN" determinerCode="INSTANCE">
+						<!--患者身份证号码，必选-->
+						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>	
 						<!--患者姓名，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
 						<!-- 性别，必选 -->
@@ -81,7 +83,7 @@
 			</xsl:for-each>
 			<!-- Authenticator签名 -->
 			<xsl:for-each select="Header/Authenticators/Authenticator">
-				<xsl:if test="assignedEntityCode = '检验技师' or assignedEntityCode = '检验医师'">
+				<xsl:if test="assignedEntityCode = '检查技师' or assignedEntityCode = '检查医师'">
 					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
 					<authenticator>
 						<time/>
@@ -99,8 +101,27 @@
 				</xsl:if>
 			</xsl:for-each>
 			
-			<!-- 检查申请机构及科室 -->
-			<xsl:apply-templates select="Header/Participants" mode="SupportContact"/>
+			<!-- 检验申请机构及科室 -->
+			<xsl:for-each select="Header/Participants/Participant">
+				<xsl:if test="typeCode = 'PRF' and scopingOrganization/id/Value">
+					<xsl:comment>检验申请机构及科室</xsl:comment>
+					<participant typeCode="PRF">
+						<time/>
+						<associatedEntity classCode="ASSIGNED">
+							<scopingOrganization>
+								<id root="2.16.156.10011.1.26" extension="{scopingOrganization/id/Value}"/>
+								<name><xsl:value-of select="scopingOrganization/name/Value"/></name>
+								<asOrganizationPartOf>
+									<wholeOrganization>
+										<id root="2.16.156.10011.1.5" extension="{scopingOrganization/partOf/OrgId/Value}"/>
+										<name><xsl:value-of select="scopingOrganization/partOf/OrgName/Value"/></name>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</scopingOrganization>
+						</associatedEntity>
+					</participant>
+				</xsl:if>
+			</xsl:for-each>
 			
 			<!--关联活动信息-->
 			<xsl:if test="Header/RelatedDocuments/RelatedDocument">
@@ -131,8 +152,10 @@
 												<!-- DE08.10.026.00	科室名称 -->
 												<asOrganizationPartOf classCode="PART">
 													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
-														<id root="2.16.156.10011.1.26"/>
-														<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/deptId"/></name>
+														<xsl:if test="Header/encompassingEncounter/Locations/Location/wardId">
+															<id root="2.16.156.10011.1.26" extension="{Header/encompassingEncounter/Locations/Location/deptId}"/>
+														</xsl:if>
+														<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/deptName/Value"/></name>
 														<!-- DE08.10.054.00	病区名称 -->
 														<asOrganizationPartOf classCode="PART">
 															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
@@ -203,27 +226,31 @@
 				<text/>
 				<!--诊断代码条目-->
 				<xsl:comment>诊断代码条目</xsl:comment>
-				<entry>
-					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE05.01.024.00" displayName="{Western[1]/diag/code/displayName}" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-						<!--诊断日期-->
-						<xsl:comment>诊断日期</xsl:comment>
-						<effectiveTime value="{Western[1]/diag/date/Value}"/>
-						<value xsi:type="CD" code="{Western[1]/diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
-						<!--执行机构-->
-						<xsl:comment>执行机构</xsl:comment>
-						<performer>
-							<assignedEntity>
-								<id/>
-								<representedOrganization>
-									<name>
-										<xsl:value-of select="Western[1]/diag/diagnosisOrg/Value"/>
-									</name>
-								</representedOrganization>
-							</assignedEntity>
-						</performer>
-					</observation>
-				</entry>
+				<xsl:if test="Western/diag/code/Value">
+					<entry>
+						<observation classCode="OBS" moodCode="EVN">
+							<code code="DE05.01.024.00" displayName="诊断代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+							<!--诊断日期-->
+							<xsl:comment>诊断日期</xsl:comment>
+							<effectiveTime value="{Western/diag/date/Value}"/>
+							<xsl:if test="Western/diag/code/Value">
+								<value xsi:type="CD" code="{Western/diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{Western/diag/code/Display}"/>
+							</xsl:if>
+							<!--执行机构-->
+							<xsl:comment>执行机构</xsl:comment>
+							<performer>
+								<assignedEntity>
+									<id/>
+									<representedOrganization>
+										<name>
+											<xsl:value-of select="Western/diag/diagnosisOrg/Value"/>
+										</name>
+									</representedOrganization>
+								</assignedEntity>
+							</performer>
+						</observation>
+					</entry>
+				</xsl:if>
 			</section>
 		</component>
 	</xsl:template>
@@ -260,8 +287,13 @@
 						<!-- 症状开始时间与停止时间 -->
 						<xsl:comment>症状开始时间与停止时间</xsl:comment>
 						<effectiveTime>
-							<low value="{Symptom[1]/beginTime/Value}"/>
-							<high value="{Symptom[1]/endTime/Value}"/>
+							<xsl:if test="Symptom[1]/beginTime/Value">
+								<low value="{Symptom[1]/beginTime/Value}"/>
+							</xsl:if>
+							<xsl:if test="Symptom[1]/endTime/Value">
+								<high value="{Symptom[1]/endTime/Value}"/>
+							</xsl:if>
+							
 						</effectiveTime>
 						<value xsi:type="ST">
 							<xsl:value-of select="Symptom[1]/symptomDesc/Value"/>
@@ -288,7 +320,7 @@
 		<entry>		
 			<procedure classCode="PROC" moodCode="EVN">
 				<xsl:if test="code/Value">
-					<code code="{code/Value}" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表（ICD-9-CM）"/>
+					<code code="{code/Value}" displayName="{code/Display}" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表(ICD-9-CM)"/>
 				</xsl:if>
 				<statusCode/>
 				<!--操作日期/时间-->
@@ -299,14 +331,14 @@
 				<!--操作部位代码-->
 				<xsl:comment>操作部位代码</xsl:comment>
 				<xsl:if test="bodyPart/Value">
-					<targetSiteCode code="{bodyPart/Value}" codeSystem="2.16.156.10011.2.3.1.266" codeSystemName="操作部位代码表"/>
+					<targetSiteCode code="{bodyPart/Value}" codeSystem="2.16.156.10011.2.3.1.266" codeSystemName="操作部位代码表" displayName="{bodyPart/Display}"/>
 				</xsl:if>
 				<!--手术操作名称-->
 				<xsl:comment>手术操作名称</xsl:comment>
 				<xsl:if test="name/Value">
 					<entryRelationship typeCode="COMP">
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.094.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{name/displayName}"/>
+							<code code="DE06.00.094.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="手术（操作）名称"/>
 							<value xsi:type="ST">
 								<xsl:value-of select="name/Value"/>
 							</value>
@@ -330,7 +362,7 @@
 				<xsl:if test="operationWay/Value">
 					<entryRelationship typeCode="COMP">
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.251.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{operationWay/displayName}"/>
+							<code code="DE06.00.251.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="操作方法描述"/>
 							<value xsi:type="ST">
 								<xsl:value-of select="operationWay/Value"/>
 							</value>
@@ -342,7 +374,7 @@
 				<xsl:if test="operationTimes/Value">
 					<entryRelationship typeCode="COMP">
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.250.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{operationTimes/displayName}"/>
+							<code code="DE06.00.250.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="操作次数"/>
 							<value xsi:type="ST">
 								<xsl:value-of select="operationTimes/Value"/>
 							</value>
@@ -386,8 +418,8 @@
 				<xsl:if test="anesthesiaWay/Value">
 					<entryRelationship typeCode="COMP">
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.307.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{anesthesiaWay/displayName}"/>
-							<value code="{anesthesiaWay/Value}" codeSystem="2.16.156.10011.2.3.2.41" codeSystemName="麻醉中西医标识代码表" xsi:type="CD"/>
+							<code code="DE06.00.307.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉中西医标识代码"/>
+							<value code="{anesthesiaWay/Value}" displayName="{anesthesiaWay/Display}" codeSystem="2.16.156.10011.2.3.2.41" codeSystemName="麻醉中西医标识代码表" xsi:type="CD"/>
 						</observation>
 					</entryRelationship>
 				</xsl:if>
@@ -412,7 +444,7 @@
 				<xsl:comment>检查方法名称条目</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE02.10.027.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{name/displayName}"/>
+						<code code="DE02.10.027.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查方法名称"/>
 						<value xsi:type="ST"><xsl:value-of select="name/Value"/></value>
 					</observation>
 				</entry>
@@ -420,7 +452,7 @@
 				<xsl:comment>检查类别条目</xsl:comment>
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE04.30.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{type/displayName}"/>
+						<code code="DE04.30.018.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查类别"/>
 						<value xsi:type="ST"><xsl:value-of select="type/Value"/></value>
 					</observation>
 				</entry>
@@ -435,54 +467,61 @@
 	<!--体格检查：检查项目条目-->
 	<xsl:template match="Items/Item">
 		<entry>
-			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE04.30.019.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查项目代码"/>
-				<!-- 检查日期 -->
-				<xsl:comment>检查日期</xsl:comment>
-				<effectiveTime value="{date/Value}"/>
-				<value xsi:type="ST"><xsl:value-of select="code/Value"/></value>
-				<entryRelationship typeCode="COMP">
+			<organizer classCode="CLUSTER" moodCode="EVN">
+				<statusCode/>
+				<component>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE04.50.134.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本类别"/>
-						<!-- DE04.50.137.00	标本采样日期时间 DE04.50.141.00	接收标本日期时间 -->
-						<effectiveTime>
-							<low value="{collectTime/Value}"/>
-							<high value="{receiveTime/Value}"/>
-						</effectiveTime>
-						<value xsi:type="ST"><xsl:value-of select="type/Value"/></value>
+						<code code="DE04.30.019.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查项目代码"/>
+						<effectiveTime value="{date/Value}"/>
+						<value xsi:type="ST"><xsl:value-of select="code/Value"/></value>
+						<entryRelationship typeCode="COMP">
+							<observation classCode="OBS" moodCode="EVN">
+								<code code="DE04.50.134.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本类别"/>
+								<!-- DE04.50.137.00	标本采样日期时间 DE04.50.141.00	接收标本日期时间 -->
+								<effectiveTime>
+									<low value="{collectTime/Value}"/>
+									<high value="{receiveTime/Value}"/>
+								</effectiveTime>
+								<value xsi:type="ST"><xsl:value-of select="type/Value"/></value>
+							</observation>
+						</entryRelationship>
+						<entryRelationship typeCode="COMP">
+							<observation classCode="OBS" moodCode="EVN">
+								<code code="DE04.50.135.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本状态"/>
+								<value xsi:type="ST"><xsl:value-of select="specimenStatus/Value"/></value>
+							</observation>
+						</entryRelationship>
+						<entryRelationship typeCode="COMP">
+							<observation classCode="OBS" moodCode="EVN">
+								<code code="DE08.50.027.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本固定液名称"/>
+								<value xsi:type="ST"><xsl:value-of select="specimenFixing/Value"/></value>
+							</observation>
+						</entryRelationship>
 					</observation>
-				</entryRelationship>
-				<entryRelationship typeCode="COMP">
+				</component>
+				<component>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE04.50.135.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本状态"/>
-						<value xsi:type="ST"><xsl:value-of select="specimenStatus/Value"/></value>
+						<code code="DE04.30.017.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查结果代码"/>
+						<value xsi:type="CD" code="{resultCode/Value}" codeSystem="2.16.156.10011.2.3.2.38" codeSystemName="检查/检验结果代码表">
+							<xsl:if test="resultCode/Display">
+								<xsl:attribute name="displayName"><xsl:value-of select="resultCode/Display"/></xsl:attribute>
+							</xsl:if>
+						</value>
 					</observation>
-				</entryRelationship>
-				<entryRelationship typeCode="COMP">
+				</component>
+				<component>
 					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE08.50.027.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="标本固定液名称"/>
-						<value xsi:type="ST"><xsl:value-of select="specimenFixing/Value"/></value>
+						<code code="DE04.30.015.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查定量结果"/>
+						<value xsi:type="REAL" value="{value/Value}"/>
+						<entryRelationship typeCode="COMP">
+							<observation classCode="OBS" moodCode="EVN">
+								<code code="DE04.30.016.00" displayName="检查定量结果计量单位" codeSystemName="卫生信息数据元目录" codeSystem="2.16.156.10011.2.2.1"/>
+								<value xsi:type="ST"><xsl:value-of select="unit/Value"/></value>
+							</observation>
+						</entryRelationship>
 					</observation>
-				</entryRelationship>
-			</observation>
-		</entry>
-		<entry>
-			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE04.30.017.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查结果代码"/>
-				<value xsi:type="CD" code="{resultCode/Value}" codeSystem="2.16.156.10011.2.3.2.38" codeSystemName="检查（检验）结果代码表"/>
-			</observation>
-		</entry>
-		<entry>
-			<observation classCode="OBS" moodCode="EVN">
-				<code code="DE04.30.015.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查定量结果"/>
-				<value xsi:type="REAL" value="{value/Value}"/>
-				<entryRelationship typeCode="COMP">
-					<observation classCode="OBS" moodCode="EVN">
-						<code code="DE04.30.016.00" displayName="检查定量结果计量单位" codeSystemName="卫生信息数据元目录" codeSystem="2.16.156.10011.2.2.1"/>
-						<value xsi:type="ST"><xsl:value-of select="unit/Value"/></value>
-					</observation>
-				</entryRelationship>
-			</observation>
+				</component>
+			</organizer>
 		</entry>
 	</xsl:template>
 	<!-- 其他处置章节模板 -->
@@ -515,7 +554,7 @@
 				<xsl:if test="objective/Value">
 					<entry>
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE04.50.131.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{objective/displayName}"/>
+							<code code="DE04.50.131.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查报告结果-客观所见"/>
 							<value xsi:type="ST">
 								<xsl:value-of select="objective/Value"/>
 							</value>
@@ -525,7 +564,7 @@
 				<xsl:if test="subjective/Value">
 					<entry>
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE04.50.132.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{subjective/displayName}"/>
+							<code code="DE04.50.132.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查报告结果-主观提示"/>
 							<value xsi:type="ST">
 								<xsl:value-of select="subjective/Value"/>
 							</value>
@@ -535,7 +574,7 @@
 				<xsl:if test="dept/Value">
 					<entry>
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE08.10.026.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{dept/displayName}"/>
+							<code code="DE08.10.026.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查报告科室"/>
 							<value xsi:type="ST">
 								<xsl:value-of select="dept/Value"/>
 							</value>
@@ -545,7 +584,7 @@
 				<xsl:if test="org/Value">
 					<entry>
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE08.10.013.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{org/displayName}"/>
+							<code code="DE08.10.013.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="检查报告机构名称"/>
 							<value xsi:type="ST">
 								<xsl:value-of select="org/Value"/>
 							</value>
@@ -555,7 +594,7 @@
 				<xsl:if test="notes/Value">
 					<entry>
 						<observation classCode="OBS" moodCode="EVN">
-							<code code="DE06.00.179.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="{notes/displayName}"/>
+							<code code="DE06.00.179.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="医嘱备注信息"/>
 							<value xsi:type="ST">
 								<xsl:value-of select="notes/Value"/>
 							</value>

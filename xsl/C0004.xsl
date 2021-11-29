@@ -118,12 +118,18 @@
     </xsl:template>
     <!-- 条目：诊断 -->
     <xsl:template match ="Western/diag">
-        <entry>
-            <observation classCode="OBS" moodCode="EVN">
-                <code code="{code/Value}" displayName="诊断代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
-                <value xsi:type="CD" code="{name/Value}" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10)"></value>
-            </observation>
-        </entry>
+        <xsl:choose>
+            <xsl:when test="code/Value">
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <code code="DE05.01.024.00" displayName="诊断代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+                        <value xsi:type="CD" code="{code/Value}" displayName="{code/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"></value>
+                    </observation>
+                </entry>
+            </xsl:when>
+            <xsl:otherwise>
+            </xsl:otherwise>
+        </xsl:choose>   
     </xsl:template>
     <!-- 用药章节 1.。。*  -->
     <xsl:template match ="MedicationUseHistory">
@@ -153,7 +159,7 @@
                 <!--用药频率 -->
                 <rateQuantity value="{rate/Value}" unit="{rateUnit}"></rateQuantity>
                 <!--药物剂型 -->
-                <administrationUnitCode code="{form/Value}" codeSystem="2.16.156.10011.2.3.1.211" CodeSystemName="药物剂型代码表"></administrationUnitCode>
+                <administrationUnitCode code="{form/Value}" displayName="{form/Display}" codeSystem="2.16.156.10011.2.3.1.211" codeSystemName="药物剂型代码表"></administrationUnitCode>
                 <consumable>
                     <manufacturedProduct>
                         <manufacturedLabeledDrug>
@@ -215,7 +221,7 @@
                 <entry>
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE07.00.004.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="处方药品金额"/>
-                        <value xsi:type="MO" value="4" currency="元"></value> 
+                        <value xsi:type="MO" value="{prescriptionFee/Value}" currency="元"></value> 
                     </observation>
                 </entry>
             </section>

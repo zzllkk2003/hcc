@@ -1,7 +1,7 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
@@ -27,6 +27,8 @@
 			<!--文档记录对象（患者） [1..*] contextControlCode="OP"表示本信息可以被重载-->
 			<recordTarget typeCode="RCT" contextControlCode="OP">
 				<patientRole classCode="PAT">
+					<!-- 健康档案标识号 -->
+					<xsl:apply-templates select="Header/recordTarget/healthCardId" mode="healthRecordNumber"/>
 					<!-- 门（急）诊号标识 -->
 					<xsl:apply-templates select="Header/recordTarget/outpatientNum" mode="outpatientNum"/>
 					<!-- 住院号标识 todo-->
@@ -34,6 +36,8 @@
 					<!-- 电子申请单编号 -->
 					<xsl:apply-templates select="Header/recordTarget/labOrderNum" mode="labOrderNum"/>
 					<patient classCode="PSN" determinerCode="INSTANCE">
+						<!-- 健康档案标识号 -->
+						<xsl:apply-templates select="Header/recordTarget/healthCardId" mode="healthRecordNumber"/>
 						<!--患者姓名，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName" mode="Name"/>
 						<!-- 性别，必选 -->
@@ -189,7 +193,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.188.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{VitalSign/display}"/>
+							codeSystemName="卫生信息数据元目录" displayName="体重"/>
 						<value xsi:type="PQ" value="{VitalSign/value}" unit="kg"/>
 					</observation>
 				</entry>
@@ -209,7 +213,7 @@
 				<entry>
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE04.10.219.00" codeSystem="2.16.156.10011.2.2.1"
-							codeSystemName="卫生信息数据元目录" displayName="{result/displayName}"/>
+							codeSystemName="卫生信息数据元目录" displayName="一般状况检查结果"/>
 						<value xsi:type="ST">
 							<xsl:value-of select="result/Value"/>
 						</value>
@@ -255,18 +259,18 @@
 							<xsl:comment>Rh血型</xsl:comment>
 							<observation classCode="OBS" moodCode="EVN">
 								<code code="DE04.50.010.00" codeSystem="2.16.156.10011.2.2.1"
-									codeSystemName="卫生信息数据元目录" displayName="Rh（D）血型代码"/>
+									codeSystemName="卫生信息数据元目录" displayName="Rh(D)血型代码"/>
 								<xsl:choose>
 									<xsl:when test="bloodRh/Value and bloodRh/Display">
 										<value xsi:type="CD" code="{bloodRh/Value}"
 											displayName="{bloodRh/Display}"
 											codeSystem="2.16.156.10011.2.3.1.250"
-											codeSystemName="Rh（D）血型代码表"/>
+											codeSystemName="Rh(D)血型代码"/>
 									</xsl:when>
 									<xsl:when test="bloodRh/Value and not(bloodRh/Display)">
 										<value xsi:type="CD" code="{bloodRh/Value}"
 											codeSystem="2.16.156.10011.2.3.1.250"
-											codeSystemName="Rh（D）血型代码表"/>
+											codeSystemName="Rh(D)血型代码"/>
 									</xsl:when>
 								</xsl:choose>
 								
@@ -303,11 +307,11 @@
 				<xsl:when test="diagnosisCode/Value and diagnosisCode/Display">
 					<value xsi:type="CD" code="{diagnosisCode/Value}"
 						displayName="{diagnosisCode/Display}"
-						codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
+						codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
 				</xsl:when>
 				<xsl:when test="diagnosisCode/Value and not(diagnosisCode/Display)">
 					<value xsi:type="CD" code="{diagnosisCode/Value}"
-						codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
+						codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
 				</xsl:when>
 			</xsl:choose>
 			
@@ -333,11 +337,11 @@
 						<xsl:choose>
 							<xsl:when test="code/Value and code/Display">
 								<value xsi:type="CD" code="{code/Value}" displayName="{code/Display}"
-									codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
+									codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
 							</xsl:when>
 							<xsl:when test="code/Value and not(code/Display)">
 								<value xsi:type="CD" code="{code/Value}"
-									codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
+									codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
 							</xsl:when>
 						</xsl:choose>
 						
@@ -363,12 +367,12 @@
 								<code xsi:type="CD" code="{Items/ProcedureItem/code/Value}"
 									displayName="{Items/ProcedureItem/code/Display}"
 									codeSystem="2.16.156.10011.2.3.3.12"
-									codeSystemName="手术(操作)代码表（ICD-9-CM）"/>
+									codeSystemName="手术(操作)代码表(ICD-9-CM)"/>
 							</xsl:when>
 							<xsl:when test="Items/ProcedureItem/code/Value and not(Items/ProcedureItem/code/Display)">
 								<code xsi:type="CD" code="{Items/ProcedureItem/code/Value}"
 									codeSystem="2.16.156.10011.2.3.3.12"
-									codeSystemName="手术(操作)代码表（ICD-9-CM）"/>
+									codeSystemName="手术(操作)代码表(ICD-9-CM)"/>
 							</xsl:when>
 						</xsl:choose>
 						
@@ -392,7 +396,7 @@
 					<observation classCode="OBS" moodCode="EVN">
 						<code code="DE06.00.073.00" codeSystem="2.16.156.10011.2.2.1"
 							codeSystemName="卫生信息数据元目录" displayName="麻醉方法代码"/>
-						<value xsi:type="CD" code="{method/Value}"
+						<value xsi:type="CD" code="{method/Value}" displayName="{method/Display}"
 							codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="麻醉方法代码表"/>
 						<!-- 麻醉适应证 -->
 						<xsl:comment>麻醉适应证</xsl:comment>

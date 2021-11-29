@@ -14,7 +14,7 @@ Index IdDocNo On DocumentNo [ IdKey, Unique ];
 ForeignKey FKDocument(DocumentNo) References HCC.SQL.Document(IdKey);
 
 /// 入院途径
-Property admissionCode As WS.DE.DE060023700 [ Required, SqlFieldName = admission_code ];
+Property admissionCode As WS.DE.DE060033900 [ Required, SqlFieldName = admission_code ];
 
 /// 就诊时间 - 入院日期
 Property effectiveTimeLow As WS.DE.DE060009200 [ Required, SqlFieldName = admit_time ];

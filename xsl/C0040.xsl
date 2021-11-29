@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns="urn:hl7-org:v3" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
@@ -50,13 +50,122 @@
 			<xsl:apply-templates select="Header/author" mode="AuthorWithOrganization"/>
 			<!-- 保管机构-数据录入者信息 -->
 			<xsl:apply-templates select="Header/custodian" mode="Custodian"/>
-			<xsl:apply-templates select="Header/LegalAuthenticator" mode="legalAuthenticator"/>
+			<!-- LegalAuthenticator签名 -->
+			<xsl:for-each select="Header/LegalAuthenticators/LegalAuthenticator">
+				<xsl:if test="assignedEntityCode = '主任医师'">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<legalAuthenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</legalAuthenticator>
+				</xsl:if>
+			</xsl:for-each>
 			<!-- Authenticator签名 -->
-			<xsl:apply-templates select="Header/Authenticators/Authenticator" mode="Authenticator"/>
+			<xsl:for-each select="Header/Authenticators/Authenticator">
+				<xsl:if test="assignedEntityCode = '医师' or assignedEntityCode = '主治医师' or assignedEntityCode = '主持人'">
+					<xsl:comment><xsl:value-of select="assignedEntityCode"/>签名</xsl:comment>
+					<authenticator>
+						<time/>
+						<signatureCode/>
+						<assignedEntity>
+							<id root="2.16.156.10011.1.4" extension="{assignedEntityId}"/>
+							<code displayName="{assignedEntityCode}"/>
+							<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+								<name>
+									<xsl:value-of select="assignedPersonName/Display"/>
+								</name>
+							</assignedPerson>
+						</assignedEntity>
+					</authenticator>
+				</xsl:if>
+			</xsl:for-each>
+			<!--联系人1..*-->
+			<xsl:for-each select="Header/Participants/Participant[typeCode = 'PRCP'][1]">
+				<xsl:comment>其他参与者（联系人）</xsl:comment>
+				<participant typeCode="PRCP">
+					<!--联系人@classCode：CON，固定值，表示角色是联系人 -->
+					<associatedEntity classCode="ASSIGNED">
+						<!--联系人-->
+						<associatedPerson>
+							<!--姓名-->
+							<xsl:apply-templates select="/Document/Header/Participants/Participant[typeCode='PRCP']/associatedPersonName"></xsl:apply-templates>
+						</associatedPerson>
+					</associatedEntity>
+				</participant>
+			</xsl:for-each>
 			<!--关联活动信息-->
 			<xsl:apply-templates select="Header/RelatedDocuments/RelatedDocument" mode="relatedDocument"/>
 			<!--文档中医疗卫生事件的就诊场景,即入院场景记录-->
-			<xsl:apply-templates select="Header/encompassingEncounter" mode="EncompassingEncounter"/>
+			<componentOf>
+				<encompassingEncounter>
+					<effectiveTime/>
+					<location>
+						<healthCareFacility>
+							<serviceProviderOrganization>
+								<asOrganizationPartOf classCode="PART">
+									<!-- DE01.00.026.00病床号 -->
+									<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+										<xsl:comment>病床号</xsl:comment>
+										<xsl:if test="Header/encompassingEncounter/Locations/Location/bedId">
+											<id root="2.16.156.10011.1.22" extension="{Header/encompassingEncounter/Locations/Location/bedId}"/>
+										</xsl:if>
+										<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/bedName/Value"/></name>	
+										<!-- DE01.00.019.00病房号 -->
+										<asOrganizationPartOf classCode="PART">
+											<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+												<xsl:comment>病房号</xsl:comment>
+												<xsl:if test="Header/encompassingEncounter/Locations/Location/wardId">
+													<id root="2.16.156.10011.1.21" extension="{Header/encompassingEncounter/Locations/Location/wardId}"/>
+												</xsl:if>
+												<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/wardName/Value"/></name>
+												<!-- DE08.10.026.00科室名称 -->
+												<asOrganizationPartOf classCode="PART">
+													<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+														<xsl:comment>科室名称</xsl:comment>
+														<xsl:if test="Header/encompassingEncounter/Locations/Location/wardId">
+															<id root="2.16.156.10011.1.26" extension="{Header/encompassingEncounter/Locations/Location/deptId}"/>
+														</xsl:if>
+														<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/deptName/Value"/></name>
+														<!-- DE08.10.054.00病区名称 -->
+														<asOrganizationPartOf classCode="PART">
+															<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																<xsl:comment>病区名称</xsl:comment>
+																<xsl:if test="Header/encompassingEncounter/Locations/Location/areaId">
+																	<id root="2.16.156.10011.1.27" extension="{Header/encompassingEncounter/Locations/Location/areaId}"/>
+																</xsl:if>
+																<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/areaName/Value"/></name>
+																<!--医疗机构名称 -->
+																<asOrganizationPartOf classCode="PART">
+																	<wholeOrganization classCode="ORG" determinerCode="INSTANCE">
+																		<xsl:comment>医院名称</xsl:comment>
+																		<xsl:if test="Header/encompassingEncounter/Locations/Location/hosId">
+																			<id root="2.16.156.10011.1.26" extension="{Header/encompassingEncounter/Locations/Location/hosId}"/>
+																		</xsl:if>	
+																		<name><xsl:value-of select="Header/encompassingEncounter/Locations/Location/hosName"/></name>
+																	</wholeOrganization>
+																</asOrganizationPartOf>
+															</wholeOrganization>
+														</asOrganizationPartOf>
+													</wholeOrganization>
+												</asOrganizationPartOf>
+											</wholeOrganization>
+										</asOrganizationPartOf>
+									</wholeOrganization>
+								</asOrganizationPartOf>
+							</serviceProviderOrganization>
+						</healthCareFacility>
+					</location>
+				</encompassingEncounter>
+			</componentOf>
 			<!--****************************文档体Body********************-->
 			<component>
 				<structuredBody>
@@ -156,5 +265,10 @@
 				</xsl:if>
 			</section>
 		</component>
+	</xsl:template>
+	<xsl:template match="/Document/Header/Participants/Participant[typeCode='PRCP']/associatedPersonName">
+		<name>
+			<xsl:value-of select="Value"/>
+		</name>
 	</xsl:template>
 </xsl:stylesheet>

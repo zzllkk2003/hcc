@@ -52,7 +52,7 @@
 			<xsl:comment>体温</xsl:comment>
 			<entry>
 				<observation classCode="OBS" moodCode="EVN">
-					<code code="DE04.10.186.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="体温"/>
+					<code code="DE04.10.186.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="体温(℃)"/>
 					<value xsi:type="PQ" value="{value}" unit="℃"/>
 				</observation>
 			</entry>

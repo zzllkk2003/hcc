@@ -249,7 +249,7 @@
             <signatureCode code="S"/> 
             <assignedEntity>   
                 <id root="{assignedEntityId}"/>
-                <code displayName="记录人签名"></code>
+                <code displayName="{assignedEntityCode}签名"></code>
                 <assignedPerson classCode="PSN" determinerCode="INSTANCE">
                     <name>
                         <xsl:value-of select="assignedPersonName/Value"/>

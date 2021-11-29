@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0" xmlns="urn:hl7-org:v3" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="2.0" xmlns="urn:hl7-org:v3"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<!--****************************************-->
 	<!--		患者医疗号码						-->
 	<!--****************************************-->
@@ -49,6 +50,10 @@
 		<xsl:comment>检查报告单号标识</xsl:comment>
 		<id root="2.16.156.10011.1.32" extension="{Value}"/>
 	</xsl:template>
+	<xsl:template match="*" mode="prescriptionNum">
+		<xsl:comment>处方编号</xsl:comment>
+		<id root="2.16.156.10011.1.20" extension="{Value}"/>
+	</xsl:template>
 	<!--****************************************-->
 	<!--		患者基本信息						-->
 	<!--****************************************-->
@@ -62,7 +67,8 @@
 	<!--性别-->
 	<xsl:template match="*" mode="Gender">
 		<xsl:comment>患者性别</xsl:comment>
-		<administrativeGenderCode code="{Value}" codeSystemName="生理性别代码表(GB/T 2261.1)" codeSystem="2.16.156.10011.2.3.3.4" displayName="{displayName}"/>
+		<administrativeGenderCode code="{Value}" codeSystemName="生理性别代码表(GB/T 2261.1)"
+			codeSystem="2.16.156.10011.2.3.3.4" displayName="{Display}"/>
 	</xsl:template>
 	<!--生日 BirthTime-->
 	<xsl:template match="*" mode="BirthTime">
@@ -110,27 +116,29 @@
 	<xsl:template match="*" mode="nativePlace">
 		<nativePlace>
 			<place classCode="PLC" determinerCode="INSTANCE">
-				<houseNumber>
-					<xsl:value-of select="houseNum/Value"/>
-				</houseNumber>
-				<streetName>
-					<xsl:value-of select="streetName/Value"/>
-				</streetName>
-				<township>
-					<xsl:value-of select="township/Value"/>
-				</township>
-				<county>
-					<xsl:value-of select="county/Value"/>
-				</county>
-				<city>
-					<xsl:value-of select="city/Value"/>
-				</city>
-				<state>
-					<xsl:value-of select="state/Value"/>
-				</state>
-				<postalCode>
-					<xsl:value-of select="postCode/Value"/>
-				</postalCode>
+				<addr>
+					<houseNumber>
+						<xsl:value-of select="houseNum/Value"/>
+					</houseNumber>
+					<streetName>
+						<xsl:value-of select="streetName/Value"/>
+					</streetName>
+					<township>
+						<xsl:value-of select="township/Value"/>
+					</township>
+					<county>
+						<xsl:value-of select="county/Value"/>
+					</county>
+					<city>
+						<xsl:value-of select="city/Value"/>
+					</city>
+					<state>
+						<xsl:value-of select="state/Value"/>
+					</state>
+					<postalCode>
+						<xsl:value-of select="postCode/Value"/>
+					</postalCode>
+				</addr>
 			</place>
 		</nativePlace>
 	</xsl:template>
@@ -138,27 +146,29 @@
 	<xsl:template match="*" mode="household">
 		<household>
 			<place classCode="PLC" determinerCode="INSTANCE">
-				<houseNumber>
-					<xsl:value-of select="houseNum/Value"/>
-				</houseNumber>
-				<streetName>
-					<xsl:value-of select="streetName/Value"/>
-				</streetName>
-				<township>
-					<xsl:value-of select="township/Value"/>
-				</township>
-				<county>
-					<xsl:value-of select="county/Value"/>
-				</county>
-				<city>
-					<xsl:value-of select="city/Value"/>
-				</city>
-				<state>
-					<xsl:value-of select="state/Value"/>
-				</state>
-				<postalCode>
-					<xsl:value-of select="postCode/Value"/>
-				</postalCode>
+				<addr>
+					<houseNumber>
+						<xsl:value-of select="houseNum/Value"/>
+					</houseNumber>
+					<streetName>
+						<xsl:value-of select="streetName/Value"/>
+					</streetName>
+					<township>
+						<xsl:value-of select="township/Value"/>
+					</township>
+					<county>
+						<xsl:value-of select="county/Value"/>
+					</county>
+					<city>
+						<xsl:value-of select="city/Value"/>
+					</city>
+					<state>
+						<xsl:value-of select="state/Value"/>
+					</state>
+					<postalCode>
+						<xsl:value-of select="postCode/Value"/>
+					</postalCode>
+				</addr>
 			</place>
 		</household>
 	</xsl:template>
@@ -183,10 +193,6 @@
 			</place>
 		</birthplace>
 	</xsl:template>
-	<!--Age-->
-	<xsl:template match="*" mode="Age">
-		<age unit="岁" value="{Value}"/>
-	</xsl:template>
 	<!--employerOrganization-->
 	<!--Question: if using xsl:copy to copy EmployerOrganization, always put namespace in attribute, why?-->
 	<xsl:template match="*" mode="Employer">
@@ -196,31 +202,67 @@
 				<xsl:value-of select="employer/name/Value"/>
 			</name>
 			<telecom>
-				<xsl:attribute name="value"><xsl:value-of select="employer/telecom/Value"/></xsl:attribute>
+				<xsl:attribute name="value">
+					<xsl:value-of select="employer/telecom/Value"/>
+				</xsl:attribute>
 			</telecom>
+		</employerOrganization>
+	</xsl:template>
+	<!--employerOrganization-->
+	<xsl:template match="*" mode="EmployerWithAddr">
+		<xsl:comment>工作单位</xsl:comment>
+		<employerOrganization>
+			<name>
+				<xsl:value-of select="name/Value"/>
+			</name>
+			<telecom>
+				<xsl:attribute name="value">
+					<xsl:value-of select="telecom/Value"/>
+				</xsl:attribute>
+			</telecom>
+			<addr use="WP">
+				<houseNumber><xsl:value-of select="addr/houseNum/Value"/></houseNumber>
+				<streetName><xsl:value-of select="addr/streetName/Value"/></streetName>
+				<township><xsl:value-of select="addr/township/Value"/></township>
+				<county><xsl:value-of select="addr/county/Value"/></county>
+				<city><xsl:value-of select="addr/city/Value"/></city>
+				<state><xsl:value-of select="addr/state/Value"/></state>
+				<postalCode><xsl:value-of select="addr/postCode/Value"/></postalCode>
+			</addr>
 		</employerOrganization>
 	</xsl:template>
 	<!--ethnicGroup-->
 	<xsl:template match="*" mode="EthnicGroup">
 		<xsl:comment>民族</xsl:comment>
-		<ethnicGroupCode code="{Value}" displayName="{Display}" codeSystem="2.16.156.10011.2.3.3.3" codeSystemName="民族类别代码表(GB 3304)"/>
+		<ethnicGroupCode code="{Value}" displayName="{Display}" codeSystem="2.16.156.10011.2.3.3.3"
+			codeSystemName="民族类别代码表(GB 3304)"/>
 	</xsl:template>
 	<!--MaritalStatus-->
 	<xsl:template match="*" mode="MaritalStatus">
 		<xsl:comment>婚姻状况</xsl:comment>
-		<maritalStatusCode code="{Value}" displayName="{Display}" codeSystem="2.16.156.10011.2.3.3.5" codeSystemName="婚姻状况代码表(GB/T 2261.2)"/>
+		<maritalStatusCode code="{Value}" displayName="{Display}"
+			codeSystem="2.16.156.10011.2.3.3.5" codeSystemName="婚姻状况代码表(GB/T 2261.2)"/>
 	</xsl:template>
 	<!--nationality-->
 	<xsl:template match="*" mode="nationality">
 		<xsl:comment>nationality</xsl:comment>
-		<nationality code="{Value}" codeSystem="2.16.156.10011.2.3.3.1" codeSystemName="世界各国和地区名称代码(GB/T 2659)" displayName="{Display}"/>
+		<nationality code="{Value}" codeSystem="2.16.156.10011.2.3.3.1"
+			codeSystemName="世界各国和地区名称代码(GB/T 2659)" displayName="{Display}"/>
 	</xsl:template>
 	<!--Occupation-->
 	<xsl:template match="*" mode="Occupation">
 		<xsl:comment>职业</xsl:comment>
 		<occupation>
-			<occupationCode code="{Value}" displayName="{Display}" codeSystem="2.16.156.10011.2.3.3.13" codeSystemName="从业状况(个人身体)代码表(GB/T 2261.4)"/>
+			<occupationCode code="{Value}" displayName="{Display}"
+				codeSystem="2.16.156.10011.2.3.3.13" codeSystemName="从业状况(个人身体)代码表(GB/T 2261.4)"/>
 		</occupation>
+	</xsl:template>
+	<!--HDSD00.09.073 DE02.01.041.00 学历代码 -->
+	<xsl:template match="*" mode="Education">
+		<xsl:comment>学历代码</xsl:comment>
+		<educationLevel>
+			<educationLevelCode code="10" displayName="研究生教育" codeSystem="2.16.156.10011.2.3.3.6" codeSystemName="学历代码表(GB/T 4658)"/>
+		</educationLevel>
 	</xsl:template>
 	<!--联系人1..*, @typeCode: NOT(ugent notification contact)，固定值，表示不同的参与者-->
 	<xsl:template match="*" mode="SupportContact">

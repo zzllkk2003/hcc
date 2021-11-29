@@ -138,8 +138,7 @@
             <section>
                 <code code="29548-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Diagnosis"/>
                 <text/>
-                <xsl:apply-templates select="Western"></xsl:apply-templates>
-                
+                <xsl:apply-templates select="Western"></xsl:apply-templates>      
             </section>
         </component>
     </xsl:template>
@@ -150,17 +149,11 @@
                 <entry typeCode="COMP">
                     <observation classCode="OBS" moodCode="EVN">
                         <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
-                        <value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.1.100" codeSystemName="ICD-10" displayName="{diag/code/Display}"/>
+                        <value xsi:type="CD" code="{diag/code/Value}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10" displayName="{diag/code/Display}"/>
                     </observation>
                 </entry>
             </xsl:when>
-            <xsl:otherwise>
-                <entry typeCode="COMP">
-                    <observation classCode="OBS" moodCode="EVN">
-                        <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="疾病诊断编码"/>
-                        <value xsi:type="ST"><xsl:value-of select="diag/name/Value"/> </value>
-                    </observation>
-                </entry>
+            <xsl:otherwise>               
             </xsl:otherwise>
         </xsl:choose>    
     </xsl:template>

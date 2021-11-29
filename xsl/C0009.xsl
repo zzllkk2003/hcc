@@ -171,14 +171,18 @@
     </xsl:template>   
     <!-- 术前诊断条目 -->
     <xsl:template match="Items/Item">
-        <xsl:comment>术前诊断</xsl:comment>
-        <entry>
+        <xsl:choose>
+            <xsl:when test="diagnosisCode/Value">
+               <entry>
             <observation classCode="OBS" moodCode="EVN">
                 <xsl:comment>术前诊断编码</xsl:comment>
                 <code code="DE05.01.024.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="术前诊断编码"/>
-                <value xsi:type="CD" code="{diagnosisCode/Value}" displayName="{diagnosisCode/Display}" codeSystem="{diagnosisCode/codeSystem}" codeSystemName="诊断代码表（ICD-10）"/>
+                <value xsi:type="CD" code="{diagnosisCode/Value}" displayName="{diagnosisCode/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
             </observation>
         </entry>   
+            </xsl:when>
+        </xsl:choose>
+        <xsl:comment>术前诊断</xsl:comment> 
     </xsl:template>
     <xsl:template match="Procedure/Items">        
         <xsl:comment> 手术操作章节 1..1 </xsl:comment>
@@ -194,7 +198,7 @@
         <entry>           
             <xsl:comment> 1..1 手术记录 </xsl:comment>
             <procedure classCode="PROC" moodCode="EVN">
-                <code code="{code/Value}" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表（ICD-9-CM）"/>
+                <code code="{code/Value}" displayName="{code/Display}" codeSystem="2.16.156.10011.2.3.3.12" codeSystemName="手术(操作)代码表(ICD-9-CM)"/>
                 
                 <xsl:comment>操作日期/时间</xsl:comment>
                 <effectiveTime>
@@ -275,7 +279,7 @@
             </procedure>
         </entry>
     </xsl:template>
-    <xsl:template match="PostOpsDiags">
+    <xsl:template match="PostOpDiags">
         <component>
             <section>
                 <code code="10218-6" displayName="Surgical operation note postoperative Dx" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
@@ -287,13 +291,19 @@
     </xsl:template>
     <xsl:template match="SurgicalOperationNotePostoperativeDX">
         <xsl:comment>术后诊断</xsl:comment>
-        <entry>
-            <observation classCode="OBS" moodCode="EVN">
-                <xsl:comment>术后诊断编码</xsl:comment>
-                <code code="{code/Value}" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="术后诊断编码"/>
-                <value xsi:type="CD" code="{code/Value}" displayName="{code/Display}" codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
-            </observation>
-        </entry>
+        <xsl:choose>
+            <xsl:when test="code/Value">
+                <entry>
+                    <observation classCode="OBS" moodCode="EVN">
+                        <xsl:comment>术后诊断编码</xsl:comment>
+                        <code code="DE05.01.024.00" displayName="诊断代码" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录"/>
+                        <value xsi:type="CD" code="{code/Value}" displayName="{code/Display}" codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"></value>
+                    </observation>
+                </entry>
+            </xsl:when>
+            <xsl:otherwise>
+            </xsl:otherwise>
+        </xsl:choose>   
     </xsl:template>
     <xsl:template match="BloodLoss">
         <xsl:comment>失血章节 0..1</xsl:comment>
@@ -348,7 +358,7 @@
                 <xsl:comment> 麻醉方式代码 </xsl:comment>
                 <observation classCode="OBS" moodCode="EVN">
                     <code code="DE06.00.073.00" codeSystem="2.16.156.10011.2.2.1" codeSystemName="卫生信息数据元目录" displayName="麻醉方式代码"/>
-                    <value code="{Value}" displayName="{Display}" codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="麻醉方式代码表" xsi:type="CD"/>
+                    <value code="{Value}" displayName="{Display}" codeSystem="2.16.156.10011.2.3.1.159" codeSystemName="麻醉方法代码表" xsi:type="CD"/>
                    <xsl:comment> 麻醉医师姓名 </xsl:comment> 
                     <performer>
                         <assignedEntity>

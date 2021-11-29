@@ -4,5 +4,23 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"intersystems.servers": {
+
+			"hcc": {
+				"webServer": {
+					"scheme": "http",
+					"host": "172.19.85.68",
+					"port": 52773
+				},
+				"description": "hcc",
+				"username": "superuser"
+			},
+		},
+		"objectscript.conn": {
+			"server": "hcc",
+			"ns": "HCC",
+			"active": true
+		}
+	}
 }

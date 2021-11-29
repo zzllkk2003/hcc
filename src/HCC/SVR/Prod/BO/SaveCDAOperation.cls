@@ -1,7 +1,7 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-07-13 15:14:20
-/// LastEditTime: 2021-09-01 16:58:26
+/// LastEditTime: 2021-11-18 13:35:24
 /// LastEditors: Jeff Liu
 /// Description: 
 /// FilePath: /hcc/src/HCC/SVR/Prod/BO/SaveCDAOperation.cls
@@ -164,7 +164,7 @@ Method GetDocForSave(pRequest As HCC.SVR.Prod.MSG.SVRRequest, Output pResponse A
         Set gxwdDoc.Content=DocContent
         Set gxwdDoc.DocCode=DocCode
         /// 消息创建时间
-        Set msgCreatTime=pDoc.GetValueAt("creationTime(1).value")
+        Set msgCreatTime=pDoc.GetValueAt("/RCMR_IN000002UV02/creationTime[1]/@value")
         Set gxwdDoc.MsgCreatTime = ##class(Ens.Util.Time).ConvertDateTime(msgCreatTime,"%Y%m%d%H%M%S","%q(1)",,.tsc)
 
         /// 发送系统标识

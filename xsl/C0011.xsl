@@ -4,7 +4,7 @@
 	<xsl:include href="CDA-Support-Files/CDAHeader.xsl"/>
 	<xsl:include href="CDA-Support-Files/PatientInformation.xsl"/>
 	<xsl:include href="CDA-Support-Files/Location.xsl"/>
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" indent="yes"/>
 	<xsl:template match="/Document">
 		<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -37,6 +37,8 @@
 					<!-- 电子申请单编号 -->
 					<xsl:apply-templates select="Header/recordTarget/labOrderNum" mode="labOrderNum"/>
 					<patient classCode="PSN" determinerCode="INSTANCE">
+						<!--患者身份证号码，必选-->
+						<xsl:apply-templates select="Header/recordTarget/patient/patientId" mode="nationalIdNumber"/>	
 						<!--患者姓名，必选-->
 						<xsl:apply-templates select="Header/recordTarget/patient/patientName"
 							mode="Name"/>
@@ -243,12 +245,12 @@
 										<value xsi:type="CD" code="{bloodRh/Value}"
 											displayName="{bloodRh/Display}"
 											codeSystem="2.16.156.10011.2.3.1.250"
-											codeSystemName="Rh（D）血型代码表"/>
+											codeSystemName="Rh(D)血型代码表"/>
 									</xsl:when>
 									<xsl:when test="bloodRh/Value and not(bloodRh/Display)">
 										<value xsi:type="CD" code="{bloodRh/Value}"
 											codeSystem="2.16.156.10011.2.3.1.250"
-											codeSystemName="Rh（D）血型代码表"/>
+											codeSystemName="Rh(D)血型代码表"/>
 									</xsl:when>
 								</xsl:choose>
 								
@@ -285,13 +287,13 @@
 					<xsl:choose>
 						<xsl:when test="diagnosisCode/Value and diagnosisCode/Display">
 							<value xsi:type="CD" code="{diagnosisCode/Value}"
-								displayName="{diagnosisCode/Display}" codeSystem="2.16.156.10011.2.3.3.11.3"
-								codeSystemName="诊断代码表（ICD-10）"/>
+								displayName="{diagnosisCode/Display}" codeSystem="2.16.156.10011.2.3.3.11"
+								codeSystemName="ICD-10"/>
 						</xsl:when>
 						<xsl:when test="diagnosisCode/Value and not(diagnosisCode/Display)">
 							<value xsi:type="CD" code="{diagnosisCode/Value}"
-								codeSystem="2.16.156.10011.2.3.3.11.3"
-								codeSystemName="诊断代码表（ICD-10）"/>
+								codeSystem="2.16.156.10011.2.3.3.11"
+								codeSystemName="ICD-10"/>
 						</xsl:when>
 					</xsl:choose>
 				</observation>
@@ -318,11 +320,11 @@
 							<xsl:choose>
 								<xsl:when test="SurgicalOperationNotePostoperativeDX[1]/code/Value and SurgicalOperationNotePostoperativeDX[1]/code/Display">
 									<value xsi:type="CD" code="{SurgicalOperationNotePostoperativeDX[1]/code/Value}" displayName="{SurgicalOperationNotePostoperativeDX[1]/code/Display}"
-										codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
+										codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
 								</xsl:when>
 								<xsl:when test="SurgicalOperationNotePostoperativeDX[1]/code/Value and not(SurgicalOperationNotePostoperativeDX[1]/code/Display)">
 									<value xsi:type="CD" code="{SurgicalOperationNotePostoperativeDX[1]/code/Value}"
-										codeSystem="2.16.156.10011.2.3.3.11.3" codeSystemName="诊断代码表（ICD-10）"/>
+										codeSystem="2.16.156.10011.2.3.3.11" codeSystemName="ICD-10"/>
 								</xsl:when>
 							</xsl:choose>
 							
