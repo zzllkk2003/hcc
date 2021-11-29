@@ -8,7 +8,7 @@
 /// Jeff.liu@intersytems.com
 /// 
 /// SQL文档基类
-Class HCC.SQL.Base Extends %RegisteredObject
+Class HCC.SQL.Base Extends %RegisteredObject [ CompileAfter = HIP.DataGov.Util ]
 {
 
 /// 设置对象的Modified标志
