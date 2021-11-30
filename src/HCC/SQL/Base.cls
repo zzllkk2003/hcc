@@ -1,14 +1,14 @@
 /// 
 /// Author: Jeff Liu
 /// Date: 2021-10-29 15:14:47
-/// LastEditTime: 2021-10-29 18:06:23
+/// LastEditTime: 2021-11-29 16:46:03
 /// LastEditors: Jeff Liu
 /// Description: 
-/// FilePath: /hcc/src/HCC/SQL/Base.cls
+/// FilePath: /hcc/Users/jiliu/Library/Caches/com.lemonmojo.RoyalTSX.App/LMFileTransferConnection/3538fa5b-6d01-4952-a049-ac116199c617/L2lzYy9oY2MtbWFpbi9zcmMvSENDL1NRTA==/Base.cls
 /// Jeff.liu@intersytems.com
 /// 
 /// SQL文档基类
-Class HCC.SQL.Base Extends %RegisteredObject [ CompileAfter = HIP.DataGov.Util ]
+Class HCC.SQL.Base Extends %RegisteredObject [ DependsOn = HIP.DataGov.Util ]
 {
 
 /// 设置对象的Modified标志
