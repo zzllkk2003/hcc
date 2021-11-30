@@ -1,3 +1,12 @@
+/// 
+/// Author: Jeff Liu
+/// Date: 2021-10-29 15:14:48
+/// LastEditTime: 2021-11-30 11:11:21
+/// LastEditors: Jeff Liu
+/// Description: 
+/// FilePath: /hcc/src/HCC/SQL/Document/HealthGuidance.cls
+/// Jeff.liu@intersytems.com
+/// 
 /// Author: QP
 /// Version: 1.0
 /// Date:2021/07/01
@@ -28,7 +37,7 @@ Property diet As WS.DE.DE060029100 [ SqlFieldName = diet ];
 Property lifestyle As WS.DE.DE060023800 [ SqlFieldName = lifestyle ];
 
 /// 宣教内容
-Property education As WS.DE.DE0600124 [ SqlFieldName = education ];
+Property education As WS.DE.DE060012400 [ SqlFieldName = education ];
 
 /// 复诊指导
 Property followup As WS.DE.DE060029900 [ SqlFieldName = followup ];
