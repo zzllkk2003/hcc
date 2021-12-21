@@ -3,7 +3,7 @@ Class WS.DE.DE041013300 Extends WS.DE.Base [ Language = objectscript, Not Proced
 
 Parameter Category = "体格检查";
 
-Parameter Description = "皮下脂肪(cm)";
+Parameter Description = "皮下脂肪（cm）";
 
 Parameter Format = "N4..5,1";
 
@@ -11,7 +11,7 @@ Parameter ValueSet;
 
 Parameter WSDT = "F";
 
-Property Value As WS.DT.Decimal(SCALE = 1);
+Property Value As WS.DT.Decimal(MAXVAL = 99.9, MINVAL = 0, SCALE = 1);
 
 Storage Default
 {

@@ -1,13 +1,13 @@
 Class WS.DE.DE060029800 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %String(MAXLEN = 100, MINLEN = 0);
+Property Value As %String(MAXLEN = 2000, MINLEN = 0);
 
 Parameter Category = "计划与干预";
 
 Parameter Description = "诊疗计划";
 
-Parameter Format = "AN..100";
+Parameter Format = "AN..2000";
 
 Parameter ValueSet;
 

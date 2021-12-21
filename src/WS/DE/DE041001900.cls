@@ -3,7 +3,7 @@ Class WS.DE.DE041001900 Extends WS.DE.Base [ Language = objectscript, Not Proced
 
 Parameter Category = "体格检查";
 
-Parameter Description = "出生体重(g)";
+Parameter Description = "出生体重（g）";
 
 Parameter Format = "N3..4";
 

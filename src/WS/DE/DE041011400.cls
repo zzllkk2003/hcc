@@ -1,17 +1,17 @@
 Class WS.DE.DE041011400 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %String(MAXLEN = 100, MINLEN = 0);
-
 Parameter Category = "体格检查";
 
-Parameter Description = "淋巴结检查结果描述";
+Parameter Description = "全身浅表淋巴结检查结果";
 
 Parameter Format = "AN..100";
 
 Parameter ValueSet;
 
 Parameter WSDT = "S1";
+
+Property Value As %String(MAXLEN = 100, MINLEN = 0);
 
 Storage Default
 {

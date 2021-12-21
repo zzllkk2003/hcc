@@ -3,7 +3,7 @@ Class WS.DE.DE041001800 Extends WS.DE.Base [ Language = objectscript, Not Proced
 
 Parameter Category = "体格检查";
 
-Parameter Description = "出生身长(cm)";
+Parameter Description = "出生身长（cm）";
 
 Parameter Format = "N4..5,1";
 
@@ -11,7 +11,7 @@ Parameter ValueSet;
 
 Parameter WSDT = "F";
 
-Property Value As WS.DT.Decimal(SCALE = 1);
+Property Value As WS.DT.Decimal(MAXVAL = 999.9, MINVAL = 10, SCALE = 1);
 
 Storage Default
 {

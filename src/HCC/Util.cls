@@ -310,7 +310,10 @@ ClassMethod UpdateDoc(pDocInfo As %String, pDoc As %Stream.GlobalCharacter) As %
         Set tDoc.Patient = tPatient
         // 文档内容
         Do pDoc.Rewind()
-        Set tDoc.Content = pDoc.Read()
+        while 'pDoc.AtEnd
+        {
+        Set tDoc.Content = tDoc.Content_pDoc.Read()
+        }
         /// 门诊号标识
         Set tDoc.PatOutHosCode =tDocInfo.OutPatientNum
         /// 住院号标识

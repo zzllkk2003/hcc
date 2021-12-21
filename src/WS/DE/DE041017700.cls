@@ -1,17 +1,17 @@
 Class WS.DE.DE041017700 Extends WS.DE.Base [ Language = objectscript, Not ProcedureBlock ]
 {
 
-Property Value As %Integer(MAXVAL = 9999, MINVAL = 0);
-
 Parameter Category = "体格检查";
 
-Parameter Description = "睡眠时长(min)";
+Parameter Description = "睡眠时长（min）";
 
 Parameter Format = "N..4";
 
 Parameter ValueSet;
 
 Parameter WSDT = "N";
+
+Property Value As %Integer(MAXVAL = 9999, MINVAL = 0);
 
 Storage Default
 {

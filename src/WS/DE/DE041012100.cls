@@ -3,7 +3,7 @@ Class WS.DE.DE041012100 Extends WS.DE.Base [ Language = objectscript, Not Proced
 
 Parameter Category = "体格检查";
 
-Parameter Description = "爬行月龄(月)";
+Parameter Description = "爬行月龄（月）";
 
 Parameter Format = "N..2";
 

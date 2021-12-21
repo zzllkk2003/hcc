@@ -67,7 +67,7 @@ Property bloodTransfusion As HCC.SQL.Document.TreatmentPlan.BloodTransfusion [ S
 Property specialTreatment As HCC.SQL.Document.TreatmentPlan.SpecialTreatment [ SqlFieldName = spec_treat ];
 
 /// 诊疗计划。用于《首次病程记录》
-Property carePlan As WS.DE.DE050102500 [ SqlFieldName = care_plan ];
+Property carePlan As WS.DE.DE060029800 [ SqlFieldName = care_plan ];
 
 /// 诊疗计划。《交接班记录》-接班诊疗计划、《转科记录》
 Property shiftPlan As WS.DE.DE060029800 [ SqlFieldName = shift_plan ];

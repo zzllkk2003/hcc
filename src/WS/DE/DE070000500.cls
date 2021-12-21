@@ -11,7 +11,7 @@ Parameter ValueSet;
 
 Parameter WSDT = "F";
 
-Property Value As WS.DT.Decimal(SCALE = 2);
+Property Value As WS.DT.Decimal(MAXVAL = 999.99, MINVAL = 0, SCALE = 2);
 
 Storage Default
 {

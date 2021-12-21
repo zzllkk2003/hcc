@@ -3,7 +3,7 @@ Class WS.DE.DE041024600 Extends WS.DE.Base [ Language = objectscript, Not Proced
 
 Parameter Category = "体格检查";
 
-Parameter Description = "产后检查时间(min)";
+Parameter Description = "产后检查时间（min）";
 
 Parameter Format = "N..3";
 

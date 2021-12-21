@@ -26,6 +26,9 @@ Property prenatalExam As WS.DE.DE041001300 [ SqlFieldName = prenatal_exam ];
 /// 产前检查异常情况
 Property abnormal As WS.DE.DE051016100 [ SqlFieldName = abnormal ];
 
+/// 此次妊娠特殊情况
+Property specialCase As WS.DE.DE051007000 [ SqlFieldName = special ];
+
 Storage Default
 {
 <Data name="InlaborState">
@@ -52,6 +55,9 @@ Storage Default
 </Value>
 <Value name="8">
 <Value>abnormal</Value>
+</Value>
+<Value name="9">
+<Value>specialCase</Value>
 </Value>
 </Data>
 <State>InlaborState</State>

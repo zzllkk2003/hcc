@@ -5,13 +5,13 @@ Parameter Category = "卫生机构";
 
 Parameter Description = "开办资金金额数(万元)";
 
-Parameter Format = "N6,2";
+Parameter Format = "N7,2";
 
 Parameter ValueSet;
 
 Parameter WSDT = "F";
 
-Property Value As WS.DT.Decimal(SCALE = 2);
+Property Value As WS.DT.Decimal(MAXVAL = 9999.99, MINVAL = 0, SCALE = 2);
 
 Storage Default
 {

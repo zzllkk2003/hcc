@@ -14,11 +14,12 @@ Class HCC.Install Extends %RegisteredObject [ Language = objectscript ]
 
 ClassMethod Run(pPath)
 {
-    Do ##class(%Studio.Project).InstallFromFile(pPath_"HCCV1Dep.xml")
-    Do $system.OBJ.Load(pPath_"HCCV1.xml","ck")
-    Do $system.OBJ.Load(pPath_"HCCV1_export.gof")
-    Do $system.OBJ.Load(pPath_"isc_irishealth_mgr_HCC_LookupTable.gof")
-    Do $system.OBJ.Load(pPath_"isc_irishealth_mgr_HCC_PubSUb.gof")
+    Do ##class(%Studio.Project).InstallFromFile(pPath_"HCC_Deployed_Classes.xml")
+    Do $system.OBJ.Load(pPath_"HCC_Exported_Classes.xml","ck")
+    Do $system.OBJ.Load(pPath_"HCC_GLB.xml")
+    Do $system.OBJ.Load(pPath_"LookupTable_GLB.xml")
+    Do $system.OBJ.Load(pPath_"PubSub_GLB.xml")
+     Do $system.OBJ.Load(pPath_"WS_GLB.xml")
 }
 
 /// 导出zpm使用的 global xml格式

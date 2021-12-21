@@ -22,10 +22,9 @@ Property associatedPersonName As WS.DE.DE020103900 [ SqlFieldName = assocPers_na
 /// 参与科室。《检查记录》、《检验记录》需要
 Property scopingOrganization As HCC.SQL.Document.Header.Participant.ScopingOrg [ SqlFieldName = scop_org ];
 
-/*
 /// 患者与联系人关系
-Property associatedEntityCode As WS.DE.DE021002400 [ SqlFieldName = assocEnty_code ];
-*/
+Property associatedCode As WS.DE.DE021002400 [ SqlFieldName = assoc_code ];
+
 Storage Default
 {
 <Data name="ParticipantDefaultData">
@@ -46,6 +45,9 @@ Storage Default
 </Value>
 <Value name="6">
 <Value>scopingOrganization</Value>
+</Value>
+<Value name="7">
+<Value>associatedCode</Value>
 </Value>
 </Data>
 <DataLocation>{%%PARENT}("Participants")</DataLocation>
